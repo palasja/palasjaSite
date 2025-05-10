@@ -106,8 +106,7 @@ function Personals({orgId}: contractProps) {
               Head
             </label>
             <input
-              type="checkbox"
-              {...register('head')}
+              {...register('headPosition')}
             />
           </div>
           <div >
@@ -115,8 +114,7 @@ function Personals({orgId}: contractProps) {
               Sign
             </label>
             <input
-              type="checkbox"
-              {...register('sign')}
+              {...register('signPosition')}
             />
           </div>
           <input type="submit" value="Create Contract" />
@@ -124,7 +122,7 @@ function Personals({orgId}: contractProps) {
             <ul>
         {personals.length == 0 ? '': 
         personals.map((person, i) => {
-          return <li key={i}>{`${person.firstName} ${person.middleName} ${person.lastName} - ${person.head ? 'Disector': ''} ${person.sign ? 'Responsible': ''}`}
+          return <li key={i}>{`${person.firstName} ${person.middleName} ${person.lastName} - ${person.headPosition.length == 0 ? '': person.headPosition} ${person.signPosition.length == 0 ? '': 'Responsible'}`}
                             <button
                     onClick={async () => {
                       await removePerson({ id: Number(person.id) });
