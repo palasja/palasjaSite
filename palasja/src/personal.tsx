@@ -2,26 +2,8 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Personal } from './types';
+import { fetchPersonals, removePerson } from './api';
 
-
-
-export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetch(`http://127.0.0.1:3000/removePersonal`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(id),
-  })
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить отзывы. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
-};
   const onSubmit: SubmitHandler<Personal> = (data) => {
     fetch(`http://127.0.0.1:3000/addPersonal`, {
       method: 'POST',
@@ -35,22 +17,7 @@ export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }>
       } 
     })
   };
-const fetchPersonals = (orgId:  string): Promise<Personal[]> => {
-  return fetch(`http://127.0.0.1:3000/getPersonalByOrgId/${orgId}`, {
-  method: 'GET', // or 'PUT'
-  headers: {
-    'Content-Type': 'application/json',
-  }
-  }
-).then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить список организаций. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
-};
+
 type contractProps = {
   orgId: string
 }

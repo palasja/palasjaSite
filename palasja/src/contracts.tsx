@@ -2,58 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Contract } from './types';
-
-
-export const removeContract = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetch(`http://127.0.0.1:3000/removeContract`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(id),
-  })
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить отзывы. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
-};
-
-const toBase64 = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = (error) => reject(error)
-  })
-
-function base64ToFile(base64String:{scan: string}, mimeType: string, fileName: string) {
-            // Remove data URL scheme if present
-            console.log(base64String);
-            const base64Data = base64String.scan.replace(/^data:.+;base64,/, '');
-            const byteCharacters = atob(base64Data); // Decode Base64 string
-            const byteNumbers = new Array(byteCharacters.length);
-
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-
-            // Create a link element to download the file
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = fileName;
-            link.click();
-
-            // Cleanup
-            URL.revokeObjectURL(url);
-        }
+import { fetchContracts, fetchContractsScan, removeContract } from './api';
 
  const onSubmit: SubmitHandler<Contract> = async (data) => {
     //@ts-ignore
@@ -70,44 +19,13 @@ function base64ToFile(base64String:{scan: string}, mimeType: string, fileName: s
       } 
     })
   };
-const fetchContracts = (orgId:  string): Promise<Contract[]> => {
-  return fetch(`http://127.0.0.1:3000/getContractsByOrg/${orgId}`, {
-  method: 'GET', // or 'PUT'
-  headers: {
-    'Content-Type': 'application/json',
-  }
-  }
-).then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить список организаций. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
-};
 
-const fetchContractsScan = (orgId:  string) => {
-  return fetch(`http://127.0.0.1:3000/contractScan/${orgId}`, {
-    method: 'GET',
-  })
-  .then(async (res) => {
-     if (res.status == 200) {
-      let str64 = await res.json();
-        return base64ToFile(str64, 'application/pdf', 'laod.pdf');
-      } else {
-        throw new Error(`Не удалось загрузить список организаций. ErrorCode = ${res.status}`);
-      }
-    
-  });
-}
 
 type contractProps = {
   orgId: string
 }
 function Contracts({orgId}: contractProps) {
   const { register, handleSubmit } = useForm<Contract>();
-  // const [org, setOrg] = useState<Organization>();
   const [contracts, setContracts] = useState<Contract[]>([]);
   useEffect(() => {
       const getContracts = () => {
@@ -171,7 +89,6 @@ function Contracts({orgId}: contractProps) {
         contracts.map((con, i) => {
           return <li key={i}>{con.number}
             <button onClick={() => fetchContractsScan(con.id)}>Scan</button>
-            {/* <a href={`data:application/octet-stream;charset=utf-8;blob,${con.scan}`}>Scan</a> */}
                             <button
                     onClick={async () => {
                       await removeContract({ id: Number(con.id) });
