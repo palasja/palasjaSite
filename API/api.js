@@ -15,8 +15,8 @@ var {Sequelize, Op} = require('sequelize');
 const {sequelize, Organization, Contracts, Personal, Service} = require('./dbSeqiulize');
 
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: "200mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "200mb" }));
 app.use(cors());
 //Create DB
 app.get('/createDB', function  (req, res) {
@@ -110,6 +110,15 @@ app.post('/removeService',  asyncHandler( async (req, res) => {
       },
     });
   res.status(200).json({isRemove: result});
+}));
+app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
+  let result = await Contracts.findOne({
+      attributes: ['scan'],
+      where: {
+        id: req.params.id,
+      },
+    });
+  res.status(200).json(result);
 }));
 // app.get('/workTime/:date', asyncHandler( async (req, res) => {
 //     const result = await WorkTime.findAll({

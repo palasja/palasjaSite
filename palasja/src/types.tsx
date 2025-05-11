@@ -8,6 +8,7 @@ type Contract = {
   signDate: Date;
   startDate: Date;
   endDate: Date;
+  scan: Blob;
   orgId: string;
 }
 type Personal = {

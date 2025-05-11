@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Organization } from './types';
-import Contracts from './Contracts';
-import Personals from './Personal';
+import Contracts from './contracts';
+import Personals from './personal';
 import Services from './services';
 
 

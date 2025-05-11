@@ -21,7 +21,43 @@ export const removeContract = (id: { id: number }): Promise<{ isRemove: boolean 
     })
     .catch((err: Error) => console.log(err.message));
 };
-  const onSubmit: SubmitHandler<Contract> = (data) => {
+
+const toBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = (error) => reject(error)
+  })
+
+function base64ToFile(base64String:{scan: string}, mimeType: string, fileName: string) {
+            // Remove data URL scheme if present
+            console.log(base64String);
+            const base64Data = base64String.scan.replace(/^data:.+;base64,/, '');
+            const byteCharacters = atob(base64Data); // Decode Base64 string
+            const byteNumbers = new Array(byteCharacters.length);
+
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+
+            // Create a link element to download the file
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            link.click();
+
+            // Cleanup
+            URL.revokeObjectURL(url);
+        }
+
+ const onSubmit: SubmitHandler<Contract> = async (data) => {
+    //@ts-ignore
+    data.scan = await toBase64(data.scan[0]);
     fetch(`http://127.0.0.1:3000/addContracts`, {
       method: 'POST',
       headers: {
@@ -50,25 +86,35 @@ const fetchContracts = (orgId:  string): Promise<Contract[]> => {
     })
     .catch((err: Error) => console.log(err.message));
 };
+
+const fetchContractsScan = (orgId:  string) => {
+  return fetch(`http://127.0.0.1:3000/contractScan/${orgId}`, {
+    method: 'GET',
+  })
+  .then(async (res) => {
+     if (res.status == 200) {
+      let str64 = await res.json();
+        return base64ToFile(str64, 'application/pdf', 'laod.pdf');
+      } else {
+        throw new Error(`Не удалось загрузить список организаций. ErrorCode = ${res.status}`);
+      }
+    
+  });
+}
+
 type contractProps = {
   orgId: string
 }
 function Contracts({orgId}: contractProps) {
   const { register, handleSubmit } = useForm<Contract>();
   // const [org, setOrg] = useState<Organization>();
-  const [constracts, setConstracts] = useState<Contract[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
   useEffect(() => {
       const getContracts = () => {
-        fetchContracts(orgId).then((orgs) => setConstracts(orgs));
+        fetchContracts(orgId).then((orgs) => setContracts(orgs));
       };
       getContracts();
   }, []);
-  // useEffect(() => {
-  //     const getContracts = () => {
-  //       fetchContracts(org.id).then((contracts) => setConstracts(contracts));
-  //     };
-  //     getContracts();
-  // }, [org] );
   return (
     <>
       <h3>Contracts</h3>
@@ -80,7 +126,7 @@ function Contracts({orgId}: contractProps) {
             <label htmlFor="number">
               Number
             </label>
-            <input
+            <input defaultValue={123}
               {...register('number', { required: true, maxLength: 20 })}
             />
           </div>
@@ -89,6 +135,7 @@ function Contracts({orgId}: contractProps) {
               SignDate
             </label>
             <input
+            defaultValue={'2025-05-05'}
               type='date'
               {...register('signDate', { required: true})}
             />
@@ -98,6 +145,7 @@ function Contracts({orgId}: contractProps) {
               StartDate
             </label>
             <input
+            defaultValue={'2025-05-05'}
               type='date'
               {...register('startDate', { required: true})}
             />
@@ -107,16 +155,23 @@ function Contracts({orgId}: contractProps) {
               EndDate
             </label>
             <input
+            defaultValue={'2025-05-05'}
               type='date'
               {...register('endDate', { required: true})}
+            />
+            <input
+              type='file'
+              {...register('scan')}
             />
           </div>
           <input type="submit" value="Create Contract" />
         </form>
-            <ul>
-        {constracts.length == 0 ? '': 
-        constracts.map((con, i) => {
+            <ul>const fileURL = URL.createObjectURL(blob);
+        {contracts.length == 0 ? '': 
+        contracts.map((con, i) => {
           return <li key={i}>{con.number}
+            <button onClick={() => fetchContractsScan(con.id)}>Scan</button>
+            {/* <a href={`data:application/octet-stream;charset=utf-8;blob,${con.scan}`}>Scan</a> */}
                             <button
                     onClick={async () => {
                       await removeContract({ id: Number(con.id) });

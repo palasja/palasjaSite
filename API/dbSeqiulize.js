@@ -51,11 +51,11 @@ const Organization = sequelize.define("organization", {
           type: DataTypes.STRING,
           allowNull: false
         },
-        head: {
-          type: DataTypes.BOOLEAN
+        headPosition: {
+          type: DataTypes.STRING
         },
-        sign: {
-          type: DataTypes.BOOLEAN
+        signPosition: {
+          type: DataTypes.STRING
         },
         orgId:{
           type: Sequelize.INTEGER,
@@ -110,7 +110,7 @@ const Organization = sequelize.define("organization", {
       foreignKey: "orgId",
       as: "serviceOrg",
     });
-    const Contracts = sequelize.define("constracts", {
+    const Contracts = sequelize.define("contracts", {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
@@ -132,7 +132,7 @@ const Organization = sequelize.define("organization", {
           type: DataTypes.DATEONLY,
         },
         scan: {
-          type: DataTypes.BLOB
+          type: DataTypes.TEXT('long')
         },
         orgId:{
           type: Sequelize.INTEGER,
