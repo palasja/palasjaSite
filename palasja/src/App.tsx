@@ -1,70 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
-import { useForm, SubmitHandler } from "react-hook-form"
-import { Organization } from './types';
 import Contracts from './contracts';
 import Personals from './personal';
 import Services from './services';
+import Organization from './organization';
 
 
- const fetchOrganization = (): Promise<Organization[]> => {
-  return fetch(`http://127.0.0.1:3000/getOrganizations`, {
-  method: 'GET', // or 'PUT'
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  }
-).then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить список организаций. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
-};
-export const removeOrg = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetch(`http://127.0.0.1:3000/removeOrganization`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(id),
-  })
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить отзывы. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
-};
-  const onSubmit: SubmitHandler<Organization> = (data) => {
-    fetch(`http://127.0.0.1:3000/addOrganization`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ organization: data }),
-    }).then(async (res) => {
-      if (res.status == 200) {
-        console.log("Create");
-      } 
-    })
-  };
 
 function App() {
-  const { register, handleSubmit } = useForm<Organization>();
-  const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [org, setOrg] = useState<Organization>();
+  const [orgId, setOrgId] = useState<string>();
 
-  useEffect(() => {
-      const getOrganization = () => {
-        fetchOrganization().then((orgs) => setOrganizations(orgs));
-      };
-      getOrganization();
-  }, []);
   // useEffect(() => {
   //     const getContracts = () => {
   //       fetchContracts(org.id).then((contracts) => setConstracts(contracts));
@@ -73,41 +18,15 @@ function App() {
   // }, [org] );
   return (
     <>
-      <h2>Organization</h2>
-        <form onSubmit={handleSubmit(onSubmit)} >
-          <div >
-            <label htmlFor="name">
-              Organization Name
-            </label>
-            <input
-              {...register('name', { required: true, maxLength: 10 })}
-            />
-          </div>
-          
-          <input type="submit" value="Create" />
-        </form>
-      <ul>
-        {organizations.length == 0 ? '': 
-        organizations.map((org, i) => {
-          return <li key={i}><span onClick={() => setOrg(org)}>{org.name}</span>
-                            <button
-                    onClick={async () => {
-                      await removeOrg({ id: Number(org.id) });
-                    }}
-                  >
-                    Удалить
-                  </button>
-          </li>
-        })}
-      </ul>
+      <Organization setOrgId={(id) => setOrgId(id)}/>
       {
-        org == null ? '' : <Contracts orgId={org.id}/>
+        orgId == undefined ? '' : <Contracts orgId={orgId}/>
       }
       {
-        org == null ? '' : <Personals orgId={org.id}/>
+        orgId == undefined  ? '' : <Personals orgId={orgId}/>
       }
       {
-        org == null ? '' : <Services orgId={org.id}/>
+        orgId == undefined  ? '' : <Services orgId={orgId}/>
       }
     </>
   )

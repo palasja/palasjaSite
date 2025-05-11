@@ -17,11 +17,12 @@ import { fetchOrganization, removeOrg } from './api';
       } 
     })
   };
-
-function Organization() {
+type contractProps = {
+  setOrgId: (id: string) => void
+}
+function Organization({setOrgId} : contractProps) {
   const { register, handleSubmit } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
-  const [org, setOrg] = useState<Org>();
 
   useEffect(() => {
       const getOrganization = () => {
@@ -29,12 +30,6 @@ function Organization() {
       };
       getOrganization();
   }, []);
-  // useEffect(() => {
-  //     const getContracts = () => {
-  //       fetchContracts(org.id).then((contracts) => setConstracts(contracts));
-  //     };
-  //     getContracts();
-  // }, [org] );
   return (
     <>
       <h2>Organization</h2>
@@ -53,7 +48,7 @@ function Organization() {
       <ul>
         {organizations.length == 0 ? '': 
         organizations.map((org, i) => {
-          return <li key={i}><span onClick={() => setOrg(org)}>{org.name}</span>
+          return <li key={i}><span onClick={() => setOrgId(org.id)}>{org.name}</span>
                             <button
                     onClick={async () => {
                       await removeOrg({ id: Number(org.id) });
