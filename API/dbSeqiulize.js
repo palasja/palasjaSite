@@ -91,11 +91,12 @@ const Organization = sequelize.define("organization", {
           type: DataTypes.STRING,
         },
         cost: {
-          type: DataTypes.BOOLEAN,
+          type: DataTypes.FLOAT,
           allowNull: false
         },
-        sign: {
-          type: DataTypes.BOOLEAN
+        count: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
         },
         orgId:{
           type: Sequelize.INTEGER,

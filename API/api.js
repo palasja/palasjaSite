@@ -120,6 +120,44 @@ app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
+
+app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
+  const month = req.params.month;
+  let contract = await Contracts.findOne({
+      where: {
+        orgId: req.params.orgId,
+        [Op.and]:[
+          {startDate: {
+            [Op.gte]: new Date(2025, month)
+          }},
+          {endDate: {
+            [Op.lte]: new Date(2025, month+1, 0, 23, 59 )
+          }}
+        ]
+      },
+    });
+  let services = await Service.findAll({
+  where: {
+    orgId: req.params.orgId,
+      [Op.and]:[
+        {date: {
+          [Op.gte]: new Date(2025, month)
+        }},
+        {date: {
+          [Op.lte]: new Date(2025, month+1, 0, 23, 59 )
+        }}
+      ]
+    },
+  });
+    let persons = await Personal.findAll({
+      where: {
+        orgId: req.params.orgId,
+      },
+    });
+  res.status(200).json({contract: contract, services: services, persons:persons});
+}));
+
+
 // app.get('/workTime/:date', asyncHandler( async (req, res) => {
 //     const result = await WorkTime.findAll({
 //         include: [{
