@@ -31,4 +31,10 @@ type Service = {
   count: number;
   orgId: string;
 }
-export type {Organization, Contract, Personal, Service}
+
+type ActInfo = {
+  contract: Contract;
+  persons: Personal[];
+  services: Service[];
+}
+export type {Organization, Contract, Personal, Service, ActInfo}

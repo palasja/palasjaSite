@@ -6,10 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext .tsx,.ts --fix",
+    "preview:local": "vite preview",
+    "pretier:check": "prettier . --check",
+    "pretier:fix": "prettier . --write",
+    "lp:check": "npm run lint && npm run pretier:check",
+    "lp:fix": "npm run lint:fix && npm run pretier:fix"
   },
   "dependencies": {
+    "number-to-words-ru": "^2.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.56.3"

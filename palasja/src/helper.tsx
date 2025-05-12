@@ -1,3 +1,5 @@
+import { Personal } from "./types"
+
 export const toBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -29,4 +31,8 @@ export const base64ToFile = (base64String:{scan: string}, mimeType: string, file
 
             // Cleanup
             URL.revokeObjectURL(url);
+        }
+
+        export const getShortName = (person: Personal | undefined): string => {
+          return (person === undefined || person === null ) ? '' : `${person.firstName[0]}. ${person.middleName[0]}. ${person.lastName}`;
         }

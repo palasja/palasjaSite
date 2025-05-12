@@ -2,20 +2,10 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Organization as Org } from './types';
-import { fetchOrganization, removeOrg } from './api';
+import { addOrganisation, fetchAllOrganizations, removeOrg } from './api';
 
   const onSubmit: SubmitHandler<Org> = (data) => {
-    fetch(`http://127.0.0.1:3000/addOrganization`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ organization: data }),
-    }).then(async (res) => {
-      if (res.status == 200) {
-        console.log("Create");
-      } 
-    })
+    addOrganisation(data);
   };
 type contractProps = {
   setOrgId: (id: string) => void
@@ -26,7 +16,7 @@ function Organization({setOrgId} : contractProps) {
 
   useEffect(() => {
       const getOrganization = () => {
-        fetchOrganization().then((orgs) => setOrganizations(orgs));
+        fetchAllOrganizations().then((orgs) => setOrganizations(orgs));
       };
       getOrganization();
   }, []);
@@ -39,7 +29,7 @@ function Organization({setOrgId} : contractProps) {
               Organization Name
             </label>
             <input
-              {...register('name', { required: true, maxLength: 10 })}
+              {...register('name', { required: true})}
             />
           </div>
           

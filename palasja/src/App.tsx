@@ -4,6 +4,7 @@ import Contracts from './contracts';
 import Personals from './personal';
 import Services from './services';
 import Organization from './organization';
+import Act from './act';
 
 
 
@@ -28,6 +29,10 @@ function App() {
       {
         orgId == undefined  ? '' : <Services orgId={orgId}/>
       }
+      {
+        orgId == undefined  ? '' : <Act orgId={orgId} month={4}/>
+      }
+      
     </>
   )
 }

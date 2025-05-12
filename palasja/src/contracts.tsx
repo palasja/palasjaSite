@@ -2,22 +2,12 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Contract } from './types';
-import { fetchContracts, fetchContractsScan, removeContract } from './api';
-
+import { addContract, fetchContractsByOrgId, fetchContractsScan, removeContract } from './api';
+import { toBase64 } from './helper';
  const onSubmit: SubmitHandler<Contract> = async (data) => {
     //@ts-ignore
     data.scan = await toBase64(data.scan[0]);
-    fetch(`http://127.0.0.1:3000/addContracts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ contract: data }),
-    }).then(async (res) => {
-      if (res.status == 200) {
-        console.log("Create");
-      } 
-    })
+    addContract(data);
   };
 
 
@@ -29,7 +19,7 @@ function Contracts({orgId}: contractProps) {
   const [contracts, setContracts] = useState<Contract[]>([]);
   useEffect(() => {
       const getContracts = () => {
-        fetchContracts(orgId).then((orgs) => setContracts(orgs));
+        fetchContractsByOrgId(orgId).then((orgs) => setContracts(orgs));
       };
       getContracts();
   }, []);
@@ -84,7 +74,7 @@ function Contracts({orgId}: contractProps) {
           </div>
           <input type="submit" value="Create Contract" />
         </form>
-            <ul>const fileURL = URL.createObjectURL(blob);
+            <ul>
         {contracts.length == 0 ? '': 
         contracts.map((con, i) => {
           return <li key={i}>{con.number}
