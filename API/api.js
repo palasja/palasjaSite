@@ -49,6 +49,20 @@ app.post('/removeOrganization',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
+app.post('/updateOrganization',  asyncHandler( async (req, res) => {
+    const organization = req.body.organization;
+    let result = await Organization.update(
+        {   
+            name: organization.name,
+        },
+        {
+            where: {
+                id: organization.id,
+            },
+        },
+    );
+    res.status(200).json(result);
+}));
 app.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
   let result = await Contracts.findAll({
       where: {
