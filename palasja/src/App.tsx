@@ -1,12 +1,10 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 import Contracts from './contracts';
 import Personals from './personal';
 import Services from './services';
 import Organization from './organization';
 import Act from './act';
-
-
 
 function App() {
   const [orgId, setOrgId] = useState<string>();
@@ -19,22 +17,13 @@ function App() {
   // }, [org] );
   return (
     <>
-      <Organization setOrgId={(id) => setOrgId(id)}/>
-      {
-        orgId == undefined ? '' : <Contracts orgId={orgId}/>
-      }
-      {
-        orgId == undefined  ? '' : <Personals orgId={orgId}/>
-      }
-      {
-        orgId == undefined  ? '' : <Services orgId={orgId}/>
-      }
-      {
-        orgId == undefined  ? '' : <Act orgId={orgId} month={4}/>
-      }
-      
+      <Organization setOrgId={(id) => setOrgId(id)} />
+      {orgId == undefined ? '' : <Contracts orgId={orgId} />}
+      {orgId == undefined ? '' : <Personals orgId={orgId} />}
+      {orgId == undefined ? '' : <Services orgId={orgId} />}
+      {orgId == undefined ? '' : <Act orgId={orgId} month={4} />}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

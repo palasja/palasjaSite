@@ -1,7 +1,7 @@
 type Organization = {
   id: string;
-  name: string
-}
+  name: string;
+};
 type Contract = {
   id: string;
   number: string;
@@ -10,7 +10,7 @@ type Contract = {
   endDate: Date;
   scan: Blob;
   orgId: string;
-}
+};
 type Personal = {
   id: string;
   lastName: string;
@@ -19,7 +19,7 @@ type Personal = {
   headPosition: string;
   signPosition: string;
   orgId: string;
-}
+};
 
 type Service = {
   id: string;
@@ -30,11 +30,11 @@ type Service = {
   cost: number;
   count: number;
   orgId: string;
-}
+};
 
 type ActInfo = {
   contract: Contract;
   persons: Personal[];
   services: Service[];
-}
-export type {Organization, Contract, Personal, Service, ActInfo}
+};
+export type { Organization, Contract, Personal, Service, ActInfo };
