@@ -2,76 +2,31 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from './types';
+import { addService, fetchServices, removeService, updateService } from './api';
 
-export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetch(`http://127.0.0.1:3000/removeService`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(id),
-  })
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить отзывы. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
+const onSubmitCreate: SubmitHandler<Service> = (data) => {
+  addService(data);
 };
-const onSubmit: SubmitHandler<Service> = (data) => {
-  fetch(`http://127.0.0.1:3000/addService`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ service: data }),
-  }).then(async (res) => {
-    if (res.status == 200) {
-      console.log('Create');
-    }
-  });
-};
-const fetchServices = (orgId: string): Promise<Service[]> => {
-  return fetch(`http://127.0.0.1:3000/getServiceByOrgId/${orgId}`, {
-    method: 'GET', // or 'PUT'
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить список организаций. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
+const onSubmitUpdate: SubmitHandler<Service> = (data) => {
+  updateService(data);
 };
 type contractProps = {
   orgId: string;
 };
 function Services({ orgId }: contractProps) {
-  const { register, handleSubmit } = useForm<Service>();
-  // const [org, setOrg] = useState<Organization>();
+  const { register, handleSubmit, setValue } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
+  const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
     const getPersonals = () => {
       fetchServices(orgId).then((orgs) => setServices(orgs));
     };
     getPersonals();
   }, []);
-  // useEffect(() => {
-  //     const getContracts = () => {
-  //       fetchContracts(org.id).then((contracts) => setConstracts(contracts));
-  //     };
-  //     getContracts();
-  // }, [org] );
   return (
     <>
       <h3>Services</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
           <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
           <label htmlFor="name">Name</label>
@@ -94,10 +49,25 @@ function Services({ orgId }: contractProps) {
           <input type="number" {...register('cost')} />{' '}
         </div>
         <div>
-          <label htmlFor="cost">Count</label>
+          <label htmlFor="count">Count</label>
           <input type="number" defaultValue={1} {...register('count')} />
         </div>
-        <input type="submit" value="Create Contract" />
+        <input type="submit" value={isUpdate ? "Update" : "Create"} />
+              <button
+        onClick={() => {
+          //(document.getElementById('id') as HTMLInputElement).value = '';
+          setIsUpdate(false);
+          setValue('id', '');
+          setValue('name', '');
+          setValue('date', new Date());
+          setValue('user', '');
+          setValue('place', '');
+          setValue('cost', 0);
+          setValue('count', 0);
+        }}
+      >
+        Очистить
+      </button>
       </form>
       <ul>
         {services.length == 0
@@ -108,10 +78,24 @@ function Services({ orgId }: contractProps) {
                   {`${service.name} ${service.date}`}
                   <button
                     onClick={async () => {
-                      await removePerson({ id: Number(service.id) });
+                      await removeService({ id: Number(service.id) });
                     }}
                   >
                     Удалить
+                  </button>
+                  <button
+                    onClick={ () => {
+                      setIsUpdate(true);
+                      setValue('id', service.id);
+                      setValue('name', service.name);
+                      setValue('date', service.date);
+                      setValue('user', service.user);
+                      setValue('place', service.place);
+                      setValue('cost', service.cost);
+                      setValue('count', service.count);
+                    }}
+                  >
+                    Изменить
                   </button>
                 </li>
               );

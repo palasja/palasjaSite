@@ -52,9 +52,7 @@ app.post('/removeOrganization',  asyncHandler( async (req, res) => {
 app.post('/updateOrganization',  asyncHandler( async (req, res) => {
     const organization = req.body.organization;
     let result = await Organization.update(
-        {   
-            name: organization.name,
-        },
+        organization,
         {
             where: {
                 id: organization.id,
@@ -83,7 +81,18 @@ app.post('/removeContract',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-
+app.post('/updateContract',  asyncHandler( async (req, res) => {
+    const contract = req.body.contract;
+    let result = await Contracts.update(
+        contract,
+        {
+            where: {
+                id: contract.id,
+            },
+        },
+    );
+    res.status(200).json(result);
+}));
 app.get('/getPersonalByOrgId/:id',  asyncHandler( async (req, res) => {
   let result = await Personal.findAll({
       where: {
@@ -104,7 +113,18 @@ app.post('/removePersonal',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-
+app.post('/updatePersonal',  asyncHandler( async (req, res) => {
+    const personal = req.body.personal;
+    let result = await Personal.update(
+        personal,
+        {
+            where: {
+                id: personal.id,
+            },
+        },
+    );
+    res.status(200).json(result);
+}));
 app.get('/getServiceByOrgId/:id',  asyncHandler( async (req, res) => {
   let result = await Service.findAll({
       where: {
@@ -125,6 +145,19 @@ app.post('/removeService',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
+app.post('/updateService',  asyncHandler( async (req, res) => {
+    const service = req.body.service;
+    let result = await Service.update(
+        service,
+        {
+            where: {
+                id: service.id,
+            },
+        },
+    );
+    res.status(200).json(result);
+}));
+
 app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
   let result = await Contracts.findOne({
       attributes: ['scan'],

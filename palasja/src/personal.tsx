@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Personal } from './types';
-import { fetchPersonalsByOrgId } from './api';
+import { addPerson, fetchPersonalsByOrgId, updatePerson } from './api';
 
 export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }> => {
   return fetch(`http://127.0.0.1:3000/removePersonal`, {
@@ -21,26 +21,18 @@ export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }>
     })
     .catch((err: Error) => console.log(err.message));
 };
-const onSubmit: SubmitHandler<Personal> = (data) => {
-  fetch(`http://127.0.0.1:3000/addPersonal`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ personal: data }),
-  }).then(async (res) => {
-    if (res.status == 200) {
-      console.log('Create');
-    }
-  });
+const onSubmitCreate: SubmitHandler<Personal> = (data) => {
+  addPerson(data);
 };
-
+const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
+  updatePerson(data);
+};
 type contractProps = {
   orgId: string;
 };
 function Personals({ orgId }: contractProps) {
-  const { register, handleSubmit } = useForm<Personal>();
-  // const [org, setOrg] = useState<Organization>();
+  const { register, handleSubmit, setValue } = useForm<Personal>();
+  const [isUpdate, setIsUpdate] = useState(false);
   const [personals, setPersonals] = useState<Personal[]>([]);
   useEffect(() => {
     const getPersonals = () => {
@@ -48,16 +40,11 @@ function Personals({ orgId }: contractProps) {
     };
     getPersonals();
   }, []);
-  // useEffect(() => {
-  //     const getContracts = () => {
-  //       fetchContracts(org.id).then((contracts) => setConstracts(contracts));
-  //     };
-  //     getContracts();
-  // }, [org] );
+
   return (
     <>
       <h3>Personal</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
           <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
           <label htmlFor="fisrtName">FirtName</label>
@@ -79,8 +66,21 @@ function Personals({ orgId }: contractProps) {
           <label htmlFor="sign">Sign</label>
           <input {...register('signPosition')} />
         </div>
-        <input type="submit" value="Create Contract" />
+        <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
       </form>
+            <button
+        onClick={() => {
+          setIsUpdate(false);
+          setValue('id', '');
+          setValue('firstName', '');
+          setValue('middleName', '');
+          setValue('lastName', '');
+          setValue('headPosition', '');
+          setValue('signPosition', '');
+        }}
+      >
+        Очистить
+      </button>
       <ul>
         {personals.length == 0
           ? ''
@@ -94,6 +94,19 @@ function Personals({ orgId }: contractProps) {
                     }}
                   >
                     Удалить
+                  </button>
+                                    <button
+                    onClick={() => {
+                      setIsUpdate(true);
+          setValue('id', person.id);
+          setValue('firstName', person.firstName);
+          setValue('middleName', person.middleName);
+          setValue('lastName', person.lastName);
+          setValue('headPosition', person.headPosition);
+          setValue('signPosition', person.signPosition);
+                    }}
+                  >
+                    Переименовать
                   </button>
                 </li>
               );

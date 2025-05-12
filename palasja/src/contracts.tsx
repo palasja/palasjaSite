@@ -2,20 +2,33 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from './types';
-import { addContract, fetchContractsByOrgId, fetchContractsScan, removeContract } from './api';
+import { addContract, fetchContractsByOrgId, fetchContractsScan, removeContract, updateContract } from './api';
 import { toBase64 } from './helper';
-const onSubmit: SubmitHandler<Contract> = async (data) => {
-  //@ts-expect-error: Chome has faleArray instead of File 
+const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
+  //@ts-expect-error: Chome has faleArray instead of File
   data.scan = await toBase64(data.scan[0]);
   addContract(data);
+};
+
+const onSubmitUpdate: SubmitHandler<Contract> = async (data) => {
+  
+  if(data.scan.size == 0){
+    //@ts-expect-error: Chome has faleArray instead of File
+    delete data.scan;
+  } else {
+    //@ts-expect-error: Chome has faleArray instead of File
+    data.scan = await toBase64(data.scan[0]);
+  }
+  updateContract(data);
 };
 
 type contractProps = {
   orgId: string;
 };
 function Contracts({ orgId }: contractProps) {
-  const { register, handleSubmit } = useForm<Contract>();
+  const { register, handleSubmit, setValue } = useForm<Contract>();
   const [contracts, setContracts] = useState<Contract[]>([]);
+  const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
     const getContracts = () => {
       fetchContractsByOrgId(orgId).then((orgs) => setContracts(orgs));
@@ -25,7 +38,7 @@ function Contracts({ orgId }: contractProps) {
   return (
     <>
       <h3>Contracts</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
           <input
             value={orgId}
@@ -60,7 +73,20 @@ function Contracts({ orgId }: contractProps) {
           />
           <input type="file" {...register('scan')} />
         </div>
-        <input type="submit" value="Create Contract" />
+        <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
+              <button
+        onClick={() => {
+          setIsUpdate(false);
+          setValue('id', '');
+          setValue('number', '');
+          setValue('signDate', new Date());
+          setValue('startDate', new Date());
+          setValue('endDate', new Date());
+          setValue('scan', new File([], ''));
+        }}
+      >
+        Очистить
+      </button>
       </form>
       <ul>
         {contracts.length == 0
@@ -76,6 +102,19 @@ function Contracts({ orgId }: contractProps) {
                     }}
                   >
                     Удалить
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsUpdate(true);
+                      setValue('id', con.id);
+                      setValue('number', con.number);
+                      setValue('signDate', con.signDate);
+                      setValue('startDate', con.startDate);
+                      setValue('endDate', con.endDate);
+                      setValue('scan', new File([], ''));
+                    }}
+                  >
+                    Переименовать
                   </button>
                 </li>
               );

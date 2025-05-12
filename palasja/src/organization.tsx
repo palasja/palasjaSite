@@ -2,18 +2,22 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Organization as Org } from './types';
-import { addOrganisation, fetchAllOrganizations, removeOrg } from './api';
+import { addOrganisation, fetchAllOrganizations, removeOrg, updateOrganisation } from './api';
 
-const onSubmit: SubmitHandler<Org> = (data) => {
+const onSubmitCreate: SubmitHandler<Org> = (data) => {
   addOrganisation(data);
+};
+const onSubmitUpdate: SubmitHandler<Org> = (data) => {
+  console.log(data);
+  updateOrganisation(data);
 };
 type contractProps = {
   setOrgId: (id: string) => void;
 };
 function Organization({ setOrgId }: contractProps) {
-  const { register, handleSubmit } = useForm<Org>();
+  const { register, handleSubmit, setValue } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
-
+  const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
     const getOrganization = () => {
       fetchAllOrganizations().then((orgs) => setOrganizations(orgs));
@@ -23,14 +27,25 @@ function Organization({ setOrgId }: contractProps) {
   return (
     <>
       <h2>Organization</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+        <input id="id" type="hidden" {...register('id', { required: true })} />
         <div>
           <label htmlFor="name">Organization Name</label>
-          <input {...register('name', { required: true })} />
+          <input id="name" {...register('name', { required: true })} />
         </div>
 
-        <input type="submit" value="Create" />
+        <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
       </form>
+      <button
+        onClick={() => {
+          setIsUpdate(false);
+          setValue('id', '');
+          setValue('name', '');
+        }}
+      >
+        Очистить
+      </button>
       <ul>
         {organizations.length == 0
           ? ''
@@ -44,6 +59,15 @@ function Organization({ setOrgId }: contractProps) {
                     }}
                   >
                     Удалить
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsUpdate(true);
+                      setValue('id', org.id);
+                      setValue('name', org.name);
+                    }}
+                  >
+                    Переименовать
                   </button>
                 </li>
               );

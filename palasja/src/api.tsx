@@ -1,5 +1,5 @@
 import { base64ToFile } from './helper';
-import { ActInfo, Contract, Organization, Personal } from './types';
+import { ActInfo, Contract, Organization, Personal, Service } from './types';
 
 export const fetchContractsByOrgId = (orgId: string): Promise<Contract[]> => {
   return fetch(`http://127.0.0.1:3000/getContractsByOrg/${orgId}`, {
@@ -25,6 +25,20 @@ export const addContract = (newContract: Contract) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ contract: newContract }),
+  }).then(async (res) => {
+    if (res.status == 200) {
+      console.log('Create');
+    }
+  });
+};
+
+export const updateContract = (contract: Contract) => {
+  fetch(`http://127.0.0.1:3000/updateContract`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ contract: contract }),
   }).then(async (res) => {
     if (res.status == 200) {
       console.log('Create');
@@ -80,6 +94,32 @@ export const fetchPersonalsByOrgId = (orgId: string): Promise<Personal[]> => {
     .catch((err: Error) => console.log(err.message));
 };
 
+export const addPerson = (person: Personal) => {
+    fetch(`http://127.0.0.1:3000/addPersonal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ personal: person }),
+  }).then(async (res) => {
+    if (res.status == 200) {
+      console.log('Create');
+    }
+  });
+}
+export const updatePerson = (personal: Personal) => {
+  fetch(`http://127.0.0.1:3000/updatePersonal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ personal: personal }),
+  }).then(async (res) => {
+    if (res.status == 200) {
+      console.log('Create');
+    }
+  });
+};
 export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }> => {
   return fetch(`http://127.0.0.1:3000/removePersonal`, {
     method: 'POST',
@@ -127,6 +167,19 @@ export const addOrganisation = (organization: Organization) => {
     }
   });
 };
+export const updateOrganisation = (organization: Organization) => {
+  fetch(`http://127.0.0.1:3000/updateOrganization`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ organization: organization }),
+  }).then(async (res) => {
+    if (res.status == 200) {
+      console.log('Create');
+    }
+  });
+};
 export const removeOrg = (id: { id: number }): Promise<{ isRemove: boolean }> => {
   return fetch(`http://127.0.0.1:3000/removeOrganization`, {
     method: 'POST',
@@ -160,4 +213,66 @@ export const fetchActInfo = (orgId: string, month: number): Promise<ActInfo> => 
       }
     })
     .catch((err: Error) => console.log(err.message));
+};
+
+export const fetchServices = (orgId: string): Promise<Service[]> => {
+  return fetch(`http://127.0.0.1:3000/getServiceByOrgId/${orgId}`, {
+    method: 'GET', // or 'PUT'
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => {
+      if (res.status == 200) {
+        return res.json();
+      } else {
+        throw new Error(`Не удалось загрузить список организаций. ErrorCode = ${res.status}`);
+      }
+    })
+    .catch((err: Error) => console.log(err.message));
+};
+export const addService = (service : Service) => {
+  fetch(`http://127.0.0.1:3000/addService`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ service: service }),
+  }).then(async (res) => {
+    if (res.status == 200) {
+      console.log('Create');
+    }
+  });
+}
+
+export const removeService = (id: { id: number }): Promise<{ isRemove: boolean }> => {
+  return fetch(`http://127.0.0.1:3000/removeService`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(id),
+  })
+    .then((res) => {
+      if (res.status == 200) {
+        return res.json();
+      } else {
+        throw new Error(`Не удалось удалить услугу. ErrorCode = ${res.status}`);
+      }
+    })
+    .catch((err: Error) => console.log(err.message));
+};
+
+export const updateService = (service: Service) => {
+  fetch(`http://127.0.0.1:3000/updateService`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ service: service }),
+  }).then(async (res) => {
+    if (res.status == 200) {
+      console.log('Create');
+    }
+  });
 };
