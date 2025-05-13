@@ -198,8 +198,8 @@ export const removeOrg = (id: { id: number }): Promise<{ isRemove: boolean }> =>
     .catch((err: Error) => console.log(err.message));
 };
 
-export const fetchActInfo = (orgId: string, month: number): Promise<ActInfo> => {
-  return fetch(`http://127.0.0.1:3000/getActInfo/${orgId}/${month - 1}`, {
+export const fetchActInfo = (orgId: string, month: string): Promise<ActInfo> => {
+  return fetch(`http://127.0.0.1:3000/getActInfo/${orgId}/${Number(month) - 1}`, {
     method: 'GET', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',

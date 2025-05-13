@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react';
-import { fetchActInfo } from './api';
-import { ActInfo, Personal } from './types';
-import { getShortName } from './helper';
-import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from './constants';
+import { fetchActInfo } from '../api';
+import { ActInfo, Personal } from '../types';
+import { getShortName } from '../helper';
+import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
+import { useParams } from 'react-router';
 
 type contractProps = {
   orgId: string;
   month: number | 1;
 };
-const Act = ({ orgId, month }: contractProps) => {
+const Act = () => {
+  let { orgId } = useParams();
+  let { month } = useParams();
   const [info, setInfo] = useState<ActInfo>();
   const [head, setHead] = useState<Personal>();
   const [sign, setSign] = useState<Personal>();
   const [itog, setItog] = useState<number>(0);
   useEffect(() => {
     const getPersonals = () => {
-      fetchActInfo(orgId, month).then((info) => {
+      if(orgId !== undefined && month !== undefined){
+        fetchActInfo(orgId, month).then((info) => {
         setInfo(info);
         setHead(info?.persons.find((p) => p.headPosition !== null) as Personal);
         setSign(info?.persons.find((p) => p.signPosition !== null) as Personal);
@@ -25,8 +29,9 @@ const Act = ({ orgId, month }: contractProps) => {
         setItog((itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100);
       });
     };
-    getPersonals();
-  }, [orgId, month]);
+      }
+getPersonals();
+  }, []);
 
   return (
     <>
@@ -89,8 +94,8 @@ const Act = ({ orgId, month }: contractProps) => {
 
           <p>({convertNumberToWordsRu(itog)})</p>
           <p>
-            в полном объеме с {new Date(2025, month).toLocaleDateString('ru-RU')} по{' '}
-            {new Date(2025, month + 1, 0).toLocaleDateString('ru-RU')} согласно заключенного
+            в полном объеме с {new Date(2025, Number(month)).toLocaleDateString('ru-RU')} по{' '}
+            {new Date(2025, Number(month) + 1, 0).toLocaleDateString('ru-RU')} согласно заключенного
             договора подряда.
           </p>
           <p>
