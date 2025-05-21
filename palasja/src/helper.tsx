@@ -14,7 +14,6 @@ export const base64ToFile = (
   fileName: string
 ) => {
   // Remove data URL scheme if present
-  console.log(base64String);
   const base64Data = base64String.scan.replace(/^data:.+;base64,/, '');
   const byteCharacters = atob(base64Data); // Decode Base64 string
   const byteNumbers = new Array(byteCharacters.length);

@@ -68,7 +68,7 @@ function Personals({ orgId }: contractProps) {
         </div>
         <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
       </form>
-            <button
+      <button
         onClick={() => {
           setIsUpdate(false);
           setValue('id', '');
@@ -95,15 +95,15 @@ function Personals({ orgId }: contractProps) {
                   >
                     Удалить
                   </button>
-                                    <button
+                  <button
                     onClick={() => {
                       setIsUpdate(true);
-          setValue('id', person.id);
-          setValue('firstName', person.firstName);
-          setValue('middleName', person.middleName);
-          setValue('lastName', person.lastName);
-          setValue('headPosition', person.headPosition);
-          setValue('signPosition', person.signPosition);
+                      setValue('id', person.id);
+                      setValue('firstName', person.firstName);
+                      setValue('middleName', person.middleName);
+                      setValue('lastName', person.lastName);
+                      setValue('headPosition', person.headPosition);
+                      setValue('signPosition', person.signPosition);
                     }}
                   >
                     Переименовать

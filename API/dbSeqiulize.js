@@ -1,4 +1,4 @@
-import {Sequelize, DataTypes}  from 'sequelize';
+import {Sequelize, DataTypes, STRING}  from 'sequelize';
 
 let sequelize = new Sequelize(
             "palasjaDB",
@@ -69,6 +69,7 @@ const Organization = sequelize.define("organization", {
     Personal.belongsTo(Organization, {
       foreignKey: "orgId",
       as: "personalOrg",
+      onDelete: 'CASCADE',
     });
     const Service = sequelize.define("service", {
         id: {
@@ -110,6 +111,7 @@ const Organization = sequelize.define("organization", {
     Service.belongsTo(Organization, {
       foreignKey: "orgId",
       as: "serviceOrg",
+      onDelete: 'CASCADE',
     });
     const Contracts = sequelize.define("contracts", {
         id: {
@@ -147,5 +149,25 @@ const Organization = sequelize.define("organization", {
     Contracts.belongsTo(Organization, {
       foreignKey: "orgId",
       as: "contractOrg",
+      onDelete: 'CASCADE',
     });
-export {sequelize, Organization, Personal, Contracts,Service}
+    const Users = sequelize.define(
+      'Users', {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          allowNull: false,
+          autoIncrement: true
+        },
+        login: {
+          type: DataTypes.STRING,
+          allowNull: false
+        }, 
+        password: {
+          type: DataTypes.STRING,
+          allowNull: false
+        }
+      }
+    );
+
+export {sequelize, Organization, Personal, Contracts,Service, Users}

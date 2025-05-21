@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from './types';
-import { addContract, fetchContractsByOrgId, fetchContractsScan, removeContract, updateContract } from './api';
+import {
+  addContract,
+  fetchContractsByOrgId,
+  fetchContractsScan,
+  removeContract,
+  updateContract,
+} from './api';
 import { toBase64 } from './helper';
 const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
   //@ts-expect-error: Chome has faleArray instead of File
@@ -11,8 +17,7 @@ const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
 };
 
 const onSubmitUpdate: SubmitHandler<Contract> = async (data) => {
-  
-  if(data.scan.size == 0){
+  if (data.scan.size == 0) {
     //@ts-expect-error: Chome has faleArray instead of File
     delete data.scan;
   } else {
@@ -74,19 +79,19 @@ function Contracts({ orgId }: contractProps) {
           <input type="file" {...register('scan')} />
         </div>
         <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
-              <button
-        onClick={() => {
-          setIsUpdate(false);
-          setValue('id', '');
-          setValue('number', '');
-          setValue('signDate', new Date());
-          setValue('startDate', new Date());
-          setValue('endDate', new Date());
-          setValue('scan', new File([], ''));
-        }}
-      >
-        Очистить
-      </button>
+        <button
+          onClick={() => {
+            setIsUpdate(false);
+            setValue('id', '');
+            setValue('number', '');
+            setValue('signDate', new Date());
+            setValue('startDate', new Date());
+            setValue('endDate', new Date());
+            setValue('scan', new File([], ''));
+          }}
+        >
+          Очистить
+        </button>
       </form>
       <ul>
         {contracts.length == 0

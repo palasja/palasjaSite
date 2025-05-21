@@ -1,22 +1,21 @@
 // import { useCookies } from 'react-cookie';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import style from './auth.module.css';
+import style from './signIn.module.css';
 import { useAuth } from '../useAuth';
-import { Link } from 'react-router';
-import { fetchLogIn } from '../api';
+import { fetchSignIn } from '../api';
 
 type FormValues = {
   login: string;
   password: string;
 };
 
-const Auth = () => {
+const SignIn = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   // const [isLock, _setisLock] = useState(false);
   // const [errorMeaasge, _setErrorMeaasge] = useState();
   const { onLogin } = useAuth();
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const signInResult = await fetchLogIn(data);
+    const signInResult = await fetchSignIn(data);
     if (signInResult == 200) {
       onLogin();
     }
@@ -24,9 +23,8 @@ const Auth = () => {
   return (
     // isLock ? (<h2 className={style.lockMessge}>Данные были введены неверно более 10 раз. Обратитесь к администратору</h2>) :
     <section className={style.auth}>
-      <Link to={'/signIn'}>signIn</Link>
       <div className={style.formContainer}>
-        <h3 className={style.formName}>Войти</h3>
+        <h3 className={style.formName}>Регистрация</h3>
         {/* <p className={style.errorMeaasge}>{errorMeaasge}</p> */}
         <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
           <div className={style.inputField}>
@@ -47,11 +45,11 @@ const Auth = () => {
               {...register('password', { required: true, maxLength: 10 })}
             />
           </div>
-          <input className={style.submit} type="submit" value="Войти" />
+          <input className={style.submit} type="submit" value="Registration" />
         </form>
       </div>
     </section>
   );
 };
 
-export default Auth;
+export default SignIn;

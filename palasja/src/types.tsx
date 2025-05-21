@@ -37,4 +37,9 @@ type ActInfo = {
   persons: Personal[];
   services: Service[];
 };
-export type { Organization, Contract, Personal, Service, ActInfo };
+
+type User = {
+  login: string;
+  password: string;
+};
+export type { Organization, Contract, Personal, Service, ActInfo, User };

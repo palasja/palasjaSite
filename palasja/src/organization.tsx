@@ -8,7 +8,6 @@ const onSubmitCreate: SubmitHandler<Org> = (data) => {
   addOrganisation(data);
 };
 const onSubmitUpdate: SubmitHandler<Org> = (data) => {
-  console.log(data);
   updateOrganisation(data);
 };
 type contractProps = {
@@ -20,7 +19,11 @@ function Organization({ setOrgId }: contractProps) {
   const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
     const getOrganization = () => {
-      fetchAllOrganizations().then((orgs) => setOrganizations(orgs));
+      fetchAllOrganizations().then((orgs) => {
+        if (typeof orgs !== 'string') {
+          setOrganizations(orgs as Org[]);
+        }
+      });
     };
     getOrganization();
   }, []);
@@ -29,7 +32,7 @@ function Organization({ setOrgId }: contractProps) {
       <h2>Organization</h2>
 
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
-        <input id="id" type="hidden" {...register('id', { required: true })} />
+        {isUpdate ? <input id="id" type="hidden" {...register('id', { required: true })} /> : <></>}
         <div>
           <label htmlFor="name">Organization Name</label>
           <input id="name" {...register('name', { required: true })} />

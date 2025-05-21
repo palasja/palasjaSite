@@ -52,22 +52,22 @@ function Services({ orgId }: contractProps) {
           <label htmlFor="count">Count</label>
           <input type="number" defaultValue={1} {...register('count')} />
         </div>
-        <input type="submit" value={isUpdate ? "Update" : "Create"} />
-              <button
-        onClick={() => {
-          //(document.getElementById('id') as HTMLInputElement).value = '';
-          setIsUpdate(false);
-          setValue('id', '');
-          setValue('name', '');
-          setValue('date', new Date());
-          setValue('user', '');
-          setValue('place', '');
-          setValue('cost', 0);
-          setValue('count', 0);
-        }}
-      >
-        Очистить
-      </button>
+        <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
+        <button
+          onClick={() => {
+            //(document.getElementById('id') as HTMLInputElement).value = '';
+            setIsUpdate(false);
+            setValue('id', '');
+            setValue('name', '');
+            setValue('date', new Date());
+            setValue('user', '');
+            setValue('place', '');
+            setValue('cost', 0);
+            setValue('count', 0);
+          }}
+        >
+          Очистить
+        </button>
       </form>
       <ul>
         {services.length == 0
@@ -84,7 +84,7 @@ function Services({ orgId }: contractProps) {
                     Удалить
                   </button>
                   <button
-                    onClick={ () => {
+                    onClick={() => {
                       setIsUpdate(true);
                       setValue('id', service.id);
                       setValue('name', service.name);

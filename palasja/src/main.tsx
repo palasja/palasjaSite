@@ -1,17 +1,41 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from 'react-router';
 import './index.css';
-import App from './App.tsx';
-import Act from './act/act.tsx';
+import Act from './act/act';
+import App from './App';
+import Auth from './auth';
+import { AuthProvider } from './authProvider';
+import { ProtectedRoute } from './protectedRoute';
+import SignIn from './signIn';
+import Logout from './logout';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/act/:orgId/:month" element={<Act/>} />
-    </Routes>
-  </BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Auth />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route
+            path="app"
+            element={
+              <ProtectedRoute>
+                <App />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/act/:orgId/:month"
+            element={
+              <ProtectedRoute>
+                <Act />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>
 );

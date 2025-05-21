@@ -1,0 +1,10 @@
+.print {
+  width: 210mm;
+  height: 297mm;
+}
+
+@media print {
+  @page {
+    size: a4;
+  }
+}

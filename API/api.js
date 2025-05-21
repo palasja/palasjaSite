@@ -11,13 +11,33 @@ const asyncHandler = require('express-async-handler');
 const cookieParser = require('cookie-parser');
 const saltRounds = 10;
 
-var {Sequelize, Op} = require('sequelize');
-const {sequelize, Organization, Contracts, Personal, Service} = require('./dbSeqiulize');
-
+var {Sequelize, Op, where} = require('sequelize');
+const {sequelize, Organization, Contracts, Personal, Service, Users} = require('./dbSeqiulize');
+const SECRET = '23sadf6rucvbnvza-sd[pqw,';
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "200mb" }));
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
+const expire = {
+  day: 86400, // 24 hours
+  month: 2592000, // 30 days
+  quarter: 7776000, // 90 days
+}
+const getToken = (payload, expires) => {
+  return jwt.sign(
+    payload,
+    `${SECRET}`,
+    {
+      algorithm: 'HS256',
+      allowInsecureKeySizes: true,
+      expiresIn: expires,
+    });
+}
+
 //Create DB
 app.get('/createDB', function  (req, res) {
     sequelize.sync()
@@ -33,15 +53,129 @@ app.get('/createDB', function  (req, res) {
 app.get('/test', function  (req, res) {
      res.status(200).json({test:'123'});
 });
+
+app.post('/signIn', asyncHandler( async (req, res) => {
+  const admin = await Users.findAll();
+  if(admin.length !== 0) {
+    res.sendStatus(403); 
+    return;
+  } else {
+  const userName = req.body.login;
+  const userPass = req.body.password;
+  var salt = bcrypt.genSaltSync(saltRounds);
+  var hash = bcrypt.hashSync(`${userPass}`, salt);
+
+  await Users.create( {
+      login: userName,
+      password: hash
+    } );
+
+    const options = {
+      httpOnly: true,
+    };
+
+    const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+    const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
+    res.cookie('accessToken', newAccessToken, options);
+    res.cookie('refreshToken', newRefreshToken, options);
+    res.sendStatus(200);
+  }
+
+  }));
+
+app.post('/logIn', asyncHandler( async (req, res) => {
+  const accessToken = req.cookies.accessToken;
+  const admin = await Users.findOne( );
+  jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+    if(err){
+      const userName = req.body.login;
+      const userPass = req.body.password;
+
+      if(admin == null) {
+        res.sendStatus(403); 
+      } else {
+      const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
+      if(isPassCorrect && userName == admin.login){
+          const options = {
+            httpOnly: true,
+            path: '/'
+          };
+          const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+          const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
+          res.cookie('accessToken', newAccessToken, options);
+          res.cookie('refreshToken', newRefreshToken, options);
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(403); 
+        }
+      }
+    } else {
+      res.sendStatus(200);
+    }
+  });
+
+}));
+
+app.post('/checkAuth', asyncHandler( async (req, res) => {
+  const accessToken = req.cookies.accessToken;
+  jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+    if(err){
+        res.sendStatus(403); 
+    } else {
+      res.sendStatus(200);
+    }
+  })
+}));
+
+app.get('/logout', function  (req, res) {
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
+  res.sendStatus(200);
+});
+
+app.use((req, res, next) => {
+  const accessToken = req.cookies.accessToken;
+  const refreshToken = req.cookies.refreshToken;
+  if(accessToken){
+    jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+      if (err && err.name == 'TokenExpiredError') {
+        jwt.verify(refreshToken, SECRET, (err, decoded) => {
+          if (err) {
+            res.clearCookie("accessToken");
+            res.clearCookie("refreshToken");
+             res.sendStatus(401);
+             return;
+          } else{
+            const options = {
+              httpOnly: true,
+            };
+            const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+            const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
+            res.cookie('accessToken', newAccessToken, options);
+            res.cookie('refreshToken', newRefreshToken, options);
+            return next();
+          }
+        });
+      } else {
+          return next();
+      }
+      });
+  } else {
+    return res.sendStatus(401);
+  }
+})
+
 app.get('/getOrganizations',  asyncHandler( async (req, res) => {
   let result = await Organization.findAll();
   res.status(200).json(result);
 }));
-app.post('/addOrganization',  asyncHandler( async (req, res) => {
-  let result = await Organization.create(req.body.organization);
+app.put('/addOrganization',  asyncHandler( async (req, res) => {
+  let result = await Organization.create({
+    name: req.body.organization.name
+  });
   res.status(200).json(result);
 }));
-app.post('/removeOrganization',  asyncHandler( async (req, res) => {
+app.delete('/removeOrganization',  asyncHandler( async (req, res) => {
   let result = await Organization.destroy({
       where: {
         id: req.body.id,
@@ -49,8 +183,9 @@ app.post('/removeOrganization',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-app.post('/updateOrganization',  asyncHandler( async (req, res) => {
+app.patch('/updateOrganization',  asyncHandler( async (req, res) => {
     const organization = req.body.organization;
+    console.log('updateOrganization ' + organization.name);
     let result = await Organization.update(
         organization,
         {
@@ -63,17 +198,20 @@ app.post('/updateOrganization',  asyncHandler( async (req, res) => {
 }));
 app.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
   let result = await Contracts.findAll({
-      where: {
-        orgId: req.params.id,
-      },
+    attributes: {
+      exclude: ['scan'] 
+    },
+    where: {
+      orgId: req.params.id,
+    },
     });
   res.status(200).json(result);
 }));
-app.post('/addContracts',  asyncHandler( async (req, res) => {
+app.put('/addContracts',  asyncHandler( async (req, res) => {
   let result = await Contracts.create(req.body.contract);
   res.status(200).json(result);
 }));
-app.post('/removeContract',  asyncHandler( async (req, res) => {
+app.delete('/removeContract',  asyncHandler( async (req, res) => {
   let result = await Contracts.destroy({
       where: {
         id: req.body.id,
@@ -81,7 +219,7 @@ app.post('/removeContract',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-app.post('/updateContract',  asyncHandler( async (req, res) => {
+app.patch('/updateContract',  asyncHandler( async (req, res) => {
     const contract = req.body.contract;
     let result = await Contracts.update(
         contract,
@@ -101,11 +239,11 @@ app.get('/getPersonalByOrgId/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-app.post('/addPersonal',  asyncHandler( async (req, res) => {
+app.put('/addPersonal',  asyncHandler( async (req, res) => {
   let result = await Personal.create(req.body.personal);
   res.status(200).json(result);
 }));
-app.post('/removePersonal',  asyncHandler( async (req, res) => {
+app.delete('/removePersonal',  asyncHandler( async (req, res) => {
   let result = await Personal.destroy({
       where: {
         id: req.body.id,
@@ -113,7 +251,7 @@ app.post('/removePersonal',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-app.post('/updatePersonal',  asyncHandler( async (req, res) => {
+app.patch('/updatePersonal',  asyncHandler( async (req, res) => {
     const personal = req.body.personal;
     let result = await Personal.update(
         personal,
@@ -133,11 +271,11 @@ app.get('/getServiceByOrgId/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-app.post('/addService',  asyncHandler( async (req, res) => {
+app.put('/addService',  asyncHandler( async (req, res) => {
   let result = await Service.create(req.body.service);
   res.status(200).json(result);
 }));
-app.post('/removeService',  asyncHandler( async (req, res) => {
+app.delete('/removeService',  asyncHandler( async (req, res) => {
   let result = await Service.destroy({
       where: {
         id: req.body.id,
@@ -145,7 +283,7 @@ app.post('/removeService',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-app.post('/updateService',  asyncHandler( async (req, res) => {
+app.patch('/updateService',  asyncHandler( async (req, res) => {
     const service = req.body.service;
     let result = await Service.update(
         service,
@@ -203,7 +341,6 @@ app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({contract: contract, services: services, persons:persons});
 }));
-
 
 // app.get('/workTime/:date', asyncHandler( async (req, res) => {
 //     const result = await WorkTime.findAll({
@@ -335,7 +472,7 @@ app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
 //     });
 //   }
 //   const token = jwt.sign({ adminName: process.env.ADMIN_LOGIN },
-//     `${process.env.SECRET}`,
+//     `${SECRET}`,
 //     {
 //       algorithm: 'HS256',
 //       allowInsecureKeySizes: true,
@@ -361,7 +498,7 @@ app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
 //     const token = req.cookies.accessToken;
 //     console.log("token = " + token);
 //     try{
-//         var decoded = jwt.verify(token, process.env.SECRET);
+//         var decoded = jwt.verify(token, SECRET);
 //         res.status(200).json({
 //             ct: token,
 //             decoded: decoded
@@ -373,7 +510,7 @@ app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
 // //check auth,  doesn't work on netlify
 // // app.use((req, res, next) => {
 // //     const token = req.cookies.accessToken;
-// //     jwt.verify(token, process.env.SECRET,  function(err, decoded) {
+// //     jwt.verify(token, SECRET,  function(err, decoded) {
 // //         if(err || decoded.adminName !== process.env.ADMIN_LOGIN) {
 // //             res.sendStatus(403);
 // //             // res.end;
