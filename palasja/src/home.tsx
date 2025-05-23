@@ -1,5 +1,5 @@
 import face from './assets/yakubenka_face.jpg';
-import Header from './header';
+
 const Home = () => {
   return(
     <>
