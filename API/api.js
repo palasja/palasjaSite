@@ -37,7 +37,13 @@ const getToken = (payload, expires) => {
       expiresIn: expires,
     });
 }
-
+    sequelize.sync()
+    .then(() => {
+        console.log("Connection to DB was successful");
+    })
+    .catch(err => {
+        console.error("Unable to connect to DB", err);
+    });
 //Create DB
 app.get('/createDB', function  (req, res) {
     sequelize.sync()

@@ -8,4 +8,12 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 3001,
   },
+  resolve: {
+    alias: {
+      // src: "/src",
+      // components: "/src/components",
+      assets: "/src/assets",
+      // lib: "/src/lib",
+    },
+  },
 });
