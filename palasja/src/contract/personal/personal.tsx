@@ -1,26 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Personal } from '../helpers/contractTypes';
-import { addPerson, fetchPersonalsByOrgId, updatePerson } from '../helpers/api';
+import { addPerson, fetchPersonalsByOrgId, removePerson, updatePerson } from '../helpers/api';
 import style from './personal.module.css';
 
-export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetch(`http://127.0.0.1:3000/removePersonal`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(id),
-  })
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        throw new Error(`Не удалось загрузить отзывы. ErrorCode = ${res.status}`);
-      }
-    })
-    .catch((err: Error) => console.log(err.message));
-};
 const onSubmitCreate: SubmitHandler<Personal> = (data) => {
   addPerson(data);
 };
@@ -30,7 +13,7 @@ const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
 type contractProps = {
   orgId: string;
 };
-function Personals({ orgId }: contractProps) {
+const Personals = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue } = useForm<Personal>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [personals, setPersonals] = useState<Personal[]>([]);
@@ -39,7 +22,7 @@ function Personals({ orgId }: contractProps) {
       fetchPersonalsByOrgId(orgId).then((orgs) => setPersonals(orgs));
     };
     getPersonals();
-  }, []);
+  }, [orgId]);
 
   return (
     <>

@@ -1,12 +1,14 @@
 import freespace from 'assets/code/freespace.png'
 import style from './srvScan.module.css';
+import { Bak, CheckTaskSync, ErrorLoadScan, FreeSpace, ProgError, Readme, RuningProgram, Unlodafile } from '../code_en';
 
 const SrvScan = () => {
   return(
     <>
       <details>
         <summary>Readme</summary>
-<p>RUN_XML.bat initial bat whitch create and send XML files. For sending it use account whitch running RUN_XML.
+        {Readme}
+{/* <p>RUN_XML.bat initial bat whitch create and send XML files. For sending it use account whitch running RUN_XML.
 Without any params it run all 8.
 For start separate bat there have to write their number as params whit whitespace.</p>
  <p>Example:"RUN_XML.bat 2 5" create xml whitch was backup info and running programs.</p>
@@ -73,12 +75,50 @@ RUN_XML.bat</p>
   <li>set folder4=D:\folder\</li>
     <li>set folder5=D:\folder\</li>
   <li>set folder6=D:\folder\</li>
-</ul>
+</ul> */}
 				
 </details>
 <details>
   <summary>FreeSpace</summary>
-    <img src={freespace}></img>
+<pre>
+ {FreeSpace}
+</pre>
+</details>
+<details>
+  <summary>Unlodafile</summary>
+<pre>
+ {Unlodafile}
+</pre>
+</details>
+<details>
+  <summary>Bak</summary>
+<pre>
+ {Bak}
+</pre>
+</details>
+<details>
+  <summary>CheckTaskSync</summary>
+<pre>
+ {CheckTaskSync}
+</pre>
+</details>
+<details>
+  <summary>ErrorLoadScan</summary>
+<pre>
+ {ErrorLoadScan}
+</pre>
+</details>
+<details>
+  <summary>RuningProgram</summary>
+<pre>
+ {RuningProgram}
+</pre>
+</details>
+<details>
+  <summary>ProgError</summary>
+<pre>
+ {ProgError}
+</pre>
 </details>
     </>
   );

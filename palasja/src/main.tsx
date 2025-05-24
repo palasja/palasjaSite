@@ -16,6 +16,7 @@ import SrvScan from './pages/projects/srcScan/srvScan';
 import Header from './components/header';
 import './main.css';
 import Footer from './components/footer';
+import Projects from './pages/projects/projects';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
@@ -23,11 +24,13 @@ createRoot(document.getElementById('root')!).render(
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Auth />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/cw" element={<CW />} />
-          <Route path="/project" element={<SrvScan />} />
+          <Route path="login" element={<Auth />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="cw" element={<CW />} />
+          <Route path="projects" element={<Projects />} >
+            <Route path="srvScan" element={<SrvScan />} />
+          </Route>
           <Route
             path="contract"
             element={
@@ -37,7 +40,7 @@ createRoot(document.getElementById('root')!).render(
             }
           />
           <Route
-            path="/act/:orgId/:month"
+            path="act/:orgId/:month"
             element={
               <ProtectedRoute>
                 <Act />

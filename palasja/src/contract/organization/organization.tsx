@@ -13,7 +13,7 @@ const onSubmitUpdate: SubmitHandler<Org> = (data) => {
 type contractProps = {
   setOrgId: (id: string) => void;
 };
-function Organization({ setOrgId }: contractProps) {
+const Organization = ({ setOrgId }: contractProps) => {
   const { register, handleSubmit, setValue } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);

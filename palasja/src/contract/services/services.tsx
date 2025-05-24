@@ -13,7 +13,7 @@ const onSubmitUpdate: SubmitHandler<Service> = (data) => {
 type contractProps = {
   orgId: string;
 };
-function Services({ orgId }: contractProps) {
+const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -22,7 +22,7 @@ function Services({ orgId }: contractProps) {
       fetchServices(orgId).then((orgs) => setServices(orgs));
     };
     getPersonals();
-  }, []);
+  }, [orgId]);
   return (
     <>
       <h3>Services</h3>
