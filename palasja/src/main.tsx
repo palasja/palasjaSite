@@ -17,6 +17,8 @@ import Header from './components/header';
 import './main.css';
 import Footer from './components/footer';
 import Projects from './pages/projects/projects';
+import './i18n';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>

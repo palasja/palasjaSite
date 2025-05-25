@@ -44,7 +44,7 @@
     // //Add testing types
     // "types": ["node", "jest"]
   },
-  "include": ["src/**/*", "types/*", "server.ts", "node_modules/vite/types/*"],
+  "include": ["src/**/*", "types/*", "server.ts", "node_modules/vite/types/*", "src/i18n.js"],
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
