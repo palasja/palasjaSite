@@ -313,16 +313,16 @@ app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
 }));
 
 app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
-  const month = req.params.month;
+  const month = Number(req.params.month);
   let contract = await Contracts.findOne({
       where: {
         orgId: req.params.orgId,
         [Op.and]:[
           {startDate: {
-            [Op.gte]: new Date(2025, month)
+            [Op.lte]: new Date(2025, month)
           }},
           {endDate: {
-            [Op.lte]: new Date(2025, month+1, 0, 23, 59 )
+            [Op.gte]: new Date(2025, month )
           }}
         ]
       },
