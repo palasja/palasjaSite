@@ -19,8 +19,8 @@ const Act = () => {
       if (orgId !== undefined && month !== undefined) {
         fetchActInfo(orgId, month).then((info) => {
           setInfo(info);
-          setHead(info?.persons.find((p) => p.headPosition !== null) as Personal);
-          setSign(info?.persons.find((p) => p.signPosition !== null) as Personal);
+          setHead(info?.persons.find((p) => p.headPosition.length !== 0) as Personal);
+          setSign(info?.persons.find((p) => p.signPosition.length !== 0) as Personal);
           let itogSumm = 0;
           info?.services.forEach((s) => (itogSumm += s.count * s.cost));
           setItog((itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100);

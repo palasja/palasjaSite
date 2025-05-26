@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     fetchLogOut().then((status) => {
       if(status == 200){
         setIsAuth(false);
-        navigate('/');
+        navigate('/login');
       }
       });
   };

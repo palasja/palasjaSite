@@ -15,7 +15,7 @@ const Contract = () => {
         <></>
       ) : (
         <>
-          <Link to={`/act/${orgId}/4`}>ACT 1/4</Link>
+          <Link to={`/act/${orgId}/5`}>ACT 1/4</Link>
 
           <Contracts orgId={orgId} />
           <Personals orgId={orgId} />
