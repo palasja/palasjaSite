@@ -14,7 +14,9 @@ const Header = () => {
         <option value='by'>by</option>
       </select>
       <nav><Link to={'/'}>{t("menu.home")}</Link></nav>
+      <nav><Link to={'cw'}>{t("menu.cw")}</Link></nav>
       <nav><Link to={'projects'}>{t("menu.project")}</Link></nav>
+      <nav><Link to={'login'}>{t("menu.login")}</Link></nav>
       
     </header>
   );
