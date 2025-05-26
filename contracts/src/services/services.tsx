@@ -3,6 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
 import { addService, fetchServices, removeService, updateService } from '../helpers/api';
 import style from './services.module.css';
+import { getServicesCost, getServicesCostWithNDS } from '../helpers/helper';
+import { NDS } from '../helpers/constants';
 
 const onSubmitCreate: SubmitHandler<Service> = (data) => {
   addService(data);
@@ -14,7 +16,7 @@ type contractProps = {
   orgId: string;
 };
 const Services = ({ orgId }: contractProps) => {
-  const { register, handleSubmit, setValue } = useForm<Service>();
+  const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
@@ -55,20 +57,16 @@ const Services = ({ orgId }: contractProps) => {
         <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
         <button
           onClick={() => {
-            //(document.getElementById('id') as HTMLInputElement).value = '';
-            setIsUpdate(false);
-            setValue('id', '');
-            setValue('name', '');
-            setValue('date', new Date());
-            setValue('user', '');
-            setValue('place', '');
-            setValue('cost', 0);
-            setValue('count', 0);
+            reset()
           }}
         >
           Очистить
         </button>
       </form>
+          <p>My cost =  {getServicesCost(services)}</p>
+          <p>Cost with NDS =  {getServicesCostWithNDS(services)}</p>
+          <p>Get after NDS = {getServicesCostWithNDS(services) - (getServicesCostWithNDS(services) * (NDS / 100))}</p>
+
       <ul>
         {services.length == 0
           ? ''

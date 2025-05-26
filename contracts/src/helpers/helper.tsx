@@ -1,4 +1,5 @@
-import { Personal } from './contractTypes';
+import { NDS } from './constants';
+import { Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -41,3 +42,15 @@ export const getShortName = (person: Personal | undefined): string => {
     ? ''
     : `${person.firstName[0]}. ${person.middleName[0]}. ${person.lastName}`;
 };
+
+export const getServicesCostWithNDS = (services: Service[]) => {
+  let itogSumm = 0;
+  services.forEach((s) => (itogSumm += s.count * s.cost));
+  return (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
+}
+
+export const getServicesCost = (services: Service[]) => {
+  let itogSumm = 0;
+  services.forEach((s) => (itogSumm += s.count * s.cost));
+  return itogSumm;
+}

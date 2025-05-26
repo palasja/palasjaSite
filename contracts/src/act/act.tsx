@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchActInfo } from '../helpers/api';
 import { ActInfo, Personal } from '../helpers/contractTypes';
-import { getShortName } from '../helpers/helper';
+import { getShortName, getServicesCostWithNDS } from '../helpers/helper';
 import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import { useParams } from 'react-router';
@@ -21,9 +21,7 @@ const Act = () => {
           setInfo(info);
           setHead(info?.persons.find((p) => p.headPosition.length !== 0) as Personal);
           setSign(info?.persons.find((p) => p.signPosition.length !== 0) as Personal);
-          let itogSumm = 0;
-          info?.services.forEach((s) => (itogSumm += s.count * s.cost));
-          setItog((itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100);
+          setItog(getServicesCostWithNDS(info?.services));
         });
       }
     };
