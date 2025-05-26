@@ -2,7 +2,7 @@ import { base64ToFile } from './helper';
 import { ActInfo, Contract, Organization, Personal, Service, User } from './contractTypes';
 
 const API_SERVER = 'http://127.0.0.1:3000';
-const APP_URL = 'http://127.0.0.1:3001';
+const APP_URL = 'http://127.0.0.1:3002';
 
 export const fetchSignIn = (data: User): Promise<number> => {
   return fetch(`${API_SERVER}/signIn`, {

@@ -15,16 +15,11 @@
     "lp:fix": "npm run lint:fix && npm run pretier:fix"
   },
   "dependencies": {
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.4.0",
-    "eslint-plugin-react": "^7.37.5",
-    "i18next": "^25.2.0",
     "number-to-words-ru": "^2.4.1",
     "paper-css": "^0.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.56.3",
-    "react-i18next": "^15.5.2",
     "react-router": "^7.6.0"
   },
   "devDependencies": {
@@ -35,6 +30,9 @@
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-react": "^7.37.5",
     "globals": "^16.0.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
