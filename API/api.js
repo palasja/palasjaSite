@@ -314,15 +314,17 @@ app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
 
 app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
+  const firstWorkDayDate  = new Date(2025, month);
+  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 )
   let contract = await Contracts.findOne({
       where: {
         orgId: req.params.orgId,
         [Op.and]:[
           {startDate: {
-            [Op.lte]: new Date(2025, month)
+            [Op.lte]: firstWorkDayDate
           }},
           {endDate: {
-            [Op.gte]: new Date(2025, month )
+            [Op.gte]: firstWorkDayDate
           }}
         ]
       },
@@ -332,10 +334,10 @@ app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
     orgId: req.params.orgId,
       [Op.and]:[
         {date: {
-          [Op.gte]: new Date(2025, month)
+          [Op.gte]: firstWorkDayDate
         }},
         {date: {
-          [Op.lte]: new Date(2025, month+1, 0, 23, 59 )
+          [Op.lte]: lastWorkDayDate
         }}
       ]
     },
