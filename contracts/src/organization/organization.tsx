@@ -14,7 +14,7 @@ type contractProps = {
   setOrgId: (id: string) => void;
 };
 const Organization = ({ setOrgId }: contractProps) => {
-  const { register, handleSubmit, setValue } = useForm<Org>();
+  const { register, handleSubmit, setValue, reset } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
@@ -43,8 +43,7 @@ const Organization = ({ setOrgId }: contractProps) => {
       <button
         onClick={() => {
           setIsUpdate(false);
-          setValue('id', '');
-          setValue('name', '');
+          reset();
         }}
       >
         Очистить

@@ -57,6 +57,7 @@ const Services = ({ orgId }: contractProps) => {
         <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
         <button
           onClick={() => {
+            setIsUpdate(false);
             reset()
           }}
         >

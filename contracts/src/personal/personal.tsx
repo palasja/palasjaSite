@@ -14,7 +14,7 @@ type contractProps = {
   orgId: string;
 };
 const Personals = ({ orgId }: contractProps) => {
-  const { register, handleSubmit, setValue } = useForm<Personal>();
+  const { register, handleSubmit, setValue, reset } = useForm<Personal>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [personals, setPersonals] = useState<Personal[]>([]);
   useEffect(() => {
@@ -54,12 +54,7 @@ const Personals = ({ orgId }: contractProps) => {
       <button
         onClick={() => {
           setIsUpdate(false);
-          setValue('id', '');
-          setValue('firstName', '');
-          setValue('middleName', '');
-          setValue('lastName', '');
-          setValue('headPosition', '');
-          setValue('signPosition', '');
+          reset()
         }}
       >
         Очистить
