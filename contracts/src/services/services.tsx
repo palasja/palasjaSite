@@ -5,6 +5,7 @@ import { addService, fetchServices, removeService, updateService } from '../help
 import style from './services.module.css';
 import { getServicesCost, getServicesCostWithNDS } from '../helpers/helper';
 import { NDS } from '../helpers/constants';
+import { Link } from 'react-router';
 
 const onSubmitCreate: SubmitHandler<Service> = (data) => {
   addService(data);
@@ -18,7 +19,10 @@ type contractProps = {
 const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
+  const [actMonth, setActMonth] = useState((new Date().getMonth()+1).toString());
   const [isUpdate, setIsUpdate] = useState(false);
+
+  const handletActMonth = (month: string):void => setActMonth(month);
   useEffect(() => {
     const getPersonals = () => {
       fetchServices(orgId).then((orgs) => setServices(orgs));
@@ -28,6 +32,14 @@ const Services = ({ orgId }: contractProps) => {
   return (
     <>
       <h3>Services</h3>
+      <div>
+        <select onChange={(e) => handletActMonth(e.target.value)}>
+          {[...new Array(12)].map( (_e, i) => {
+            return <option value={i+1} key={i}>{i+1}</option>
+          })}
+        </select>
+        <Link to={`/act/${orgId}/${actMonth}`}>ACT 1/4</Link>
+      </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
           <input value={orgId} type="hidden" {...register('orgId', { required: true })} />

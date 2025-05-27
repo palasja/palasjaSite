@@ -31,7 +31,9 @@ const Act = () => {
   return (
     <>
       {info?.contract === null || head === undefined || sign === undefined ? (
-        <></>
+        <>
+          <h1>No contract</h1>
+        </>
       ) : (
         <>
           <div className={style.print}>
