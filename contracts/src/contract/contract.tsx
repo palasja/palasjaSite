@@ -6,7 +6,7 @@ import Organization from '../organization';
 
 const Contract = () => {
   const [orgId, setOrgId] = useState<string>();
-  
+
   return (
     <>
       <Organization setOrgId={(id) => setOrgId(id)} />
@@ -21,6 +21,6 @@ const Contract = () => {
       )}
     </>
   );
-}
+};
 
 export default Contract;

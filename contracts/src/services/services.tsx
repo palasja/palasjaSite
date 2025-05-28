@@ -19,10 +19,10 @@ type contractProps = {
 const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
-  const [actMonth, setActMonth] = useState((new Date().getMonth()+1).toString());
+  const [actMonth, setActMonth] = useState((new Date().getMonth() + 1).toString());
   const [isUpdate, setIsUpdate] = useState(false);
 
-  const handletActMonth = (month: string):void => setActMonth(month);
+  const handletActMonth = (month: string): void => setActMonth(month);
   useEffect(() => {
     const getPersonals = () => {
       fetchServices(orgId).then((orgs) => setServices(orgs));
@@ -34,11 +34,16 @@ const Services = ({ orgId }: contractProps) => {
       <h3>Services</h3>
       <div>
         <select onChange={(e) => handletActMonth(e.target.value)}>
-          {[...new Array(12)].map( (_e, i) => {
-            return <option value={i+1} key={i}>{i+1}</option>
+          {[...new Array(12)].map((_e, i) => {
+            return (
+              <option value={i + 1} key={i}>
+                {i + 1}
+              </option>
+            );
           })}
         </select>
-        <Link to={`/act/${orgId}/${actMonth}`}>ACT 1/4</Link>
+        <Link to={`/act_pms/${orgId}/${actMonth}`}>ACT PMS {orgId}/{actMonth}</Link>
+        <Link to={`/act_zkh/${orgId}/${actMonth}`}>ACT ZKH {orgId}/{actMonth}</Link>
       </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
@@ -70,15 +75,19 @@ const Services = ({ orgId }: contractProps) => {
         <button
           onClick={() => {
             setIsUpdate(false);
-            reset()
+            reset();
+            setValue('id', orgId);
           }}
         >
           Очистить
         </button>
       </form>
-          <p>My cost =  {getServicesCost(services)}</p>
-          <p>Cost with NDS =  {getServicesCostWithNDS(services)}</p>
-          <p>Get after NDS = {getServicesCostWithNDS(services) - (getServicesCostWithNDS(services) * (NDS / 100))}</p>
+      <p>My cost = {getServicesCost(services)}</p>
+      <p>Cost with NDS = {getServicesCostWithNDS(services)}</p>
+      <p>
+        Get after NDS ={' '}
+        {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
+      </p>
 
       <ul>
         {services.length == 0
@@ -114,6 +123,6 @@ const Services = ({ orgId }: contractProps) => {
       </ul>
     </>
   );
-}
+};
 
 export default Services;

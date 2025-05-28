@@ -47,10 +47,10 @@ export const getServicesCostWithNDS = (services: Service[]) => {
   let itogSumm = 0;
   services.forEach((s) => (itogSumm += s.count * s.cost));
   return (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
-}
+};
 
 export const getServicesCost = (services: Service[]) => {
   let itogSumm = 0;
   services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;
-}
+};

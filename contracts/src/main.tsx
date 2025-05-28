@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import './index.css';
-import Act from './act';
+import ActZKH from './acts/act_ZKH';
 import Contract from './contract/contract';
 import Auth from './auth';
 import { AuthProvider } from './hooks/protectedRoute/authProvider';
@@ -11,6 +11,7 @@ import SignIn from './signIn';
 import Logout from './logout';
 import Error404 from './404';
 import './main.css';
+import ActPMS from './acts/act_PMS';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -37,10 +38,18 @@ createRoot(document.getElementById('root')!).render(
             }
           />
           <Route
-            path="act/:orgId/:month"
+            path="act_zkh/:orgId/:month"
             element={
               <ProtectedRoute>
-                <Act />
+                <ActZKH />
+              </ProtectedRoute>
+            }
+          />
+                    <Route
+            path="act_pms/:orgId/:month"
+            element={
+              <ProtectedRoute>
+                <ActPMS />
               </ProtectedRoute>
             }
           />

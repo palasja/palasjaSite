@@ -10,16 +10,13 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuth, onLogin } = useAuth();
 
   if (!isAuth) {
-    fetchСheckAuth().then(
-      status => {
-        if(status == 200){
-          onLogin();
-        } else {
-          return <Navigate to="/" replace />;
-        }
+    fetchСheckAuth().then((status) => {
+      if (status == 200) {
+        onLogin();
+      } else {
+        return <Navigate to="/" replace />;
       }
-    );
-
+    });
   }
 
   return children;

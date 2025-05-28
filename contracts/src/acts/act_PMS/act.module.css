@@ -1,0 +1,49 @@
+p{
+  margin: 2px 0 2px 0;
+}
+.page {
+  width: 210mm;
+  height: 297mm;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+  line-height: 20px;
+}
+.head{
+  
+}
+.datePlace{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 18px 0;
+}
+.main{
+  text-align: justify;
+  text-indent: 40px;
+}
+.mainInfo{
+      text-indent: 0;
+}
+.sidesInfo{
+    display: flex;
+    margin: 70px 0;
+    text-align: left;
+}
+.sidesInfo_sign{
+  margin-top: 30px;
+}
+.signs{
+  text-align: left;
+}
+.position{
+  margin: 30px 0;
+}
+.sign{
+margin-left: 20px;
+}
+@media print {
+  @page {
+    size: a4;
+  }
+}
+

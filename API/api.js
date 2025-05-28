@@ -320,11 +320,12 @@ app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
       where: {
         orgId: req.params.orgId,
         [Op.and]:[
-          {startDate: {
-            [Op.lte]: firstWorkDayDate
-          }},
+          Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('startDate')), month+1),
+          // {startDate: {
+          //   [Op.lte]: firstWorkDayDate
+          // }},
           {endDate: {
-            [Op.gte]: firstWorkDayDate
+            [Op.gte]: lastWorkDayDate
           }}
         ]
       },

@@ -54,21 +54,22 @@ const Personals = ({ orgId }: contractProps) => {
           <label htmlFor="lastNameR">LastNameR</label>
           <input {...register('lastNameR')} />
         </div>
-        
+
         <div>
           <label htmlFor="positionName">Position Name</label>
           <input {...register('positionName')} />
         </div>
         <div>
-          <label htmlFor="isHead">Sign</label>
-          <input  type={"checkbox"} {...register('isHead', )} />
+          <label htmlFor="isHead">Head</label>
+          <input type={'checkbox'} {...register('isHead')} />
         </div>
         <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
       </form>
       <button
         onClick={() => {
           setIsUpdate(false);
-          reset()
+          reset();
+          setValue('id', orgId);
         }}
       >
         Очистить
@@ -109,6 +110,6 @@ const Personals = ({ orgId }: contractProps) => {
       </ul>
     </>
   );
-}
+};
 
 export default Personals;

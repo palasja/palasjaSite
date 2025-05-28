@@ -32,7 +32,7 @@ type contractProps = {
   orgId: string;
 };
 function Contracts({ orgId }: contractProps) {
-  const { register, handleSubmit, setValue,reset } = useForm<Contract>();
+  const { register, handleSubmit, setValue, reset } = useForm<Contract>();
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
@@ -84,6 +84,7 @@ function Contracts({ orgId }: contractProps) {
           onClick={() => {
             setIsUpdate(false);
             reset();
+            setValue('id', orgId);
           }}
         >
           Очистить

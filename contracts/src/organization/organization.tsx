@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Organization as Org } from '../helpers/contractTypes';
-import { addOrganisation, fetchAllOrganizations, removeOrg, updateOrganisation } from '../helpers/api';
+import {
+  addOrganisation,
+  fetchAllOrganizations,
+  removeOrg,
+  updateOrganisation,
+} from '../helpers/api';
 import style from './organization.module.css';
 
 const onSubmitCreate: SubmitHandler<Org> = (data) => {
@@ -30,7 +35,7 @@ const Organization = ({ setOrgId }: contractProps) => {
   }, []);
   return (
     <>
-      <h2>Organization {choosenOrg.length == 0 ? '' : choosenOrg}</h2>
+      <h2>Organization</h2>
 
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         {isUpdate ? <input id="id" type="hidden" {...register('id', { required: true })} /> : <></>}
@@ -55,10 +60,14 @@ const Organization = ({ setOrgId }: contractProps) => {
           : organizations.map((org, i) => {
               return (
                 <li key={i}>
-                  <span onClick={() => {
-                    setOrgId(org.id);
-                    setChoosenOrg(org.name);
-                    }}>{org.name}</span>
+                  <span
+                    onClick={() => {
+                      setOrgId(org.id);
+                      setChoosenOrg(org.name);
+                    }}
+                  >
+                    {org.name}
+                  </span>
                   <button
                     onClick={async () => {
                       await removeOrg({ id: Number(org.id) });
@@ -79,8 +88,9 @@ const Organization = ({ setOrgId }: contractProps) => {
               );
             })}
       </ul>
+      <h2>{choosenOrg.length == 0 ? '' : choosenOrg}</h2>
     </>
   );
-}
+};
 
 export default Organization;

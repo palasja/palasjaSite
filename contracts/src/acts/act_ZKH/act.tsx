@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { fetchActInfo } from '../helpers/api';
-import { ActInfo, Personal } from '../helpers/contractTypes';
-import { getShortName, getServicesCostWithNDS } from '../helpers/helper';
-import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../helpers/constants';
+import { fetchActInfo } from '../../helpers/api';
+import { ActInfo, Personal } from '../../helpers/contractTypes';
+import { getShortName, getServicesCostWithNDS } from '../../helpers/helper';
+import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import { useParams } from 'react-router';
 import style from './act.module.css';
 
-const Act = () => {
+const ActZKH = () => {
   const { orgId } = useParams();
   const { month } = useParams();
   const [info, setInfo] = useState<ActInfo>();
@@ -19,8 +19,8 @@ const Act = () => {
       if (orgId !== undefined && month !== undefined) {
         fetchActInfo(orgId, month).then((info) => {
           setInfo(info);
-          setHead(info?.persons.find((p) => p.headPosition.length !== 0) as Personal);
-          setSign(info?.persons.find((p) => p.signPosition.length !== 0) as Personal);
+          setHead(info?.persons.find((p) => p.isHead) as Personal);
+          setSign(info?.persons.find((p) => !p.isHead) as Personal);
           setItog(getServicesCostWithNDS(info?.services));
         });
       }
@@ -39,7 +39,7 @@ const Act = () => {
           <div className={style.print}>
             <div>
               <p>УТВЕРЖДАЮ:</p>
-              <p>{head?.headPosition}</p>
+              <p>{head?.positionName}</p>
               <p>_______________{getShortName(head)}</p>
               <p>«__»___________2025</p>
             </div>
@@ -112,4 +112,4 @@ const Act = () => {
   );
 };
 
-export default Act;
+export default ActZKH;

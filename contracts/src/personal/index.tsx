@@ -1,2 +1,2 @@
-import Personals from "./personal";
+import Personals from './personal';
 export default Personals;

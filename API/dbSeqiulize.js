@@ -82,6 +82,7 @@ const Organization = sequelize.define("organization", {
       onDelete: 'CASCADE',
     });
 
+
     const Service = sequelize.define("service", {
         id: {
           type: DataTypes.INTEGER,
