@@ -51,11 +51,21 @@ const Organization = sequelize.define("organization", {
           type: DataTypes.STRING,
           allowNull: false
         },
-        headPosition: {
-          type: DataTypes.STRING
+        firstNameR: {
+          type: DataTypes.STRING,
         },
-        signPosition: {
-          type: DataTypes.STRING
+        middleNameR: {
+          type: DataTypes.STRING,
+        },
+        lastNameR: {
+          type: DataTypes.STRING,
+        },
+        positionName:{
+        type: DataTypes.STRING,
+        allowNull: false
+        },
+        isHead: {
+          type: DataTypes.BOOLEAN,
         },
         orgId:{
           type: Sequelize.INTEGER,
@@ -71,6 +81,7 @@ const Organization = sequelize.define("organization", {
       as: "personalOrg",
       onDelete: 'CASCADE',
     });
+
     const Service = sequelize.define("service", {
         id: {
           type: DataTypes.INTEGER,

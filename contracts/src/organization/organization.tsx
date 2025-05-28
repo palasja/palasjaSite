@@ -17,6 +17,7 @@ const Organization = ({ setOrgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [choosenOrg, setChoosenOrg] = useState('');
   useEffect(() => {
     const getOrganization = () => {
       fetchAllOrganizations().then((orgs) => {
@@ -29,7 +30,7 @@ const Organization = ({ setOrgId }: contractProps) => {
   }, []);
   return (
     <>
-      <h2>Organization</h2>
+      <h2>Organization {choosenOrg.length == 0 ? '' : choosenOrg}</h2>
 
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         {isUpdate ? <input id="id" type="hidden" {...register('id', { required: true })} /> : <></>}
@@ -54,7 +55,10 @@ const Organization = ({ setOrgId }: contractProps) => {
           : organizations.map((org, i) => {
               return (
                 <li key={i}>
-                  <span onClick={() => setOrgId(org.id)}>{org.name}</span>
+                  <span onClick={() => {
+                    setOrgId(org.id);
+                    setChoosenOrg(org.name);
+                    }}>{org.name}</span>
                   <button
                     onClick={async () => {
                       await removeOrg({ id: Number(org.id) });

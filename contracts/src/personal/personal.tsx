@@ -28,8 +28,8 @@ const Personals = ({ orgId }: contractProps) => {
     <>
       <h3>Personal</h3>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+        <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
         <div>
-          <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
           <label htmlFor="fisrtName">FirtName</label>
           <input {...register('firstName', { required: true, maxLength: 20 })} />
         </div>
@@ -41,13 +41,27 @@ const Personals = ({ orgId }: contractProps) => {
           <label htmlFor="lastName">LastName</label>
           <input {...register('lastName', { required: true })} />
         </div>
+
         <div>
-          <label htmlFor="head">Head</label>
-          <input {...register('headPosition')} />
+          <label htmlFor="firstNameR">FirstNameR</label>
+          <input {...register('firstNameR')} />
         </div>
         <div>
-          <label htmlFor="sign">Sign</label>
-          <input {...register('signPosition')} />
+          <label htmlFor="middleNameR">MiddleNameR</label>
+          <input {...register('middleNameR')} />
+        </div>
+        <div>
+          <label htmlFor="lastNameR">LastNameR</label>
+          <input {...register('lastNameR')} />
+        </div>
+        
+        <div>
+          <label htmlFor="positionName">Position Name</label>
+          <input {...register('positionName')} />
+        </div>
+        <div>
+          <label htmlFor="isHead">Sign</label>
+          <input  type={"checkbox"} {...register('isHead', )} />
         </div>
         <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
       </form>
@@ -65,7 +79,7 @@ const Personals = ({ orgId }: contractProps) => {
           : personals.map((person, i) => {
               return (
                 <li key={i}>
-                  {`${person.firstName} ${person.middleName} ${person.lastName} - ${person.headPosition.length == 0 ? '' : person.headPosition} ${person.signPosition.length == 0 ? '' : 'Responsible'}`}
+                  {`${person.firstName} ${person.middleName} ${person.lastName} - ${person.positionName}`}
                   <button
                     onClick={async () => {
                       await removePerson({ id: Number(person.id) });
@@ -80,8 +94,11 @@ const Personals = ({ orgId }: contractProps) => {
                       setValue('firstName', person.firstName);
                       setValue('middleName', person.middleName);
                       setValue('lastName', person.lastName);
-                      setValue('headPosition', person.headPosition);
-                      setValue('signPosition', person.signPosition);
+                      setValue('firstNameR', person.firstName);
+                      setValue('middleNameR', person.middleName);
+                      setValue('lastNameR', person.lastName);
+                      setValue('isHead', person.isHead);
+                      setValue('positionName', person.positionName);
                     }}
                   >
                     Переименовать

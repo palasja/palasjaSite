@@ -16,8 +16,11 @@ type Personal = {
   lastName: string;
   middleName: string;
   firstName: string;
-  headPosition: string;
-  signPosition: string;
+  lastNameR?: string;
+  middleNameR?: string;
+  firstNameR?: string;
+  positionName: boolean;
+  isHead: boolean;
   orgId: string;
 };
 
