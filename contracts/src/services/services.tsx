@@ -19,10 +19,10 @@ type contractProps = {
 const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
-  const [actMonth, setActMonth] = useState((new Date().getMonth() + 1).toString());
+  const [actMonth, setActMonth] = useState((new Date().getMonth() + 1));
   const [isUpdate, setIsUpdate] = useState(false);
 
-  const handletActMonth = (month: string): void => setActMonth(month);
+  const handletActMonth = (month: number): void => setActMonth(month);
   useEffect(() => {
     const getPersonals = () => {
       fetchServices(orgId).then((orgs) => setServices(orgs));
@@ -33,13 +33,13 @@ const Services = ({ orgId }: contractProps) => {
     <>
       <h3>Services</h3>
       <div>
-        <select onChange={(e) => handletActMonth(e.target.value)}>
+        <select onChange={(e) => handletActMonth(Number(e.target.value))}>
           {[...new Array(12)].map((_e, i) => {
             return (
-              <option value={i + 1} key={i}>
+              <option value={i + 1} key={i}  selected={i+1 === actMonth}>
                 {i + 1}
               </option>
-            );
+            )
           })}
         </select>
         <Link to={`/act_pms/${orgId}/${actMonth}`}>ACT PMS {orgId}/{actMonth}</Link>

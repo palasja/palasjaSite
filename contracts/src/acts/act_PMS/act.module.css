@@ -28,6 +28,7 @@ p{
     display: flex;
     margin: 70px 0;
     text-align: left;
+    gap: 80px;
 }
 .sidesInfo_sign{
   margin-top: 30px;

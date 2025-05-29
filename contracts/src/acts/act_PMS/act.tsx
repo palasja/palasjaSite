@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchActInfo } from '../../helpers/api';
 import { ActInfo, Personal } from '../../helpers/contractTypes';
-import { getShortName, getServicesCostWithNDS } from '../../helpers/helper';
+import { getShortName, getServicesCostWithNDS, MONTH_R } from '../../helpers/helper';
 import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import { useParams } from 'react-router';
@@ -54,7 +54,7 @@ let economist = info?.persons.find(p => !new RegExp(REPRESENTOR_POSITION).test(p
               <p>гражданско-правовому договору</p>
             </div>
             <div className={style.datePlace}>
-              <p>от 30 декабря 2024 года</p>
+              <p>от {(new Date(info?.contract.signDate as unknown as string)).getDate()} {MONTH_R[Number(month) -1]} {(new Date(info?.contract.signDate as unknown as string)).getFullYear()} года</p>
               <p>г. Наровля</p>
             </div>
             <div className={style.main}>

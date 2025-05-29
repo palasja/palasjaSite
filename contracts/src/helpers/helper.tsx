@@ -54,3 +54,8 @@ export const getServicesCost = (services: Service[]) => {
   services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;
 };
+
+export const MONTH_R = [
+    'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',
+  ]
