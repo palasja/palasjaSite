@@ -1,5 +1,5 @@
 import { Code } from './code_en';
-import './geInfo.module.css';
+import style from './geInfo.module.css';
 import { useTranslation } from 'react-i18next';
 
 const GetInfo = () => {

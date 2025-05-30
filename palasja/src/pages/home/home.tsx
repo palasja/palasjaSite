@@ -14,7 +14,7 @@ const Home = () => {
       <p>{t('home.text')}</p>
 
       <>
-        <h3>{t('cw.name')}</h3>
+        <h3>{t('home.cw.name')}</h3>
         <div>
           <a>Linked: https://www.linkedin.com/in/palasja</a>
           <a>GitHub: https://github.com/palasja</a>
@@ -22,62 +22,62 @@ const Home = () => {
         </div>
 
         <section>
-          <h4>{t('cw.lang.language')}</h4>
+          <h4>{t('home.cw.lang.language')}</h4>
           <ul>
-            <li>{t('cw.lang.belarus')}</li>
-            <li>{t('cw.lang.russian')}</li>
-            <li>{t('cw.lang.english')}</li>
+            <li>{t('home.cw.lang.belarus')}</li>
+            <li>{t('home.cw.lang.russian')}</li>
+            <li>{t('home.cw.lang.english')}</li>
           </ul>
         </section>
 
         <section>
-          <h4>{t('cw.education.education')}</h4>
+          <h4>{t('home.cw.education.education')}</h4>
           <div>
             <div>
-              <p>{t('cw.education.univerrsity')}</p>
-              <p>{t('cw.education.hightQality')}</p>
+              <p>{t('home.cw.education.univerrsity')}</p>
+              <p>{t('home.cw.education.hightQality')}</p>
             </div>
-            <div>{t('cw.education.universityDate')}</div>
+            <div>{t('home.cw.education.universityDate')}</div>
           </div>
           <div>
             <div>
-              <p>{t('cw.education.college')}</p>
-              <p>{t('cw.education.specialization')}</p>
+              <p>{t('home.cw.education.college')}</p>
+              <p>{t('home.cw.education.specialization')}</p>
             </div>
-            <div>{t('cw.education.collegeDate')}</div>
+            <div>{t('home.cw.education.collegeDate')}</div>
           </div>
         </section>
 
         <section>
-          <h4>{t('cw.skils.skils')}</h4>
+          <h4>{t('home.cw.skils.skils')}</h4>
           <ul>
             <li>
-              <span>{t('cw.skils.languages')}:</span> SQL, JS, C#, SQL, Typescript, CSS, HTML5,
+              <span>{t('home.cw.skils.languages')}:</span> SQL, JS, C#, SQL, Typescript, CSS, HTML5,
               Node.js, Batch
             </li>
             <li>
-              <span>{t('cw.skils.frameworks')}:</span> Express, ASP.NET Core, React
+              <span>{t('home.cw.skils.frameworks')}:</span> Express, ASP.NET Core, React
             </li>
             <li>
-              <span>{t('cw.skils.tools')}:</span> Enterprise Manager, MS Office, IBExpert, Vmware
+              <span>{t('home.cw.skils.tools')}:</span> Enterprise Manager, MS Office, IBExpert, Vmware
               Workstation, VSphere, Sequelize, Git, Vite
             </li>
             <li>
-              <span>{t('cw.skils.platforms')}:</span> Visual Studio, Visual Studio Code
+              <span>{t('home.cw.skils.platforms')}:</span> Visual Studio, Visual Studio Code
             </li>
             <li>
-              <span>{t('cw.skils.softSkils')}:</span> Self-organization, Stress resilience, Problem
+              <span>{t('home.cw.skils.softSkils')}:</span> Self-organization, Stress resilience, Problem
               solving, Adaptability and flexibility
             </li>
           </ul>
         </section>
         <section>
-          <h4>{t('cw.experiance.experiance')}</h4>
+          <h4>{t('home.cw.experiance.experiance')}</h4>
           <p>
-            {t('cw.experiance.factory')} - {t('cw.experiance.factoryDate')}
+            {t('home.cw.experiance.factory')} - {t('home.cw.experiance.factoryDate')}
           </p>
           <p>
-            {t('cw.experiance.ivc')} - {t('cw.experiance.ivcDate')}
+            {t('home.cw.experiance.ivc')} - {t('home.cw.experiance.ivcDate')}
           </p>
 
           <ul>
@@ -125,14 +125,26 @@ const Home = () => {
             </li>
           </ul>
         </section>
-
+        <section>
+                <h3>Проекты</h3>
+                <article>
+                  <p>SrvScan</p>
+                  <p>{t('home.projects.srvScan.desc1')}</p>
+                  <p>{t('home.projects.srvScan.desc2')}</p>
+                </article>
+                <article>
+                  <p>GetInfo</p>
+                  <p>{t('home.projects.getInfo.desc1')}</p>
+                  <p>{t('home.projects.getInfo.desc2')}</p>
+                </article>
+        </section>        
         <section>
           <h4>Projects</h4>
           <a></a>
         </section>
 
         <section>
-          <h4>{t('cw.certificates')}</h4>
+          <h4>{t('home.cw.certificates')}</h4>
           <figure>
             <img src={rss}></img>
             <figcaption>THE RS SCHOOL - JAVASCRIPT/FRONT-END 2022Q1</figcaption>
