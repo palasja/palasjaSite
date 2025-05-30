@@ -12,7 +12,7 @@ export default defineConfig({
     alias: {
       // src: "/src",
       // components: "/src/components",
-      assets: "/src/assets",
+      assets: '/src/assets',
       // lib: "/src/lib",
     },
   },

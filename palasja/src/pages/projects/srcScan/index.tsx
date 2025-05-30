@@ -1,2 +1,2 @@
-import SrvScan from "./srvScan";
+import SrvScan from './srvScan';
 export default SrvScan;

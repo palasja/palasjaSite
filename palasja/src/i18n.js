@@ -1,5 +1,5 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 import translationRu from './i18n/ru/translation.json';
 import translationEn from './i18n/en/translation.json';
 import translationBy from './i18n/by/translation.json';
@@ -10,7 +10,7 @@ import translationBy from './i18n/by/translation.json';
 const res = {
   en: translationEn,
   by: translationBy,
-  ru: translationRu
+  ru: translationRu,
 };
 
 i18n
@@ -18,10 +18,10 @@ i18n
   .init({
     resources: res,
     debug: true,
-    lng: "ru", 
+    lng: 'en',
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
     },
   });
 
-  export default i18n;
+export default i18n;

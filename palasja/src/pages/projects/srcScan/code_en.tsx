@@ -381,42 +381,16 @@ For start separate bat there have to write their number as params whit whitespac
 8 - Run ErrorLoadScan.bat (ErrorFiles)
 
 To %fileLog% write log RUN_XML: params, start\end execute. 
-
-By default bat shoub be in D:\folder\. If it not the same, then path have to be change in all bat.
-RUN_XML.bat
-                pathBat=D:\folder- path to bat.
-                UtilsDir=D:\folder - path to blat.exe.
-
-CopyBak.bat (path to foldet with copy log)
-                logDir=D:\folder
-
-RuningProgram.bat (path to exe)
-                Path1=D:\folder\file.exe
-                Path2=D:\folder\file.exe
-                Path3=D:\folder\file.exe
-
-TCMError.bat (eroor log folder)
-                TCMIn=d:\folder
-                TCMOut=d:\folder
-
-UnLoadFile.bat (path for input file)
-                PathArea=d:\folder\
-                PathRegional=d:\folder\
-                PathRepublic=d:\folder\
-                PathTCM=d:\folder\
-                ТK=d:\folder\
-
-Bak.bat (path to backup folder)
-                PathBackups=d:\folder
-ErrorLoadScan.bat (path to error folder)	
-				set folder1=D:\folder\
-				set folder2=D:\folder\
-				set folder3=D:\folder\
-				set folder4=D:\folder\
-				set folder5=D:\folder\
-				set folder6=D:\folder\	
-
-				
 `;
 
-export {ErrorLoadScan, ProgError, Readme, RuningProgram, Bak, CheckTaskSync,CopyBak, FreeSpace, Unlodafile}
+export {
+  ErrorLoadScan,
+  ProgError,
+  Readme,
+  RuningProgram,
+  Bak,
+  CheckTaskSync,
+  CopyBak,
+  FreeSpace,
+  Unlodafile,
+};

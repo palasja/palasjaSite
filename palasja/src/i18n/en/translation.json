@@ -1,28 +1,28 @@
 {
   "translation": {
-     "menu": {
-       "home": "Home",
-       "cw": "CW",
-       "project": "Project"
-     },
-     "home": {
-       "text":" Hello, My name is Yakubenka Ivan. And this is myself presentation project. I have education as engineer of radio electronic. I started learning programming in college from assembler and C. From 2012 to 2024 year I worked as an engineer, my jod was maintenancing finance department . Part of my job was a maintenancing programs and which used SQL so I lerned SQL in start of my carrier. Then I interested web technology and started study php which was popular. For php I needed to known html and I had learned it and created first pages. But it looked so bad and I had to learn css and js too. Having this knowledge, I thought I am well and send resume for a job as js developer. Tested task was easy but interview was on English and that was not easy, I failed. But I made conclusions and started study English harder. I had heard about java course in EPAM and send resume to it. I passed on second time. I done well first part courses which was online and wait invite to offline part, I needed relocate for it, but  invite delayed and I made decision stay in my position. After 2 years my company was finding front-end developer and I was hired. That project used .Net Framework and I success took 2 courses .net. But after 2 months team has been made decision migrate project from web to desktop app.  I thought I needed up my skils and started develop one of my project from courses. That project registredmy contracts, payrolls and bonuses. After fired out I made some rest and then make decision that I want write full site. I started rewrite random site by react and after some time I get proposition from friend to make site for her.  I wrote it by figma layout and deployed on hosting. Gusmaryhair site was online half year and owner decided not prolongation hosting. Now I have some contracts for maitanance and for automatization calculation and registration I write one more service."
-     },
-     "footer":{
+    "menu": {
+      "home": "Home",
+      "cw": "CW",
+      "project": "Project"
+    },
+    "home": {
+      "text": " Hello, My name is Yakubenka Ivan. And this is myself presentation project. I have education as engineer of radio electronic. I started learning programming in college from assembler and C. From 2012 to 2024 year I worked as an engineer, my jod was maintenancing finance department . Part of my job was a maintenancing programs and which used SQL so I lerned SQL in start of my carrier. Then I interested web technology and started study php which was popular. For php I needed to known html and I had learned it and created first pages. But it looked so bad and I had to learn css and js too. Having this knowledge, I thought I am well and send resume for a job as js developer. Tested task was easy but interview was on English and that was not easy, I failed. But I made conclusions and started study English harder. I had heard about java course in EPAM and send resume to it. I passed on second time. I done well first part courses which was online and wait invite to offline part, I needed relocate for it, but  invite delayed and I made decision stay in my position. After 2 years my company was finding front-end developer and I was hired. That project used .Net Framework and I success took 2 courses .net. But after 2 months team has been made decision migrate project from web to desktop app.  I thought I needed up my skils and started develop one of my project from courses. That project registredmy contracts, payrolls and bonuses. After fired out I made some rest and then make decision that I want write full site. I started rewrite random site by react and after some time I get proposition from friend to make site for her.  I wrote it by figma layout and deployed on hosting. Gusmaryhair site was online half year and owner decided not prolongation hosting. Now I have some contracts for maitanance and for automatization calculation and registration I write one more service."
+    },
+    "footer": {
       "devPos": "Develop",
       "devName": "Yakubenka I. A.",
       "desPos": "Desin & Layout by ",
       "desName": "Pavluchenka K. A."
-     },
-     "cw":{
-      "name":"Yakubenka Ivan",
-      "lang":{
-        "language":"LANGUAGES",
-        "russian":">Russian (Native)",
-        "belarus":"Belarus (Native)",
-        "english":"English (B1 according to SmallTalk2Me)"
+    },
+    "cw": {
+      "name": "Yakubenka Ivan",
+      "lang": {
+        "language": "LANGUAGES",
+        "russian": ">Russian (Native)",
+        "belarus": "Belarus (Native)",
+        "english": "English (B1 according to SmallTalk2Me)"
       },
-      "education":{
+      "education": {
         "education": "Education",
         "univerrsity": "Sukhoi State Technical University of Gomel",
         "hightQality": "Engineer of radioelectronics",
@@ -31,22 +31,58 @@
         "specialization": "Electronics technician",
         "collegeDate": "September 2007- June 2011"
       },
-      "skils":{
+      "skils": {
         "skils": "Skill Summary",
-        "frameworks":"Frameworks",
-        "tools":"Tools",
-        "platforms":"Platforms",
-        "softSkils":"SoftSkils",
-        "languages":"Languages"
+        "frameworks": "Frameworks",
+        "tools": "Tools",
+        "platforms": "Platforms",
+        "softSkils": "SoftSkils",
+        "languages": "Languages"
       },
-      "experiance":{
-        "experiance":"Work Experience",
-        "factory":"Gomel Radiofactory",
-        "factoryDate":"10.2011-01.2012",
-        "ivc":"IVC Minfina",
+      "experiance": {
+        "experiance": "Work Experience",
+        "factory": "Gomel Radiofactory",
+        "factoryDate": "10.2011-01.2012",
+        "ivc": "IVC Minfina",
         "ivcDate": "04.2012-06.2023"
       },
       "certificates": "Курсы & Сертификаты"
+    },
+    "proj": {
+      "srvScan": {
+        "desc": "RUN_XML.bat initial bat whitch create and send XML files.| For sending it use account whitch running RUN_XML. It run all 8 without any params. For start separate bat there has to write their number as params whith whitespace.| Example:'RUN_XML.bat 2 5' create xml whitch was backup info and running programs.",
+        "params": {
+          "1": "Run freeSpace.bat (check freespace)",
+          "2": "Run Bak.bat (Check created backups)",
+          "3": "Run UnLoadFile.bat (unload files)",
+          "4": "Run TCMError.bat (scan errros)",
+          "5": "Run RuningProgram.bat (chek prorrams is running)",
+          "6": "Run ChekTaskSync.bat (last synchronization state)",
+          "7": "Run TestCopyBak.bat (last backup copy)",
+          "8": "Run ErrorLoadScan.bat (ErrorFiles)"
+        }
+      },
+    "getInfo":{
+      "desc": "Run creates an HTML document containing information about the PC on which it was launched and also performs routine actions. ",
+      "info": "Information",
+      "infoList": {
+        "1": "PC configuration",
+        "2": "RAM",
+        "3": "SMART disk",
+        "4": "Free space",
+        "5": "Startup",
+        "6": "Scheduled tasks",
+        "7": "Shared resources",
+        "8": "List of installed programs with distribution by types",
+        "9": "Directory structure"
+      },
+      "action": "Actions",
+      "actionList": {
+        "1": "Cleaning temporary directories",
+        "2": "Creating a restore point"
+      }
+        }
+      }
+    }
   }
-   }
-}
+

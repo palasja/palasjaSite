@@ -10,19 +10,21 @@ import './main.css';
 import Footer from './components/footer';
 import Projects from './pages/projects/projects';
 import './i18n';
+import GetInfo from './pages/projects/getInfo';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="projects" element={<Projects />} >
-            <Route path="srvScan" element={<SrvScan />} />
-          </Route>
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-        <Footer />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="projects" element={<Projects />}>
+          <Route path="srvScan" element={<SrvScan />} />
+          <Route path="getInfo" element={<GetInfo />} />
+        </Route>
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+      <Footer />
     </BrowserRouter>
   </StrictMode>
 );
