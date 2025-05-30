@@ -1,0 +1,99 @@
+.footer {
+  color: var(--color-white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 77px;
+  padding-bottom: 76px;
+  font-family: 'Montserrat';
+  font-size: 20px;
+}
+
+.navigation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 50px;
+  row-gap: 21px;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  height: 100%;
+}
+
+.logo {
+  display: block;
+  align-self: baseline;
+}
+.logoSmall {
+  display: none;
+}
+.instIcon {
+  width: 41px !important;
+  height: 41px !important;
+}
+.link:hover {
+  color: var(--color-blue);
+}
+.link:hover,
+.instLink:hover,
+.phoneNumberLink:hover {
+  color: var(--color-blue);
+}
+@media screen and (max-width: 1280px) and (min-width: 768px) {
+  .footer {
+    flex-direction: column;
+    gap: 120px;
+    font-size: 40px;
+  }
+  .navigation {
+    grid-template-columns: 1fr;
+    text-align: start;
+    row-gap: 60px;
+  }
+  .contacts {
+    gap: 120px;
+    text-align: start;
+  }
+  .instLink {
+    width: 100%;
+    display: block;
+    align-self: start;
+  }
+  .instIcon {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  .logo {
+    margin-left: -40px;
+    align-self: auto;
+  }
+}
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .footer {
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 0;
+  }
+  .logo {
+    display: none;
+  }
+  .logoSmall {
+    display: block;
+    width: 92px;
+    height: 50px;
+  }
+  .navigation {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .instLink {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+  }
+}

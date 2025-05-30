@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@100..900&display=swap');
+
+
+/* ––––––––––––––––––––––––––––– */
+/* Resets                        */
+/* ––––––––––––––––––––––––––––– */
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+  font-family: monospace;
+  font-weight: normal;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  /* max-width: 100%; */
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* ––––––––––––––––––––––––––––– */
+/* Global                        */
+/* ––––––––––––––––––––––––––––– */
+
+:root {
+  --color-black: #1b0b01;
+  --color-dark-gray: #7e7773;
+  --color-white: #fef8f3;
+  --color-beige: #FBD6BD;
+  --color-blue: #318eb5;
+  --color-dark-blue: #116c92;
+  --color-gray: #c3c1c0;
+  --color-light-black: #392C21;
+  --color-brown: #281A0E;
+  --width-content: 1440px;
+}
+
+body {
+  position: relative;
+  display: flex;
+  background: var(--color-black);
+  flex-direction: column;
+}
+html,
+body {
+  scroll-behavior: smooth;
+  height: 100%;
+  max-width: 1920px;
+  min-width: 320px;
+  margin: 0 auto !important;
+  width: var(--width-content);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--accent-color);
+  text-underline-offset: 4px;
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex: 1 0 auto;
+  align-items: center;
+    /* justify-content: center; */
+    display: flex;
+}
+header,
+footer,
+section {
+  /* padding-left: calc((100vw - (100vw - 100%) - var(--width-content)) / 2);
+  padding-right: calc((100vw - (100vw - 100%) - var(--width-content)) / 2); */
+  width: var(--width-content);
+}
+footer {
+  flex: 0 0 auto;
+}
+h1{
+  font-size: 200px;
+  font-weight: 700;
+  font-family: 'Noto Serif Display';
+}
+h2 {
+  font-family: 'Georgia';
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 70px;
+  letter-spacing: 2px;
+}
+
+h3 {
+  font-family: 'Georgia';
+  font-size: 45px;
+  line-height: 45px;
+  letter-spacing: 2px;
+  
+}
+
+h4 {
+  /* font-family: 'Noto Serif KR'; */
+  font-family: 'Georgia';
+  font-size: 33px;
+  line-height: 40px;
+  letter-spacing: 2px;
+}
+/* ––––––––––––––––––––––––––––– */
+/* Helpers                       */
+/* ––––––––––––––––––––––––––––– */
+
+/*Tablet*/
+@media screen and (max-width: 1280px) and (min-width: 768px) {
+  :root {
+    --width-content: 670px;
+  }
+  header,
+  footer,
+  section {
+    padding-left: calc((100vw - var(--width-content)) / 2);
+    padding-right: calc((100vw - var(--width-content)) / 2);
+  }
+  h1{
+    font-size: 120px;
+  }
+  h2 {
+    font-size: 40px;
+  }
+  
+  h3 {
+    font-size: 30px;
+  }
+  
+  h4 {
+    font-size: 26px;
+    line-height: 38px;
+  }
+  .responsiveNewLineMonitor{
+    display: none;
+  }
+  .responsiveNewLineTablet{
+    display: inline;
+  }
+  .responsiveNewLineMobile{
+    display: none;
+  }
+}
+
+/*Mobile*/
+
+@media screen and (max-width: 767px) and (min-width: 320px){
+  :root {
+    --width-content: 280px;
+  }
+  header,
+  footer,
+  section {
+    padding-left: calc((100vw - var(--width-content)) / 2);
+    padding-right: calc((100vw - var(--width-content)) / 2);
+  }
+  h2 {
+    font-size: 20px;
+  }
+  
+  h3 {
+    font-size: 18px;
+  }
+  
+  h4 {
+    /* font-family: 'Noto Serif KR'; */
+    font-family: 'Georgia';
+    font-size: 33px;
+    line-height: 40px;
+    letter-spacing: 2px;
+  }
+  .responsiveNewLineMonitor{
+    display: none;
+  }
+  .responsiveNewLineTablet{
+    display: none;
+  }
+  .responsiveNewLineMobile{
+    display: inline;
+  }
+}

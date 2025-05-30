@@ -1,0 +1,26 @@
+.closeBtn {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  align-self: end;
+}
+.closeBtn:hover {
+  opacity: 0.5;
+}
+.closeBtn:before, .closeBtn:after {
+  position: absolute;
+  left: 26px;
+  content: ' ';
+  top: -20px;
+  height: 40px;
+  width: 2px;
+  background-color: var(--color-gray);
+}
+.closeBtn:before {
+  transform: rotate(45deg);
+}
+.closeBtn:after {
+  transform: rotate(-45deg);
+}

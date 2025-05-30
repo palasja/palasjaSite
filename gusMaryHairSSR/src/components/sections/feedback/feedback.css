@@ -1,0 +1,107 @@
+.feedback-courusel .courusel-container {
+  width: 1440px;
+}
+
+.feedback-courusel .slick-list {
+  padding: 0 !important;
+}
+.feedback-courusel .slick-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feedback-courusel .slick-slide:nth-child(even) > * {
+  display: flex;
+  align-self: end;
+}
+.feedback-courusel .slick-slide:nth-child(even) > :nth-child(odd) > * {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.feedback-courusel .slick-slide:nth-child(even) > :nth-child(odd) .quotes {
+  filter: invert(100%) grayscale(100%);
+}
+.feedback-courusel .slick-track,
+.feedback-courusel1 .slick-track {
+  display: flex;
+  align-items: start;
+}
+@media screen and (max-width: 1280px) and (min-width: 768px) {
+  .feedback-courusel .slick-active + * {
+    background-color: var(--color-white);
+  }
+  .feedback-courusel .courusel-container {
+    width: 512px;
+  }
+  .feedback-courusel1 .slick-list {
+    width: 512px;
+  }
+
+  .feedback-courusel .slick-track {
+    gap: 0;
+  }
+
+  .feedback-courusel .slick-prev {
+    left: -100px !important;
+    transform: rotate(180deg) translate(0, 50%) !important;
+  }
+  .feedback-courusel .slick-prev::before,
+  .feedback-courusel .slick-next::before {
+    content: none;
+  }
+
+  .feedback-courusel .slick-prev,
+  .feedback-courusel .slick-next {
+    width: fit-content;
+    height: fit-content;
+    color: var(--color-white);
+  }
+  .feedback-courusel .slick-next {
+    right: -100px !important;
+  }
+  .feedback-courusel .slick-prev:hover,
+  .feedback-courusel .slick-next:hover {
+    color: var(--color-gray) !important;
+  }
+}
+
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .feedback-courusel .slick-active + * {
+    background-color: var(--color-black);
+  }
+  .feedback-courusel .courusel-container {
+    width: 190px;
+  }
+  .feedback-courusel1 .slick-list {
+    width: 190px;
+  }
+
+  .feedback-courusel .slick-track {
+    gap: 0;
+  }
+
+  .feedback-courusel .slick-prev {
+    left: -50px !important;
+    transform: rotate(180deg) translate(0, 50%) !important;
+  }
+  .feedback-courusel .slick-prev::before,
+  .feedback-courusel .slick-next::before {
+    content: none;
+  }
+
+  .feedback-courusel .slick-prev,
+  .feedback-courusel .slick-next {
+    width: fit-content;
+    height: fit-content;
+    color: var(--color-white);
+  }
+  .feedback-courusel .slick-next {
+    right: -50px !important;
+  }
+  .feedback-courusel .slick-prev:hover,
+  .feedback-courusel .slick-next:hover {
+    color: var(--color-gray) !important;
+  }
+}

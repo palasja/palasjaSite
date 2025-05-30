@@ -1,0 +1,371 @@
+.appointment {
+  width: var(--width-content);
+  padding: 20px 100px;
+  border: 1px solid var(--color-white);
+  height: 90vh;
+  overflow-y: scroll;
+}
+.descAction {
+  display: flex;
+  align-items: end;
+  position: relative;
+}
+.descActionCall {
+  margin-bottom: 30px;
+}
+.title {
+  font-family: 'Montserrat';
+  font-size: 40px;
+  line-height: 44px;
+  color: var(--color-white);
+  letter-spacing: normal;
+  margin-bottom: -35px;
+}
+.titleNum {
+  color: var(--color-light-black);
+  font-family: 'Literata', serif;
+  font-size: 180px;
+  font-weight: 800;
+  margin-left: -10px;
+  z-index: 10;
+}
+.titleNumCall {
+  font-size: 170px;
+}
+.paramTitle {
+  font-family: 'Montserrat';
+  font-size: 35px;
+  font-weight: 300;
+  color: var(--color-white);
+  padding: 20px 100px;
+  border: 1px solid var(--color-white);
+  width: fit-content;
+  margin-left: -39px;
+  margin-bottom: 56px;
+}
+.paramTitleTime {
+  padding: 20px 80px;
+}
+.paramTitleCall {
+  padding: 20px 20px 20px 50px;
+  margin-bottom: 53px;
+  margin-left: -26px;
+}
+.appointmentForm {
+  display: flex;
+  justify-content: space-between;
+}
+
+.typeTime {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.serviceType {
+  width: 466px;
+  /* padding: 31px 0 31px 47px; */
+  background-color: var(--color-beige);
+  font-family: 'Montserrat';
+  font-size: 25px;
+  color: var(--color-black);
+}
+
+.arrowPrev {
+  transform: rotate(90deg);
+}
+.arrowNext {
+  transform: rotate(-90deg);
+}
+
+.serviceOption {
+  width: 466px;
+}
+.timeBlock {
+  grid-area: 'time';
+}
+.timeName {
+  display: none;
+}
+.timeList {
+  display: grid;
+  padding: 10px 0;
+  min-height: 72px;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  flex-wrap: wrap;
+  background-color: var(--color-white);
+  font-family: 'Montserrat';
+  font-size: 25px;
+  color: var(--color-black);
+  list-style: none;
+}
+.timeItem {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid var(--color-white);
+}
+.timeItemActive {
+  background-color: var(--color-blue);
+  color: var(--color-white);
+  border: 1px solid var(--color-blue);
+}
+.buttonBlock {
+}
+.appointmentBtn {
+  width: fit-content;
+  padding: 23px 116px;
+  background-color: var(--color-blue);
+  color: var(--color-white);
+  text-transform: uppercase;
+  font-family: 'Montserrat';
+  font-size: 20px;
+  font-weight: 500;
+  display: block;
+  letter-spacing: 2px;
+}
+.appointmentBtn:hover {
+  background-color: var(--color-dark-blue);
+}
+.appointment::-webkit-scrollbar {
+  display: none;
+}
+.calendar {
+  padding: 20px;
+  width: 628px;
+  background-color: var(--color-white);
+  font-family: 'Montserrat';
+  font-size: 30px;
+  color: var(--color-black);
+}
+.tile {
+  box-sizing: border-box;
+  color: var(--color-blue);
+  background: none;
+  padding: 17px;
+  border: 1px solid var(--color-white);
+}
+.tile:hover,
+.timeItem:hover {
+  cursor: pointer;
+}
+.tile:not(:disabled):hover,
+.timeItem:hover {
+  border: 1px solid var(--color-blue);
+  color: var(--color-white);
+  background-color: var(--color-blue);
+}
+
+.messageContainer {
+  background-color: var(--color-beige);
+  padding: 125px 788px;
+}
+
+.message {
+  color: var(--color-black);
+  font-family: 'Montserrat';
+  font-weight: 500;
+  font-size: 60px;
+  line-height: 70px;
+}
+.close {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  right: 65px;
+  opacity: 0.3;
+}
+.close:hover {
+  opacity: 1;
+}
+.close:before,
+.close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 40px;
+  width: 3px;
+  background-color: var(--color-dark-gray);
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+@media screen and (max-width: 1280px) and (min-width: 768px) {
+  .appointment {
+    padding: 20px 50px;
+  }
+  .appointmentForm {
+    flex-direction: column;
+  }
+  .calendar {
+    width: auto;
+  }
+  .paramTitle {
+    margin-bottom: 65px;
+  }
+  .paramTitleCall {
+    margin-bottom: 49px;
+    margin-left: -28px;
+  }
+}
+
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .appointment {
+    margin-left: calc((100vw - 280px) / 2);
+    margin-right: calc((100vw - 280px) / 2);
+    padding: 0;
+    border: none;
+  }
+  .titleContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  .descAction {
+    margin-bottom: 30px;
+  }
+  .appointmentForm {
+    flex-direction: column;
+  }
+  .title {
+    font-family: 'Literata', serif;
+    font-size: 30px;
+    font-weight: 400;
+  }
+  .typeTime {
+    margin-top: 65px;
+    margin-bottom: 90px;
+  }
+  .timeBlock {
+    margin-bottom: 65px;
+  }
+  .titleNum {
+    font-size: 100px;
+    font-weight: 700;
+    margin-left: 0;
+  }
+  .paramTitle {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 300;
+    width: 255px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -19px;
+    margin-bottom: 31px;
+    padding: 0;
+  }
+  .paramTitleCall {
+    margin-bottom: 33px;
+    margin-left: -16px;
+  }
+  .timeListContainer {
+    border: 1px solid var(--color-white);
+    padding: 15px 20px 0 20px;
+  }
+  .timeName {
+    display: block;
+    padding-left: 15px;
+    padding-bottom: 9px;
+    color: var(--color-white);
+    font-family: 'Montserrat';
+    font-size: 14px;
+    border-bottom: 1px solid var(--color-light-black);
+  }
+  .timeList {
+    background-color: var(--color-black);
+    display: grid;
+    padding: 10px 0;
+    min-height: 72px;
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-white);
+  }
+  .timeItem {
+    border: none;
+  }
+  .timeItem:hover {
+    background: none;
+    border: none;
+  }
+  .timeItemActive {
+    background: none;
+  }
+  .appointmentBtn {
+    width: 280px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-family: 'Montserrat';
+    font-size: 14px;
+
+    letter-spacing: 2px;
+  }
+
+  .selectMonth,
+  .selectDay {
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--color-white);
+    width: 280px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    padding-left: 20px;
+    background-color: var(--color-black);
+    appearance: none;
+    background-image: url(/arrowDownBrown.svg);
+    background-repeat: no-repeat;
+    background-position: right 20px top 50%;
+    text-transform: capitalize;
+  }
+
+  select option:hover {
+    /* background-color: var(--color-light-black); */
+    box-shadow: 0 0 10px 100px var(--color-light-black);
+  }
+
+  .optionName {
+    border-bottom: 1px solid var(--color-dark-gray);
+  }
+  .selectMonth {
+    margin-bottom: 13px;
+  }
+  .selectMonth:focus-visible,
+  .selectDay:focus-visible {
+    outline-width: 0;
+  }
+  .close {
+    position: static;
+    display: flex;
+    opacity: 0.3;
+    margin-right: -20px;
+  }
+  .close:hover {
+    opacity: 1;
+  }
+  .close:before,
+  .close:after {
+    position: static;
+    /* left: 15px; */
+    content: ' ';
+    height: 40px;
+    width: 3px;
+    background-color: var(--color-dark-gray);
+  }
+  .close:before {
+    transform: rotate(45deg) translateY(-1px);
+  }
+  .close:after {
+    transform: rotate(-45deg) translateY(-1px);
+  }
+}

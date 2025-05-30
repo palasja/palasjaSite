@@ -1,0 +1,318 @@
+.service {
+  color: var(--color-white);
+  margin-top: 120px;
+  margin-bottom: 80px;
+}
+
+.title {
+  margin-bottom: 90px;
+}
+
+.serviceInfo {
+  display: flex;
+  gap: 105px;
+}
+.servicePrompt {
+  margin-top: 40px;
+  font-family: 'Literata', serif;
+  font-size: 20px;
+  color: var(--color-dark-gray);
+}
+.mainService {
+}
+.specPropos {
+}
+.servicePartName {
+  margin-bottom: 40px;
+  line-height: 60px;
+}
+.proposTitle {
+  margin: 15px 0;
+  font-family: 'Montserrat';
+  font-size: 30px;
+  font-weight: 400;
+  margin-right: 177px;
+  white-space: nowrap;
+}
+.costList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  font-family: 'Montserrat';
+  font-size: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+.costListItem {
+  display: flex;
+  justify-content: space-between;
+}
+.costListItemName {
+  white-space: nowrap;
+  cursor: pointer;
+}
+.costListItemLine {
+  background: var(--color-white);
+  margin: 20px 20px;
+  height: 2px;
+  width: 56%;
+  align-self: center;
+}
+.costListItemCost {
+  white-space: nowrap;
+}
+.proposDetail,
+.proposDetailList {
+  font-family: 'Montserrat';
+  font-size: 30px;
+  margin-bottom: 90px;
+  line-height: 40px;
+}
+.prompt {
+  position: absolute;
+  background-color: var(--color-white);
+  width: 858px;
+  padding: 34px 66px;
+  margin-top: -50px;
+}
+
+.promptTitle {
+  margin-bottom: 33px;
+  font-family: 'Montserrat';
+  font-size: 30px;
+  color: black;
+}
+
+.promptText {
+  font-family: 'Montserrat';
+  font-size: 30px;
+  color: black;
+}
+
+.promptList {
+  list-style: none;
+  padding: 0;
+  color: black;
+}
+
+.promptComment {
+  font-family: 'Montserrat';
+  font-size: 15px;
+  color: var(--color-dark-gray);
+  margin-top: 20px;
+}
+.appointment {
+  font-family: 'Montserrat';
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 23px 100px;
+  background-color: var(--color-blue);
+  color: var(--color-white);
+  border: none;
+}
+.appointment:hover {
+  background-color: var(--color-dark-blue);
+}
+@media screen and (max-width: 1280px) and (min-width: 768px) {
+  .service {
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+  .title {
+    margin-bottom: 30px;
+  }
+
+  .serviceInfo {
+    flex-direction: column;
+    padding-right: 80px;
+  }
+  .proposTitle {
+    margin: 20px 0;
+  }
+  .costList {
+    gap: 20px;
+  }
+  .costDetailItem {
+    margin-left: -15px;
+  }
+  .mainService {
+    width: auto;
+    margin-bottom: 40px;
+  }
+  .serviceInfo {
+    gap: 30px;
+  }
+  .proposDetail,
+  .proposDetailList {
+    font-size: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    line-height: 30px;
+    margin-bottom: 90px;
+  }
+  .servicePartName {
+    margin-bottom: 45px;
+    line-height: normal;
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+  .costListItemName,
+  .costListItemCost,
+  .proposDetail {
+    font-size: 26px;
+  }
+  .proposTitle {
+    font-size: 30px;
+  }
+  .costListItemLine {
+    margin: 0 15px 0 15px;
+    height: 1px;
+    width: 50%;
+  }
+  .servicePrompt {
+    font-size: 21px;
+    margin-top: 30px;
+  }
+
+  .prompt {
+    /* position: absolute;
+    left: 0;
+    margin-top: 30px;
+    background-color: var(--color-beige); */
+    width: auto;
+    /* padding: 25px 16px; */
+  }
+
+  .promptTitle {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .promptText {
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-weight: 300;
+    color: black;
+  }
+
+  .promptList {
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .promptComment {
+    font-family: 'Montserrat';
+    font-size: 12px;
+    color: var(--color-dark-gray);
+    /* margin-top: 20px; */
+  }
+}
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .service {
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+  .title {
+    margin-bottom: 0;
+  }
+
+  .serviceInfo {
+    flex-direction: column;
+  }
+  .proposTitle {
+    margin: 15px 0;
+  }
+  .costList {
+    gap: 20px;
+  }
+  .mainService,
+  .specPropos {
+    width: auto;
+  }
+  .serviceInfo {
+    gap: 30px;
+  }
+  .proposDetailList {
+    margin-top: 0;
+    margin-bottom: 30px;
+    line-height: 20px;
+    padding-left: 15px;
+  }
+  .proposDetail {
+    margin-top: 0;
+    margin-bottom: 30px;
+    line-height: 20px;
+  }
+  .servicePartName {
+    margin-bottom: 25px;
+    line-height: 15px;
+    text-wrap: nowrap;
+  }
+  .costListItemName {
+    white-space: normal;
+  }
+  .costListItemName,
+  .costListItemCost,
+  .proposTitle,
+  .proposDetail,
+  .proposDetailList {
+    font-size: 14px;
+    align-self: center;
+  }
+  .costListItemLine {
+    margin: 10px 10px;
+    height: 1px;
+    width: 40%;
+  }
+  .servicePrompt {
+    font-size: 10px;
+    margin-top: 10px;
+    font-weight: 300;
+  }
+
+  .prompt {
+    position: absolute;
+    left: 0;
+    margin-top: 30px;
+    width: 100%;
+    padding: 25px 16px;
+  }
+
+  .promptTitle {
+    margin-bottom: 15px;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    line-height: 15px;
+    color: black;
+  }
+
+  .promptText {
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-weight: 300;
+    color: black;
+  }
+
+  .promptList {
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .promptComment {
+    font-family: 'Montserrat';
+    font-size: 12px;
+    color: var(--color-dark-gray);
+    /* margin-top: 20px; */
+  }
+  .appointment {
+    font-size: 14px;
+    padding: 16px 83px;
+  }
+}

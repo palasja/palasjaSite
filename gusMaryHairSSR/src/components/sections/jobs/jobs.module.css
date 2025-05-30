@@ -1,0 +1,111 @@
+.jobs {
+  background: linear-gradient(90deg, var(--color-white) 54%, var(--color-black) 54%);
+  padding-top: 190px;
+  padding-bottom: 80px;
+}
+.jobsHead {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  margin-bottom: 120px;
+}
+.title {
+  color: var(--color-black);
+}
+.buttons {
+  display: flex;
+  gap: 71px;
+}
+.button {
+  width: 80px;
+  height: 80px;
+}
+.slickPrev {
+  transform: rotate(180deg);
+}
+
+.slickNext,
+.slickPrev {
+  color: var(--color-black);
+  height: 80px !important;
+  width: 80px !important;
+}
+.slickPrev:hover,
+.slickNext:hover {
+  color: var(--color-gray) !important;
+}
+
+.jobsCourusel {
+  justify-content: start;
+  /* height: 743px; */
+  padding: 0;
+  display: flex;
+}
+.sertifacatesArrow {
+  width: 80px !important;
+  height: 80px !important;
+  color: var(--color-white);
+}
+@media screen and (max-width: 1280px) and (min-width: 768px) {
+  .jobs {
+    background: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 140px;
+    padding-bottom: 150px;
+  }
+  .jobsHead {
+    margin-bottom: 55px;
+    justify-content: center;
+  }
+  .slickNext,
+  .slickPrev {
+    color: var(--color-black);
+    height: 80px !important;
+    width: 80px !important;
+  }
+  .jobsCourusel {
+    justify-content: center;
+  }
+  .buttons {
+    display: none;
+  }
+  .jobArrow {
+    width: 80px !important;
+    height: 80px !important;
+    color: var(--color-black);
+  }
+}
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .jobs {
+    background: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 40px;
+  }
+  .jobsHead {
+    margin-bottom: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  .slickNext,
+  .slickPrev {
+    color: var(--color-black);
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .jobsCourusel {
+    justify-content: center;
+  }
+  .buttons {
+    display: none;
+  }
+  .jobArrow {
+    width: 30px !important;
+    height: 30px !important;
+    color: var(--color-black);
+  }
+}

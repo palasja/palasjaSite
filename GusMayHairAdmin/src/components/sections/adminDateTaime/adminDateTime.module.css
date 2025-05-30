@@ -1,0 +1,421 @@
+.appoint{
+  margin: 40px 0;
+  padding: 60px 100px;
+  border: 1px solid var(--color-white);
+}
+.appointTitle{
+  font-family: 'Montserrat';
+  font-size: 40px;
+  color: var(--color-white);
+}
+.appointContainer{
+  display: flex;
+  gap: 52px;
+}
+
+.paramTitle {
+  font-family: 'Montserrat';
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--color-white);
+}
+.calendar {
+  padding: 50px;
+  width: 554px;
+  background-color: var(--color-white);
+  font-family: 'Montserrat';
+  font-size: 30px;
+  color: var(--color-black);
+}
+.serviceTypeArrow {
+  border: unset;
+  appearance: none;
+  background-image: url(/arrowDown.svg);
+  background-repeat: no-repeat;
+  background-position: right 0.7rem top 50%;
+}
+.arrowPrev {
+  transform: rotate(90deg);
+}
+.arrowNext {
+  transform: rotate(-90deg);
+}
+.tile {
+  box-sizing: border-box;
+  color: var(--color-black);
+  background: none;
+  padding: 17px;
+  border: 1px solid var(--color-white);
+}
+.tileWithTime {
+  box-sizing: border-box;
+  color: var(--color-blue);
+  background: none;
+  padding: 17px;
+  border: 1px solid var(--color-white);
+}
+.tile:not(:disabled):hover,
+.timeItem:hover {
+  border: 1px solid var(--color-blue);
+  cursor: pointer;
+}
+.rightBlock{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.time{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 60px;
+}
+
+.addTimeBlock{
+  background-color:  var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 23px;
+  gap: 20px;
+  width: min-content;
+}
+
+.timeBlock{
+  display: flex;
+  gap: 20px;
+}
+.timeField{
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  border: none;
+}
+.timeLegend{
+  border: none;
+  font-family: 'Montserrat';
+  font-size: 30px;
+  font-weight: 500;
+}
+.hour, .minute{
+  background-color: var(--color-white);
+  font-family: 'Montserrat';
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+  width: 100px;
+  text-align: right;
+}
+
+.hour::-webkit-scrollbar, .minute::-webkit-scrollbar {
+  width: 0;
+}
+.timeArrow {
+  /* border: unset; */
+  appearance: none;
+  background-image: url(/arrowDownBrown.svg);
+  background-repeat: no-repeat;
+  background-position: left 0.7rem top 50%;
+  background-size: 17px;
+}
+
+
+.saveBtn, .removeBtn{
+  font-family: 'Montserrat';
+  font-size: 12px;
+  border: 1px solid var(--color-blue);
+  height: 30px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+.saveBtn:hover, .removeBtn:hover{
+  cursor: pointer;
+  color: var(--color-white);
+  background: var(--color-blue);
+}
+.removeBtn{
+  margin-left: 30px;
+}
+.timeBlock {
+  display: flex;
+}
+
+.chooseTimeBlockContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 27px 0;
+  background-color: var(--color-white);
+}
+.timeName{
+  display: none;
+}
+.timeList {
+  display: grid;
+  padding: 10px 0;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  flex-wrap: wrap;
+  background-color: var(--color-white);
+  font-family: 'Montserrat';
+  font-size: 25px;
+  color: var(--color-black);
+  list-style: none;
+}
+.timeItem {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid var(--color-white);
+}
+
+.timeItemActive, .timeItem:hover {
+  background-color: var(--color-blue);
+  color: var(--color-white);
+  border: 1px solid var(--color-blue);
+}
+
+.serviceType {
+  width: 466px;
+  padding: 31px 47px;
+  background-color: var(--color-white);
+  font-family: 'Montserrat';
+  font-size: 25px;
+  color: var(--color-black);
+}
+
+.serviceTypeArrow {
+  border: unset;
+  appearance: none;
+  background-image: url(/arrowDown.svg);
+  background-repeat: no-repeat;
+  background-position: right 0.7rem top 50%;
+}
+
+.sendBtn {
+  margin-top: 50px;
+  width: fit-content;
+  padding: 23px 118px;
+  background-color: var(--color-blue);
+  color: var(--color-white);
+  text-transform: uppercase;
+  font-family: 'Montserrat';
+  font-size: 30px;
+  font-weight: 400;
+}
+.sendBtn:hover {
+  background-color: var(--color-dark-blue);
+}
+
+.appintmentListr{
+  color: var(--color-white);
+}
+@media screen and (max-width: 1280px) and (min-width: 768px){
+  .appoint{
+    margin: 40px 0;
+    padding: 0 0;
+    border: none;
+  }
+  .appointContainer{
+    flex-direction: column;
+  }
+  .calendar{
+    width: 668px;
+  }
+}
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .appoint{
+    margin: 40px 0;
+    padding: 0 0;
+    border: none;
+  }
+  .appointTitle{
+    font-size: 14px;
+  }
+  .appointContainer{
+    flex-direction: column;
+  }
+  .dayOption{
+    color: var(--color-white);
+  }
+  .dayOptionWithTime{
+    color: var(--color-blue) !important;
+  }
+  .paramTitle{
+    display: none;
+  }
+  .time{
+    flex-direction: column-reverse;
+  }
+  .chooseTimeBlockContainer{
+    padding: 0 ;
+    background-color: var(--color-black);
+    
+  }
+  .chooseTimeBlock{
+    border: 1px solid var(--color-white);
+    padding: 0 0 ;
+    padding-left: 20px;
+    padding-top: 15px;
+  }
+  .timeName{
+    display: block;
+    color: var(--color-white);
+    font-family: 'Montserrat';
+    font-size: 14px;
+    border-bottom: 1px solid var(--color-light-black);
+    margin-right: 15px;
+  }
+  .timeList{
+    background-color: inherit;
+  }
+  .saveBtn, .removeBtn{
+    color: var(--color-blue);
+    width: 125px;
+    text-transform: uppercase;
+    background-color: initial;
+    margin-top: 30px;
+    margin-left: 0;
+  }
+  .saveBtn:hover, .removeBtn:hover{
+    background-color: var(--color-blue);
+    color: var(--color-white);
+  }
+  .addTimeBlock{
+    background-color: initial;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 27px 0;
+    gap: 0;
+    width: 100%;
+  }
+  .timeBlock{
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .timeField{
+    padding: 0;
+    flex-grow: 1;
+  }
+  .timeLegend{
+    color: var(--color-white);
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .hour, .minute{
+    width: auto;
+    background-color: var(--color-black);
+    border: 1px solid var(--color-white);
+    font-size: 14px;
+    padding: 12px 20px;
+    color: var(--color-white);
+    text-align: left;
+  }
+  .selectName{
+    font-family: 'Montserrat';
+    font-size: 14px;
+    color: var(--color-white);
+  }
+  .descAction{
+    margin-bottom: 30px;
+  }
+  .appointmentForm{
+    flex-direction: column;
+  }
+  .title{
+    font-family: 'Georgia';
+    font-size: 30px;
+    font-weight: 400;
+  }
+  .typeTime{
+    margin-top: 65px;
+    margin-bottom: 90px;
+  }
+  .timeListContainer{
+    border: 1px solid var(--color-white);
+    padding: 15px 20px 0 20px;
+  }
+  .timeList{
+    display: grid;
+    padding: 10px 0;
+    min-height: 72px;
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-white);
+    align-items: center;
+  }
+  .timeItem{
+    padding: 2px 7px;
+    width: min-content;
+    height: min-content;
+    text-align: center;
+    border: 1px solid var(--color-black);
+  }
+  /* .timeItem:hover{
+    background: none;
+    border: none;
+  } */
+  .timeItemActive{
+    background-color: var(--color-blue);
+    border: 1px solid var(--color-blue);
+  }
+  .timeArrow {
+    /* border: unset; */
+    appearance: none;
+    background-image: url(/arrowDownBrown.svg);
+    background-repeat: no-repeat;
+    background-position: right 20px top 50%;
+    background-size: 30px;
+  }
+  .appointmentBtn {
+    width: 280px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-family: 'Montserrat';
+    font-size: 14px;
+  
+    letter-spacing: 2px;
+  }
+
+  .selectMonth, .selectDay{
+      font-family: 'Montserrat';
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--color-white);
+      width: 280px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      padding-left: 20px;
+      background-color: var(--color-black);
+      appearance: none;
+      background-image: url(/arrowDownBrown.svg);
+      background-repeat: no-repeat;
+      background-position: right 20px top 50%;
+      text-transform: capitalize;
+  }
+
+  select option:hover {
+    /* background-color: var(--color-light-black); */
+    box-shadow: 0 0 10px 100px var(--color-light-black) ;
+  }
+  
+  .optionName{
+    border-bottom: 1px solid var(--color-dark-gray);
+  }
+  .selectMonth{
+    margin-bottom: 13px;
+  } 
+  .selectMonth:focus-visible, .selectDay:focus-visible{
+    outline-width: 0;
+  }
+}

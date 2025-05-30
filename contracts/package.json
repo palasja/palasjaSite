@@ -13,8 +13,12 @@
     "pretier:fix": "prettier . --write",
     "lp:check": "npm run lint && npm run pretier:check",
     "lp:fix": "npm run lint:fix && npm run pretier:fix",
-    "api": "npm --prefix ../api/ run start",
-    "all": "concurrently \"npm run dev\" \"npm run api\""
+    "contractsApi": "npm --prefix ../contractsApi/ run start",
+    "gusmaryApi": "npm --prefix ../gusmaryApi/ run start",
+    "gusmaryAdmin": "npm --prefix ../GusMayHairAdmin/ run dev",
+    "gusmary": "npm --prefix ../gusMaryHairSSR/ run dev",
+    "palasja": "npm --prefix ../palasja/ run dev",
+    "all": "concurrently \"npm run dev\" \"npm run contractsApi\" \"npm run gusmaryApi\" \"npm run gusmaryAdmin\" \"npm run gusmary\" \"npm run palasja\""
   },
   "dependencies": {
     "-": "^0.0.1",
