@@ -9,20 +9,11 @@ const GetInfo = () => {
   <p>{t("proj.getInfo.desc")}</p>
   <p>{t("proj.getInfo.info")}</p>
       <ul>
-        <li>{t('proj.getInfo.infoList.1')}</li>
-        <li>{t('proj.getInfo.infoList.2')}</li>
-        <li>{t('proj.getInfo.infoList.3')}</li>
-        <li>{t('proj.getInfo.infoList.4')}</li>
-        <li>{t('proj.getInfo.infoList.5')}</li>
-        <li>{t('proj.getInfo.infoList.6')}</li>
-        <li>{t('proj.getInfo.infoList.7')}</li>
-        <li>{t('proj.getInfo.infoList.8')}</li>
-        <li>{t('proj.getInfo.infoList.9')}</li>
+        {[...new Array(9)].map((_v, i) => <li>{t(`proj.getInfo.infoList.${i+1}`)}</li>)}
       </ul>
       <p>{t("proj.getInfo.action")}</p>
       <ul>
-        <li>{t('proj.getInfo.actionList.1')}</li>
-        <li>{t('proj.getInfo.actionList.2')}</li>
+        {[...new Array(2)].map((_v, i) => <li>{t(`proj.getInfo.actionList.${i+1}`)}</li>)}
       </ul>
   <details>
     <summary>GetInfo</summary>

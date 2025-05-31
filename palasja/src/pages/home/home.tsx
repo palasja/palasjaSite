@@ -11,7 +11,11 @@ const Home = () => {
   return (
     <>
       <img src={face} style={{ height: '100px', float: 'left' }}></img>
-      <p>{t('home.text')}</p>
+      {t('home.text')
+        .split('/n')
+        .map((s) => (
+          <p>{s}</p>
+        ))}
 
       <>
         <h3>{t('home.cw.name')}</h3>

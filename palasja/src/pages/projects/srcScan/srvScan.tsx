@@ -5,7 +5,6 @@ import {
   ErrorLoadScan,
   FreeSpace,
   ProgError,
-  Readme,
   RuningProgram,
   Unlodafile,
 } from './code_en';
@@ -16,20 +15,12 @@ const SrvScan = () => {
   return (
     <>
       {t('proj.srvScan.desc')
-        .split('|')
+        .split('/n')
         .map((s) => (
           <p>{s}</p>
         ))}
-      {/* <p>{t("proj.srvScan.desc").split('.')}</p> */}
       <ul>
-        <li>1 - {t('proj.srvScan.params.1')}</li>
-        <li>2 - {t('proj.srvScan.params.2')}</li>
-        <li>3 - {t('proj.srvScan.params.3')}</li>
-        <li>4 - {t('proj.srvScan.params.4')}</li>
-        <li>5 - {t('proj.srvScan.params.5')}</li>
-        <li>6 - {t('proj.srvScan.params.6')}</li>
-        <li>7 - {t('proj.srvScan.params.7')}</li>
-        <li>8 - {t('proj.srvScan.params.8')}</li>
+        {[...new Array(8)].map((_v, i) => <li>{i+1} - {t(`proj.srvScan.params.${i+1}`)}</li>)}
       </ul>
       <details>
         <summary>FreeSpace</summary>
