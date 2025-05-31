@@ -23,6 +23,7 @@
     "@mui/material": "^5.15.14",
     "grammy": "^1.21.2",
     "mysql": "^2.18.1",
+    "palasja": "file:../contracts",
     "react": "^18.2.0",
     "react-calendar": "^4.8.0",
     "react-cookie": "^7.1.4",

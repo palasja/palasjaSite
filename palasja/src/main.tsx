@@ -11,6 +11,8 @@ import Footer from './components/footer';
 import Projects from './pages/projects/projects';
 import './i18n';
 import GetInfo from './pages/projects/getInfo';
+import GusMary from './pages/projects/gusMary';
+import Contracts from './pages/projects/contracts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,6 +23,8 @@ createRoot(document.getElementById('root')!).render(
         <Route path="projects" element={<Projects />}>
           <Route path="srvScan" element={<SrvScan />} />
           <Route path="getInfo" element={<GetInfo />} />
+          <Route path="gusmary" element={<GusMary />} />
+          <Route path="contracts" element={<Contracts />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>

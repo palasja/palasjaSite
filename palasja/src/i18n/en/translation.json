@@ -49,7 +49,13 @@
       "getInfo":{
         "desc1": "According to the work regulations, users workstations had to be checked once a month. To check, you had to physically be at the employee's workstation and check the status of the PC and OS. The GetInfo module was written to automate this process. It was forbidden to install third-party software on the PC, so solutions written in Java or C# were not suitable. Everything had to be done using standard Windows tools. ",
         "desc2": "GetInfo was installed in the scheduled tasks and executed once a week. Thanks to this, I could monitor the status of the PC remotely, without disturbing users, and I get all the necessary information in one place."
-      }
+      },
+        "gusMary":{
+          "desc":"This project was done as 'turnkey'. By the beginning of development, I had written several pet projects that worked locally and wanted to write a full-fledged site for hosting. A friend offer me to write a site and I got down to work with pleasure. /n The designer made a layout in Figma. Initially, the Faunadb service was used to store data, and hosting was planned on Netlify. However, when everything was in the final stage, it turned out that according to the law, sites selling or advertising goods and services must be hosted on hostings within the country. /n So the database was rewritten for MySQL and the site was hosted using CPanel."
+        },
+        "contracts": {
+          "desc": "Now I have several contracts for servicing programs and peripheral equipment of organizations. To account for the services provided and to keep records of settlement transactions, the Contracts project was written."
+        }
     }
     },
     "footer": {
@@ -91,7 +97,10 @@
         "1": "Cleaning temporary directories",
         "2": "Creating a restore point"
       }
-        }
+    },
+    "gusmary":{
+      "desc": "The site consists of a user version and an administrator version. /n The user version contains advertising blocks, information, and a section for checking free time for appointment. To raise the search results, the user version was rewritten to SSR. /n The administrator version allows you to add and edit data, in the demo version these functions are not available. Web tokens were used for authorization in the admin panel, in the demo version there is no authorization. /n The site was deployed on a hosting with the CPanel hosting control panel. /n The project is written in React and uses the following functional packages:"
+    }
       }
     }
   }

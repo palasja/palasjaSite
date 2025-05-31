@@ -5,18 +5,15 @@ import MS2778 from 'assets/sertificates/MS2778.png';
 import softline from 'assets/sertificates/softline_25022021.png';
 import rss from 'assets/sertificates/RSSshool_20092022.png';
 import MS6419B from 'assets/sertificates/MS-6419B.png';
+import { splitLineGetParagragh } from '../../helpers/heper';
+import { Link } from 'react-router';
 
 const Home = () => {
   const { t } = useTranslation();
   return (
     <>
       <img src={face} style={{ height: '100px', float: 'left' }}></img>
-      {t('home.text')
-        .split('/n')
-        .map((s) => (
-          <p>{s}</p>
-        ))}
-
+      {splitLineGetParagragh(t('home.text'))}
       <>
         <h3>{t('home.cw.name')}</h3>
         <div>
@@ -132,14 +129,22 @@ const Home = () => {
         <section>
                 <h3>Проекты</h3>
                 <article>
-                  <p>SrvScan</p>
+                  <li><Link to="projects/srvScan">SrvScan</Link></li>
                   <p>{t('home.projects.srvScan.desc1')}</p>
                   <p>{t('home.projects.srvScan.desc2')}</p>
                 </article>
                 <article>
-                  <p>GetInfo</p>
+                  <li><Link to="projects/getInfo">GetInfo</Link></li>
                   <p>{t('home.projects.getInfo.desc1')}</p>
                   <p>{t('home.projects.getInfo.desc2')}</p>
+                </article>
+                <article>
+                  <li><Link to="projects/gusmary">GusMary</Link></li>
+                  {splitLineGetParagragh(t('home.projects.gusMary.desc'))}
+                </article>
+                <article>
+                  <li><Link to="projects/contracts">Contracts</Link></li>
+                  {splitLineGetParagragh(t('home.projects.contracts.desc'))}
                 </article>
         </section>        
         <section>

@@ -9,16 +9,13 @@ import {
   Unlodafile,
 } from './code_en';
 import { useTranslation } from 'react-i18next';
+import { splitLineGetParagragh } from '../../../helpers/heper';
 
 const SrvScan = () => {
   const { t } = useTranslation();
   return (
     <>
-      {t('proj.srvScan.desc')
-        .split('/n')
-        .map((s) => (
-          <p>{s}</p>
-        ))}
+    {splitLineGetParagragh(t('proj.srvScan.desc'))}
       <ul>
         {[...new Array(8)].map((_v, i) => <li>{i+1} - {t(`proj.srvScan.params.${i+1}`)}</li>)}
       </ul>
