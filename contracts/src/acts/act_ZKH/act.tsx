@@ -6,7 +6,7 @@ import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpe
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import { useParams } from 'react-router';
 import style from './act.module.css';
-
+//get data from props
 const ActZKH = () => {
   const { orgId } = useParams();
   const { month } = useParams();
@@ -37,30 +37,31 @@ const ActZKH = () => {
       ) : (
         <>
           <div className={style.print}>
-            <div>
+            <div className={style.headSign}>
               <p>УТВЕРЖДАЮ:</p>
               <p>{head?.positionName}</p>
               <p>_______________{getShortName(head)}</p>
-              <p>«__»___________2025</p>
+              <p>«___»___________2025</p>
+            </div>
+            <div className={style.act}>
+              <p>АКТ</p>
+              <p>ПРИЕМКИ ВЫПОЛНЕННЫХ РАБОТ</p>
             </div>
 
-            <p>АКТ</p>
-            <p>ПРИЕМКИ ВЫПОЛНЕННЫХ РАБОТ</p>
-
-            <div>
+            <div className={style.underAct}>
               <p>г. Наровля</p>
-              <p>«__»___________2025</p>
+              <p>«___»___________2025</p>
             </div>
 
-            <div>
+            <div className={style.indent}>
               <p>
                 Мы, нижеподписавшиеся: {`${LAST_NAME} ${FIRST_NAME} ${MIDDLE_NAME}`}, с одной
                 стороны и {`${sign?.lastName} ${sign?.firstName} ${sign?.middleName}`}, с другой
-                стороны, составили настоящий акт в том, что первый выполнил работы в расчетно-
-                справочном центре:
+                стороны, составили настоящий акт в том, что первый выполнил работы в
+                расчетно-справочном центре:
               </p>
             </div>
-            <table>
+            <table className={style.actTtable}>
               <thead>
                 <tr>
                   <th>Услуга</th>
@@ -72,7 +73,7 @@ const ActZKH = () => {
               <tfoot>
                 <tr>
                   <td colSpan={3}>Итог</td>
-                  <td>{itog}</td>
+                  <td className={style.tableNumber}>{itog}</td>
                 </tr>
               </tfoot>
               <tbody>
@@ -80,9 +81,9 @@ const ActZKH = () => {
                   return (
                     <tr key={i}>
                       <td>{s.name}</td>
-                      <td>{s.count}</td>
-                      <td>{s.cost}</td>
-                      <td>
+                      <td className={style.tableNumber}>{s.count}</td>
+                      <td className={style.tableNumber}>{s.cost}</td>
+                      <td className={style.tableNumber}>
                         {(s.count * s.cost * 100 + s.count * s.cost * (NDS / 100) * 100) / 100}
                       </td>
                       {/* <td>{Math.round(((s.count * s.cost) + (s.count * s.cost * (NDS/100))*100))/100}</td> */}
@@ -92,19 +93,24 @@ const ActZKH = () => {
               </tbody>
             </table>
 
-            <p>({convertNumberToWordsRu(itog)})</p>
-            <p>
-              в полном объеме с {new Date(2025, Number(month)).toLocaleDateString('ru-RU')} по{' '}
-              {new Date(2025, Number(month) + 1, 0).toLocaleDateString('ru-RU')} согласно
-              заключенного договора подряда.
-            </p>
-            <p>
-              Акт составлен на предмет оплаты за выполненный объем работы, согласно заключенного
-              договора подряда № {info?.contract.number} от {info?.contract.signDate.toString()}
-            </p>
+            <div>
+              <p className={style.lower}>({convertNumberToWordsRu(itog)})</p>
+              <p>
+                в полном объеме с {new Date(2025, Number(month) - 1).toLocaleDateString('ru-RU')} по{' '}
+                {new Date(2025, Number(month), 0).toLocaleDateString('ru-RU')} согласно заключенного
+                договора подряда.
+              </p>
+              <p className={style.indent}>
+                Акт составлен на предмет оплаты за выполненный объем работы, согласно заключенного
+                договора подряда № {info?.contract.number} от{' '}
+                {new Date(info?.contract.signDate as unknown as string).toLocaleDateString('ru-RU')}
+              </p>
+            </div>
 
-            <p>Работу принял __________________ {getShortName(sign)}</p>
-            <p>Работу сдал __________________ {SHORT_NAME}</p>
+            <div className={style.sign}>
+              <p>Работу принял __________________ {getShortName(sign)}</p>
+              <p>Работу сдал __________________ {SHORT_NAME}</p>
+            </div>
           </div>
         </>
       )}

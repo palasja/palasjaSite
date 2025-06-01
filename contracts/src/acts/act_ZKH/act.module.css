@@ -1,10 +1,46 @@
+.actTtable th {
+  font-weight: 400;
+  font-size: 20px;
+}
 .print {
   width: 210mm;
   height: 297mm;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 22px;
+  line-height: 24px;
 }
 
-@media print {
-  @page {
-    size: a4;
-  }
+.headSign {
+  width: 50%;
+  place-self: end;
+}
+
+.act {
+  text-align: center;
+  font-weight: 800;
+  margin: 40px 0 20px 0;
+}
+
+.underAct {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 40px 20px 40px;
+  font-weight: 800;
+}
+
+.indent {
+  text-indent: 40px;
+}
+.lower {
+  text-transform: lowercase;
+}
+.tableNumber {
+  text-align: right;
+  padding-right: 30px;
+}
+.sign {
+  margin-top: 40px;
 }

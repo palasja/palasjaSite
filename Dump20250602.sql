@@ -106,7 +106,7 @@ CREATE TABLE `personal` (
 
 LOCK TABLES `personal` WRITE;
 /*!40000 ALTER TABLE `personal` DISABLE KEYS */;
-INSERT INTO `personal` VALUES (1,'Иван','Викторович','Субботин','Иван','Викторович','Субботин','Директор коммунального унитарного предприятия «Жилкомстрой» г. Наровля',1,1,NULL),(2,'Максим ','Николаевич','Рябчевский ','Максим ','Николаевич','Рябчевский ','Заместитель',0,1,NULL),(4,'Игорь','Александрович','Ковальчук','Игоря','Александровтча','Ковальчука','Директор',1,2,NULL),(5,'Виктория','Алексеевна','Ильюченко','','','','Ведущий экономист',0,2,NULL),(6,'Надежда','Владимировна','Шарапова','','','','главный бухгалтер',0,2,NULL);
+INSERT INTO `personal` VALUES (1,'Иван','Викторович','Субботин','Иван','Викторович','Субботин','Директор коммунального унитарного предприятия «Жилкомстрой» г. Наровля',1,1,NULL),(2,'Максим ','Николаевич','Рябчевский ','Максим ','Николаевич','Рябчевский ','Заместитель',0,1,NULL),(4,'Игорь','Александрович','Ковальчук','Игоря','Александровича','Ковальчука','Директор',1,2,NULL),(5,'Виктория','Алексеевна','Ильюченко','','','','Ведущий экономист',0,2,NULL),(6,'Надежда','Владимировна','Шарапова','','','','главный бухгалтер',0,2,NULL);
 /*!40000 ALTER TABLE `personal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +132,7 @@ CREATE TABLE `service` (
   KEY `organizationId` (`organizationId`),
   CONSTRAINT `service_ibfk_1` FOREIGN KEY (`orgId`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `service_ibfk_2` FOREIGN KEY (`organizationId`) REFERENCES `organization` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (1,'Восстановление печати принтера','2025-05-05','ЖЭУ','ЖЭУ',10,1,1,NULL),(2,'Чиска ПК с заменой термопасты','2025-05-06','ЖЭУ','ЖЭУ',40,1,1,NULL),(3,'Увеличение ёмкости системного диска','2025-05-06','ЖЭУ','ЖЭУ',20,1,1,NULL),(4,'Очистка системного диска','2025-05-06','ЖЭУ','ЖЭУ',10,1,1,NULL),(5,'Настройка доступа к сетевому принтеру','2025-05-06','ЖЭУ','ЖЭУ',20,2,1,NULL),(6,'Диагностика ошибки МФУ при копировании','2025-05-06','ЖЭУ','ЖЭУ',10,1,1,NULL),(7,'Установка netCrypt','2025-05-13','Снабжение','Снабжение',15,1,1,NULL),(8,'Диагностика ошибок чтения USB','2025-05-14','Диспетчерская','Диспетчерская',10,1,1,NULL),(9,'Проверки ИБП и сети питания','2025-05-19','Кадры','Кадры',20,1,1,NULL),(10,'Восстановление сетевых папок','2025-05-20','Снабжение','Снабжение',10,1,1,NULL),(11,'Проверка диска','2025-05-20','Бухгалтерия','Бухгалтерия',20,1,1,NULL),(12,'Установка ОС','2025-05-22','Бухгалтерия','Бухгалтерия',30,1,1,NULL),(13,'Диагностика памяти','2025-05-22','Бухгалтерия','Бухгалтерия',10,1,1,NULL),(14,'Восстановление входа в банк через ЭЦП','2025-05-27','Бухгалтер','Бухгалтер',20,1,2,NULL),(15,'Восстановление подписи портала Workflow','2025-05-27','Бухгалтер','Бухгалтер',40,1,2,NULL),(16,'Восстановление доступа к порталу','2025-05-27','Бухгалтер','Бухгалтер',20,1,2,NULL),(17,'Консультация Exel','2025-05-27','Бухгалтер','Бухгалтер',10,1,2,NULL),(18,'Установка драйвера сканера','2025-05-27','Экономист','Экономист',20,1,2,NULL),(19,'Натсройка портала Гиперсвязь','2025-05-27','Бухгалтер','Бухгалтер',15,1,2,NULL),(20,'Консультация по заполнению отчёта на портале Гиперсвязь','2025-05-27','Бухгалтер','Бухгалтер',35,1,2,NULL);
+INSERT INTO `service` VALUES (1,'Восстановление печати принтера','2025-05-05','ЖЭУ','ЖЭУ',10,2,2,NULL),(2,'Чиска ПК с заменой термопасты','2025-05-06','ЖЭУ','ЖЭУ',40,1,1,NULL),(3,'Увеличение ёмкости системного диска','2025-05-06','ЖЭУ','ЖЭУ',20,1,1,NULL),(4,'Очистка системного диска','2025-05-06','ЖЭУ','ЖЭУ',10,1,1,NULL),(5,'Настройка доступа к сетевому принтеру','2025-05-06','ЖЭУ','ЖЭУ',20,2,1,NULL),(6,'Диагностика ошибки МФУ при копировании','2025-05-06','ЖЭУ','ЖЭУ',10,1,1,NULL),(7,'Установка netCrypt','2025-05-13','Снабжение','Снабжение',15,1,1,NULL),(8,'Диагностика ошибок чтения USB','2025-05-14','Диспетчерская','Диспетчерская',10,1,1,NULL),(9,'Проверки ИБП и сети питания','2025-05-19','Кадры','Кадры',20,1,1,NULL),(10,'Восстановление сетевых папок','2025-05-20','Снабжение','Снабжение',10,1,1,NULL),(11,'Проверка диска','2025-05-20','Бухгалтерия','Бухгалтерия',20,1,1,NULL),(12,'Установка ОС','2025-05-22','Бухгалтерия','Бухгалтерия',30,1,1,NULL),(13,'Диагностика памяти','2025-05-22','Бухгалтерия','Бухгалтерия',10,1,1,NULL),(14,'Восстановление входа в банк через ЭЦП','2025-05-27','Бухгалтер','Бухгалтер',20,1,2,NULL),(15,'Восстановление подписи портала Workflow','2025-05-27','Бухгалтер','Бухгалтер',40,1,2,NULL),(16,'Восстановление доступа к порталу','2025-05-27','Бухгалтер','Бухгалтер',20,1,2,NULL),(17,'Консультация Exel','2025-05-27','Бухгалтер','Бухгалтер',10,1,2,NULL),(18,'Установка драйвера сканера','2025-05-27','Экономист','Экономист',20,1,2,NULL),(19,'Натсройка портала Гиперсвязь','2025-05-27','Бухгалтер','Бухгалтер',15,1,2,NULL),(20,'Консультация по заполнению отчёта на портале Гиперсвязь','2025-05-27','Бухгалтер','Бухгалтер',35,1,2,NULL),(21,'Обновление ОС','2025-05-27','Бухгалтерия по ЗП','Бухгалтерия по ЗП',20,1,1,NULL),(22,'Натсройка сетевой печати','2025-05-27','Бухгалтерия по ЗП','Бухгалтерия по ЗП',30,1,1,NULL),(23,'Переустновка драйвера','2025-05-29','Бухгалтер','Бухгалтер',10,1,2,NULL),(24,'Консультация по работе с МФУ','2025-05-29','Бухгалтер','Бухгалтер',20,1,2,NULL),(25,'Восстановление печати принтера','2025-05-05','ЖЭУ','ЖЭУ',10,2,1,NULL);
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,4 +181,194 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-29  1:20:48
+-- Dump completed on 2025-06-02  0:49:22
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: gusmarydb
+-- ------------------------------------------------------
+-- Server version	8.0.42
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `descriptionitem`
+--
+
+DROP TABLE IF EXISTS `descriptionitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `descriptionitem` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `cost` int DEFAULT NULL,
+  `minCost` int DEFAULT NULL,
+  `maxCost` int DEFAULT NULL,
+  `serviceId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `serviceId` (`serviceId`),
+  CONSTRAINT `descriptionitem_ibfk_1` FOREIGN KEY (`serviceId`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `descriptionitem`
+--
+
+LOCK TABLES `descriptionitem` WRITE;
+/*!40000 ALTER TABLE `descriptionitem` DISABLE KEYS */;
+INSERT INTO `descriptionitem` VALUES (1,'Кератин',7,NULL,NULL,1),(2,'Короткая длина',20,NULL,NULL,1),(3,'Средняя длина',27,NULL,NULL,1),(4,'Длиные волосы',32,NULL,NULL,1),(5,'Подравнивание кончиков*',12,NULL,NULL,1),(6,'Мелирование кончиков*',NULL,80,NULL,2),(7,'Контуринг',NULL,55,NULL,2),(8,'Окрашивание волос тон в тон',NULL,60,NULL,2);
+/*!40000 ALTER TABLE `descriptionitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `feedback` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `text` longtext,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedback`
+--
+
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+INSERT INTO `feedback` VALUES (1,'Девочки, кто в Мозыре живет, у вас крутой мастер \n    совсем рядом. Маша оценит ваш скальп под микроскопом, \n    изучит структуру и проведет тесты с волосами, определит \n    ваш тип волос и его проблему, nameнапитает. Расскажет как \n    и чем устроить салонный уход на дому. На заметку тем, \n    кто старается отрастить волосы. \n    Короче, мой рекомендасьен.','Виктория'),(2,'Спасибо за пилинг, кожа стала чище и как-то проще стало, не так быстро теряется свежесть волос, кожа стала дышать, расчесывать легче. Мне понравилось. Спасибо за консультацию и диагностику трихоскопом. Мне все понравилось и было интересно. Много полезной информации я получила для себя.','Мария'),(3,'Мария, еще раз хочу тебя поблагодарить. Я так давно себе не нравилась как с “новыми” волосами”! Я твоя навеки!\n    Ты большая молодец! Видно, как ты любишь волосы, как ты к ним относишься, с каким трепетом и кропотливостью все делаешь.','Елена'),(4,'Огромное вам спасибо, Маша, за мои шикарные \nволосы!!! Каждую минуту вспоминаю вас самыми \nдобрыми и теплыми словами! Мои волосы потрясающе \nвыглядят благодаря вам!!! Я просто в восторге \nот результата. Волосы идеально ровные, гладкие, \nникакой пушистости, мне ооооочень нравится!)))','Александра'),(5,'После процедуры прошло уже 3 месяца, а волосы так и остались нереально классными! \n    Это все Машуня!','Наталья'),(6,'Мария, хочу Вас поблагодарить за шикарные волосы, \nони стали очень напитанные, блестящие и визуально \nочень аккуратные. Не могу налюбоваться теперь. Уже \nначала получать первые комплименты. Очень рада, что попала к такому опытному мастеру. Буду теперь точно обращаться еще.','Ольга'),(7,'Огромное спасибо Маше. Чудесный мастер и профессионал своего дела! Волосы нереально мягкие, гладкие и блестящие. Я в космосе от процедуры и процесса.\nПросто очуметь! Маша, ты - моя фея!','Екатерина');
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `services`
+--
+
+DROP TABLE IF EXISTS `services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `services` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `cost` int DEFAULT NULL,
+  `minCost` int DEFAULT NULL,
+  `maxCost` int DEFAULT NULL,
+  `typeId` int DEFAULT NULL,
+  `descTitle` varchar(255) DEFAULT NULL,
+  `descContent` varchar(255) DEFAULT NULL,
+  `descComment` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `typeId` (`typeId`),
+  CONSTRAINT `services_ibfk_1` FOREIGN KEY (`typeId`) REFERENCES `type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `services`
+--
+
+LOCK TABLES `services` WRITE;
+/*!40000 ALTER TABLE `services` DISABLE KEYS */;
+INSERT INTO `services` VALUES (1,'Стрижка',NULL,7,32,NULL,'Стоимость стрижки зависит от длины волос',NULL,'* Подравнивание кончиков во время процедуры для постоянных клиентов - бесплатно.'),(2,'Окрашивание',NULL,60,NULL,NULL,'Окрашивание',NULL,'* Стоимость услуги зависит от длины и густоты волос.'),(3,'Кератин',NULL,110,220,1,'Что дадут вам эти процедуры?*','Идеальные волосы от 3 до 8 месяцев. Блеск, мягкость и гладкость волос. Выпрямление волос от “легкой волны” до “афро”. Избавит от пушистости и “елки”.',NULL),(4,'Ботокс',NULL,110,220,1,'Что дадут вам эти процедуры?*','Идеальные волосы от 3 до 8 месяцев. Блеск, мягкость и гладкость волос. Выпрямление волос от “легкой волны” до “афро”. Избавит от пушистости и “елки”.',NULL),(5,'СПА уход',NULL,60,85,1,'Что дадут вам эти процедуры?*','Идеальные волосы от 3 до 8 месяцев. Блеск, мягкость и гладкость волос. Выпрямление волос от “легкой волны” до “афро”. Избавит от пушистости и “елки”.',NULL),(6,'Полировка волос',NULL,40,70,1,'Что дадут вам эти процедуры?*','Устранение секущихся кончиков по всей длине волос. Волосы приобретают более здоровый вид. Рекомендуется выполнять каждые 3 месяца.',NULL),(7,'Холодное восстановление',NULL,90,130,1,'Что дадут вам эти процедуры?*','Идеальные волосы от 1 до 3 месяцев. Волосы восстанавливаются изнутри, уплотняются, становятся гладкими, шелковистыми и блестящими.',NULL),(8,'Пилинг кожи головы',NULL,50,NULL,1,'Что дадут вам эти процедуры?*','Стимуляция роста, глубокое ощищение, устранение перхоти. Рекомендуется курс из трех процедур повторением один раз в полторы - четыре недели.',NULL);
+/*!40000 ALTER TABLE `services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `type`
+--
+
+DROP TABLE IF EXISTS `type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `type` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `type`
+--
+
+LOCK TABLES `type` WRITE;
+/*!40000 ALTER TABLE `type` DISABLE KEYS */;
+INSERT INTO `type` VALUES (1,'Услуги по восстановлению волос');
+/*!40000 ALTER TABLE `type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `workdate`
+--
+
+DROP TABLE IF EXISTS `workdate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `workdate` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `workdate`
+--
+
+LOCK TABLES `workdate` WRITE;
+/*!40000 ALTER TABLE `workdate` DISABLE KEYS */;
+INSERT INTO `workdate` VALUES (1,'2025-06-14 00:00:00');
+/*!40000 ALTER TABLE `workdate` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `worktime`
+--
+
+DROP TABLE IF EXISTS `worktime`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `worktime` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `time` time DEFAULT NULL,
+  `workDateId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `workDateId` (`workDateId`),
+  CONSTRAINT `worktime_ibfk_1` FOREIGN KEY (`workDateId`) REFERENCES `workdate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `worktime`
+--
+
+LOCK TABLES `worktime` WRITE;
+/*!40000 ALTER TABLE `worktime` DISABLE KEYS */;
+INSERT INTO `worktime` VALUES (1,'09:00:00',1);
+/*!40000 ALTER TABLE `worktime` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-06-02  0:49:22

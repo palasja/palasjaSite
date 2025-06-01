@@ -1,4 +1,4 @@
-import { NDS } from './constants';
+import { NDS, NDS_VICHET, NDS_VICHET_LIMIT } from './constants';
 import { Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File): Promise<string> =>
@@ -44,9 +44,29 @@ export const getShortName = (person: Personal | undefined): string => {
 };
 
 export const getServicesCostWithNDS = (services: Service[]) => {
-  let itogSumm = 0;
-  services.forEach((s) => (itogSumm += s.count * s.cost));
+  const itogSumm = getServicesCost(services);
   return (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
+};
+/**
+ * Согласно закона 47 о налогоывых вычетов
+ * если ЗП меньше 192р то вычитается только 1% в пенсионный фонд
+ * если ЗП меньше 1164 то вычитается 192 и берётся налог от этой суммы (13% подоходный + 1% пенсионный)
+ * если ЗП больше то берётся налог от всей суммы (13% подоходный + 1% пенсионный)
+ * @param services
+ * @returns
+ */
+export const getServicesCostWithNDS_47 = (services: Service[]) => {
+  let itogSumm = getServicesCost(services);
+  let itogSummNDS = 0;
+  if (itogSumm < NDS_VICHET) {
+    itogSummNDS = itogSumm;
+  } else if (itogSumm < NDS_VICHET_LIMIT) {
+    const summWithouVichet = (itogSumm = NDS_VICHET_LIMIT);
+    itogSummNDS = (summWithouVichet * 100 + summWithouVichet * (NDS / 100) * 100) / 100;
+  } else {
+    itogSummNDS = (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
+  }
+  return itogSummNDS;
 };
 
 export const getServicesCost = (services: Service[]) => {
@@ -56,6 +76,16 @@ export const getServicesCost = (services: Service[]) => {
 };
 
 export const MONTH_R = [
-    'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',
-  ]
+  'января',
+  'февраля',
+  'марта',
+  'апреля',
+  'мая',
+  'июня',
+  'июля',
+  'августа',
+  'сентября',
+  'октября',
+  'ноября',
+  'декабря',
+];

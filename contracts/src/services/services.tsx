@@ -3,8 +3,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
 import { addService, fetchServices, removeService, updateService } from '../helpers/api';
 import style from './services.module.css';
-import { getServicesCost, getServicesCostWithNDS } from '../helpers/helper';
-import { NDS } from '../helpers/constants';
+import {
+  getServicesCost,
+  getServicesCostWithNDS,
+  getServicesCostWithNDS_47,
+} from '../helpers/helper';
+import { NDS, NDS_VICHET, PENSIA } from '../helpers/constants';
 import { Link } from 'react-router';
 
 const onSubmitCreate: SubmitHandler<Service> = (data) => {
@@ -19,7 +23,7 @@ type contractProps = {
 const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
-  const [actMonth, setActMonth] = useState((new Date().getMonth() + 1));
+  const [actMonth, setActMonth] = useState(new Date().getMonth() + 1);
   const [isUpdate, setIsUpdate] = useState(false);
 
   const handletActMonth = (month: number): void => setActMonth(month);
@@ -36,14 +40,38 @@ const Services = ({ orgId }: contractProps) => {
         <select onChange={(e) => handletActMonth(Number(e.target.value))}>
           {[...new Array(12)].map((_e, i) => {
             return (
-              <option value={i + 1} key={i}  selected={i+1 === actMonth}>
+              <option value={i + 1} key={i} selected={i + 1 === actMonth}>
                 {i + 1}
               </option>
-            )
+            );
           })}
         </select>
-        <Link to={`/act_pms/${orgId}/${actMonth}`}>ACT PMS {orgId}/{actMonth}</Link>
-        <Link to={`/act_zkh/${orgId}/${actMonth}`}>ACT ZKH {orgId}/{actMonth}</Link>
+        <article>
+          <p>PMS</p>
+          <Link to={`/act_pms/${orgId}/${actMonth}`}>
+            ACT PMS {orgId}/{actMonth}
+          </Link>
+          <p>My cost = {getServicesCost(services)}</p>
+          <p>Cost with NDS = {getServicesCostWithNDS_47(services)}</p>
+          <p>
+            Get after NDS ={' '}
+            {getServicesCostWithNDS_47(services) -
+              getServicesCost(services) *
+                ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
+          </p>
+        </article>
+        <article>
+          <p>ZKH</p>
+          <Link to={`/act_zkh/${orgId}/${actMonth}`}>
+            ACT ZKH {orgId}/{actMonth}
+          </Link>
+          <p>My cost = {getServicesCost(services)}</p>
+          <p>Cost with NDS = {getServicesCostWithNDS(services)}</p>
+          <p>
+            Get after NDS ={' '}
+            {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
+          </p>
+        </article>
       </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
@@ -82,12 +110,6 @@ const Services = ({ orgId }: contractProps) => {
           Очистить
         </button>
       </form>
-      <p>My cost = {getServicesCost(services)}</p>
-      <p>Cost with NDS = {getServicesCostWithNDS(services)}</p>
-      <p>
-        Get after NDS ={' '}
-        {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
-      </p>
 
       <ul>
         {services.length == 0
