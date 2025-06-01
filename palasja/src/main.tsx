@@ -13,6 +13,7 @@ import './i18n';
 import GetInfo from './pages/projects/getInfo';
 import GusMary from './pages/projects/gusMary';
 import Contracts from './pages/projects/contracts';
+import Payroll from './pages/projects/payroll/payroll';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="getInfo" element={<GetInfo />} />
           <Route path="gusmary" element={<GusMary />} />
           <Route path="contracts" element={<Contracts />} />
+          <Route path="payroll" element={<Payroll />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>

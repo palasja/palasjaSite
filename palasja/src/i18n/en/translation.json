@@ -55,6 +55,9 @@
         },
         "contracts": {
           "desc": "Now I have several contracts for servicing programs and peripheral equipment of organizations. To account for the services provided and to keep records of settlement transactions, the Contracts project was written."
+        },
+        "payroll": {
+          "desc" : "At the end of the Advanced C# course, I had to write an exam project. I wrote a project of accounting for organizations that have signed a contract with IVCMinfina for the maintenance of software and PCs and servers. The project included a list of organizations, contracts and contact persons. /n During the first years of my work at IVCMinfin, the payroll were sent by mail and there were only a few lines, everything was readable and understandable. But over time, they became more and more complicated and began to be sent in the form of an Excel document. /n In order to simplify the control of payments according to the contracts, as well as the general reading and understanding of payments and deductions, the project has added the ability to download payroll and view payments in a convenient way. Later, authentication was added for restrict access to information of payments."
         }
     }
     },

@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { splitLineGetParagragh } from '../../../helpers/heper';
 import style from './gusMary.module.css';
+import image1 from 'assets/projects/gusmary/1.png';
+import image2 from 'assets/projects/gusmary/2.png';
 
 const GusMary = () => {
   const { t } = useTranslation();
@@ -17,6 +19,8 @@ const GusMary = () => {
         <li>express </li>
         <li>sequelize </li>
       </ul>
+      <img src={image1}></img>
+      <img src={image2}></img>
     </>
   );
 }

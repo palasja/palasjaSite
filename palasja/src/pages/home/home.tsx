@@ -146,6 +146,10 @@ const Home = () => {
                   <li><Link to="projects/contracts">Contracts</Link></li>
                   {splitLineGetParagragh(t('home.projects.contracts.desc'))}
                 </article>
+                                <article>
+                  <li><Link to="projects/payroll">Payroll</Link></li>
+                  {splitLineGetParagragh(t('home.projects.payroll.desc'))}
+                </article>
         </section>        
         <section>
           <h4>Projects</h4>

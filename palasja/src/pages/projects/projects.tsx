@@ -10,7 +10,7 @@ const Projects = () => {
       <li><Link to="getInfo">GetInfo</Link></li>
       <li><Link to="gusmary">GusMary</Link></li>
       <li><Link to="contracts">Contracts</Link></li>
-      
+      <li><Link to="payroll">Payroll</Link></li>
     </ul>
     <Outlet />
     </>
