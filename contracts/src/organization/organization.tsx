@@ -9,42 +9,47 @@ import {
 } from '../helpers/api';
 import style from './organization.module.css';
 
-const onSubmitCreate: SubmitHandler<Org> = (data) => {
-  addOrganisation(data);
-};
-const onSubmitUpdate: SubmitHandler<Org> = (data) => {
-  updateOrganisation(data);
-};
-type contractProps = {
-  setOrgId: (id: string) => void;
-};
+  type contractProps = {
+    setOrgId: (id: string) => void;
+  };
 const Organization = ({ setOrgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const [choosenOrg, setChoosenOrg] = useState('');
-  useEffect(() => {
-    const getOrganization = () => {
+
+  const handlerOrganization = () => {
       fetchAllOrganizations().then((orgs) => {
         if (typeof orgs !== 'string') {
           setOrganizations(orgs as Org[]);
         }
       });
-    };
-    getOrganization();
+    }
+  
+  const onSubmitCreate: SubmitHandler<Org> = (data) => {
+    addOrganisation(data).then(handlerOrganization);
+    reset();
+  };
+  const onSubmitUpdate: SubmitHandler<Org> = (data) => {
+    updateOrganisation(data);
+    reset();
+  };
+
+  useEffect(() => {
+    handlerOrganization();
   }, []);
   return (
     <>
-      <h2>Organization</h2>
+      <h2>Организации</h2>
 
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         {isUpdate ? <input id="id" type="hidden" {...register('id', { required: true })} /> : <></>}
         <div>
-          <label htmlFor="name">Organization Name</label>
+          <label htmlFor="name">Наименование Организации</label>
           <input id="name" {...register('name', { required: true })} />
         </div>
 
-        <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
+        <input type="submit" value={isUpdate ? 'Сохранить' : 'Создать'} />
       </form>
       <button
         onClick={() => {
@@ -69,8 +74,10 @@ const Organization = ({ setOrgId }: contractProps) => {
                     {org.name}
                   </span>
                   <button
-                    onClick={async () => {
-                      await removeOrg({ id: Number(org.id) });
+                    onClick={ () => {
+                      removeOrg({ id: Number(org.id) }).then(
+                        () => handlerOrganization()
+                      );
                     }}
                   >
                     Удалить

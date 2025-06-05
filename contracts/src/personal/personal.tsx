@@ -4,72 +4,76 @@ import { Personal } from '../helpers/contractTypes';
 import { addPerson, fetchPersonalsByOrgId, removePerson, updatePerson } from '../helpers/api';
 import style from './personal.module.css';
 
-const onSubmitCreate: SubmitHandler<Personal> = (data) => {
-  addPerson(data);
-};
-const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
-  updatePerson(data);
-};
+
 type contractProps = {
   orgId: string;
 };
 const Personals = ({ orgId }: contractProps) => {
-  const { register, handleSubmit, setValue, reset } = useForm<Personal>();
+  const { register, handleSubmit, setValue, reset, formState: { errors } } =useForm<Personal>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [personals, setPersonals] = useState<Personal[]>([]);
   useEffect(() => {
-    const getPersonals = () => {
-      fetchPersonalsByOrgId(orgId).then((orgs) => setPersonals(orgs));
-    };
-    getPersonals();
+    handlerPerson();
   }, [orgId]);
-
+  const onSubmitCreate: SubmitHandler<Personal> = (data) => {
+  addPerson(data).then(handlerPerson);
+  };
+  const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
+    updatePerson(data).then(handlerPerson);
+    resetForm();
+  };
+  const handlerPerson = () =>{
+    fetchPersonalsByOrgId(orgId).then((orgs) => setPersonals(orgs));
+  }
+const resetForm = () => {
+  reset({
+    'orgId': orgId
+  });
+}
   return (
     <>
       <h3>Personal</h3>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
         <div>
-          <label htmlFor="fisrtName">FirtName</label>
-          <input {...register('firstName', { required: true, maxLength: 20 })} />
+          <label htmlFor="fisrtName">Имя</label>
+          <input {...register('firstName', { required: {value: true , message: "Имя долно быть заполнено"}})} />
         </div>
         <div>
-          <label htmlFor="middleName">MiddleName</label>
-          <input {...register('middleName', { required: true })} />
+          <label htmlFor="middleName">Отчество</label>
+          <input {...register('middleName', { required: {value: true , message: "Отчество подписания долна быть заполнена"} })} />
         </div>
         <div>
-          <label htmlFor="lastName">LastName</label>
-          <input {...register('lastName', { required: true })} />
+          <label htmlFor="lastName">Фамилия</label>
+          <input {...register('lastName', { required: {value: true , message: "Фамилия подписания долна быть заполнена"} })} />
         </div>
 
         <div>
-          <label htmlFor="firstNameR">FirstNameR</label>
+          <label htmlFor="firstNameR">Имя в Родительном</label>
           <input {...register('firstNameR')} />
         </div>
         <div>
-          <label htmlFor="middleNameR">MiddleNameR</label>
+          <label htmlFor="middleNameR">Отчество в Родительном</label>
           <input {...register('middleNameR')} />
         </div>
         <div>
-          <label htmlFor="lastNameR">LastNameR</label>
+          <label htmlFor="lastNameR">Фамилия в Родительном</label>
           <input {...register('lastNameR')} />
         </div>
 
         <div>
-          <label htmlFor="positionName">Position Name</label>
+          <label htmlFor="positionName">Должность</label>
           <input {...register('positionName')} />
         </div>
         <div>
-          <label htmlFor="isHead">Head</label>
+          <label htmlFor="isHead">Руководитель организации</label>
           <input type={'checkbox'} {...register('isHead')} />
         </div>
         <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
       </form>
       <button
         onClick={() => {
-          setIsUpdate(false);
-          reset();
-          setValue('id', orgId);
+          resetForm();
         }}
       >
         Очистить
@@ -83,7 +87,7 @@ const Personals = ({ orgId }: contractProps) => {
                   {`${person.firstName} ${person.middleName} ${person.lastName} - ${person.positionName}`}
                   <button
                     onClick={async () => {
-                      await removePerson({ id: Number(person.id) });
+                      await removePerson({ id: Number(person.id) }).then(handlerPerson);
                     }}
                   >
                     Удалить

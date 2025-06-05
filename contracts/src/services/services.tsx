@@ -11,31 +11,41 @@ import {
 import { NDS, NDS_VICHET, PENSIA } from '../helpers/constants';
 import { Link } from 'react-router';
 
-const onSubmitCreate: SubmitHandler<Service> = (data) => {
-  addService(data);
-};
-const onSubmitUpdate: SubmitHandler<Service> = (data) => {
-  updateService(data);
-};
+
 type contractProps = {
   orgId: string;
 };
+
 const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
   const [actMonth, setActMonth] = useState(new Date().getMonth() + 1);
   const [isUpdate, setIsUpdate] = useState(false);
 
+  const handlerService = () => {
+    fetchServices(orgId).then((orgs) => setServices(orgs));
+  }
+  const onSubmitCreate: SubmitHandler<Service> = (data) => {
+    addService(data).then(handlerService);
+    resetForm();
+  };
+  const onSubmitUpdate: SubmitHandler<Service> = (data) => {
+    updateService(data).then(handlerService);
+    resetForm();
+  };
   const handletActMonth = (month: number): void => setActMonth(month);
   useEffect(() => {
-    const getPersonals = () => {
-      fetchServices(orgId).then((orgs) => setServices(orgs));
-    };
-    getPersonals();
+    handlerService();
   }, [orgId]);
+
+  const resetForm = () => {
+    reset({'orgId': orgId});
+    setIsUpdate(false);
+  } 
+
   return (
     <>
-      <h3>Services</h3>
+      <h3>Услуги</h3>
       <div>
         <select onChange={(e) => handletActMonth(Number(e.target.value))}>
           {[...new Array(12)].map((_e, i) => {
@@ -76,37 +86,31 @@ const Services = ({ orgId }: contractProps) => {
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
           <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
-          <label htmlFor="name">Name</label>
-          <input {...register('name', { required: true })} />
+          <label htmlFor="name">Услуга</label>
+          <input {...register('name', { required: {value: true , message: "Дата подписания долна быть заполнена"} })} />
         </div>
         <div>
-          <label htmlFor="date">Date</label>
-          <input type="date" {...register('date', { required: true })} />
+          <label htmlFor="date">Дата</label>
+          <input type="date" {...register('date', { required: {value: true , message: "Дата подписания долна быть заполнена"} })} />
         </div>
         <div>
-          <label htmlFor="user">User</label>
-          <input {...register('user', { required: true })} />
+          <label htmlFor="user">Пользоваль</label>
+          <input {...register('user', { required: {value: true , message: "Дата подписания долна быть заполнена"} })} />
         </div>
         <div>
-          <label htmlFor="place">Place</label>
+          <label htmlFor="place">Место</label>
           <input {...register('place')} />
         </div>
         <div>
-          <label htmlFor="cost">Cost</label>
-          <input type="number" {...register('cost')} />{' '}
+          <label htmlFor="cost">Стоимость</label>
+          <input type="number" {...register('cost', { min: {value: 1 , message: "Дата подписания долна быть заполнена"} })} />
         </div>
         <div>
-          <label htmlFor="count">Count</label>
-          <input type="number" defaultValue={1} {...register('count')} />
+          <label htmlFor="count">Количество</label>
+          <input type="number" defaultValue={1} {...register('count', { min: {value: 1 , message: "Дата подписания долна быть заполнена"} })} />
         </div>
-        <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
-        <button
-          onClick={() => {
-            setIsUpdate(false);
-            reset();
-            setValue('id', orgId);
-          }}
-        >
+        <input type="submit" value={isUpdate ? 'Изменить' : 'Создать'} />
+        <button onClick={ () => resetForm() } >
           Очистить
         </button>
       </form>
@@ -120,7 +124,7 @@ const Services = ({ orgId }: contractProps) => {
                   {`${service.name} ${service.date}`}
                   <button
                     onClick={async () => {
-                      await removeService({ id: Number(service.id) });
+                      await removeService({ id: Number(service.id) }).then(() => handlerService());
                     }}
                   >
                     Удалить
