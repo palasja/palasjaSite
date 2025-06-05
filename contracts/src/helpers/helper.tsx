@@ -47,6 +47,7 @@ export const getServicesCostWithNDS = (services: Service[]) => {
   const itogSumm = getServicesCost(services);
   return (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
 };
+
 /**
  * Согласно закона 47 о налогоывых вычетов
  * если ЗП меньше 192р то вычитается только 1% в пенсионный фонд
