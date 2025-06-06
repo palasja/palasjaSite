@@ -1,56 +1,35 @@
 import { useEffect, useState } from 'react';
 import { fetchActInfo } from '../../helpers/api';
-import { ActInfo, Personal } from '../../helpers/contractTypes';
+import { ActInfo, Contract, Personal, Service } from '../../helpers/contractTypes';
 import {
   getShortName,
   getServicesCostWithNDS,
   MONTH_R,
   getServicesCostWithNDS_47,
+  currencyOption,
 } from '../../helpers/helper';
 import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import { useParams } from 'react-router';
 import style from './act.module.css';
 const REPRESENTOR_POSITION = 'бухгалтер';
-const currencyOption: ConvertOptions = {
-  currency: {
-    currencyNameCases: ['белорусский рубль', 'белорусских рубля', 'белорусских рублей'], // [1 рубль, 2-4 рубля, 5-9 рублей]
-    fractionalPartNameCases: ['копейка', 'копейки', 'копеек'],
-    currencyNounGender: {
-      integer: 0, // 0 => Мужской род ('один', 'два'...)
-      fractionalPart: 1, // 1 => Женский род ('одна', 'две'...)
-    },
-    fractionalPartMinLength: 2,
-  },
+type ActTypeProps = {
+  contract: Contract;
+  services: Service[];
+  personals: Personal[];
+  month: number;
 };
+const ActPMS = ({ contract, services, personals, month }: ActTypeProps) => {
+  const head = personals.find((p) => p.isHead);
+  const itog = getServicesCostWithNDS(services);
 
-const ActPMS = () => {
-  const { orgId } = useParams();
-  const { month } = useParams();
-  const [info, setInfo] = useState<ActInfo>();
-  const [head, setHead] = useState<Personal>();
-  const [itog, setItog] = useState<number>(0);
-  useEffect(() => {
-    const getPersonals = () => {
-      if (orgId !== undefined && month !== undefined) {
-        fetchActInfo(orgId, month).then((info) => {
-          setInfo(info);
-          setHead(info?.persons.find((p) => p.isHead) as Personal);
-          setItog(getServicesCostWithNDS_47(info?.services));
-        });
-      }
-    };
-    getPersonals();
-  }, []);
-  const representor = info?.persons.find((p) =>
-    new RegExp(REPRESENTOR_POSITION).test(p.positionName)
-  );
-  const economist = info?.persons.find(
+  const representor = personals.find((p) => new RegExp(REPRESENTOR_POSITION).test(p.positionName));
+  const economist = personals.find(
     (p) => !new RegExp(REPRESENTOR_POSITION).test(p.positionName) && !p.isHead
   );
   return (
     <>
-      {info?.contract === null ? (
+      {contract === null ? (
         <>
           <h1>No contract</h1>
         </>
@@ -64,27 +43,25 @@ const ActPMS = () => {
             </div>
             <div className={style.datePlace}>
               <p>
-                от {new Date(info?.contract.signDate as unknown as string).getDate()}{' '}
-                {MONTH_R[Number(month) - 1]}{' '}
-                {new Date(info?.contract.signDate as unknown as string).getFullYear()} года
+                от {new Date(contract.signDate).getDate()} {MONTH_R[month]}
+                {new Date(contract.signDate).getFullYear()} года
               </p>
               <p>г. Наровля</p>
             </div>
             <div className={style.main}>
               <p className={style.mainInfo}>
-                Мы, стороны по договору от{' '}
-                {new Date(info?.contract.signDate as unknown as string).toLocaleDateString('ru-RU')}{' '}
-                года № {info?.contract.number}, Коммунальное мелиоративное унитарное предприятие
+                Мы, стороны по договору от {new Date(contract.signDate).toLocaleDateString('ru-RU')}{' '}
+                года № {contract.number}, Коммунальное мелиоративное унитарное предприятие
                 «Наровлянское ПМС», именуемое в дальнейшем «Заказчик», в лице директора{' '}
                 {head?.firstNameR} {head?.middleNameR} {head?.lastNameR}, действующего на основании
                 Устава, с одной стороны и гражданин Якубенко Иван Александрович, паспорт НВ 2955507,
                 выданный 20.06.2016 г. Наровлянским РОВД, проживающий по адресу: Гомельская область,
                 г. Наровля, ул. Мелиоративная, 43/1, именуемый в дальнейшем «Исполнитель», составили
-                настоящий акт о том, что в соответствии с договором № {info?.contract.number} от{' '}
-                {new Date(info?.contract.signDate as unknown as string).toLocaleDateString('ru-RU')}{' '}
-                года Исполнителем выполнены следующие работы (оказаны услуги):
+                настоящий акт о том, что в соответствии с договором № {contract.number} от{' '}
+                {new Date(contract.signDate as unknown as string).toLocaleDateString('ru-RU')} года
+                Исполнителем выполнены следующие работы (оказаны услуги):
               </p>
-              <p>- {info?.services.map((s) => s.name).join(', ')}.</p>
+              <p>- {services.map((s) => s.name).join(', ')}.</p>
               <p>
                 Работы принял представитель Заказчика – {representor?.firstName}{' '}
                 {representor?.middleName} {representor?.lastName}, {representor?.positionName}.

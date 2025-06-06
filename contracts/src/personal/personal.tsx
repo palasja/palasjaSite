@@ -4,32 +4,37 @@ import { Personal } from '../helpers/contractTypes';
 import { addPerson, fetchPersonalsByOrgId, removePerson, updatePerson } from '../helpers/api';
 import style from './personal.module.css';
 
-
 type contractProps = {
   orgId: string;
 };
 const Personals = ({ orgId }: contractProps) => {
-  const { register, handleSubmit, setValue, reset, formState: { errors } } =useForm<Personal>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<Personal>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [personals, setPersonals] = useState<Personal[]>([]);
   useEffect(() => {
     handlerPerson();
   }, [orgId]);
   const onSubmitCreate: SubmitHandler<Personal> = (data) => {
-  addPerson(data).then(handlerPerson);
+    addPerson(data).then(handlerPerson);
   };
   const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
     updatePerson(data).then(handlerPerson);
     resetForm();
   };
-  const handlerPerson = () =>{
+  const handlerPerson = () => {
     fetchPersonalsByOrgId(orgId).then((orgs) => setPersonals(orgs));
-  }
-const resetForm = () => {
-  reset({
-    'orgId': orgId
-  });
-}
+  };
+  const resetForm = () => {
+    reset({
+      orgId: orgId,
+    });
+  };
   return (
     <>
       <h3>Personal</h3>
@@ -37,15 +42,27 @@ const resetForm = () => {
         <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
         <div>
           <label htmlFor="fisrtName">Имя</label>
-          <input {...register('firstName', { required: {value: true , message: "Имя долно быть заполнено"}})} />
+          <input
+            {...register('firstName', {
+              required: { value: true, message: 'Имя долно быть заполнено' },
+            })}
+          />
         </div>
         <div>
           <label htmlFor="middleName">Отчество</label>
-          <input {...register('middleName', { required: {value: true , message: "Отчество подписания долна быть заполнена"} })} />
+          <input
+            {...register('middleName', {
+              required: { value: true, message: 'Отчество подписания долна быть заполнена' },
+            })}
+          />
         </div>
         <div>
           <label htmlFor="lastName">Фамилия</label>
-          <input {...register('lastName', { required: {value: true , message: "Фамилия подписания долна быть заполнена"} })} />
+          <input
+            {...register('lastName', {
+              required: { value: true, message: 'Фамилия подписания долна быть заполнена' },
+            })}
+          />
         </div>
 
         <div>

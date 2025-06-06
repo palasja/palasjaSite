@@ -67,23 +67,26 @@ export const fetchAllOrganizations = (): Promise<Organization[]> => {
     })
     .catch((err: Error) => console.log(err.message));
 };
-export const addOrganisation = (organization: Organization): Promise<Organization | undefined | void> => {
-    return fetch(`${API_SERVER}/addOrganization`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ organization: organization }),
-      }).then(res => {
-        if (res.status == 200) {
-          return res.json() as unknown as Organization;
-        } else if (res.status == 401) {
-          window.location.href = `${APP_URL}/logout`;
-          throw new Error("Unauthorithation action. Login please.");
-        }
-      })
-      .catch((err: Error) => console.log(err.message));
+export const addOrganisation = (
+  organization: Organization
+): Promise<Organization | undefined | void> => {
+  return fetch(`${API_SERVER}/addOrganization`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ organization: organization }),
+  })
+    .then((res) => {
+      if (res.status == 200) {
+        return res.json() as unknown as Organization;
+      } else if (res.status == 401) {
+        window.location.href = `${APP_URL}/logout`;
+        throw new Error('Unauthorithation action. Login please.');
+      }
+    })
+    .catch((err: Error) => console.log(err.message));
 };
 export const updateOrganisation = (organization: Organization) => {
   fetch(`${API_SERVER}/updateOrganization`, {
@@ -128,13 +131,33 @@ export const fetchContractsByOrgId = (orgId: string): Promise<Contract[]> => {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((res) => {
+  })
+    .then((res) => {
       if (res.status == 200) {
         return res.json();
       } else if (res.status == 401) {
         window.location.href = `${APP_URL}/logout`;
       } else {
         throw new Error(`Не удалось загрузить договора. ErrorCode = ${res.status}`);
+      }
+    })
+    .catch((err: Error) => console.log(err.message));
+};
+export const fetchContractsByOrgIdMonth = (orgId: string, month: number): Promise<Contract> => {
+  return fetch(`${API_SERVER}/getContractByOrgIdMonth/${orgId}/${month}`, {
+    method: 'GET', // or 'PUT'
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => {
+      if (res.status == 200) {
+        return res.json();
+      } else if (res.status == 401) {
+        window.location.href = `${APP_URL}/logout`;
+      } else {
+        throw new Error(`Не удалось загрузить информацию по договору. ErrorCode = ${res.status}`);
       }
     })
     .catch((err: Error) => console.log(err.message));
@@ -283,7 +306,7 @@ export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }>
 };
 
 export const fetchServices = (orgId: string): Promise<Service[]> => {
-  return fetch(`${API_SERVER}/getServiceByOrgId/${orgId}`, {
+  return fetch(`${API_SERVER}/getServicesByOrgId/${orgId}`, {
     method: 'GET', // or 'PUT'
     credentials: 'include',
     headers: {
@@ -301,6 +324,26 @@ export const fetchServices = (orgId: string): Promise<Service[]> => {
     })
     .catch((err: Error) => console.log(err.message));
 };
+export const fetchServicesByOrgIdMonth = (orgId: string, month: number): Promise<Service[]> => {
+  return fetch(`${API_SERVER}/getServicesByOrgIdMonth/${orgId}/${month}`, {
+    method: 'GET', // or 'PUT'
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => {
+      if (res.status == 200) {
+        return res.json();
+      } else if (res.status == 401) {
+        window.location.href = `${APP_URL}/logout`;
+      } else {
+        throw new Error(`Не удалось загрузить информацию по договору. ErrorCode = ${res.status}`);
+      }
+    })
+    .catch((err: Error) => console.log(err.message));
+};
+
 export const addService = (service: Service): Promise<Personal | undefined | void> => {
   return fetch(`${API_SERVER}/addService`, {
     method: 'PUT',

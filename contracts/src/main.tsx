@@ -12,6 +12,7 @@ import Logout from './logout';
 import Error404 from './404';
 import './main.css';
 import ActPMS from './acts/act_PMS';
+import Act from './acts/act';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="login" element={<Auth />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="logout" element={<Logout />} />
+          <Route path="act" element={<Act />} />
           <Route
             path="contract"
             element={
@@ -37,22 +39,30 @@ createRoot(document.getElementById('root')!).render(
               </ProtectedRoute>
             }
           />
-          <Route
+          {/* <Route
+            path="act"
+            element={
+              <ProtectedRoute>
+                <Act />
+              </ProtectedRoute>
+            }
+          /> */}
+          {/* <Route
             path="act_zkh/:orgId/:month"
             element={
               <ProtectedRoute>
                 <ActZKH />
               </ProtectedRoute>
             }
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="act_pms/:orgId/:month"
             element={
               <ProtectedRoute>
                 <ActPMS />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route path="*" element={<Error404 />} />
         </Routes>
       </AuthProvider>

@@ -76,6 +76,18 @@ export const getServicesCost = (services: Service[]) => {
   return itogSumm;
 };
 
+export const currencyOption: ConvertOptions = {
+  currency: {
+    currencyNameCases: ['белорусский рубль', 'белорусских рубля', 'белорусских рублей'], // [1 рубль, 2-4 рубля, 5-9 рублей]
+    fractionalPartNameCases: ['копейка', 'копейки', 'копеек'],
+    currencyNounGender: {
+      integer: 0, // 0 => Мужской род ('один', 'два'...)
+      fractionalPart: 1, // 1 => Женский род ('одна', 'две'...)
+    },
+    fractionalPartMinLength: 2,
+  },
+};
+
 export const MONTH_R = [
   'января',
   'февраля',

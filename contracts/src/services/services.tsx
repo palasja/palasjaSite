@@ -11,7 +11,6 @@ import {
 import { NDS, NDS_VICHET, PENSIA } from '../helpers/constants';
 import { Link } from 'react-router';
 
-
 type contractProps = {
   orgId: string;
 };
@@ -24,7 +23,7 @@ const Services = ({ orgId }: contractProps) => {
 
   const handlerService = () => {
     fetchServices(orgId).then((orgs) => setServices(orgs));
-  }
+  };
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     addService(data).then(handlerService);
     resetForm();
@@ -39,9 +38,9 @@ const Services = ({ orgId }: contractProps) => {
   }, [orgId]);
 
   const resetForm = () => {
-    reset({'orgId': orgId});
+    reset({ orgId: orgId });
     setIsUpdate(false);
-  } 
+  };
 
   return (
     <>
@@ -56,46 +55,33 @@ const Services = ({ orgId }: contractProps) => {
             );
           })}
         </select>
-        <article>
-          <p>PMS</p>
-          <Link to={`/act_pms/${orgId}/${actMonth}`}>
-            ACT PMS {orgId}/{actMonth}
-          </Link>
-          <p>My cost = {getServicesCost(services)}</p>
-          <p>Cost with NDS = {getServicesCostWithNDS_47(services)}</p>
-          <p>
-            Get after NDS ={' '}
-            {getServicesCostWithNDS_47(services) -
-              getServicesCost(services) *
-                ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
-          </p>
-        </article>
-        <article>
-          <p>ZKH</p>
-          <Link to={`/act_zkh/${orgId}/${actMonth}`}>
-            ACT ZKH {orgId}/{actMonth}
-          </Link>
-          <p>My cost = {getServicesCost(services)}</p>
-          <p>Cost with NDS = {getServicesCostWithNDS(services)}</p>
-          <p>
-            Get after NDS ={' '}
-            {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
-          </p>
-        </article>
       </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <div>
           <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
           <label htmlFor="name">Услуга</label>
-          <input {...register('name', { required: {value: true , message: "Дата подписания долна быть заполнена"} })} />
+          <input
+            {...register('name', {
+              required: { value: true, message: 'Дата подписания долна быть заполнена' },
+            })}
+          />
         </div>
         <div>
           <label htmlFor="date">Дата</label>
-          <input type="date" {...register('date', { required: {value: true , message: "Дата подписания долна быть заполнена"} })} />
+          <input
+            type="date"
+            {...register('date', {
+              required: { value: true, message: 'Дата подписания долна быть заполнена' },
+            })}
+          />
         </div>
         <div>
           <label htmlFor="user">Пользоваль</label>
-          <input {...register('user', { required: {value: true , message: "Дата подписания долна быть заполнена"} })} />
+          <input
+            {...register('user', {
+              required: { value: true, message: 'Дата подписания долна быть заполнена' },
+            })}
+          />
         </div>
         <div>
           <label htmlFor="place">Место</label>
@@ -103,16 +89,25 @@ const Services = ({ orgId }: contractProps) => {
         </div>
         <div>
           <label htmlFor="cost">Стоимость</label>
-          <input type="number" {...register('cost', { min: {value: 1 , message: "Дата подписания долна быть заполнена"} })} />
+          <input
+            type="number"
+            {...register('cost', {
+              min: { value: 1, message: 'Дата подписания долна быть заполнена' },
+            })}
+          />
         </div>
         <div>
           <label htmlFor="count">Количество</label>
-          <input type="number" defaultValue={1} {...register('count', { min: {value: 1 , message: "Дата подписания долна быть заполнена"} })} />
+          <input
+            type="number"
+            defaultValue={1}
+            {...register('count', {
+              min: { value: 1, message: 'Дата подписания долна быть заполнена' },
+            })}
+          />
         </div>
         <input type="submit" value={isUpdate ? 'Изменить' : 'Создать'} />
-        <button onClick={ () => resetForm() } >
-          Очистить
-        </button>
+        <button onClick={() => resetForm()}>Очистить</button>
       </form>
 
       <ul>

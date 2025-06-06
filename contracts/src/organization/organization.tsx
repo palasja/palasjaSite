@@ -9,9 +9,9 @@ import {
 } from '../helpers/api';
 import style from './organization.module.css';
 
-  type contractProps = {
-    setOrgId: (id: string) => void;
-  };
+type contractProps = {
+  setOrgId: (id: string) => void;
+};
 const Organization = ({ setOrgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
@@ -19,13 +19,13 @@ const Organization = ({ setOrgId }: contractProps) => {
   const [choosenOrg, setChoosenOrg] = useState('');
 
   const handlerOrganization = () => {
-      fetchAllOrganizations().then((orgs) => {
-        if (typeof orgs !== 'string') {
-          setOrganizations(orgs as Org[]);
-        }
-      });
-    }
-  
+    fetchAllOrganizations().then((orgs) => {
+      if (typeof orgs !== 'string') {
+        setOrganizations(orgs as Org[]);
+      }
+    });
+  };
+
   const onSubmitCreate: SubmitHandler<Org> = (data) => {
     addOrganisation(data).then(handlerOrganization);
     reset();
@@ -74,10 +74,8 @@ const Organization = ({ setOrgId }: contractProps) => {
                     {org.name}
                   </span>
                   <button
-                    onClick={ () => {
-                      removeOrg({ id: Number(org.id) }).then(
-                        () => handlerOrganization()
-                      );
+                    onClick={() => {
+                      removeOrg({ id: Number(org.id) }).then(() => handlerOrganization());
                     }}
                   >
                     Удалить

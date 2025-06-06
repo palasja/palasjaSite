@@ -209,6 +209,32 @@ app.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
+app.get('/getContractByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
+  const month = Number(req.params.month);
+  const orgId = req.params.orgId;
+  const firstWorkDayDate  = new Date(2025, month);
+  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
+  
+  let result = await Contracts.findOne({
+        attributes: {
+      exclude: ['scan'] 
+    },
+      where: {
+        orgId: orgId,
+        [Op.and]:[
+          // Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('startDate')), month+1),
+          {startDate: {
+            [Op.lte]: firstWorkDayDate
+          }},
+          {endDate: {
+            [Op.gte]: lastWorkDayDate
+          }}
+        ]
+      },
+    });
+    res.status(200).json(result);
+}));
+
 app.put('/addContracts',  asyncHandler( async (req, res) => {
   let result = await Contracts.create(req.body.contract);
   res.status(200).json(result);
@@ -233,6 +259,8 @@ app.patch('/updateContract',  asyncHandler( async (req, res) => {
     );
     res.status(200).json(result);
 }));
+
+
 app.get('/getPersonalByOrgId/:id',  asyncHandler( async (req, res) => {
   let result = await Personal.findAll({
       where: {
@@ -265,13 +293,34 @@ app.patch('/updatePersonal',  asyncHandler( async (req, res) => {
     );
     res.status(200).json(result);
 }));
-app.get('/getServiceByOrgId/:id',  asyncHandler( async (req, res) => {
+app.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
   let result = await Service.findAll({
       where: {
         orgId: req.params.id,
       },
     });
   res.status(200).json(result);
+}));
+app.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
+  const month = Number(req.params.month);
+  const orgId = req.params.orgId;
+  const firstWorkDayDate  = new Date(2025, month);
+  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
+  
+   let result = await Service.findAll({
+  where: {
+    orgId: orgId,
+      [Op.and]:[
+        {date: {
+          [Op.gte]: firstWorkDayDate
+        }},
+        {date: {
+          [Op.lte]: lastWorkDayDate
+        }}
+      ]
+    },
+  });
+    res.status(200).json(result);
 }));
 app.put('/addService',  asyncHandler( async (req, res) => {
   let result = await Service.create(req.body.service);
