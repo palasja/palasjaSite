@@ -86,8 +86,11 @@ const Act = () => {
           })}
         </select>
       </div>
-
-      {organizations?.find((o) => o.id === orgId)?.name === 'ЖКХ' ? (
+         {contract === null ? 
+         <h2>Нет договора за {MONTH_R[month]} месяц</h2> 
+         : 
+         <>
+               {organizations?.find((o) => o.id === orgId)?.name === 'ЖКХ' ? (
         <>
           <article  className={style.noprint}>
             <p>Заработано = {getServicesCost(services)}</p>
@@ -118,6 +121,10 @@ const Act = () => {
           </div>
         </>
       )}
+         </>
+          
+        }
+
     </>
   );
 };
