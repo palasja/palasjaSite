@@ -12,9 +12,6 @@ p {
 }
 
 @media print {
-  .noprint {
-    display: none;
-  }
   .page {
     width: auto;
     height: auto;

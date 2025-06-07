@@ -44,3 +44,11 @@
 .sign {
   margin-top: 40px;
 }
+.variable{
+  color: darkturquoise;
+}
+@media print {
+  .variable {
+    color: inherit;
+  }
+}

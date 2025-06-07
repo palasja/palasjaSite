@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
-  fetchActInfo,
   fetchAllOrganizations,
   fetchContractsByOrgIdMonth,
   fetchPersonalsByOrgId,
   fetchServicesByOrgIdMonth,
 } from '../helpers/api';
 import {
-  ActInfo,
   Contract,
   Personal,
   Service,
@@ -22,9 +20,7 @@ import {
 import style from './act.module.css';
 import ActZKH from './act_ZKH';
 import ActPMS from './act_PMS';
-import { Link } from 'react-router';
 import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
-import services from '../services';
 
 const Act = () => {
   const [month, setMonth] = useState(new Date().getMonth());
@@ -65,7 +61,7 @@ const Act = () => {
   const handlerOrganization = (id: string): void => setOrgId(id);
   return (
     <>
-      <div className={style.noprint}>
+      <div className='noprint'>
         <h1>{organizations?.find((o) => o.id === orgId)?.name}</h1>
         <select onChange={(e) => handlerActMonth(Number(e.target.value))} defaultValue={month}>
           {MONTH_R.map((e, i) => {
@@ -86,45 +82,55 @@ const Act = () => {
           })}
         </select>
       </div>
-         {contract === null ? 
-         <h2>Нет договора за {MONTH_R[month]} месяц</h2> 
-         : 
-         <>
-               {organizations?.find((o) => o.id === orgId)?.name === 'ЖКХ' ? (
-        <>
-          <article  className={style.noprint}>
-            <p>Заработано = {getServicesCost(services)}</p>
-            <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
-            <p>
-              К получению после вычета НДС ={' '}
-              {getServicesCostWithNDS_47(services) -
-                getServicesCost(services) *
-                  ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
-            </p>
-          </article>
-          <div className={style.page}>
-            <ActZKH contract={contract} services={services} personals={personals} month={month} />
-          </div>
-        </>
+      {contract === null ? (
+        <h2>Нет договора за {MONTH_R[month]} месяц</h2>
       ) : (
         <>
-          <article>
-            <p>Заработано = {getServicesCost(services)}</p>
-            <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>
-            <p>
-              К получению после вычета НДС
-              {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
-            </p>
-          </article>
-          <div className={style.page}>
-            <ActPMS contract={contract} services={services} personals={personals} month={month} />
-          </div>
+          {organizations?.find((o) => o.id === orgId)?.name === 'ЖКХ' ? (
+            <>
+              <article className='noprint'>
+                <p>Заработано = {getServicesCost(services)}</p>
+                <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>
+                <p>
+                  К получению после вычета НДС
+                  {getServicesCostWithNDS(services) -
+                    getServicesCostWithNDS(services) * (NDS / 100)}
+                </p>
+              </article>
+              <div className={style.page}>
+                <ActZKH
+                  contract={contract}
+                  services={services}
+                  personals={personals}
+                  month={month}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+
+            <article  className='noprint'>
+                <p>Заработано = {getServicesCost(services)}</p>
+                <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
+                <p>
+                  К получению после вычета НДС ={' '}
+                  {getServicesCostWithNDS_47(services) -
+                    getServicesCost(services) *
+                      ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
+                </p>
+              </article>
+              <div className={style.page}>
+                <ActPMS
+                  contract={contract}
+                  services={services}
+                  personals={personals}
+                  month={month}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
-         </>
-          
-        }
-
     </>
   );
 };

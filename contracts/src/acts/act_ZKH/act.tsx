@@ -42,8 +42,8 @@ const ActZKH = ({ contract, services, personals, month }: ActTypeProps) => {
       <div className={style.print}>
         <div className={style.headSign}>
           <p>УТВЕРЖДАЮ:</p>
-          <p>{head?.positionName}</p>
-          <p>_______________{getShortName(head)}</p>
+          <p><span className={style.variable}>{head?.positionName}</span></p>
+          <p>_______________<span className={style.variable}>{getShortName(head)}</span></p>
           <p>«___»___________2025</p>
         </div>
         <div className={style.act}>
@@ -58,8 +58,8 @@ const ActZKH = ({ contract, services, personals, month }: ActTypeProps) => {
 
         <div className={style.indent}>
           <p>
-            Мы, нижеподписавшиеся: {`${LAST_NAME} ${FIRST_NAME} ${MIDDLE_NAME}`}, с одной стороны и{' '}
-            {`${sign?.lastName} ${sign?.firstName} ${sign?.middleName}`}, с другой стороны,
+            Мы, нижеподписавшиеся: <span className={style.variable}>{`${LAST_NAME} ${FIRST_NAME} ${MIDDLE_NAME}`}</span>, с одной стороны и{' '}
+            <span className={style.variable}>{`${sign?.lastName} ${sign?.firstName} ${sign?.middleName}`}</span>, с другой стороны,
             составили настоящий акт в том, что первый выполнил работы в расчетно-справочном центре:
           </p>
         </div>
@@ -96,22 +96,22 @@ const ActZKH = ({ contract, services, personals, month }: ActTypeProps) => {
         </table>
 
         <div>
-          <p className={style.lower}>({convertNumberToWordsRu(itog)})</p>
+          <p className={style.lower}>(<span className={style.variable}>{convertNumberToWordsRu(itog)}</span>)</p>
           <p>
-            в полном объеме с {new Date(2025, month).toLocaleDateString('ru-RU')} по{' '}
-            {new Date(2025, Number(month), 0).toLocaleDateString('ru-RU')} согласно заключенного
+            в полном объеме с <span className={style.variable}>{new Date(2025, month).toLocaleDateString('ru-RU')}</span> по{' '}
+            <span className={style.variable}>{new Date(2025, Number(month), 0).toLocaleDateString('ru-RU')}</span> согласно заключенного
             договора подряда.
           </p>
           <p className={style.indent}>
             Акт составлен на предмет оплаты за выполненный объем работы, согласно заключенного
-            договора подряда № {contract.number} от{' '}
-            {new Date(contract.signDate).toLocaleDateString('ru-RU')}
+            договора подряда № <span className={style.variable}>{contract.number}</span> от{' '}
+            <span className={style.variable}>{new Date(contract.signDate).toLocaleDateString('ru-RU')}</span>
           </p>
         </div>
 
         <div className={style.sign}>
-          <p>Работу принял __________________ {getShortName(sign)}</p>
-          <p>Работу сдал __________________ {SHORT_NAME}</p>
+          <p>Работу принял __________________ <span className={style.variable}>{getShortName(sign)}</span></p>
+          <p>Работу сдал __________________ <span className={style.variable}>{SHORT_NAME}</span></p>
         </div>
       </div>
     </>

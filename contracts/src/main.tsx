@@ -2,7 +2,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import './index.css';
-import ActZKH from './acts/act_ZKH';
 import Contract from './contract/contract';
 import Auth from './auth';
 import { AuthProvider } from './hooks/protectedRoute/authProvider';
@@ -11,12 +10,13 @@ import SignIn from './signIn';
 import Logout from './logout';
 import Error404 from './404';
 import './main.css';
-import ActPMS from './acts/act_PMS';
 import Act from './acts/act';
+import Header from './components/header';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+      <Header />
       <AuthProvider>
         <Routes>
           <Route
@@ -30,12 +30,20 @@ createRoot(document.getElementById('root')!).render(
           <Route path="login" element={<Auth />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="logout" element={<Logout />} />
-          <Route path="act" element={<Act />} />
+          {/* <Route path="act" element={<Act />} /> */}
           <Route
             path="contract"
             element={
               <ProtectedRoute>
                 <Contract />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="act"
+            element={
+              <ProtectedRoute>
+                <Act />
               </ProtectedRoute>
             }
           />

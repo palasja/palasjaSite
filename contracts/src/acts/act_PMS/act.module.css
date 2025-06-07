@@ -8,8 +8,6 @@ p {
   font-size: 20px;
   line-height: 20px;
 }
-.head {
-}
 .datePlace {
   display: flex;
   flex-direction: row;
@@ -27,7 +25,7 @@ p {
   display: flex;
   margin: 70px 0;
   text-align: left;
-  gap: 80px;
+  gap: 65px;
 }
 .sidesInfo_sign {
   margin-top: 30px;
@@ -41,8 +39,11 @@ p {
 .sign {
   margin-left: 20px;
 }
+.variable{
+  color: darkturquoise;
+}
 @media print {
-  @page {
-    size: a4;
+  .variable {
+    color: black;
   }
 }
