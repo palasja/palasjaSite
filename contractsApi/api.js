@@ -222,10 +222,13 @@ app.get('/getContractByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res)
       where: {
         orgId: orgId,
         [Op.and]:[
-          // Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('startDate')), month+1),
+{          [Op.or]:[
+          Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('startDate')), month+1),
           {startDate: {
             [Op.lte]: firstWorkDayDate
           }},
+          ]},
+
           {endDate: {
             [Op.gte]: lastWorkDayDate
           }}
@@ -357,44 +360,44 @@ app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
   res.status(200).json(result);
 }));
 
-app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
-  const month = Number(req.params.month);
-  const firstWorkDayDate  = new Date(2025, month);
-  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 )
-  let contract = await Contracts.findOne({
-      where: {
-        orgId: req.params.orgId,
-        [Op.and]:[
-          // Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('startDate')), month+1),
-          {startDate: {
-            [Op.lte]: firstWorkDayDate
-          }},
-          {endDate: {
-            [Op.gte]: lastWorkDayDate
-          }}
-        ]
-      },
-    });
-  let services = await Service.findAll({
-  where: {
-    orgId: req.params.orgId,
-      [Op.and]:[
-        {date: {
-          [Op.gte]: firstWorkDayDate
-        }},
-        {date: {
-          [Op.lte]: lastWorkDayDate
-        }}
-      ]
-    },
-  });
-    let persons = await Personal.findAll({
-      where: {
-        orgId: req.params.orgId,
-      },
-    });
-  res.status(200).json({contract: contract, services: services, persons:persons});
-}));
+// app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
+//   const month = Number(req.params.month);
+//   const firstWorkDayDate  = new Date(2025, month);
+//   const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 )
+//   let contract = await Contracts.findOne({
+//       where: {
+//         orgId: req.params.orgId,
+//         [Op.and]:[
+//           // Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('startDate')), month+1),
+//           {startDate: {
+//             [Op.lte]: firstWorkDayDate
+//           }},
+//           {endDate: {
+//             [Op.gte]: lastWorkDayDate
+//           }}
+//         ]
+//       },
+//     });
+//   let services = await Service.findAll({
+//   where: {
+//     orgId: req.params.orgId,
+//       [Op.and]:[
+//         {date: {
+//           [Op.gte]: firstWorkDayDate
+//         }},
+//         {date: {
+//           [Op.lte]: lastWorkDayDate
+//         }}
+//       ]
+//     },
+//   });
+//     let persons = await Personal.findAll({
+//       where: {
+//         orgId: req.params.orgId,
+//       },
+//     });
+//   res.status(200).json({contract: contract, services: services, persons:persons});
+// }));
 
 // app.get('/workTime/:date', asyncHandler( async (req, res) => {
 //     const result = await WorkTime.findAll({
