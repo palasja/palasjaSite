@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
-import { fetchActInfo } from '../../helpers/api';
-import { ActInfo, Contract, Personal, Service } from '../../helpers/contractTypes';
+import { Contract, Personal, Service } from '../../helpers/contractTypes';
 import { getShortName, getServicesCostWithNDS } from '../../helpers/helper';
 import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
-import { useParams } from 'react-router';
 import style from './act.module.css';
 
 type ActTypeProps = {
