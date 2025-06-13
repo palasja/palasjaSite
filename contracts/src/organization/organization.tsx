@@ -8,6 +8,7 @@ import {
   updateOrganisation,
 } from '../helpers/api';
 import style from './organization.module.css';
+import Header from '../components/header';
 
 type contractProps = {
   setOrgId: (id: string) => void;
@@ -40,6 +41,7 @@ const Organization = ({ setOrgId }: contractProps) => {
   }, []);
   return (
     <>
+    <Header />
       <h2>Организации</h2>
 
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>

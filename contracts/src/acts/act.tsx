@@ -21,6 +21,7 @@ import style from './act.module.css';
 import ActZKH from './act_ZKH';
 import ActPMS from './act_PMS';
 import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
+import Header from '../components/header';
 
 const Act = () => {
   const [month, setMonth] = useState(new Date().getMonth());
@@ -61,6 +62,7 @@ const Act = () => {
   const handlerOrganization = (id: string): void => setOrgId(id);
   return (
     <>
+      <Header />
       <div className='noprint'>
         <h1>{organizations?.find((o) => o.id === orgId)?.name}</h1>
         <select onChange={(e) => handlerActMonth(Number(e.target.value))} defaultValue={month}>

@@ -57,8 +57,8 @@ const Services = ({ orgId }: contractProps) => {
         </select>
       </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+        <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
         <div>
-          <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
           <label htmlFor="name">Услуга</label>
           <input
             {...register('name', {

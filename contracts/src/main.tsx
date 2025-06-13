@@ -11,14 +11,12 @@ import Logout from './logout';
 import Error404 from './404';
 import './main.css';
 import Act from './acts/act';
-import Header from './components/header';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Header />
       <AuthProvider>
-        <Routes>
+       <Routes>
           <Route
             path="/"
             element={
@@ -47,30 +45,6 @@ createRoot(document.getElementById('root')!).render(
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="act"
-            element={
-              <ProtectedRoute>
-                <Act />
-              </ProtectedRoute>
-            }
-          /> */}
-          {/* <Route
-            path="act_zkh/:orgId/:month"
-            element={
-              <ProtectedRoute>
-                <ActZKH />
-              </ProtectedRoute>
-            }
-          /> */}
-          {/* <Route
-            path="act_pms/:orgId/:month"
-            element={
-              <ProtectedRoute>
-                <ActPMS />
-              </ProtectedRoute>
-            }
-          /> */}
           <Route path="*" element={<Error404 />} />
         </Routes>
       </AuthProvider>

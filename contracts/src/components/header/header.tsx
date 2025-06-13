@@ -9,7 +9,7 @@ const Header = () => {
         <Link to={'/'}>Договора</Link>
       </nav>
       <nav>
-        <Link to={'act'}>Акты</Link>
+        <Link to={'/act'}>Акты</Link>
       </nav>
     </header>
   );

@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import { useAuth } from './useAuth';
 import { fetchСheckAuth } from '../../helpers/api';
 
@@ -8,13 +8,14 @@ type ProtectedRouteProps = {
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuth, onLogin } = useAuth();
-
+  const navigate = useNavigate();
   if (!isAuth) {
     fetchСheckAuth().then((status) => {
       if (status == 200) {
         onLogin();
       } else {
-        return <Navigate to="/" replace />;
+        return navigate('/');
+        // return <Navigate to="/" replace />;
       }
     });
   }

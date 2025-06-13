@@ -35,12 +35,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const handleLogout = () => {
-    fetchLogOut().then((status) => {
-      if (status == 200) {
         setIsAuth(false);
         navigate('/login');
-      }
-    });
+    // fetchLogOut().then((status) => {
+    //   if (status == 200) {
+    //     setIsAuth(false);
+    //     // navigate('/login');
+    //   }
+    // });
   };
 
   const value = {
