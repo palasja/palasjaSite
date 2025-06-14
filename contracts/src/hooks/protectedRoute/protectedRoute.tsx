@@ -1,24 +1,17 @@
-import { Navigate, useNavigate } from 'react-router';
-import { useAuth } from './useAuth';
-import { fetchСheckAuth } from '../../helpers/api';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { check, getIsAuth } from '../../features/auth/authSlice';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuth, onLogin } = useAuth();
-  const navigate = useNavigate();
+  const isAuth =  useAppSelector(getIsAuth)
+  const dispatch = useAppDispatch()
   if (!isAuth) {
-    fetchСheckAuth().then((status) => {
-      if (status == 200) {
-        onLogin();
-      } else {
-        return navigate('/');
-        // return <Navigate to="/" replace />;
-      }
-    });
+    const chreckAuthToken = async () => await dispatch(check())
+    chreckAuthToken();
   }
 
-  return children;
+  return isAuth ? <>{children}</> : <></>;
 };

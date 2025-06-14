@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className='noprint'>
       <nav>
-        <Link to={'/'}>Договора</Link>
+        <Link to={'/contract'}>Договора</Link>
       </nav>
       <nav>
         <Link to={'/act'}>Акты</Link>

@@ -1,9 +1,9 @@
 // import { useCookies } from 'react-cookie';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './auth.module.css';
-import { useAuth } from '../hooks/protectedRoute/useAuth';
-import { Link } from 'react-router';
-import { fetchLogIn } from '../helpers/api';
+import { Link, useNavigate } from 'react-router';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getIsAuth, login } from '../features/auth/authSlice';
 
 type FormValues = {
   login: string;
@@ -12,14 +12,14 @@ type FormValues = {
 
 const Auth = () => {
   const { register, handleSubmit } = useForm<FormValues>();
-  // const [isLock, _setisLock] = useState(false);
-  // const [errorMeaasge, _setErrorMeaasge] = useState();
-  const { onLogin } = useAuth();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isAuth = useAppSelector(getIsAuth);
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const signInResult = await fetchLogIn(data);
-    if (signInResult == 200) {
-      onLogin();
-    }
+     dispatch(login(data)).then(() => {
+      navigate('/contract');
+     })
+
   };
   return (
     // isLock ? (<h2 className={style.lockMessge}>Данные были введены неверно более 10 раз. Обратитесь к администратору</h2>) :

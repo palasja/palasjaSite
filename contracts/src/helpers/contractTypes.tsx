@@ -41,7 +41,7 @@ type ActInfo = {
   services: Service[];
 };
 
-type User = {
+interface User {
   login: string;
   password: string;
 };

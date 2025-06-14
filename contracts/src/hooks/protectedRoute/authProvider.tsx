@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleLogin = async () => {
     setIsAuth(true);
-    navigate('/contract');
+    // navigate('/contract');
   };
 
   const handleLogout = () => {

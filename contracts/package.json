@@ -29,12 +29,16 @@
   },
   "dependencies": {
     "-": "^0.0.1",
+    "@reduxjs/toolkit": "^2.8.2",
     "number-to-words-ru": "^2.4.1",
     "paper-css": "^0.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.56.3",
-    "react-router": "^7.6.0"
+    "react-redux": "^9.2.0",
+    "react-router": "^7.6.0",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

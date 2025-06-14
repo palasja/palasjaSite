@@ -11,43 +11,48 @@ import Logout from './logout';
 import Error404 from './404';
 import './main.css';
 import Act from './acts/act';
+import { store } from './app/store';
+import { Provider } from 'react-redux';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-       <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Contract />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="login" element={<Auth />} />
-          <Route path="signin" element={<SignIn />} />
-          <Route path="logout" element={<Logout />} />
-          {/* <Route path="act" element={<Act />} /> */}
-          <Route
-            path="contract"
-            element={
-              <ProtectedRoute>
-                <Contract />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="act"
-            element={
-              <ProtectedRoute>
-                <Act />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        {/* <AuthProvider> */}
+        <Routes>
+            {/* <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Contract />
+                </ProtectedRoute>
+              }
+            /> */}
+            <Route path="/" element={<Auth />} />
+            <Route path="login" element={<Auth />} />
+            <Route path="signin" element={<SignIn />} />
+            <Route path="logout" element={<Logout />} />
+            {/* <Route path="act" element={<Act />} /> */}
+            <Route
+              path="contract"
+              element={
+                <ProtectedRoute>
+                  <Contract />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="act"
+              element={
+                <ProtectedRoute>
+                  <Act />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        {/* </AuthProvider> */}
+      </BrowserRouter>
+    </Provider>
   </StrictMode>
 );
