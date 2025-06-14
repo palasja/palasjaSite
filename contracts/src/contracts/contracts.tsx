@@ -10,6 +10,7 @@ import {
 } from '../helpers/api';
 import { toBase64 } from '../helpers/helper';
 import style from './contracts.module.css';
+import { useIsUpdate } from '../hooks/useIsUpdate';
 
 type contractProps = {
   orgId: string;
@@ -24,8 +25,7 @@ function Contracts({ orgId }: contractProps) {
   } = useForm<Contract>();
 
   const [contracts, setContracts] = useState<Contract[]>([]);
-  const [isUpdate, setIsUpdate] = useState(false);
-
+  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
   const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
     //@ts-expect-error: Chome has faleArray instead of File
     data.scan = await toBase64(data.scan[0]);
@@ -114,7 +114,7 @@ function Contracts({ orgId }: contractProps) {
           {errors.scan && <p>{errors.scan.message}</p>}
         </div>
 
-        <input type="submit" value={isUpdate ? 'Изменить' : 'Добаить'} />
+        <input type="submit" value={btnValue} />
         <button
           onClick={() => {
             resetForm();

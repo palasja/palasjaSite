@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Personal } from '../helpers/contractTypes';
 import { addPerson, fetchPersonalsByOrgId, removePerson, updatePerson } from '../helpers/api';
 import style from './personal.module.css';
+import { useIsUpdate } from '../hooks/useIsUpdate';
 
 type contractProps = {
   orgId: string;
@@ -15,7 +16,7 @@ const Personals = ({ orgId }: contractProps) => {
     reset,
     formState: { errors },
   } = useForm<Personal>();
-  const [isUpdate, setIsUpdate] = useState(false);
+  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
   const [personals, setPersonals] = useState<Personal[]>([]);
   useEffect(() => {
     handlerPerson();
@@ -86,7 +87,7 @@ const Personals = ({ orgId }: contractProps) => {
           <label htmlFor="isHead">Руководитель организации</label>
           <input type={'checkbox'} {...register('isHead')} />
         </div>
-        <input type="submit" value={isUpdate ? 'Update' : 'Create'} />
+        <input type="submit" value={btnValue} />
       </form>
       <button
         onClick={() => {

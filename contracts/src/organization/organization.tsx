@@ -9,6 +9,7 @@ import {
 } from '../helpers/api';
 import style from './organization.module.css';
 import Header from '../components/header';
+import { useIsUpdate } from '../hooks/useIsUpdate';
 
 type contractProps = {
   setOrgId: (id: string) => void;
@@ -16,7 +17,7 @@ type contractProps = {
 const Organization = ({ setOrgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Org>();
   const [organizations, setOrganizations] = useState<Org[]>([]);
-  const [isUpdate, setIsUpdate] = useState(false);
+  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
   const [choosenOrg, setChoosenOrg] = useState('');
 
   const handlerOrganization = () => {
@@ -51,7 +52,7 @@ const Organization = ({ setOrgId }: contractProps) => {
           <input id="name" {...register('name', { required: true })} />
         </div>
 
-        <input type="submit" value={isUpdate ? 'Сохранить' : 'Создать'} />
+        <input type="submit" value={btnValue} />
       </form>
       <button
         onClick={() => {

@@ -10,6 +10,7 @@ import {
 } from '../helpers/helper';
 import { NDS, NDS_VICHET, PENSIA } from '../helpers/constants';
 import { Link } from 'react-router';
+import { useIsUpdate } from '../hooks/useIsUpdate';
 
 type contractProps = {
   orgId: string;
@@ -19,7 +20,7 @@ const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
   const [actMonth, setActMonth] = useState(new Date().getMonth() + 1);
-  const [isUpdate, setIsUpdate] = useState(false);
+  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
 
   const handlerService = () => {
     fetchServices(orgId).then((orgs) => setServices(orgs));
@@ -106,7 +107,7 @@ const Services = ({ orgId }: contractProps) => {
             })}
           />
         </div>
-        <input type="submit" value={isUpdate ? 'Изменить' : 'Создать'} />
+        <input type="submit" value={btnValue} />
         <button onClick={() => resetForm()}>Очистить</button>
       </form>
 
