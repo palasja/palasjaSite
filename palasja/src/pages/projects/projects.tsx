@@ -1,18 +1,34 @@
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { Outlet } from 'react-router';
 import style from './projects.module.css';
+import srvScanCode from './srcScan/code_en';
+import { useState } from 'react';
+
 
 const Projects = () => {
+  const reg = new RegExp(/SrvScan/i);
+  const location = useLocation();
+
   return (
     <>
-    <ul>
-      <li><Link to="srvScan">SrvScan</Link></li>
-      <li><Link to="getInfo">GetInfo</Link></li>
-      <li><Link to="gusmary">GusMary</Link></li>
-      <li><Link to="contracts">Contracts</Link></li>
-      <li><Link to="payroll">Payroll</Link></li>
-    </ul>
-    <Outlet />
+      <div className={style.container}>
+        <nav className={style.nav}>
+          <Link to="srvScan">SrvScan</Link>
+          {
+          reg.test(location.pathname) && 
+          <div className={style.srvNav}>
+            {Object.keys(srvScanCode).map((key, i) => <Link className={style.link} key={i} to={`srvScan/${key}`}>{key}</Link>)}
+          </div>
+          }
+          <Link to="getInfo">GetInfo</Link>
+          <Link to="gusmary">GusMary</Link>
+          <Link to="contracts">Contracts</Link>
+          <Link to="payroll">Payroll</Link>
+        </nav>
+        <main>
+          <Outlet />
+        </main>
+      </div>
     </>
   );
 };

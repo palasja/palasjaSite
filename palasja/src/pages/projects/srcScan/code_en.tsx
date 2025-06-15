@@ -27,7 +27,7 @@ echo ^</head^> >> %xml%
 	if "%freeSpace%"=="" (exit /B)
 echo 			^<%disk%^>%freeSpace%^</%disk%^> >> %xml%
 	exit /B`;
-const Unlodafile = `echo off
+const UnlodaFile = `echo off
 title UnloadFile
  echo == %Time% - Start UnloadFile == >> %fileLog%
  rem - Check undownloaded failes. getXML return name, date, timae
@@ -383,14 +383,15 @@ For start separate bat there have to write their number as params whit whitespac
 To %fileLog% write log RUN_XML: params, start\end execute. 
 `;
 
-export {
-  ErrorLoadScan,
-  ProgError,
-  Readme,
-  RuningProgram,
-  Bak,
-  CheckTaskSync,
-  CopyBak,
-  FreeSpace,
-  Unlodafile,
-};
+const srvScanCode = {
+	errorLoadScan: ErrorLoadScan,
+  progError: ProgError,
+  readme: Readme,
+  runingProgram: RuningProgram,
+  bak: Bak,
+  checkTaskSync: CheckTaskSync,
+  copyBak: CopyBak,
+  freeSpace: FreeSpace,
+  unloadFiles: UnlodaFile
+}
+export default srvScanCode

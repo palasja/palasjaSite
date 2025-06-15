@@ -1,53 +1,26 @@
 import style from './srvScan.module.css';
-import {
-  Bak,
-  CheckTaskSync,
-  ErrorLoadScan,
-  FreeSpace,
-  ProgError,
-  RuningProgram,
-  Unlodafile,
-} from './code_en';
 import { useTranslation } from 'react-i18next';
 import { splitLineGetParagragh } from '../../../helpers/heper';
+import { Outlet, useLocation } from 'react-router';
 
 const SrvScan = () => {
-  const { t } = useTranslation();
+  const reg = new RegExp(/SrvScan$/i);
+  const { t } = useTranslation(); 
+  const location = useLocation();
   return (
+
     <>
-    {splitLineGetParagragh(t('proj.srvScan.desc'))}
-      <ul>
-        {[...new Array(8)].map((_v, i) => <li>{i+1} - {t(`proj.srvScan.params.${i+1}`)}</li>)}
-      </ul>
-      <details>
-        <summary>FreeSpace</summary>
-        <pre>{FreeSpace}</pre>
-      </details>
-      <details>
-        <summary>Unlodafile</summary>
-        <pre>{Unlodafile}</pre>
-      </details>
-      <details>
-        <summary>Bak</summary>
-        <pre>{Bak}</pre>
-      </details>
-      <details>
-        <summary>CheckTaskSync</summary>
-        <pre>{CheckTaskSync}</pre>
-      </details>
-      <details>
-        <summary>ErrorLoadScan</summary>
-        <pre>{ErrorLoadScan}</pre>
-      </details>
-      <details>
-        <summary>RuningProgram</summary>
-        <pre>{RuningProgram}</pre>
-      </details>
-      <details>
-        <summary>ProgError</summary>
-        <pre>{ProgError}</pre>
-      </details>
+    {
+      reg.test(location.pathname) && 
+      <>
+        {splitLineGetParagragh(t('proj.srvScan.desc'))}
+          {[...new Array(8)].map((_v, i) => <li key={i}>{i+1} - {t(`proj.srvScan.params.${i+1}`)}</li>)}
+      </>
+    }
+      <Outlet/>
     </>
+
+   
   );
 };
 

@@ -14,6 +14,10 @@ import GetInfo from './pages/projects/getInfo';
 import GusMary from './pages/projects/gusMary';
 import Contracts from './pages/projects/contracts';
 import Payroll from './pages/projects/payroll/payroll';
+import Code from './pages/projects/srcScan/code';
+import srvScanCode from './pages/projects/srcScan/code_en';
+
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -22,7 +26,11 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="projects" element={<Projects />}>
-          <Route path="srvScan" element={<SrvScan />} />
+          <Route path="srvScan" element={<SrvScan />} >
+          {Object.keys(srvScanCode).map((key, i) => 
+          //@ts-ignore
+            <Route key={i} path={key} element={<Code name={key} code={srvScanCode[key]}/>} />)}
+          </Route>
           <Route path="getInfo" element={<GetInfo />} />
           <Route path="gusmary" element={<GusMary />} />
           <Route path="contracts" element={<Contracts />} />
