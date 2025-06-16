@@ -31,6 +31,7 @@
     "-": "^0.0.1",
     "@reduxjs/toolkit": "^2.8.2",
     "number-to-words-ru": "^2.4.1",
+    "palasja": "file:..",
     "paper-css": "^0.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

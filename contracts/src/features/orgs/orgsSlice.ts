@@ -1,10 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "../../app/withTypes";
 import { fetchAllOrganizations, addOrganisation, removeOrg, updateOrganisation  } from "../../helpers/api";
 import { Organization } from "../../helpers/contractTypes";
 import { RootState } from '../../app/store'
 interface OrganizationState {
   organizations:  Organization[],
+  chosenOrg: Organization | null,
   error: string | null
 }
 export const fetchOrgs = createAppAsyncThunk('orgs/fetchOrgs', async () => {
@@ -31,6 +32,7 @@ export const editOrg = createAppAsyncThunk('orgs/editOrg', async (org: Organizat
 
 const initialState: OrganizationState = {
   organizations: [],
+  chosenOrg: null,
   error: null
 };
 
@@ -38,7 +40,9 @@ const orgsSlice = createSlice({
   name: 'orgs',
   initialState: initialState,
   reducers:{
-
+    chooseOrg(state, action: PayloadAction<Organization>) {
+      state.chosenOrg = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -66,5 +70,7 @@ const orgsSlice = createSlice({
 
 export default orgsSlice.reducer;
 
+export const { chooseOrg } = orgsSlice.actions
+export const getChosenOrganization = (state: RootState) => state.orgs.chosenOrg
 export const getAllOrganisation = (state: RootState) => state.orgs.organizations
 export const getOrganisationError = (state: RootState) => state.orgs.error

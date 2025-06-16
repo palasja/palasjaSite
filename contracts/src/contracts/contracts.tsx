@@ -9,11 +9,10 @@ import style from './contracts.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addContract, delContract, editContract, fetchContractsByOrgId, getAllContracts } from '../features/contracts/contractSlice';
+import { getChosenOrganization } from '../features/orgs/orgsSlice';
 
-type contractProps = {
-  orgId: string;
-};
-function Contracts({ orgId }: contractProps) {
+type T0 = NonNullable<string | number | undefined>;
+function Contracts() {
   const {
     register,
     handleSubmit,
@@ -25,6 +24,7 @@ function Contracts({ orgId }: contractProps) {
   // const [contracts, setContracts] = useState<Contract[]>([]);
   const dispatch = useAppDispatch();
   const contracts = useAppSelector(getAllContracts);
+  const choosenOrg = useAppSelector(getChosenOrganization);
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
   const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
     //@ts-expect-error: Chome has faleArray instead of File
@@ -49,7 +49,7 @@ function Contracts({ orgId }: contractProps) {
 
   const resetForm = () => {
     reset({
-      orgId: orgId,
+      orgId: choosenOrg?.id,
     });
     setIsUpdate(false);
   };
@@ -59,7 +59,7 @@ function Contracts({ orgId }: contractProps) {
   // };
 
   useEffect(() => {
-    dispatch(fetchContractsByOrgId(orgId))
+    dispatch(fetchContractsByOrgId( choosenOrg!.id))
   }, []);
   return (
     <>
@@ -67,7 +67,7 @@ function Contracts({ orgId }: contractProps) {
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         {errors.number && <span role="alert">{errors.number.message}</span>}
         <input
-          value={orgId}
+          value={ choosenOrg!.id}
           type="hidden"
           {...register('orgId', { required: true, maxLength: 20 })}
         />

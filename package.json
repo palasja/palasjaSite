@@ -1,0 +1,25 @@
+{
+  "name": "palasja",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "contracts": "npm --prefix ./contracts/ run dev",
+    "contractsApi": "npm --prefix ./contractsApi/ run start",
+    "gusmaryApi": "npm --prefix ./gusmaryApi/ run start",
+    "gusmaryAdmin": "npm --prefix ./GusMayHairAdmin/ run dev",
+    "gusmary": "npm --prefix ./gusMaryHairSSR/ run dev",
+    "palasja": "npm --prefix ./palasja/ run dev",
+    "contracts:i": "npm --prefix contracts/ install",
+    "contractsApi:i": "npm --prefix ./contractsApi/ install",
+    "gusmaryApi:i": "npm --prefix ./gusmaryApi/ install",
+    "gusmaryAdmin:i": "npm --prefix ./GusMayHairAdmin/ install",
+    "gusmary:i": "npm --prefix ./gusMaryHairSSR/ install",
+    "palasja:i": "npm --prefix ./palasja/ install",
+    "all:i": "concurrently \"npm run install\" \"npm run contracts:i\" \"npm run contractsApi:i\" \"npm run gusmaryApi:i\" \"npm run gusmaryAdmin:i\" \"npm run gusmary:i\" \"npm run palasja:i\"",
+    "all": "concurrently \"npm run contracts\" \"npm run contractsApi\" \"npm run gusmaryApi\" \"npm run gusmaryAdmin\" \"npm run gusmary\" \"npm run palasja\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

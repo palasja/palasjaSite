@@ -1,26 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Organization as Org } from '../helpers/contractTypes';
-import {
-  removeOrg,
-  updateOrganisation,
-} from '../helpers/api';
+
 import style from './organization.module.css';
 import Header from '../components/header';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addOrg, delOrg, editOrg, fetchOrgs, getAllOrganisation, getOrganisationError } from '../features/orgs/orgsSlice';
+import { addOrg, chooseOrg, delOrg, editOrg, fetchOrgs, getAllOrganisation, getChosenOrganization, getOrganisationError } from '../features/orgs/orgsSlice';
 
-type contractProps = {
-  setOrgId: (id: string) => void;
-};
-const Organization = ({ setOrgId }: contractProps) => {
+const Organization = () => {
   const { register, handleSubmit, setValue, reset } = useForm<Org>();
   const dispatch = useAppDispatch();
   const organizations = useAppSelector(getAllOrganisation);
+  const choosenOrg = useAppSelector(getChosenOrganization);
   const errors = useAppSelector(getOrganisationError);
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
-  const [choosenOrg, setChoosenOrg] = useState('');
+
 
   const onSubmitCreate: SubmitHandler<Org> = (data) => {
     // addOrganisation(data)
@@ -65,9 +60,10 @@ const Organization = ({ setOrgId }: contractProps) => {
               return (
                 <li key={i}>
                   <span
-                    onClick={() => {
-                      setOrgId(org.id);
-                      setChoosenOrg(org.name);
+                    onClick={() => {  
+                      dispatch(chooseOrg(org))
+                      // setOrgId(org.id);
+                      // setChoosenOrg(org.name);
                     }}
                   >
                     {org.name}
@@ -93,7 +89,7 @@ const Organization = ({ setOrgId }: contractProps) => {
               );
             })}
       </ul>
-      <h2>{choosenOrg.length == 0 ? '' : choosenOrg}</h2>
+      <h2>{choosenOrg?.name}</h2>
     </>
   );
 };

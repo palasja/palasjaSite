@@ -3,18 +3,22 @@ import Contracts from '../contracts';
 import Personals from '../personal';
 import Services from '../services';
 import Organization from '../organization';
+import { useAppSelector } from '../app/hooks';
+import { getChosenOrganization } from '../features/orgs/orgsSlice';
 
 const Contract = () => {
-  const [orgId, setOrgId] = useState<string>();
+  const orgId = useAppSelector(getChosenOrganization)?.id;
+  orgId
+  // const [orgId, setOrgId] = useState<string>();
 
   return (
     <>
-      <Organization setOrgId={(id) => setOrgId(id)} />
+      <Organization />
       {orgId == undefined ? (
         <></>
       ) : (
         <>
-          <Contracts orgId={orgId} />
+          <Contracts />
           <Personals orgId={orgId} />
           <Services orgId={orgId} />
         </>

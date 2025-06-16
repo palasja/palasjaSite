@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
-import { addService, fetchServices, removeService, updateService } from '../helpers/api';
+import { addService, fetchServicesByOrgIdMonth, removeService, updateService } from '../helpers/api';
 import style from './services.module.css';
-import {
-  getServicesCost,
-  getServicesCostWithNDS,
-  getServicesCostWithNDS_47,
-} from '../helpers/helper';
-import { NDS, NDS_VICHET, PENSIA } from '../helpers/constants';
-import { Link } from 'react-router';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 
 type contractProps = {
@@ -19,11 +12,11 @@ type contractProps = {
 const Services = ({ orgId }: contractProps) => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
   const [services, setServices] = useState<Service[]>([]);
-  const [actMonth, setActMonth] = useState(new Date().getMonth() + 1);
+  const [actMonth, setActMonth] = useState(new Date().getMonth());
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
 
   const handlerService = () => {
-    fetchServices(orgId).then((orgs) => setServices(orgs));
+    fetchServicesByOrgIdMonth(orgId, actMonth).then((orgs) => setServices(orgs));
   };
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     addService(data).then(handlerService);
@@ -36,7 +29,7 @@ const Services = ({ orgId }: contractProps) => {
   const handletActMonth = (month: number): void => setActMonth(month);
   useEffect(() => {
     handlerService();
-  }, [orgId]);
+  }, [orgId, actMonth]);
 
   const resetForm = () => {
     reset({ orgId: orgId });
@@ -50,8 +43,8 @@ const Services = ({ orgId }: contractProps) => {
         <select onChange={(e) => handletActMonth(Number(e.target.value))}>
           {[...new Array(12)].map((_e, i) => {
             return (
-              <option value={i + 1} key={i} selected={i + 1 === actMonth}>
-                {i + 1}
+              <option value={i} key={i} selected={i === actMonth}>
+                {i+1}
               </option>
             );
           })}
