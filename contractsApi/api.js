@@ -183,7 +183,8 @@ app.delete('/removeOrganization',  asyncHandler( async (req, res) => {
         id: req.body.id,
       },
     });
-  res.status(200).json({isRemove: result});
+    const statusCode = result == true ? 200 : 400;
+    res.status(statusCode).json(result);
 }));
 app.patch('/updateOrganization',  asyncHandler( async (req, res) => {
     const organization = req.body.organization;
@@ -248,7 +249,8 @@ app.delete('/removeContract',  asyncHandler( async (req, res) => {
         id: req.body.id,
       },
     });
-  res.status(200).json({isRemove: result});
+  const statusCode = result == true ? 200 : 400;
+  res.status(statusCode).json(result);
 }));
 app.patch('/updateContract',  asyncHandler( async (req, res) => {
     const contract = req.body.contract;

@@ -55,7 +55,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state) => {
-        state.isAuth = true;
+        state.isAuth = true; state.isAuth
       })
       .addCase(logout.fulfilled, (state) => {
         state.isAuth = false;

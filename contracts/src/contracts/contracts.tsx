@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from '../helpers/contractTypes';
 import {
-  addContract,
-  fetchContractsByOrgId,
   fetchContractsScan,
-  removeContract,
-  updateContract,
 } from '../helpers/api';
 import { toBase64 } from '../helpers/helper';
 import style from './contracts.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { addContract, delContract, editContract, fetchContractsByOrgId, getAllContracts } from '../features/contracts/contractSlice';
 
 type contractProps = {
   orgId: string;
@@ -24,12 +22,15 @@ function Contracts({ orgId }: contractProps) {
     formState: { errors },
   } = useForm<Contract>();
 
-  const [contracts, setContracts] = useState<Contract[]>([]);
+  // const [contracts, setContracts] = useState<Contract[]>([]);
+  const dispatch = useAppDispatch();
+  const contracts = useAppSelector(getAllContracts);
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
   const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
     //@ts-expect-error: Chome has faleArray instead of File
     data.scan = await toBase64(data.scan[0]);
-    addContract(data).then(handlerService);
+    dispatch(addContract(data));
+    // addContract(data).then(handlerService);
     resetForm();
   };
 
@@ -41,7 +42,8 @@ function Contracts({ orgId }: contractProps) {
       //@ts-expect-error: Chome has faleArray instead of File
       data.scan = await toBase64(data.scan[0]);
     }
-    updateContract(data).then(handlerService);
+     dispatch(editContract(data))
+    // updateContract(data).then(handlerService);
     resetForm();
   };
 
@@ -52,12 +54,12 @@ function Contracts({ orgId }: contractProps) {
     setIsUpdate(false);
   };
 
-  const handlerService = () => {
-    fetchContractsByOrgId(orgId).then((orgs) => setContracts(orgs));
-  };
+  // const handlerService = () => {
+  //   fetchContractsByOrgId(orgId).then((orgs) => setContracts(orgs));
+  // };
 
   useEffect(() => {
-    handlerService();
+    dispatch(fetchContractsByOrgId(orgId))
   }, []);
   return (
     <>
@@ -133,7 +135,8 @@ function Contracts({ orgId }: contractProps) {
                   <button onClick={() => fetchContractsScan(con.id)}>Scan</button>
                   <button
                     onClick={() => {
-                      removeContract({ id: Number(con.id) }).then(handlerService);
+                      dispatch(delContract(con.id));
+                      // removeContract({ id: Number(con.id) }).then(handlerService);
                     }}
                   >
                     Удалить

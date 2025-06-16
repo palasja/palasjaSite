@@ -21,7 +21,7 @@ const fetchData = (endpont: string, method: string, errorMessage: string, body?:
         throw new Error(`${errorMessage}. ErrorCode = ${res.status}`);
       }
     })
-    .catch((err: Error) => console.log(err.message));
+    // .catch((err: Error) => console.log(err.message));
 }
 
 const fetchAuth = async (endpont: string, method: string, body?:any) :Promise<number> =>{
@@ -101,14 +101,14 @@ export const fetchAllOrganizations = (): Promise<Organization[]> => {
 };
 export const addOrganisation = (
   organization: Organization
-): Promise<Organization | undefined | void> => {
+): Promise<Organization> => {
   return fetchData('addOrganization', 'PUT', 'Не удалось добавить организацию', { organization: organization });
 };
-export const updateOrganisation = (organization: Organization) => {
+export const updateOrganisation = (organization: Organization):Promise<number[]> => {
   return fetchData('updateOrganization', 'PATCH', `Не удалось сохранить изменения для ${organization.name}`, { organization: organization });
  };
-export const removeOrg = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetchData('removeOrganization', 'DELETE', `Не удалось удалить организацию`, id);
+export const removeOrg = (id: string): Promise<boolean> => {
+  return fetchData('removeOrganization', 'DELETE', `Не удалось удалить организацию`, {id: id});
 };
 export const fetchContractsByOrgId = (orgId: string): Promise<Contract[]> => {
   return fetchData(`getContractsByOrg/${orgId}`, 'GET', `Не удалось загрузить договора`);
@@ -141,8 +141,8 @@ export const fetchContractsScan = (orgId: string) => {
   });
 };
 
-export const removeContract = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetchData(`removeContract`, 'DELETE', `Не удалось удалить договор`, id);
+export const removeContract = (id: string): Promise<{ isRemove: boolean }> => {
+  return fetchData(`removeContract`, 'DELETE', `Не удалось удалить договор`, {id: id});
 };
 
 export const fetchPersonalsByOrgId = (orgId: string): Promise<Personal[]> => {
