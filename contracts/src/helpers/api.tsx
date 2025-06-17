@@ -113,7 +113,7 @@ export const removeOrg = (id: string): Promise<boolean> => {
 export const fetchContractsByOrgId = (orgId: string): Promise<Contract[]> => {
   return fetchData(`getContractsByOrg/${orgId}`, 'GET', `Не удалось загрузить договора`);
 };
-export const fetchContractsByOrgIdMonth = (orgId: string, month: number): Promise<Contract> => {
+export const fetchContractsByOrgIdMonth = (orgId: string, month: string): Promise<Contract> => {
   return fetchData(`getContractByOrgIdMonth/${orgId}/${month}`, 'GET', `Не удалось загрузить информацию по договору`);
 };
 
@@ -149,32 +149,32 @@ export const fetchPersonalsByOrgId = (orgId: string): Promise<Personal[]> => {
   return fetchData(`getPersonalByOrgId/${orgId}`, 'GET', `Не удалось загрузить список сотрудников`);
 };
 
-export const addPerson = (person: Personal): Promise<Personal | undefined | void> => {
+export const addPerson = (person: Personal): Promise<Personal> => {
     return fetchData(`addPersonal`, 'PUT', `Не удалось загрузить список сотрудников`, { personal: person });
 };
-export const updatePerson = (person: Personal): Promise<Personal | undefined | void> => {
+export const updatePerson = (person: Personal): Promise<Personal> => {
   return fetchData(`updatePersonal`, 'PATCH', `Не удалось сохранить изменения для пользователя`, { personal: person });
 };
-export const removePerson = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetchData(`removePersonal`, 'DELETE', `Не удалось удалить сотрудника`, id);
+export const removePerson = (id: string ): Promise<{ isRemove: boolean }> => {
+  return fetchData(`removePersonal`, 'DELETE', `Не удалось удалить сотрудника`, {id: id});
 };
 
 export const fetchServices = (orgId: string): Promise<Service[]> => {
   return fetchData(`getServicesByOrgId/${orgId}`, 'GET', `Не удалось загрузить список организаций`);
 };
-export const fetchServicesByOrgIdMonth = (orgId: string, month: number): Promise<Service[]> => {
+export const fetchServicesByOrgIdMonth = (orgId: string, month: string): Promise<Service[]> => {
   return fetchData(`getServicesByOrgIdMonth/${orgId}/${month}`, 'GET', `Не удалось загрузить услуги`);
 };
 
-export const addService = (service: Service): Promise<Personal | undefined | void> => {
+export const addService = (service: Service): Promise<Service> => {
   return fetchData(`addService`, 'PUT', `Не удалось добавить услуги`, { service: service });
 };
 
-export const removeService = (id: { id: number }): Promise<{ isRemove: boolean }> => {
-  return fetchData(`removeService`, 'DELETE', `Не удалось удалить услугу`, id);
+export const removeService = (id: string): Promise<{ isRemove: boolean }> => {
+  return fetchData(`removeService`, 'DELETE', `Не удалось удалить услугу`, {id: id});
 };
 
-export const updateService = (service: Service): Promise<Personal | undefined | void> => {
+export const updateService = (service: Service): Promise<Service> => {
   return fetchData(`updateService`, 'PATCH', `Не удалось обновить услугу`, { service: service });
 };
 

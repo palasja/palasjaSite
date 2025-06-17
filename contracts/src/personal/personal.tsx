@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Personal } from '../helpers/contractTypes';
-import { addPerson, fetchPersonalsByOrgId, removePerson, updatePerson } from '../helpers/api';
 import style from './personal.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getChosenOrganization } from '../features/orgs/orgsSlice';
+import { createPersonal, delPerson, editPerson, fetchPersonalsByOrgId, getAllPersonals } from '../features/personals/personalsSlice';
 
-type contractProps = {
-  orgId: string;
-};
-const Personals = ({ orgId }: contractProps) => {
+const Personals = ( ) => {
   const {
     register,
     handleSubmit,
@@ -16,31 +15,31 @@ const Personals = ({ orgId }: contractProps) => {
     reset,
     formState: { errors },
   } = useForm<Personal>();
+  const dispatch = useAppDispatch();
+  const choosenOrg = useAppSelector(getChosenOrganization);
+  const personals = useAppSelector(getAllPersonals);
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
-  const [personals, setPersonals] = useState<Personal[]>([]);
+
   useEffect(() => {
-    handlerPerson();
-  }, [orgId]);
+    choosenOrg && dispatch(fetchPersonalsByOrgId(choosenOrg.id))
+  }, [choosenOrg]);
   const onSubmitCreate: SubmitHandler<Personal> = (data) => {
-    addPerson(data).then(handlerPerson);
+    dispatch(createPersonal(data));
   };
   const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
-    updatePerson(data).then(handlerPerson);
+    dispatch(editPerson(data));
     resetForm();
-  };
-  const handlerPerson = () => {
-    fetchPersonalsByOrgId(orgId).then((orgs) => setPersonals(orgs));
   };
   const resetForm = () => {
     reset({
-      orgId: orgId,
+      orgId: choosenOrg?.id,
     });
   };
   return (
     <>
       <h3>Personal</h3>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
-        <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
+        <input value={choosenOrg?.id} type="hidden" {...register('orgId', { required: true })} />
         <div>
           <label htmlFor="fisrtName">Имя</label>
           <input
@@ -105,7 +104,7 @@ const Personals = ({ orgId }: contractProps) => {
                   {`${person.firstName} ${person.middleName} ${person.lastName} - ${person.positionName}`}
                   <button
                     onClick={async () => {
-                      await removePerson({ id: Number(person.id) }).then(handlerPerson);
+                      dispatch(delPerson(person.id));
                     }}
                   >
                     Удалить

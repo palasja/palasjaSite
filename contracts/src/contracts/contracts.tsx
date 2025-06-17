@@ -59,7 +59,7 @@ function Contracts() {
   // };
 
   useEffect(() => {
-    dispatch(fetchContractsByOrgId( choosenOrg!.id))
+    choosenOrg && dispatch(fetchContractsByOrgId( choosenOrg.id))
   }, []);
   return (
     <>

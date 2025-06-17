@@ -3,6 +3,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/authSlice';
 import orgsReducer from '../features/orgs/orgsSlice';
 import contractsReducer from '../features/contracts/contractSlice';
+import personalsSlicer from '../features/personals/personalsSlice';
+import servicesSlicer from '../features/services/servicesSlice';
 // import postsReducer from '@/features/posts/postsSlice'
 // import use from '../features/users/usersSlice'
 
@@ -10,9 +12,9 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     orgs: orgsReducer,
-    contract: contractsReducer
-    // posts: postsReducer,
-    // users: usersReducer,
+    contract: contractsReducer,
+    personals: personalsSlicer,
+    services: servicesSlicer,
   },
 })
 

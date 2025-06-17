@@ -1,17 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Contract } from "../../helpers/contractTypes";
 import { createAppAsyncThunk } from "../../app/withTypes";
-import { addContract as createContract, fetchContractsByOrgId as fetchByOrgId, removeContract, updateContract } from "../../helpers/api";
+import { addContract as createContract, fetchContractsByOrgId as fetchByOrgId, fetchContractsByOrgIdMonth, removeContract, updateContract } from "../../helpers/api";
 import { RootState } from "../../app/store";
 
 interface ContractsState {
-  contracts: Contract[]
+  contracts: Contract[],
+  chosenContract: Contract | null
 }
 
 export const fetchContractsByOrgId = createAppAsyncThunk('contracts/fetchContracts', async (orgId: string) => {
   const response = await fetchByOrgId(orgId);
   return response;
 })
+
+export const fetchContractsByOrgIMonth = createAppAsyncThunk('contracts/fetchContractsByOrgIMonth', async ({orgId, month}:{orgId: string, month: string}) => {
+  const response = await fetchContractsByOrgIdMonth(orgId, month);
+  return response;
+})
+
 
 export const addContract = createAppAsyncThunk('contracts/addContract', async (contract: Contract) => {
   const response = await createContract(contract);
@@ -32,6 +39,7 @@ export const editContract = createAppAsyncThunk('contracts/editContract', async 
 
 const initialState: ContractsState = {
   contracts: [],
+  chosenContract: null
 };
 
 const contractsSlicer = createSlice({
@@ -41,6 +49,9 @@ const contractsSlicer = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchContractsByOrgId.fulfilled, (state, action) => {
       state.contracts = action.payload
+    })
+    .addCase(fetchContractsByOrgIMonth.fulfilled, (state, action) => {
+      state.chosenContract = action.payload
     })
     .addCase(addContract.fulfilled, (state, action) => {
       state.contracts.push(action.payload);
@@ -64,3 +75,4 @@ const contractsSlicer = createSlice({
 export default contractsSlicer.reducer
 
 export const getAllContracts = (state: RootState) => state.contract.contracts
+export const getChoosenContracts = (state: RootState) => state.contract.chosenContract

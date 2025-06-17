@@ -8,8 +8,6 @@ import { getChosenOrganization } from '../features/orgs/orgsSlice';
 
 const Contract = () => {
   const orgId = useAppSelector(getChosenOrganization)?.id;
-  orgId
-  // const [orgId, setOrgId] = useState<string>();
 
   return (
     <>
@@ -19,7 +17,7 @@ const Contract = () => {
       ) : (
         <>
           <Contracts />
-          <Personals orgId={orgId} />
+          <Personals />
           <Services orgId={orgId} />
         </>
       )}

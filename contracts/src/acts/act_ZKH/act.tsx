@@ -1,19 +1,26 @@
 import { Contract, Personal, Service } from '../../helpers/contractTypes';
-import { getShortName, getServicesCostWithNDS } from '../../helpers/helper';
+import { getShortName, getServicesCostWithNDS, NotNullubleValue } from '../../helpers/helper';
 import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getChosenOrganization } from '../../features/orgs/orgsSlice';
+import { getChoosenMonth, getServices } from '../../features/services/servicesSlice';
+import { getAllPersonals } from '../../features/personals/personalsSlice';
+import { fetchContractsByOrgIMonth, getChoosenContracts } from '../../features/contracts/contractSlice';
+import { useEffect } from 'react';
 
-type ActTypeProps = {
-  contract: Contract;
-  services: Service[];
-  personals: Personal[];
-  month: number;
-};
-const ActZKH = ({ contract, services, personals, month }: ActTypeProps) => {
+const ActZKH = () => {
+    const dispatch = useAppDispatch();
+    const choosenMonth = useAppSelector(getChoosenMonth);
+    const choosenOrg = useAppSelector(getChosenOrganization);
+    const services = useAppSelector(getServices);
+    const personals = useAppSelector(getAllPersonals);
+    const contract = useAppSelector(getChoosenContracts);
   const head = personals.find((p) => p.isHead);
   const sign = personals.find((p) => !p.isHead);
   const itog = getServicesCostWithNDS(services);
+
   // const { orgId } = useParams();
   // const { month } = useParams();
   // const [info, setInfo] = useState<ActInfo>();
@@ -36,7 +43,9 @@ const ActZKH = ({ contract, services, personals, month }: ActTypeProps) => {
 
   return (
     <>
-      <div className={style.print}>
+      {choosenOrg ? 
+      <>
+            <div className={style.print}>
         <div className={style.headSign}>
           <p>УТВЕРЖДАЮ:</p>
           <p><span className={style.variable}>{head?.positionName}</span></p>
@@ -95,14 +104,14 @@ const ActZKH = ({ contract, services, personals, month }: ActTypeProps) => {
         <div>
           <p className={style.lower}>(<span className={style.variable}>{convertNumberToWordsRu(itog)}</span>)</p>
           <p>
-            в полном объеме с <span className={style.variable}>{new Date(2025, month).toLocaleDateString('ru-RU')}</span> по{' '}
-            <span className={style.variable}>{new Date(2025, Number(month), 0).toLocaleDateString('ru-RU')}</span> согласно заключенного
+            в полном объеме с <span className={style.variable}>{new Date(2025, Number(choosenMonth)).toLocaleDateString('ru-RU')}</span> по{' '}
+            <span className={style.variable}>{new Date(2025, Number(choosenMonth), 0).toLocaleDateString('ru-RU')}</span> согласно заключенного
             договора подряда.
           </p>
           <p className={style.indent}>
             Акт составлен на предмет оплаты за выполненный объем работы, согласно заключенного
-            договора подряда № <span className={style.variable}>{contract.number}</span> от{' '}
-            <span className={style.variable}>{new Date(contract.signDate).toLocaleDateString('ru-RU')}</span>
+            договора подряда № <span className={style.variable}>{contract?.number}</span> от{' '}
+            <span className={style.variable}>{contract && new Date(contract.signDate).toLocaleDateString('ru-RU')}</span>
           </p>
         </div>
 
@@ -111,6 +120,12 @@ const ActZKH = ({ contract, services, personals, month }: ActTypeProps) => {
           <p>Работу сдал __________________ <span className={style.variable}>{SHORT_NAME}</span></p>
         </div>
       </div>
+      </>
+       : 
+     <h3> Выбкрите организацию</h3>  
+    } 
+
+
     </>
   );
 };

@@ -1,38 +1,44 @@
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
-import { addService, fetchServicesByOrgIdMonth, removeService, updateService } from '../helpers/api';
+// import { addService, fetchServicesByOrgIdMonth, removeService, updateService } from '../helpers/api';
 import style from './services.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { createService, delService, editService, fetchServicesByOrgIdMonth, getServices, getChoosenMonth, chooseMonth } from '../features/services/servicesSlice';
+import { getChosenOrganization } from '../features/orgs/orgsSlice';
 
-type contractProps = {
-  orgId: string;
-};
-
-const Services = ({ orgId }: contractProps) => {
+const Services = () => {
   const { register, handleSubmit, setValue, reset } = useForm<Service>();
-  const [services, setServices] = useState<Service[]>([]);
-  const [actMonth, setActMonth] = useState(new Date().getMonth());
+  const dispatch = useAppDispatch();
+  const services = useAppSelector(getServices);
+  const choosenOrg = useAppSelector(getChosenOrganization);
+  const choosenMonth = useAppSelector(getChoosenMonth);
+  // const [services, setServices] = useState<Service[]>([]);
+  // const [actMonth, setActMonth] = useState(new Date().getMonth().toString());
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
 
-  const handlerService = () => {
-    fetchServicesByOrgIdMonth(orgId, actMonth).then((orgs) => setServices(orgs));
-  };
+  // const handlerService = () => {
+  //   fetchServicesByOrgIdMonth(orgId, actMonth).then((orgs) => setServices(orgs));
+  // };
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
-    addService(data).then(handlerService);
+    dispatch(createService(data));
+    // addService(data).then(handlerService);
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Service> = (data) => {
-    updateService(data).then(handlerService);
+    dispatch(editService(data));
+    // updateService(data).then(handlerService);
     resetForm();
   };
-  const handletActMonth = (month: number): void => setActMonth(month);
+  // const handletActMonth = (month: string): void => setActMonth(month);
+
   useEffect(() => {
-    handlerService();
-  }, [orgId, actMonth]);
+    choosenOrg && dispatch(fetchServicesByOrgIdMonth({orgId:choosenOrg.id, month: choosenMonth}));
+  }, [choosenMonth, choosenOrg?.id]);
 
   const resetForm = () => {
-    reset({ orgId: orgId });
+    reset({ orgId: choosenOrg?.id, count: 1});
     setIsUpdate(false);
   };
 
@@ -40,10 +46,10 @@ const Services = ({ orgId }: contractProps) => {
     <>
       <h3>Услуги</h3>
       <div>
-        <select onChange={(e) => handletActMonth(Number(e.target.value))}>
+        <select onChange={(e) => dispatch(chooseMonth(e.target.value))}>
           {[...new Array(12)].map((_e, i) => {
             return (
-              <option value={i} key={i} selected={i === actMonth}>
+              <option value={i} key={i} selected={i.toString() === choosenMonth}>
                 {i+1}
               </option>
             );
@@ -51,7 +57,7 @@ const Services = ({ orgId }: contractProps) => {
         </select>
       </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
-        <input value={orgId} type="hidden" {...register('orgId', { required: true })} />
+        <input value={choosenOrg?.id} type="hidden" {...register('orgId', { required: true })} />
         <div>
           <label htmlFor="name">Услуга</label>
           <input
@@ -113,7 +119,8 @@ const Services = ({ orgId }: contractProps) => {
                   {`${service.name} ${service.date}`}
                   <button
                     onClick={async () => {
-                      await removeService({ id: Number(service.id) }).then(() => handlerService());
+                      dispatch(delService(service.id));
+                      // await removeService({ id: Number(service.id) }).then(() => handlerService());
                     }}
                   >
                     Удалить
