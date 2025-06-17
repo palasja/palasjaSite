@@ -8,7 +8,6 @@ import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
 import { useAppSelector } from '../../app/hooks';
 import { getChoosenContracts } from '../../features/contracts/contractSlice';
-import { getChosenOrganization } from '../../features/orgs/orgsSlice';
 import { getAllPersonals } from '../../features/personals/personalsSlice';
 import { getChoosenMonth, getServices } from '../../features/services/servicesSlice';
 const REPRESENTOR_POSITION = 'бухгалтер';

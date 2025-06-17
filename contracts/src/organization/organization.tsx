@@ -16,7 +16,6 @@ const Organization = () => {
   const errors = useAppSelector(getOrganisationError);
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
 
-
   const onSubmitCreate: SubmitHandler<Org> = (data) => {
     // addOrganisation(data)
     dispatch(addOrg(data));
@@ -33,7 +32,6 @@ const Organization = () => {
   }, []);
   return (
     <>
-    <Header />
       <h2>Организации</h2>
       <h3>{errors}</h3>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>

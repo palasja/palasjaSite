@@ -14,7 +14,7 @@ import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
 import Header from '../components/header';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { chooseMonth, getServices, getChoosenMonth, fetchServicesByOrgIdMonth } from '../features/services/servicesSlice';
-import { chooseOrg, getAllOrganisation, getChosenOrganization } from '../features/orgs/orgsSlice';
+import { chooseOrg, fetchOrgs, getAllOrganisation, getChosenOrganization } from '../features/orgs/orgsSlice';
 import { fetchPersonalsByOrgId } from '../features/personals/personalsSlice';
 import { fetchContractsByOrgIMonth } from '../features/contracts/contractSlice';
 
@@ -24,19 +24,27 @@ const Act = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const organizations = useAppSelector(getAllOrganisation);
   const services = useAppSelector(getServices);
-
   useEffect(() => {
-    let orgId = NotNullubleValue(choosenOrg?.id);
+    if(organizations.length == 0) dispatch(fetchOrgs());
+  }, []);
+  useEffect(() => {
+    if(choosenOrg){
+      let orgId = choosenOrg?.id;
 
-    dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
-    dispatch(fetchPersonalsByOrgId(orgId));
-    dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
+      dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
+      dispatch(fetchPersonalsByOrgId(orgId));
+      dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
+    }
+
   }, [choosenOrg]);
 
   useEffect(() => {
-    const orgId = NotNullubleValue(choosenOrg?.id);
-    dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
-    dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
+     if(choosenOrg){
+       const orgId = choosenOrg?.id;
+       dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
+       dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
+
+     }
   }, [choosenMonth]);
 
   const handlerChooseMonth = (month: string) => dispatch(chooseMonth(month));
@@ -48,7 +56,6 @@ const Act = () => {
 
   return (
     <>
-      <Header />
       <div className='noprint'>
         <h1>{choosenOrg?.name}</h1>
         <select onChange={(e) => handlerChooseMonth(e.target.value)} defaultValue={choosenMonth}>

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAppAsyncThunk } from '../../app/withTypes'
-import { fetchLogIn, fetchLogOut, fetchСheckAuth } from '../../helpers/api'
+import { fetchLogIn, fetchLogOut, fetchSignIn, fetchСheckAuth } from '../../helpers/api'
 import { RootState } from '../../app/store'
 import { User } from '../../helpers/contractTypes'
 
@@ -9,6 +9,17 @@ interface AuthState {
 }
 export const login = createAppAsyncThunk('auth/login', async (authInfo: User) => {
   const logInResult = await fetchLogIn(authInfo);
+        if (logInResult == 200) {
+          //fullfiled
+          return true;
+        } else {
+          //rejected
+          throw new Error();
+        }
+})
+
+export const signin = createAppAsyncThunk('auth/signin', async (authInfo: User) => {
+  const logInResult = await fetchSignIn(authInfo);
         if (logInResult == 200) {
           //fullfiled
           return true;
@@ -55,10 +66,13 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state) => {
-        state.isAuth = true; state.isAuth
+        state.isAuth = true;
       })
       .addCase(logout.fulfilled, (state) => {
         state.isAuth = false;
+      })
+      .addCase(signin.fulfilled, (state) => {
+        state.isAuth = true;
       })
       .addCase(check.fulfilled, (state) => {
         state.isAuth = true;

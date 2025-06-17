@@ -1,5 +1,7 @@
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { check, getIsAuth } from '../../features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import Footer from '../components/footer';
+import Header from '../components/header';
+import { check, getIsAuth } from '../features/auth/authSlice';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -13,5 +15,9 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     chreckAuthToken();
   }
 
-  return isAuth ? <>{children}</> : <></>;
+  return isAuth ? <>
+  <Header />
+  {children}
+  <Footer />
+  </> : <></>;
 };
