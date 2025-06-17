@@ -110,3 +110,9 @@ export function NotNullubleValue<T>(argument: T | undefined | null, message: str
 
   return argument;
 }
+
+export const getIdNum = (strId: string): number => {
+  const numId = parseInt(strId);
+   if(isNaN(numId)) throw new Error(`${strId} can't parse to Int`);
+   return numId;
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from '../helpers/contractTypes';
 import {
@@ -21,7 +21,6 @@ function Contracts() {
     formState: { errors },
   } = useForm<Contract>();
 
-  // const [contracts, setContracts] = useState<Contract[]>([]);
   const dispatch = useAppDispatch();
   const contracts = useAppSelector(getAllContracts);
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -30,7 +29,6 @@ function Contracts() {
     //@ts-expect-error: Chome has faleArray instead of File
     data.scan = await toBase64(data.scan[0]);
     dispatch(addContract(data));
-    // addContract(data).then(handlerService);
     resetForm();
   };
 
@@ -43,20 +41,15 @@ function Contracts() {
       data.scan = await toBase64(data.scan[0]);
     }
      dispatch(editContract(data))
-    // updateContract(data).then(handlerService);
     resetForm();
   };
 
   const resetForm = () => {
     reset({
-      orgId: choosenOrg?.id,
+      orgId: choosenOrg?.id.toString(),
     });
     setIsUpdate(false);
   };
-
-  // const handlerService = () => {
-  //   fetchContractsByOrgId(orgId).then((orgs) => setContracts(orgs));
-  // };
 
   useEffect(() => {
     choosenOrg && dispatch(fetchContractsByOrgId( choosenOrg.id))
@@ -74,7 +67,6 @@ function Contracts() {
         <div>
           <label htmlFor="number">Номер</label>
           <input
-            // defaultValue={123}
             {...register('number', {
               required: { value: true, message: 'Номер долно быть заполнено' },
               maxLength: { value: 20, message: 'Поле номер должно быть меньше 20' },
@@ -84,7 +76,6 @@ function Contracts() {
         <div>
           <label htmlFor="signDate">Дата подписания</label>
           <input
-            // defaultValue={'2025-05-05'}
             type="date"
             {...register('signDate', {
               required: { value: true, message: 'Дата подписания долна быть заполнена' },
@@ -94,7 +85,6 @@ function Contracts() {
         <div>
           <label htmlFor="startDate">Начало договра</label>
           <input
-            // defaultValue={'2025-05-05'}
             type="date"
             {...register('startDate', {
               required: { value: true, message: 'Начало договра долно быть заполнено' },
@@ -104,7 +94,6 @@ function Contracts() {
         <div>
           <label htmlFor="endDate">Окончание договора</label>
           <input
-            // defaultValue={'2025-05-05'}
             type="date"
             {...register('endDate', {
               required: { value: true, message: 'Окончание договора долно быть заполнено' },
@@ -136,7 +125,6 @@ function Contracts() {
                   <button
                     onClick={() => {
                       dispatch(delContract(con.id));
-                      // removeContract({ id: Number(con.id) }).then(handlerService);
                     }}
                   >
                     Удалить

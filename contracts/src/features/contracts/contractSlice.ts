@@ -9,12 +9,12 @@ interface ContractsState {
   chosenContract: Contract | null
 }
 
-export const fetchContractsByOrgId = createAppAsyncThunk('contracts/fetchContracts', async (orgId: string) => {
+export const fetchContractsByOrgId = createAppAsyncThunk('contracts/fetchContracts', async (orgId: number) => {
   const response = await fetchByOrgId(orgId);
   return response;
 })
 
-export const fetchContractsByOrgIMonth = createAppAsyncThunk('contracts/fetchContractsByOrgIMonth', async ({orgId, month}:{orgId: string, month: string}) => {
+export const fetchContractsByOrgIMonth = createAppAsyncThunk('contracts/fetchContractsByOrgIMonth', async ({orgId, month}:{orgId: number, month: string}) => {
   const response = await fetchContractsByOrgIdMonth(orgId, month);
   return response;
 })
@@ -25,7 +25,7 @@ export const addContract = createAppAsyncThunk('contracts/addContract', async (c
   return response;
 })
 
-export const delContract = createAppAsyncThunk('contracts/delContract', async (contractId: string): Promise<string> => {
+export const delContract = createAppAsyncThunk('contracts/delContract', async (contractId: number): Promise<number> => {
   const response = await removeContract(contractId);
   if (!response) throw new Error();
   return contractId;

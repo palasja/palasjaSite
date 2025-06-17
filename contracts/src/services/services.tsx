@@ -38,7 +38,7 @@ const Services = () => {
   }, [choosenMonth, choosenOrg?.id]);
 
   const resetForm = () => {
-    reset({ orgId: choosenOrg?.id, count: 1});
+    reset({ orgId: choosenOrg?.id.toString(), count: 1});
     setIsUpdate(false);
   };
 

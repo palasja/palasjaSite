@@ -1,9 +1,9 @@
 type Organization = {
-  id: string;
+  id: number;
   name: string;
 };
 type Contract = {
-  id: string;
+  id: number;
   number: string;
   signDate: Date;
   startDate: Date;
@@ -12,7 +12,7 @@ type Contract = {
   orgId: string;
 };
 type Personal = {
-  id: string;
+  id: number;
   lastName: string;
   middleName: string;
   firstName: string;
@@ -25,7 +25,7 @@ type Personal = {
 };
 
 type Service = {
-  id: string;
+  id: number;
   name: string;
   date: Date;
   user: string;

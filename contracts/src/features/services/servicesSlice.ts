@@ -9,7 +9,7 @@ interface ServicesState {
   choosenMonth: string
 }
 
-export const fetchServicesByOrgIdMonth = createAppAsyncThunk('service/fetchServices', async ({orgId, month}: {orgId: string, month: string}) => {
+export const fetchServicesByOrgIdMonth = createAppAsyncThunk('service/fetchServices', async ({orgId, month}: {orgId: number, month: string}) => {
   const response = await fetchServices(orgId, month);
   return response;
 })
@@ -19,7 +19,7 @@ export const createService = createAppAsyncThunk('service/addService', async (se
   return response;
 })
 
-export const delService = createAppAsyncThunk('service/removeService', async (serviceId: string): Promise<string> => {
+export const delService = createAppAsyncThunk('service/removeService', async (serviceId: number): Promise<number> => {
   const response = await removeService(serviceId);
   if (!response) throw new Error();
   return serviceId;

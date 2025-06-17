@@ -1,4 +1,3 @@
-import { Contract, Personal, Service } from '../../helpers/contractTypes';
 import {
   getShortName,
   MONTH_R,
@@ -7,14 +6,18 @@ import {
 } from '../../helpers/helper';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
+import { useAppSelector } from '../../app/hooks';
+import { getChoosenContracts } from '../../features/contracts/contractSlice';
+import { getChosenOrganization } from '../../features/orgs/orgsSlice';
+import { getAllPersonals } from '../../features/personals/personalsSlice';
+import { getChoosenMonth, getServices } from '../../features/services/servicesSlice';
 const REPRESENTOR_POSITION = 'бухгалтер';
-type ActTypeProps = {
-  contract: Contract;
-  services: Service[];
-  personals: Personal[];
-  month: number;
-};
-const ActPMS = ({ contract, services, personals, month }: ActTypeProps) => {
+
+const ActPMS = () => {
+    const choosenMonth = useAppSelector(getChoosenMonth);
+    const services = useAppSelector(getServices);
+    const personals = useAppSelector(getAllPersonals);
+    const contract = useAppSelector(getChoosenContracts);
   const head = personals.find((p) => p.isHead);
   const itog = getServicesCostWithNDS_47(services);
 
@@ -38,7 +41,7 @@ const ActPMS = ({ contract, services, personals, month }: ActTypeProps) => {
             </div>
             <div className={style.datePlace}>
               <p>
-                от <span className={style.variable}>{new Date(contract.signDate).getDate()} {MONTH_R[month]} {new Date(contract.signDate).getFullYear()}</span> года
+                от <span className={style.variable}>{new Date(contract.signDate).getDate()} {MONTH_R[Number(choosenMonth)]} {new Date(contract.signDate).getFullYear()}</span> года
               </p>
               <p>г. Наровля</p>
             </div>

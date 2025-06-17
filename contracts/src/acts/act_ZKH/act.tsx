@@ -1,45 +1,22 @@
-import { Contract, Personal, Service } from '../../helpers/contractTypes';
 import { getShortName, getServicesCostWithNDS, NotNullubleValue } from '../../helpers/helper';
 import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 import { getChosenOrganization } from '../../features/orgs/orgsSlice';
 import { getChoosenMonth, getServices } from '../../features/services/servicesSlice';
 import { getAllPersonals } from '../../features/personals/personalsSlice';
-import { fetchContractsByOrgIMonth, getChoosenContracts } from '../../features/contracts/contractSlice';
-import { useEffect } from 'react';
+import { getChoosenContracts } from '../../features/contracts/contractSlice';
 
 const ActZKH = () => {
-    const dispatch = useAppDispatch();
-    const choosenMonth = useAppSelector(getChoosenMonth);
-    const choosenOrg = useAppSelector(getChosenOrganization);
-    const services = useAppSelector(getServices);
-    const personals = useAppSelector(getAllPersonals);
-    const contract = useAppSelector(getChoosenContracts);
+  const choosenMonth = useAppSelector(getChoosenMonth);
+  const choosenOrg = useAppSelector(getChosenOrganization);
+  const services = useAppSelector(getServices);
+  const personals = useAppSelector(getAllPersonals);
+  const contract = useAppSelector(getChoosenContracts);
   const head = personals.find((p) => p.isHead);
   const sign = personals.find((p) => !p.isHead);
   const itog = getServicesCostWithNDS(services);
-
-  // const { orgId } = useParams();
-  // const { month } = useParams();
-  // const [info, setInfo] = useState<ActInfo>();
-  // const [head, setHead] = useState<Personal>();
-  // const [sign, setSign] = useState<Personal>();
-  // const [itog, setItog] = useState<number>(0);
-  // useEffect(() => {
-  //   const getPersonals = () => {
-  //     if (orgId !== undefined && month !== undefined) {
-  //       fetchActInfo(orgId, month).then((info) => {
-  //         setInfo(info);
-  //         setHead(info?.persons.find((p) => p.isHead) as Personal);
-  //         setSign(info?.persons.find((p) => !p.isHead) as Personal);
-  //         setItog(getServicesCostWithNDS(info?.services));
-  //       });
-  //     }
-  //   };
-  //   getPersonals();
-  // }, []);
 
   return (
     <>

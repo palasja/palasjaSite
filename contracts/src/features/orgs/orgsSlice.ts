@@ -18,7 +18,7 @@ export const addOrg = createAppAsyncThunk('orgs/addOrg', async (org: Organizatio
   return response;
 })
 
-export const delOrg = createAppAsyncThunk('orgs/delOrg', async (orgId: string): Promise<string> => {
+export const delOrg = createAppAsyncThunk('orgs/delOrg', async (orgId: number): Promise<number> => {
   const response = await removeOrg(orgId);
   if (!response) throw new Error();
   return orgId;

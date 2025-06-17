@@ -18,7 +18,7 @@ const Contract = () => {
         <>
           <Contracts />
           <Personals />
-          <Services orgId={orgId} />
+          <Services />
         </>
       )}
     </>

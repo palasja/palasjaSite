@@ -8,7 +8,7 @@ interface PersonalsState {
   personals: Personal[]
 }
 
-export const fetchPersonalsByOrgId = createAppAsyncThunk('personals/fetchPersonal', async (orgId: string) => {
+export const fetchPersonalsByOrgId = createAppAsyncThunk('personals/fetchPersonal', async (orgId: number) => {
   const response = await fetchByOrgId(orgId);
   return response;
 })
@@ -18,7 +18,7 @@ export const createPersonal = createAppAsyncThunk('personals/addPerson', async (
   return response;
 })
 
-export const delPerson = createAppAsyncThunk('personals/removePerson', async (contractId: string): Promise<string> => {
+export const delPerson = createAppAsyncThunk('personals/removePerson', async (contractId: number): Promise<number> => {
   const response = await removePerson(contractId);
   if (!response) throw new Error();
   return contractId;

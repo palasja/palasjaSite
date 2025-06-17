@@ -1,11 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
-  Contract,
-  Personal,
-  Service,
-  Organization as Org,
-} from '../helpers/contractTypes';
-import {
+  getIdNum,
   getServicesCost,
   getServicesCostWithNDS,
   getServicesCostWithNDS_47,
@@ -29,26 +24,13 @@ const Act = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const organizations = useAppSelector(getAllOrganisation);
   const services = useAppSelector(getServices);
-  // const [month, setMonth] = useState(new Date().getMonth());
-  // const [orgId, setOrgId] = useState('');
-  // const [organizations, setOrganizations] = useState<Org[]>([]);
-  // const [contract, setContract] = useState<Contract>({} as Contract);
-  // const [personals, setPersonals] = useState<Personal[]>([]);
-  // const [services, setServices] = useState<Service[]>([]);
+
   useEffect(() => {
-    const orgId = NotNullubleValue(choosenOrg?.id);
+    let orgId = NotNullubleValue(choosenOrg?.id);
+
     dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
     dispatch(fetchPersonalsByOrgId(orgId));
     dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
-    // const getOrganization = () => {
-    //   fetchAllOrganizations().then((orgs) => {
-    //     if (typeof orgs !== 'string') {
-    //       setOrganizations(orgs as Org[]);
-    //       setOrgId(orgs[0].id);
-    //     }
-    //   });
-    // };
-    // getOrganization();
   }, [choosenOrg]);
 
   useEffect(() => {
@@ -56,26 +38,11 @@ const Act = () => {
     dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
     dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
   }, [choosenMonth]);
-  // useEffect(() => {
-  //   const getInfo = () => {
-  //     fetchPersonalsByOrgId(orgId).then((persons) => setPersonals(persons));
-  //     fetchContractsByOrgIdMonth(orgId, month).then((con) => setContract(con));
-  //     fetchServicesByOrgIdMonth(orgId, month).then((s) => setServices(s));
-  //   };
-  //   if (organizations.length !== 0) getInfo();
-  // }, [orgId]);
-
-  // useEffect(() => {
-  //   const getInfo = () => {
-  //     fetchContractsByOrgIdMonth(orgId, month).then((con) => setContract(con));
-  //     fetchServicesByOrgIdMonth(orgId, month).then((s) => setServices(s));
-  //   };
-  //   if (organizations.length !== 0) getInfo();
-  // }, [month]);
 
   const handlerChooseMonth = (month: string) => dispatch(chooseMonth(month));
   const handlerChooseOrganization = (id: string) =>{
-    const organization = NotNullubleValue(organizations.find(o => o.id === id));
+    const idNum = getIdNum(id); 
+    const organization = NotNullubleValue(organizations.find(o => o.id === idNum));
      dispatch(chooseOrg(organization))
   };
 
@@ -119,12 +86,7 @@ const Act = () => {
                 </p>
               </article>
               <div className={style.page}>
-                <ActZKH
-                  // contract={contract}
-                  // services={services}
-                  // personals={personals}
-                  // month={month}
-                />
+                <ActZKH />
               </div>
             </>
           ) : (
@@ -141,12 +103,7 @@ const Act = () => {
                 </p>
               </article>
               <div className={style.page}>
-                {/* <ActPMS
-                  // contract={contract}
-                  // services={services}
-                  // personals={personals}
-                  // month={month}
-                /> */}
+                <ActPMS />
               </div>
             </>
           )}

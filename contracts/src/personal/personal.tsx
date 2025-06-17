@@ -32,7 +32,7 @@ const Personals = ( ) => {
   };
   const resetForm = () => {
     reset({
-      orgId: choosenOrg?.id,
+      orgId: choosenOrg?.id.toString(),
     });
   };
   return (
