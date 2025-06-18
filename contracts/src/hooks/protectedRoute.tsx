@@ -15,9 +15,12 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     chreckAuthToken();
   }
 
-  return isAuth ? <>
-  <Header />
-  {children}
-  <Footer />
-  </> : <></>;
+  return isAuth ? 
+  <>
+    <Header />
+      {children}
+    <Footer />
+  </> 
+  :
+   <></>;
 };

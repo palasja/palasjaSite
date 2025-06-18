@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Organization as Org } from '../helpers/contractTypes';
-
 import style from './organization.module.css';
-import Header from '../components/header';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addOrg, chooseOrg, delOrg, editOrg, fetchOrgs, getAllOrganisation, getChosenOrganization, getOrganisationError } from '../features/orgs/orgsSlice';
+import RemovePortal from '../components/modal/removeModal';
+import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 const Organization = () => {
   const { register, handleSubmit, setValue, reset } = useForm<Org>();
@@ -15,14 +15,13 @@ const Organization = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const errors = useAppSelector(getOrganisationError);
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
-
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  
   const onSubmitCreate: SubmitHandler<Org> = (data) => {
-    // addOrganisation(data)
     dispatch(addOrg(data));
     reset();
   };
   const onSubmitUpdate: SubmitHandler<Org> = (data) => {
-    // updateOrganisation(data);
     dispatch(editOrg(data));
     reset();
   };
@@ -60,17 +59,15 @@ const Organization = () => {
                   <span
                     onClick={() => {  
                       dispatch(chooseOrg(org))
-                      // setOrgId(org.id);
-                      // setChoosenOrg(org.name);
                     }}
                   >
                     {org.name}
                   </span>
                   <button
                     onClick={() => {
-                      // removeOrg( org.id);
-                      dispatch(delOrg(org.id))
-                    }}
+                      setRemoveId(org.id);
+                      setIsShowRemoveModal(true);
+                      }}
                   >
                     Удалить
                   </button>
@@ -88,6 +85,7 @@ const Organization = () => {
             })}
       </ul>
       <h2>{choosenOrg?.name}</h2>
+      {isShowRemoveModal && <RemovePortal remove={() => dispatch(delOrg(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 };

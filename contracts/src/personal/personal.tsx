@@ -6,6 +6,8 @@ import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getChosenOrganization } from '../features/orgs/orgsSlice';
 import { createPersonal, delPerson, editPerson, fetchPersonalsByOrgId, getAllPersonals } from '../features/personals/personalsSlice';
+import RemovePortal from '../components/modal/removeModal';
+import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 const Personals = ( ) => {
   const {
@@ -18,6 +20,7 @@ const Personals = ( ) => {
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const personals = useAppSelector(getAllPersonals);
+    const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
 
   useEffect(() => {
@@ -104,7 +107,8 @@ const Personals = ( ) => {
                   {`${person.firstName} ${person.middleName} ${person.lastName} - ${person.positionName}`}
                   <button
                     onClick={async () => {
-                      dispatch(delPerson(person.id));
+                      setRemoveId(person.id);
+                      setIsShowRemoveModal(true);
                     }}
                   >
                     Удалить
@@ -129,6 +133,7 @@ const Personals = ( ) => {
               );
             })}
       </ul>
+      {isShowRemoveModal && <RemovePortal remove={() => dispatch(delPerson(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 };

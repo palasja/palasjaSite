@@ -10,6 +10,8 @@ import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addContract, delContract, editContract, fetchContractsByOrgId, getAllContracts } from '../features/contracts/contractSlice';
 import { getChosenOrganization } from '../features/orgs/orgsSlice';
+import RemovePortal from '../components/modal/removeModal';
+import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 type T0 = NonNullable<string | number | undefined>;
 function Contracts() {
@@ -20,7 +22,7 @@ function Contracts() {
     reset,
     formState: { errors },
   } = useForm<Contract>();
-
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const dispatch = useAppDispatch();
   const contracts = useAppSelector(getAllContracts);
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -124,7 +126,8 @@ function Contracts() {
                   <button onClick={() => fetchContractsScan(con.id)}>Scan</button>
                   <button
                     onClick={() => {
-                      dispatch(delContract(con.id));
+                      setRemoveId(con.id);
+                      setIsShowRemoveModal(true);
                     }}
                   >
                     Удалить
@@ -146,6 +149,7 @@ function Contracts() {
               );
             })}
       </ul>
+      {isShowRemoveModal && <RemovePortal remove={() => dispatch(delContract(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 }

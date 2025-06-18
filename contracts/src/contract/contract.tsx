@@ -8,7 +8,6 @@ import { getChosenOrganization } from '../features/orgs/orgsSlice';
 
 const Contract = () => {
   const orgId = useAppSelector(getChosenOrganization)?.id;
-
   return (
     <>
       <Organization />
