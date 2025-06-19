@@ -32,9 +32,10 @@ type Service = {
   place: string;
   cost: number;
   count: number;
-  orgId: string;
+  orgId?: string;
 };
 
+type CreateService = Omit<Service, 'id'>
 type ActInfo = {
   contract: Contract;
   persons: Personal[];
@@ -45,4 +46,4 @@ interface User {
   login: string;
   password: string;
 };
-export type { Organization, Contract, Personal, Service, ActInfo, User };
+export type { Organization, Contract, Personal, Service, ActInfo, User, CreateService };

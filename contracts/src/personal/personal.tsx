@@ -6,7 +6,7 @@ import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getChosenOrganization } from '../features/orgs/orgsSlice';
 import { createPersonal, delPerson, editPerson, fetchPersonalsByOrgId, getAllPersonals } from '../features/personals/personalsSlice';
-import RemovePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 const Personals = ( ) => {
@@ -133,7 +133,7 @@ const Personals = ( ) => {
               );
             })}
       </ul>
-      {isShowRemoveModal && <RemovePortal remove={() => dispatch(delPerson(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delPerson(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 };

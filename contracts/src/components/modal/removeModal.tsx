@@ -6,7 +6,7 @@ type RemoveModalType = {
   hide: () => void
 }
 
-const RemovePortal = ({ remove, hide } : RemoveModalType) => {
+const RemoveAgreePortal = ({ remove, hide } : RemoveModalType) => {
 
   return(
     <>
@@ -24,4 +24,4 @@ const RemovePortal = ({ remove, hide } : RemoveModalType) => {
   );
 }
 
-export default RemovePortal
+export default RemoveAgreePortal

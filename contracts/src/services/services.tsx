@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Service } from '../helpers/contractTypes';
+import { CreateService, Service } from '../helpers/contractTypes';
 // import { addService, fetchServicesByOrgIdMonth, removeService, updateService } from '../helpers/api';
 import style from './services.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
@@ -8,16 +8,21 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { createService, delService, editService, fetchServicesByOrgIdMonth, getServices, getChoosenMonth, chooseMonth } from '../features/services/servicesSlice';
 import { getChosenOrganization } from '../features/orgs/orgsSlice';
 
-const Services = () => {
-  const { register, handleSubmit, setValue, reset } = useForm<Service>();
+type ServiceProps = {
+  isWithoutOrg?:boolean
+} ;
+
+const Services = ({isWithoutOrg} :ServiceProps) => {
+
+  const { register, handleSubmit, setValue, reset, formState: {errors} } = useForm<Service>();
   const dispatch = useAppDispatch();
   const services = useAppSelector(getServices);
-  const choosenOrg = useAppSelector(getChosenOrganization);
+  const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
   // const [services, setServices] = useState<Service[]>([]);
   // const [actMonth, setActMonth] = useState(new Date().getMonth().toString());
   const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
-
+  
   // const handlerService = () => {
   //   fetchServicesByOrgIdMonth(orgId, actMonth).then((orgs) => setServices(orgs));
   // };
@@ -38,7 +43,8 @@ const Services = () => {
   }, [choosenMonth, choosenOrg?.id]);
 
   const resetForm = () => {
-    reset({ orgId: choosenOrg?.id.toString(), count: 1});
+    reset({count: 1});
+    if(choosenOrg) setValue('orgId', choosenOrg.id.toString());
     setIsUpdate(false);
   };
 
@@ -57,29 +63,37 @@ const Services = () => {
         </select>
       </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
-        <input value={choosenOrg?.id} type="hidden" {...register('orgId', { required: true })} />
+        <p>{errors.orgId?.message}</p>
+        {isWithoutOrg ?
+        <></>  
+          :
+        <input value={choosenOrg?.id} type="hidden" {...register('orgId', { required:  { value: true, message: 'Не выбрана организация' } })} />        
+        }
         <div>
+          {errors.name && <p>{errors.name?.message}</p>}
           <label htmlFor="name">Услуга</label>
           <input
             {...register('name', {
-              required: { value: true, message: 'Дата подписания долна быть заполнена' },
+              required: { value: true, message: 'Имя услуги должно быть заполнено' },
             })}
           />
         </div>
         <div>
+          <p>{errors.date?.message}</p>
           <label htmlFor="date">Дата</label>
           <input
             type="date"
             {...register('date', {
-              required: { value: true, message: 'Дата подписания долна быть заполнена' },
+              required: { value: true, message: 'Дата оказаиня долна быть заполнена' },
             })}
           />
         </div>
         <div>
+          <p>{errors.user?.message}</p>
           <label htmlFor="user">Пользоваль</label>
           <input
             {...register('user', {
-              required: { value: true, message: 'Дата подписания долна быть заполнена' },
+              required: { value: true, message: 'Пользоваль долно быть заполнена' },
             })}
           />
         </div>
@@ -88,26 +102,32 @@ const Services = () => {
           <input {...register('place')} />
         </div>
         <div>
+          <p>{errors.cost?.message}</p>
           <label htmlFor="cost">Стоимость</label>
           <input
             type="number"
             {...register('cost', {
-              min: { value: 1, message: 'Дата подписания долна быть заполнена' },
+              min: { value: 1, message: 'Стоимость должна быть больше 0' },
             })}
           />
         </div>
         <div>
+          <p>{errors.count?.message}</p>
           <label htmlFor="count">Количество</label>
           <input
             type="number"
             defaultValue={1}
             {...register('count', {
-              min: { value: 1, message: 'Дата подписания долна быть заполнена' },
+              min: { value: 1, message: 'Количество должна быть больше 0' },
             })}
           />
         </div>
         <input type="submit" value={btnValue} />
-        <button onClick={() => resetForm()}>Очистить</button>
+        <input
+          type="button"
+          onClick={resetForm}
+          value="Очистить"
+        />
       </form>
 
       <ul>

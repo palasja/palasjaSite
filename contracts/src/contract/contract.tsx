@@ -8,18 +8,31 @@ import { getChosenOrganization } from '../features/orgs/orgsSlice';
 
 const Contract = () => {
   const orgId = useAppSelector(getChosenOrganization)?.id;
+  const [isWithoutOrg, setIsWithoutOrg] = useState(false);
   return (
     <>
-      <Organization />
-      {orgId == undefined ? (
-        <></>
-      ) : (
-        <>
-          <Contracts />
-          <Personals />
-          <Services />
-        </>
-      )}
+      <p onClick={() => setIsWithoutOrg(true)}>Услуги без организации</p>
+      <p onClick={() => setIsWithoutOrg(false)}>Oрганизации</p>
+      {isWithoutOrg ?
+      <>
+      <Services isWithoutOrg={true}/>
+      </>
+      :
+      <>
+        <Organization />
+        {orgId == undefined ? (
+          <></>
+        ) : (
+          <>
+            <Contracts />
+            <Personals />
+            <Services />
+          </>
+        )}      
+      </>
+    }
+      
+
     </>
   );
 };

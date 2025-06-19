@@ -10,7 +10,7 @@ import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addContract, delContract, editContract, fetchContractsByOrgId, getAllContracts } from '../features/contracts/contractSlice';
 import { getChosenOrganization } from '../features/orgs/orgsSlice';
-import RemovePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 type T0 = NonNullable<string | number | undefined>;
@@ -149,7 +149,7 @@ function Contracts() {
               );
             })}
       </ul>
-      {isShowRemoveModal && <RemovePortal remove={() => dispatch(delContract(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delContract(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 }

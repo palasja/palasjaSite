@@ -5,7 +5,7 @@ import style from './organization.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addOrg, chooseOrg, delOrg, editOrg, fetchOrgs, getAllOrganisation, getChosenOrganization, getOrganisationError } from '../features/orgs/orgsSlice';
-import RemovePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 const Organization = () => {
@@ -85,7 +85,7 @@ const Organization = () => {
             })}
       </ul>
       <h2>{choosenOrg?.name}</h2>
-      {isShowRemoveModal && <RemovePortal remove={() => dispatch(delOrg(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delOrg(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 };

@@ -60,7 +60,8 @@ const orgsSlice = createSlice({
         }
       })
       .addCase(delOrg.fulfilled, (state, action) =>{
-        state.organizations = state.organizations.filter(org => org.id !== action.payload )
+        state.organizations = state.organizations.filter(org => org.id !== action.payload );
+        if(action.payload === state.chosenOrg?.id) state.chosenOrg = null;
       })
       .addCase(delOrg.rejected, (state, _action) =>{
         state.error = 'Не удалось удалить организацию';
