@@ -1,9 +1,10 @@
 // import { useCookies } from 'react-cookie';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './signIn.module.css';
-import { getIsAuth, signin } from '../features/auth/authSlice';
+
 import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { getIsAuth, signin } from '../redux/slices/authSlice';
 
 
 type FormValues = {

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Personal } from "../../helpers/contractTypes";
-import { createAppAsyncThunk } from "../../app/withTypes";
+import { createAppAsyncThunk } from "../../redux/withTypes";
 import { addPerson, fetchPersonalsByOrgId as fetchByOrgId, removePerson, updatePerson} from "../../helpers/api";
-import { RootState } from "../../app/store";
+import { RootState } from "../../redux/store";
 
 interface PersonalsState {
   personals: Personal[]

@@ -3,10 +3,10 @@ import Contracts from '../contracts';
 import Personals from '../personal';
 import Services from '../services';
 import Organization from '../organization';
-import { useAppSelector } from '../app/hooks';
-import { getChosenOrganization } from '../features/orgs/orgsSlice';
-
-const Contract = () => {
+import { useAppSelector } from '../redux/hooks';
+import { getChosenOrganization } from '../redux/slices/orgsSlice';
+import style from './app.module.css'
+const App = () => {
   const orgId = useAppSelector(getChosenOrganization)?.id;
   const [isWithoutOrg, setIsWithoutOrg] = useState(false);
   return (
@@ -37,4 +37,4 @@ const Contract = () => {
   );
 };
 
-export default Contract;
+export default App;

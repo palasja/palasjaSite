@@ -3,9 +3,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Personal } from '../helpers/contractTypes';
 import style from './personal.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { getChosenOrganization } from '../features/orgs/orgsSlice';
-import { createPersonal, delPerson, editPerson, fetchPersonalsByOrgId, getAllPersonals } from '../features/personals/personalsSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { getChosenOrganization } from '../redux/slices/orgsSlice';
+import { createPersonal, delPerson, editPerson, fetchPersonalsByOrgId, getAllPersonals } from '../redux/slices/personalsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 

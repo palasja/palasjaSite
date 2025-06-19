@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Service } from "../../helpers/contractTypes";
-import { createAppAsyncThunk } from "../../app/withTypes";
+import { createAppAsyncThunk } from "../../redux/withTypes";
 import { fetchServicesByOrgIdMonth as fetchServices, removeService, updateService, addService} from "../../helpers/api";
-import { RootState } from "../../app/store";
+import { RootState } from "../../redux/store";
 
 interface ServicesState {
   services: Service[],

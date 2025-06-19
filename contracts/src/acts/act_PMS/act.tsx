@@ -6,10 +6,10 @@ import {
 } from '../../helpers/helper';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
-import { useAppSelector } from '../../app/hooks';
-import { getChoosenContracts } from '../../features/contracts/contractSlice';
-import { getAllPersonals } from '../../features/personals/personalsSlice';
-import { getChoosenMonth, getServices } from '../../features/services/servicesSlice';
+import { useAppSelector } from '../../redux/hooks';
+import { getChoosenContracts } from '../../redux/slices/contractSlice';
+import { getAllPersonals } from '../../redux/slices/personalsSlice';
+import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
 const REPRESENTOR_POSITION = 'бухгалтер';
 
 const ActPMS = () => {

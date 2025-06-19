@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import authReducer from '../features/auth/authSlice';
-import orgsReducer from '../features/orgs/orgsSlice';
-import contractsReducer from '../features/contracts/contractSlice';
-import personalsSlicer from '../features/personals/personalsSlice';
-import servicesSlicer from '../features/services/servicesSlice';
+import authReducer from '../redux/slices/authSlice';
+import orgsReducer from './slices/orgsSlice';
+import contractsReducer from '../redux/slices/contractSlice';
+import personalsSlicer from '../redux/slices/personalsSlice';
+import servicesSlicer from '../redux/slices/servicesSlice';
 // import postsReducer from '@/features/posts/postsSlice'
 // import use from '../features/users/usersSlice'
 

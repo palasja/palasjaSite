@@ -4,9 +4,9 @@ import { CreateService, Service } from '../helpers/contractTypes';
 // import { addService, fetchServicesByOrgIdMonth, removeService, updateService } from '../helpers/api';
 import style from './services.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { createService, delService, editService, fetchServicesByOrgIdMonth, getServices, getChoosenMonth, chooseMonth } from '../features/services/servicesSlice';
-import { getChosenOrganization } from '../features/orgs/orgsSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { createService, delService, editService, fetchServicesByOrgIdMonth, getServices, getChoosenMonth, chooseMonth } from '../redux/slices/servicesSlice';
+import { getChosenOrganization } from '../redux/slices/orgsSlice';
 
 type ServiceProps = {
   isWithoutOrg?:boolean

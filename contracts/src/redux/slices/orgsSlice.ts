@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { createAppAsyncThunk } from "../../app/withTypes";
+import { createAppAsyncThunk } from "../withTypes";
 import { fetchAllOrganizations, addOrganisation, removeOrg, updateOrganisation  } from "../../helpers/api";
 import { Organization } from "../../helpers/contractTypes";
-import { RootState } from '../../app/store'
+import { RootState } from '../store'
 interface OrganizationState {
   organizations:  Organization[],
   chosenOrg: Organization | null,

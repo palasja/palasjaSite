@@ -3,8 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Organization as Org } from '../helpers/contractTypes';
 import style from './organization.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addOrg, chooseOrg, delOrg, editOrg, fetchOrgs, getAllOrganisation, getChosenOrganization, getOrganisationError } from '../features/orgs/orgsSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { addOrg, chooseOrg, delOrg, editOrg, fetchOrgs, getAllOrganisation, getChosenOrganization, getOrganisationError } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 

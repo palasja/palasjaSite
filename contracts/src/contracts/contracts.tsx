@@ -7,9 +7,9 @@ import {
 import { toBase64 } from '../helpers/helper';
 import style from './contracts.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addContract, delContract, editContract, fetchContractsByOrgId, getAllContracts } from '../features/contracts/contractSlice';
-import { getChosenOrganization } from '../features/orgs/orgsSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { addContract, delContract, editContract, fetchContractsByOrgId, getAllContracts } from '../redux/slices/contractSlice';
+import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 

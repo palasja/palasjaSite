@@ -2,11 +2,11 @@ import { getShortName, getServicesCostWithNDS, NotNullubleValue } from '../../he
 import { FIRST_NAME, LAST_NAME, MIDDLE_NAME, NDS, SHORT_NAME } from '../../helpers/constants';
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
-import { useAppSelector } from '../../app/hooks';
-import { getChosenOrganization } from '../../features/orgs/orgsSlice';
-import { getChoosenMonth, getServices } from '../../features/services/servicesSlice';
-import { getAllPersonals } from '../../features/personals/personalsSlice';
-import { getChoosenContracts } from '../../features/contracts/contractSlice';
+import { useAppSelector } from '../../redux/hooks';
+import { getChosenOrganization } from '../../redux/slices/orgsSlice';
+import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
+import { getAllPersonals } from '../../redux/slices/personalsSlice';
+import { getChoosenContracts } from '../../redux/slices/contractSlice';
 
 const ActZKH = () => {
   const choosenMonth = useAppSelector(getChoosenMonth);

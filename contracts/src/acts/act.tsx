@@ -12,11 +12,11 @@ import ActZKH from './act_ZKH';
 import ActPMS from './act_PMS';
 import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
 import Header from '../components/header';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { chooseMonth, getServices, getChoosenMonth, fetchServicesByOrgIdMonth } from '../features/services/servicesSlice';
-import { chooseOrg, fetchOrgs, getAllOrganisation, getChosenOrganization } from '../features/orgs/orgsSlice';
-import { fetchPersonalsByOrgId } from '../features/personals/personalsSlice';
-import { fetchContractsByOrgIMonth } from '../features/contracts/contractSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { chooseMonth, getServices, getChoosenMonth, fetchServicesByOrgIdMonth } from '../redux/slices/servicesSlice';
+import { chooseOrg, fetchOrgs, getAllOrganisation, getChosenOrganization } from '../redux/slices/orgsSlice';
+import { fetchPersonalsByOrgId } from '../redux/slices/personalsSlice';
+import { fetchContractsByOrgIMonth } from '../redux/slices/contractSlice';
 
 const Act = () => {
   const dispatch = useAppDispatch();

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import Footer from '../components/footer';
 import Header from '../components/header';
-import { check, getIsAuth } from '../features/auth/authSlice';
 import { useEffect } from 'react';
+import { check, getIsAuth } from '../redux/slices/authSlice';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;

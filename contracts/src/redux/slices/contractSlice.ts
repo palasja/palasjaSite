@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Contract } from "../../helpers/contractTypes";
-import { createAppAsyncThunk } from "../../app/withTypes";
+import { createAppAsyncThunk } from "../../redux/withTypes";
 import { addContract as createContract, fetchContractsByOrgId as fetchByOrgId, fetchContractsByOrgIdMonth, removeContract, updateContract } from "../../helpers/api";
-import { RootState } from "../../app/store";
+import { RootState } from "../../redux/store";
 
 interface ContractsState {
   contracts: Contract[],
