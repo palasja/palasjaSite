@@ -7,6 +7,35 @@ import { getChosenOrganization } from '../../redux/slices/orgsSlice';
 import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
 import { getAllPersonals } from '../../redux/slices/personalsSlice';
 import { getChoosenContracts } from '../../redux/slices/contractSlice';
+import { Service } from '../../helpers/contractTypes';
+
+type ServiceForTableType = Pick<Service, "name" | "cost" | "count">
+
+const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] =>{
+  let grouped = Object.groupBy(services, ( s ) => s.name + s.cost);
+  let groupedArray = Object.values(grouped).map(arr => {
+      if(arr?.length === 1) {
+          return arr[0];
+      } else {
+          let c = 0;
+          arr?.forEach(a => c += a.count);
+          const itog = arr![0];
+          return {name: itog.name, cost: itog.cost, count: c};
+      }
+  })
+  let sortedByNameArray =  groupedArray.sort((a, b) => {
+    const nameA = a.name.toUpperCase().trim();
+    const nameB = b.name.toUpperCase().trim();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+  return sortedByNameArray;
+}
 
 const ActZKH = () => {
   const choosenMonth = useAppSelector(getChoosenMonth);
@@ -17,7 +46,7 @@ const ActZKH = () => {
   const head = personals.find((p) => p.isHead);
   const sign = personals.find((p) => !p.isHead);
   const itog = getServicesCostWithNDS(services);
-
+  const groupedServices = groupServiseByCostAndName(services);
   return (
     <>
       {choosenOrg ? 
@@ -62,7 +91,7 @@ const ActZKH = () => {
             </tr>
           </tfoot>
           <tbody>
-            {services.map((s, i) => {
+            {groupedServices.map((s, i) => {
               return (
                 <tr key={i}>
                   <td>{s.name}</td>

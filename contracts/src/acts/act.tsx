@@ -82,7 +82,7 @@ const Act = () => {
       ) : ( */}
         <>
           {choosenOrg?.name === 'ЖКХ' ? (
-            <>
+             <>
               <article className='noprint'>
                 <p>Заработано = {getServicesCost(services)}</p>
                 <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>

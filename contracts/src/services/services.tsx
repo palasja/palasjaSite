@@ -136,7 +136,7 @@ const Services = ({isWithoutOrg} :ServiceProps) => {
           : services.map((service, i) => {
               return (
                 <li key={i}>
-                  {`${service.name} ${service.date}`}
+                  {`${service.name} ${service.date} ${service.count } ${service.cost}`}
                   <button
                     onClick={async () => {
                       dispatch(delService(service.id));
