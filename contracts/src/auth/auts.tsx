@@ -15,7 +15,6 @@ const Auth = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isAuth = useAppSelector(getIsAuth);
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
      dispatch(login(data)).then(() => {
       navigate('/contract');
@@ -25,12 +24,7 @@ const Auth = () => {
     dispatch(check());
   },[]);
   return (
-    // isLock ? (<h2 className={style.lockMessge}>Данные были введены неверно более 10 раз. Обратитесь к администратору</h2>) :
     <>
-    {
-    isAuth ? 
-      navigate('contract') 
-    :
       <section className={style.auth}>
         <Link to={'/signIn'}>signIn</Link>
         <div className={style.formContainer}>
@@ -59,7 +53,6 @@ const Auth = () => {
           </form>
         </div>
       </section>
-      }
       </>
   );
 };

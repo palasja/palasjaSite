@@ -4,20 +4,23 @@ import Footer from '../components/footer';
 import Header from '../components/header';
 import { useEffect } from 'react';
 import { check, getIsAuth } from '../redux/slices/authSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const isAuth =  useAppSelector(getIsAuth)
+  const isAuth =  useAppSelector(getIsAuth);
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   useEffect(() =>{
     if (!isAuth) {
-      const chreckAuthToken = async () => await dispatch(check())
-      chreckAuthToken().then(() => {if (!isAuth){navigate('/')}});
-      
+      dispatch(check())
+    .then(unwrapResult)
+    .catch(() => {
+      navigate('/')
+    })
     }
   },[]);
 
@@ -28,5 +31,5 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     <Footer />
   </> 
   :
-   <></>;
+   <><p>Unouthorize</p></>;
 };
