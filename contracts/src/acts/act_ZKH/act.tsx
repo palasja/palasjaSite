@@ -111,7 +111,7 @@ const ActZKH = () => {
           <p className={style.lower}>(<span className={style.variable}>{convertNumberToWordsRu(itog)}</span>)</p>
           <p>
             в полном объеме с <span className={style.variable}>{new Date(2025, Number(choosenMonth)).toLocaleDateString('ru-RU')}</span> по{' '}
-            <span className={style.variable}>{new Date(2025, Number(choosenMonth), 0).toLocaleDateString('ru-RU')}</span> согласно заключенного
+            <span className={style.variable}>{new Date(2025, Number(choosenMonth) + 1, 0).toLocaleDateString('ru-RU')}</span> согласно заключенного
             договора подряда.
           </p>
           <p className={style.indent}>
