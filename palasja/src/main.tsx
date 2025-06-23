@@ -23,6 +23,7 @@ import Conteiner from './conteiner.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+    
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -39,7 +40,9 @@ createRoot(document.getElementById('root')!).render(
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>
+  
       <Footer />
+      
     </BrowserRouter>
   </StrictMode>
 );
