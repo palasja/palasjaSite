@@ -25,6 +25,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
     
       <Header />
+      <Conteiner>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="projects" element={<Projects />}>
@@ -40,6 +41,8 @@ createRoot(document.getElementById('root')!).render(
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>
+      </Conteiner>
+
   
       <Footer />
       

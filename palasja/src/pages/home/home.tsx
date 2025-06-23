@@ -7,13 +7,12 @@ import rss from 'assets/sertificates/RSSshool_20092022.png';
 import MS6419B from 'assets/sertificates/MS-6419B.png';
 import { splitLineGetParagragh } from '../../helpers/heper';
 import { Link } from 'react-router';
-import Conteiner from '/src/conteiner.tsx';
+import Conteiner from '../../conteiner';
 
 const Home = () => {
   const { t } = useTranslation();
   return (
     <>
-
       <div className={style.intro}>
       <img src={face} className={style.img} style={{ height: '100px', float: 'left' }}></img>
       {splitLineGetParagragh(t('home.text'))}
@@ -185,6 +184,7 @@ const Home = () => {
         </section>
       </>
     </>
+
   );
 };
 

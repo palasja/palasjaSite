@@ -3,7 +3,8 @@ import style from './header.module.css';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
-import Conteiner from '/src/conteiner.tsx';
+import Conteiner from '../../conteiner';
+
 
 
 const Header = () => {
@@ -21,12 +22,13 @@ const Header = () => {
           <Link className={style.link} to={'projects'}>{t('menu.project')}</Link>
           <p className={style.link}>Контакты</p>
         </nav>
-        <select onChange={(e) => i18n.changeLanguage(e.target.value)}>
-          {/* <option value='ru'>ru</option> */}
-          <option className={style.language} value="ru">ru</option>
-          <option className={style.language} value="en">en</option>
-          <option className={style.language} value="by">by</option>
-        </select>
+        <div>
+          <select onChange={(e) => i18n.changeLanguage(e.target.value)}>
+            <option className={style.language} value="ru">ru</option>
+            <option className={style.language} value="en">en</option>
+            <option className={style.language} value="by">by</option>
+          </select>
+        </div>
       </div>
       </Conteiner>
     </header>
