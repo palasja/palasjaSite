@@ -1,10 +1,22 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0;
+  background-color: #FFFFFF;
+  font-family: "Inder", sans-serif;
+  color:#000000;
+  font-size: 16px;
 }
 
+*,
+*:before,
+*:after{
+	box-sizing: border-box;
+}
+
+h1,h2,h3,h4,h5,h6, p{
+	margin: 0;
+}
+
+/* 
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -39,4 +51,4 @@
 
 .read-the-docs {
   color: #888;
-}
+} */ 
