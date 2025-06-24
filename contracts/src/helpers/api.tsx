@@ -1,4 +1,4 @@
-import { base64ToFile } from './helper';
+import { downloadFile } from './helper';
 import { ActInfo, Contract, Organization, Personal, Service, User } from './contractTypes';
 
 const API_SERVER = 'http://127.0.0.1:3000';
@@ -132,7 +132,7 @@ export const fetchContractsScan = (orgId: number) => {
   }).then(async (res) => {
     if (res.status == 200) {
       const str64 = await res.json();
-      return base64ToFile(str64, 'application/pdf', 'laod.pdf');
+      return downloadFile(str64, 'application/pdf', 'laod.pdf');
     } else if (res.status == 401) {
       window.location.href = `${APP_URL}/logout`;
     } else {
@@ -177,23 +177,3 @@ export const removeService = (id: number): Promise<{ isRemove: boolean }> => {
 export const updateService = (service: Service): Promise<Service> => {
   return fetchData(`updateService`, 'PATCH', `Не удалось обновить услугу`, { service: service });
 };
-
-// export const fetchActInfo = (orgId: string, month: string): Promise<ActInfo> => {
-//   return fetch(`${API_SERVER}/getActInfo/${orgId}/${Number(month) - 1}`, {
-//     method: 'GET', // or 'PUT'
-//     credentials: 'include',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   })
-//     .then((res) => {
-//       if (res.status == 200) {
-//         return res.json();
-//       } else if (res.status == 401) {
-//         window.location.href = `${APP_URL}/logout`;
-//       } else {
-//         throw new Error(`Не удалось загрузить информацию по договору. ErrorCode = ${res.status}`);
-//       }
-//     })
-//     .catch((err: Error) => console.log(err.message));
-// };

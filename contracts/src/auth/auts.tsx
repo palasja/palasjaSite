@@ -2,8 +2,8 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './auth.module.css';
 import { Link, useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { check, getIsAuth, login } from '../redux/slices/authSlice';
+import { useAppDispatch } from '../redux/hooks';
+import { check, login } from '../redux/slices/authSlice';
 import { useEffect } from 'react';
 
 type FormValues = {

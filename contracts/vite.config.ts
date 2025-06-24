@@ -16,4 +16,8 @@ export default defineConfig({
       // lib: "/src/lib",
     },
   },
+  test: {
+    globals: true,
+    environment: "jsdom",
+  },
 });

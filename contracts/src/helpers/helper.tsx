@@ -1,4 +1,4 @@
-import { NDS, NDS_VICHET, NDS_VICHET_LIMIT } from './constants';
+import { NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA } from './constants';
 import { Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File): Promise<string> =>
@@ -9,13 +9,9 @@ export const toBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export const base64ToFile = (
-  base64String: { scan: string },
-  mimeType: string,
-  fileName: string
-) => {
+const getURLByBase64File = ( scanStr: string, mimeType: string ) => {
   // Remove data URL scheme if present
-  const base64Data = base64String.scan.replace(/^data:.+;base64,/, '');
+  const base64Data = scanStr.replace(/^data:.+;base64,/, '');
   const byteCharacters = atob(base64Data); // Decode Base64 string
   const byteNumbers = new Array(byteCharacters.length);
 
@@ -26,7 +22,15 @@ export const base64ToFile = (
   const byteArray = new Uint8Array(byteNumbers);
   const blob = new Blob([byteArray], { type: mimeType });
   const url = URL.createObjectURL(blob);
+  return url;
 
+};
+export const downloadFile = (
+  base64String: { scan: string },
+  mimeType: string,
+  fileName: string
+) => {
+  const url = getURLByBase64File(base64String.scan, mimeType );
   // Create a link element to download the file
   const link = document.createElement('a');
   link.href = url;
@@ -35,7 +39,8 @@ export const base64ToFile = (
 
   // Cleanup
   URL.revokeObjectURL(url);
-};
+}
+
 
 export const getShortName = (person: Personal | undefined): string => {
   return person === undefined || person === null
@@ -53,17 +58,18 @@ export const getServicesCostWithNDS = (services: Service[]) => {
  * если ЗП меньше 192р то вычитается только 1% в пенсионный фонд
  * если ЗП меньше 1164 то вычитается 192 и берётся налог от этой суммы (13% подоходный + 1% пенсионный)
  * если ЗП больше то берётся налог от всей суммы (13% подоходный + 1% пенсионный)
- * @param services
- * @returns
+ * @param services - list of services
+ * @returns cost with NDS
  */
 export const getServicesCostWithNDS_47 = (services: Service[]) => {
   let itogSumm = getServicesCost(services);
   let itogSummNDS = 0;
   if (itogSumm < NDS_VICHET) {
-    itogSummNDS = itogSumm;
+    itogSummNDS = itogSumm + itogSumm * (PENSIA / 100);
   } else if (itogSumm < NDS_VICHET_LIMIT) {
-    const summWithouVichet = (itogSumm = NDS_VICHET_LIMIT);
-    itogSummNDS = (summWithouVichet * 100 + summWithouVichet * (NDS / 100) * 100) / 100;
+    const summWithouVichet = (itogSumm - NDS_VICHET);
+    const summNDS = (summWithouVichet * 100 + summWithouVichet * (NDS / 100) * 100) / 100;
+    itogSummNDS = summNDS + NDS_VICHET;
   } else {
     itogSummNDS = (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
   }
@@ -71,8 +77,9 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
 };
 
 export const getServicesCost = (services: Service[]) => {
-  let itogSumm = 0;
-  services.forEach((s) => (itogSumm += s.count * s.cost));
+  
+  let itogSumm = services.reduce((result, s ) => result + (s.count * s.cost), 0);
+  // services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;
 };
 
