@@ -5,3 +5,7 @@
 	margin: 0 auto;
 	padding: 0 15px;
 }
+
+.wraper:nth-child(2n){
+	background-color: aqua;
+}

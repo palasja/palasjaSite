@@ -36,3 +36,9 @@
 	/* transform: color 0.2s linear; */
 }
 
+.linksBlock{
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+}
+

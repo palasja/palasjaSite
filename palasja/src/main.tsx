@@ -16,16 +16,13 @@ import Contracts from './pages/projects/contracts';
 import Payroll from './pages/projects/payroll/payroll';
 import Code from './pages/projects/srcScan/code';
 import srvScanCode from './pages/projects/srcScan/code_en';
-import Conteiner from './conteiner.tsx'
-
-
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
     
       <Header />
-      <Conteiner>
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="projects" element={<Projects />}>
@@ -41,7 +38,7 @@ createRoot(document.getElementById('root')!).render(
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>
-      </Conteiner>
+
 
   
       <Footer />
