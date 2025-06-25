@@ -14,75 +14,87 @@ const Home = () => {
   return (
     <>
       <div className={style.intro}>
-      <img src={face} className={style.img} style={{ height: '100px', float: 'left' }}></img>
+      <img src={face} className={style.img}></img>
       {splitLineGetParagragh(t('home.text'))}
       </div>
       <>
-        <h3>{t('home.cw.name')}</h3>
+        {/* <h3>{t('home.cw.name')}</h3>
         <div>
           <a>Linked: https://www.linkedin.com/in/palasja</a>
           <a>GitHub: https://github.com/palasja</a>
           <a>Email: palasja@gmail.com</a>
-        </div>
-
-        <section>
-          <h4>{t('home.cw.lang.language')}</h4>
+        </div> */}
+{/*-----------------------------------------------------------------------------------*/}
+        <section className={style.skils}>
+          <h4 className={style.head}>{t('home.cw.skils.skils')}</h4>
           <ul>
-            <li>{t('home.cw.lang.belarus')}</li>
-            <li>{t('home.cw.lang.russian')}</li>
-            <li>{t('home.cw.lang.english')}</li>
-          </ul>
-        </section>
-
-        <section>
-          <h4>{t('home.cw.education.education')}</h4>
-          <div>
-            <div>
-              <p>{t('home.cw.education.univerrsity')}</p>
-              <p>{t('home.cw.education.hightQality')}</p>
-            </div>
-            <div>{t('home.cw.education.universityDate')}</div>
-          </div>
-          <div>
-            <div>
-              <p>{t('home.cw.education.college')}</p>
-              <p>{t('home.cw.education.specialization')}</p>
-            </div>
-            <div>{t('home.cw.education.collegeDate')}</div>
-          </div>
-        </section>
-
-        <section>
-          <h4>{t('home.cw.skils.skils')}</h4>
-          <ul>
-            <li>
+            <li className={style.text}>
               <span>{t('home.cw.skils.languages')}:</span> SQL, JS, C#, SQL, Typescript, CSS, HTML5,
               Node.js, Batch
             </li>
-            <li>
+            <li className={style.text}>
               <span>{t('home.cw.skils.frameworks')}:</span> Express, ASP.NET Core, React
             </li>
-            <li>
+            <li className={style.text}>
               <span>{t('home.cw.skils.tools')}:</span> Enterprise Manager, MS Office, IBExpert, Vmware
               Workstation, VSphere, Sequelize, Git, Vite
             </li>
-            <li>
+            <li className={style.text}>
               <span>{t('home.cw.skils.platforms')}:</span> Visual Studio, Visual Studio Code
             </li>
-            <li>
+            <li className={style.text}>
               <span>{t('home.cw.skils.softSkils')}:</span> Self-organization, Stress resilience, Problem
               solving, Adaptability and flexibility
             </li>
           </ul>
         </section>
-        <section>
-          <h4>{t('home.cw.experiance.experiance')}</h4>
-          <p>
-            {t('home.cw.experiance.factory')} - {t('home.cw.experiance.factoryDate')}
-          </p>
-          <p>
-            {t('home.cw.experiance.ivc')} - {t('home.cw.experiance.ivcDate')}
-          </p>
+{/*-----------------------------------------------------------------------------------*/}
+        <section className={style.education}>
+          <h4 className={style.head_}>{t('home.cw.education.education')}</h4>
+          <div className={style.inner}>
+            <div className={style.inner}>
+              <div className={style.date}>{t('home.cw.education.collegeDate')}</div>
+              <div>
+                <p className={style.specialization}>{t('home.cw.education.specialization')}</p>
+                <p>{t('home.cw.education.college')}</p>
+               
+              </div>
+            </div>
+            <div className={style.inner}>
+              <div className={style.date}>{t('home.cw.education.universityDate')}</div>
+              <div>
+                <p className={style.specialization}>{t('home.cw.education.hightQality')}</p>
+                <p>{t('home.cw.education.univerrsity')}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+{/*-----------------------------------------------------------------------------------*/}
+        <section className={style.language}>
+          <h4 className={style.head}>{t('home.cw.lang.language')}</h4>
+          <ul>
+            <li className={style.text}>{t('home.cw.lang.belarus')}</li>
+            <li className={style.text}>{t('home.cw.lang.russian')}</li>
+            <li className={style.text}>{t('home.cw.lang.english')}</li>
+          </ul>
+        </section>
+{/*-----------------------------------------------------------------------------------*/}
+        <section className={style.experiance}>
+
+          <h4 className={style.head_}>{t('home.cw.experiance.experiance')}</h4>
+            <div className={style.inner}>
+              <div className={style.inner}>
+                <p className={style.text_}>{t('home.cw.experiance.factory')}</p>
+                <p className={style.post}>{t('home.cw.experiance.factoryPost')}</p>
+              </div>
+              <p className={style.date}>{t('home.cw.experiance.factoryDate')}</p>
+            </div>
+          
+          <div className={style.inner_}>
+            <p className={style.text_}>{t('home.cw.experiance.ivc')}</p>
+            <p className={style.post}>{t('home.cw.experiance.ivcPost')}</p>
+            <p className={style.date}>{t('home.cw.experiance.ivcDate')}</p>
+          </div>
 
           <ul>
             <li>
@@ -129,7 +141,8 @@ const Home = () => {
             </li>
           </ul>
         </section>
-        <section>
+{/*-----------------------------------------------------------------------------------*/}
+        {/* <section>
                 <h3>Проекты</h3>
                 <article>
                   <li><Link to="projects/srvScan">SrvScan</Link></li>
@@ -157,8 +170,8 @@ const Home = () => {
         <section>
           <h4>Projects</h4>
           <a></a>
-        </section>
-
+        </section> */}
+{/*-----------------------------------------------------------------------------------*/}
         <section>
           <h4>{t('home.cw.certificates')}</h4>
           <figure>
