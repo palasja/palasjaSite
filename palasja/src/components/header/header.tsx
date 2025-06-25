@@ -21,12 +21,13 @@ const Header = () => {
           <Link className={style.link} to={'/'}>{t('menu.home')}</Link>
           <Link className={style.link} to={'projects'}>{t('menu.project')}</Link>
           <p className={style.link}>Контакты</p>
+          
         </nav>
-        <div>
-          <select onChange={(e) => i18n.changeLanguage(e.target.value)}>
-            <option className={style.language} value="ru">ru</option>
-            <option className={style.language} value="en">en</option>
-            <option className={style.language} value="by">by</option>
+        <div className={style.nav}> {/*не уверенна, что так правильно, но мне надо было отцентровать этот элемент. nav вписала, чтобы еще один класс не описывать с такими же параметрами*/}
+          <select className={style.language}  onChange={(e) => i18n.changeLanguage(e.target.value)}>
+            <option value="ru">ru</option> 
+            <option value="en">en</option>
+            <option value="by">by</option>
           </select>
         </div>
       </div>
