@@ -1,4 +1,3 @@
-import { describe, it, expect, vi } from "vitest";
 import { downloadFile, getServicesCost, getServicesCostWithNDS, getServicesCostWithNDS_47, getShortName } from "./helper";
 import { Personal, Service } from "./contractTypes";
 import { NDS } from "./constants";

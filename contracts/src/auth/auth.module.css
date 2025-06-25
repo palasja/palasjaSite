@@ -28,6 +28,8 @@
   margin-bottom: 55px;
 }
 .errorMeaasge {
+  color: red;
+  font-size: 28px;
 }
 
 .form {

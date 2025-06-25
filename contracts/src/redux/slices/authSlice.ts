@@ -6,6 +6,7 @@ import { User } from '../../helpers/contractTypes'
 
 interface AuthState {
   isAuth: boolean,
+  isErrorAuth: boolean
 }
 export const login = createAppAsyncThunk('auth/login', async (authInfo: User) => {
   const logInResult = await fetchLogIn(authInfo);
@@ -51,6 +52,7 @@ const initialState: AuthState = {
   // Note: a real app would probably have more complex auth state,
   // but for this example we'll keep things simple
   isAuth: false,
+  isErrorAuth: false,
 }
 
 const authSlice = createSlice({
@@ -61,15 +63,18 @@ const authSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state) => {
         state.isAuth = true;
+        state.isErrorAuth = false;
       })
       .addCase(login.rejected, (state) => {
         state.isAuth = false;
+        state.isErrorAuth = true;
       })
       .addCase(logout.fulfilled, (state) => {
         state.isAuth = false;
       })
       .addCase(signin.fulfilled, (state) => {
         state.isAuth = true;
+        state.isErrorAuth = false;
       })
       .addCase(check.fulfilled, (state) => {
         state.isAuth = true;
@@ -84,5 +89,6 @@ const authSlice = createSlice({
 export default authSlice.reducer
 
 export const getIsAuth = (state: RootState) =>  state.auth.isAuth
+export const getIsErrorAuth = (state: RootState) =>  state.auth.isErrorAuth
 // export const selectCurrentUsername = (state: RootState) => state.auth.isAuth
 
