@@ -1,0 +1,32 @@
+.certificates{
+    background-color: #146BB3;   
+    padding: 50px 0;
+    color: #ffffff;
+}
+
+.head{
+   font-family: "Manrope", sans-serif;
+   font-weight: 700; 
+   font-size: 32px;
+   margin-bottom: 35px;
+   text-transform: uppercase;
+}
+
+.inner{
+   display: grid;
+   grid-template-columns: repeat(2, 1fr); 
+
+}
+
+.img{
+    width: 550px;
+    height: 390px;
+}
+
+.text{
+    text-align: center;
+    text-transform: uppercase;
+     font-family: "Manrope", sans-serif;
+     font-size: 16px;
+     
+}

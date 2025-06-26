@@ -50,3 +50,9 @@
 	padding: 9px;
 	cursor: pointer;
 }
+.linksBlock{
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+}
+
