@@ -14,7 +14,8 @@
 }
 
 .language,
-.skils{
+.skils,
+.certificates{
     background-color: #146BB3;   
     padding: 50px 0;
     color: #ffffff;
@@ -77,9 +78,43 @@
 .text_{
     font-family: "Inder", sans-serif;
     font-size: 16px;
-    margin-bottom: 35px;
 }
 .text_:last-child {
   margin-bottom: 30px;
 }
 
+.post{
+    font-family: "Manrope", sans-serif;
+    color: #1C2E6A;
+    text-transform: uppercase;
+    font-weight: 700; 
+    margin-bottom: 35px;
+}
+
+/* .post:last-child {
+  margin-bottom: 30px;
+} */
+
+.inner_{
+    display: flex;
+    justify-content: space-between;
+}
+
+.img_s{
+    width: 550px;
+    height: 390px;
+}
+
+.inner__{
+   display: grid;
+   grid-template-columns: repeat(2, 1fr); 
+
+}
+
+.text__{
+    text-align: center;
+    text-transform: uppercase;
+     font-family: "Manrope", sans-serif;
+     font-size: 16px;
+     
+}

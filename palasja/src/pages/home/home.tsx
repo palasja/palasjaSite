@@ -57,7 +57,6 @@ const Home = () => {
               <div>
                 <p className={style.specialization}>{t('home.cw.education.specialization')}</p>
                 <p>{t('home.cw.education.college')}</p>
-               
               </div>
             </div>
             <div className={style.inner}>
@@ -82,18 +81,24 @@ const Home = () => {
         <section className={style.experiance}>
 
           <h4 className={style.head_}>{t('home.cw.experiance.experiance')}</h4>
-            <div className={style.inner}>
+            <div className={style.inner_}>
               <div className={style.inner}>
-                <p className={style.text_}>{t('home.cw.experiance.factory')}</p>
-                <p className={style.post}>{t('home.cw.experiance.factoryPost')}</p>
+                <div>
+                  <p className={style.text_}>{t('home.cw.experiance.factory')}</p>
+                  <p className={style.post}>{t('home.cw.experiance.factoryPost')}</p>
+                </div>
               </div>
-              <p className={style.date}>{t('home.cw.experiance.factoryDate')}</p>
+              <p className={style.date_}>{t('home.cw.experiance.factoryDate')}</p>
             </div>
           
           <div className={style.inner_}>
-            <p className={style.text_}>{t('home.cw.experiance.ivc')}</p>
-            <p className={style.post}>{t('home.cw.experiance.ivcPost')}</p>
-            <p className={style.date}>{t('home.cw.experiance.ivcDate')}</p>
+            <div className={style.inner}>
+              <div>
+                <p className={style.text_}>{t('home.cw.experiance.ivc')}</p>
+                <p className={style.post}>{t('home.cw.experiance.ivcPost')}</p>
+              </div>
+            </div>
+            <p className={style.date_}>{t('home.cw.experiance.ivcDate')}</p>
           </div>
 
           <ul>
@@ -172,28 +177,30 @@ const Home = () => {
           <a></a>
         </section> */}
 {/*-----------------------------------------------------------------------------------*/}
-        <section>
-          <h4>{t('home.cw.certificates')}</h4>
-          <figure>
-            <img src={rss}></img>
-            <figcaption>THE RS SCHOOL - JAVASCRIPT/FRONT-END 2022Q1</figcaption>
-          </figure>
-          <figure>
-            <img src={MS2778}></img>
-            <figcaption>
-              MS2778 - Quiring and modifying data in Microsoft SQL Server 2008 with transact-SQL
-            </figcaption>
-          </figure>
-          <figure>
-            <img src={softline}></img>
-            <figcaption>Softline - Advanced C#/.Net</figcaption>
-          </figure>
-          <figure>
-            <img src={MS6419B}></img>
-            <figcaption>
-              MS-6419B - Configuring, managing and Maintaining windows server 2008-based servers
-            </figcaption>
-          </figure>
+        <section className={style.certificates}>
+          <h4 className={style.head}>{t('home.cw.certificates')}</h4>
+          <div className={style.inner__}>
+            <figure >
+              <img className={style.img_s} src={rss}></img>
+              <figcaption className={style.text__}>THE RS SCHOOL - JAVASCRIPT/FRONT-END 2022Q1</figcaption>
+            </figure>
+            <figure>
+              <img className={style.img_s} src={MS2778}></img>
+              <figcaption className={style.text__}>
+                MS2778 - Quiring and modifying data in Microsoft SQL Server 2008 with transact-SQL
+              </figcaption>
+            </figure>
+            <figure>
+              <img className={style.img_s} src={softline}></img>
+              <figcaption className={style.text__}>Softline - Advanced C#/.Net</figcaption>
+            </figure>
+            <figure>
+              <img className={style.img_s} src={MS6419B}></img>
+              <figcaption className={style.text__}>
+                MS-6419B - Configuring, managing and Maintaining windows server 2008-based servers
+              </figcaption>
+            </figure>
+          </div>
         </section>
       </>
     </>
