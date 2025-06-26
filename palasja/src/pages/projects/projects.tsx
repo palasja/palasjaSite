@@ -4,6 +4,8 @@ import style from './projects.module.css';
 import srvScanCode from './srcScan/code_en';
 import { t } from 'i18next';
 import { splitLineGetParagragh } from '../../helpers/heper';
+import { ContentContainer } from '../containers/contentContainer';
+import { ContentWrapper } from "../../components/containers/contentContainer"
 
 
 const Projects = () => {
@@ -14,21 +16,23 @@ const Projects = () => {
 
   return (
     <>
+    {/* <ContentContainer> */}
+      <ContentWrapper>
       <div className={style.container}>
         <nav className={style.nav}>
-          <Link to="srvScan">SrvScan</Link>
+          <Link className={style.linkBlue} to="srvScan">SrvScan</Link>
           {
           srvScanReg.test(location.pathname) && 
           <div className={style.srvNav}>
             {Object.keys(srvScanCode).map((key, i) => <Link className={style.link} key={i} to={`srvScan/${key}`}>{key}</Link>)}
           </div>
           }
-          <Link to="getInfo">GetInfo</Link>
-          <Link to="gusmary">GusMary</Link>
-          <Link to="contracts">Contracts</Link>
-          <Link to="payroll">Payroll</Link>
+          <Link className={style.linkBlue} to="getInfo">GetInfo</Link>
+          <Link className={style.linkBlue} to="gusmary">GusMary</Link>
+          <Link className={style.linkBlue} to="contracts">Contracts</Link>
+          <Link className={style.linkBlue} to="payroll">Payroll</Link>
         </nav>
-        <main>
+        <main className={style.test}>
           { projectsReg.test(location.pathname) ? 
           <>
             <h3>Проекты</h3>
@@ -57,12 +61,13 @@ const Projects = () => {
           </>
           :
           <Outlet />
-          }
-             
-                      
+          }             
         </main>
       </div>
+          </ContentWrapper>
     </>
+
+    // </ContentContainer>
   );
 };
 
