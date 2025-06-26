@@ -1,0 +1,35 @@
+.education{
+    background-color: #ffffff;   
+    padding: 50px 0;
+    color: #000000;
+}
+
+.head_{
+   font-family: "Manrope", sans-serif;
+   font-weight: 700; 
+   font-size: 32px;
+   margin-bottom: 35px;
+   color: #1C2E6A;
+   text-transform: uppercase;
+}
+
+.inner{
+    display: flex;
+    margin-right: 45px;
+    font-size: 16px;
+}
+
+.inner:last-child {
+  margin-right: 0;
+}
+
+.specialization{
+    font-family: "Manrope", sans-serif;
+    color: #1C2E6A;
+    text-transform: uppercase;
+    font-weight: 700; 
+}
+
+.date{
+    margin-right: 65px;
+}

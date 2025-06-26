@@ -7,9 +7,11 @@ import { useTranslation } from 'react-i18next';
 const Description = () => {
     const { t } = useTranslation();
   return(
-    <ContentWrapper className={style.intro}>
-        <img src={face} className={style.img} style={{ height: '100px', float: 'left' }}></img>
-        {splitLineGetParagragh(t('home.text'))}
+    <ContentWrapper>
+      <div className={style.intro}>
+        <img src={face} className={style.img}></img>
+        <div className={style.text}>{splitLineGetParagragh(t('home.text'))}</div>
+      </div>
     </ContentWrapper>
   )
 }

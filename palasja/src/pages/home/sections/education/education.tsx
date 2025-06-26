@@ -6,21 +6,25 @@ const Education = () => {
   const { t } = useTranslation();
   return (
     <ContentWrapper>
-      <h4>{t('home.cw.education.education')}</h4>
-       <div>
-         <div>
-           <p>{t('home.cw.education.univerrsity')}</p>
-           <p>{t('home.cw.education.hightQality')}</p>
-         </div>
-         <div>{t('home.cw.education.universityDate')}</div>
-       </div>
-       <div>
-         <div>
-           <p>{t('home.cw.education.college')}</p>
-           <p>{t('home.cw.education.specialization')}</p>
-         </div>
-         <div>{t('home.cw.education.collegeDate')}</div>
-       </div>
+      <div className={style.education}>
+        <h4 className={style.head_}>{t('home.cw.education.education')}</h4>
+        <div className={style.inner}>
+          <div className={style.inner}>
+            <div className={style.date}>{t('home.cw.education.collegeDate')}</div>
+              <div>
+                <p className={style.specialization}>{t('home.cw.education.specialization')}</p>
+                <p>{t('home.cw.education.college')}</p>
+              </div>
+            </div>
+            <div className={style.inner}>
+              <div className={style.date}>{t('home.cw.education.universityDate')}</div>
+                <div>
+                 <p className={style.specialization}>{t('home.cw.education.hightQality')}</p>
+                 <p>{t('home.cw.education.univerrsity')}</p>
+               </div>
+            </div>
+          </div>
+      </div>
     </ContentWrapper>
   );
 }

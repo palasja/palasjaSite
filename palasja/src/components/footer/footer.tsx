@@ -5,7 +5,7 @@ import { ContentContainer } from '../containers/contentContainer';
 const Footer = () => {
   const { t } = useTranslation();
   return (
-    <footer>
+    <footer className={style.footer}>
       <ContentContainer>
         <p>
           {t('footer.desPos')} {t('footer.desName')}

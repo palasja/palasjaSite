@@ -32,11 +32,11 @@ const Header = () => {
             </div>
         </nav>
 
-        <div>
-          <select onChange={(e) => i18n.changeLanguage(e.target.value)}>
-            <option className={style.language} value="ru">ru</option>
-            <option className={style.language} value="en">en</option>
-            <option className={style.language} value="by">by</option>
+        <div className={style.nav}>
+          <select className={style.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
+            <option value="ru">ru</option>
+            <option value="en">en</option>
+            <option value="by">by</option>
           </select>
         </div>
       </div>
