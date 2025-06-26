@@ -6,8 +6,9 @@ const GetInfo = () => {
   const { t } = useTranslation();
   return(
     <>
-  <p>{t("proj.getInfo.desc")}</p>
-  <p>{t("proj.getInfo.info")}</p>
+      <h3>{t('proj.projectDesc')} Get Info</h3>
+      <p>{t("proj.getInfo.desc")}</p>
+      <p>{t("proj.getInfo.info")}</p>
       <ul>
         {[...new Array(9)].map((_v, i) => <li>{t(`proj.getInfo.infoList.${i+1}`)}</li>)}
       </ul>
@@ -15,11 +16,11 @@ const GetInfo = () => {
       <ul>
         {[...new Array(2)].map((_v, i) => <li>{t(`proj.getInfo.actionList.${i+1}`)}</li>)}
       </ul>
-  <details>
-    <summary>GetInfo</summary>
-    <pre>{Code}</pre>
-  </details>
-</>
+      <details>
+        <summary>GetInfo</summary>
+        <pre>{Code}</pre>
+      </details>
+    </>
   );
 };
 

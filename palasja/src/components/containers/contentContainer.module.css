@@ -6,6 +6,6 @@
 	padding: 0 15px;
 }
 
-.wraper:nth-child(2n){
+.wraper:nth-child(even){
 	background-color: #146BB3;
 }

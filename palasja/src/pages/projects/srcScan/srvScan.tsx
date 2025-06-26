@@ -13,6 +13,7 @@ const SrvScan = () => {
     {
       reg.test(location.pathname) && 
       <>
+        <h3>{t('proj.projectDesc')} SrvScan</h3>
         {splitLineGetParagragh(t('proj.srvScan.desc'))}
           {[...new Array(8)].map((_v, i) => <li key={i}>{i+1} - {t(`proj.srvScan.params.${i+1}`)}</li>)}
       </>

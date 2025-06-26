@@ -8,7 +8,7 @@ const GusMary = () => {
   const { t } = useTranslation();
   return(
     <>
-      <p>GusMaryHair</p>
+      <h3>{t('proj.projectDesc')} GusMaryHair</h3>
       {splitLineGetParagragh(t('proj.gusmary.desc'))}
       <ul>
         <li>vite</li>

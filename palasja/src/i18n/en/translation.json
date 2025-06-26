@@ -68,6 +68,7 @@
       "desName": "Pavluchenka K. A."
     },
     "proj": {
+      "projectDesc": "Project Description:",
       "srvScan": {
         "desc": "RUN_XML.bat initial bat whitch create and send XML files./n For sending it use account whitch running RUN_XML. It run all 8 without any params. For start separate bat there has to write their number as params whith whitespace./n Example:'RUN_XML.bat 2 5' create xml whitch was backup info and running programs.",
         "params": {

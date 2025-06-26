@@ -51,7 +51,7 @@
 	cursor: pointer;
 }
 .linksBlock{
-	position: fixed;
+	position: absolute;
 	display: flex;
 	flex-direction: row;
 }

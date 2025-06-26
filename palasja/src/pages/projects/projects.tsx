@@ -4,8 +4,8 @@ import style from './projects.module.css';
 import srvScanCode from './srcScan/code_en';
 import { t } from 'i18next';
 import { splitLineGetParagragh } from '../../helpers/heper';
-import { ContentContainer } from '../containers/contentContainer';
-import { ContentWrapper } from "../../components/containers/contentContainer"
+import { ContentContainer } from '../../components/containers/contentContainer';
+
 
 
 const Projects = () => {
@@ -16,8 +16,7 @@ const Projects = () => {
 
   return (
     <>
-    {/* <ContentContainer> */}
-      <ContentWrapper>
+      <ContentContainer>
       <div className={style.container}>
         <nav className={style.nav}>
           <Link className={style.linkBlue} to="srvScan">SrvScan</Link>
@@ -64,10 +63,8 @@ const Projects = () => {
           }             
         </main>
       </div>
-          </ContentWrapper>
+          </ContentContainer>
     </>
-
-    // </ContentContainer>
   );
 };
 

@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import style from './contracts.module.css';
 
 const Contracts = () => {
+  const { t } = useTranslation();
   return(
     <>
-      <p>Contracts</p>
+      <h3>{t('proj.projectDesc')}Contracts</h3>
     </>
   );
 }

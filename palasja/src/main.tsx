@@ -29,7 +29,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path="srvScan" element={<SrvScan />} >
           {Object.keys(srvScanCode).map((key, i) => 
           //@ts-ignore
-            <Route key={i} path={key} element={<Code name={key} code={srvScanCode[key]}/>} />)}
+            <Route key={i} path={key} element={<Code name={key} code={srvScanCode[key]}/>} />)
+          }
           </Route>
           <Route path="getInfo" element={<GetInfo />} />
           <Route path="gusmary" element={<GusMary />} />
