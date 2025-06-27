@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     personals: personalsSlicer,
     services: servicesSlicer,
   })
-  // export const store1 =  configureStore({
+  // export const store1 = configureStore({
   //   reducer: rootReducer
   // })
 

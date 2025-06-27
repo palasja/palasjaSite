@@ -6,13 +6,14 @@ import Organization from '../organization';
 import { useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import style from './app.module.css'
+
 const App = () => {
   const orgId = useAppSelector(getChosenOrganization)?.id;
   const [isWithoutOrg, setIsWithoutOrg] = useState(false);
   return (
     <>
-      <p onClick={() => setIsWithoutOrg(true)}>Услуги без организации</p>
-      <p onClick={() => setIsWithoutOrg(false)}>Oрганизации</p>
+      <button onClick={() => setIsWithoutOrg(true)} data-testid='withoutOrg'>Услуги без организации</button>
+      <button onClick={() => setIsWithoutOrg(false)} data-testid='includeOrg'>Oрганизации</button>
       {isWithoutOrg ?
       <>
       <Services isWithoutOrg={true}/>
@@ -21,7 +22,7 @@ const App = () => {
       <>
         <Organization />
         {orgId == undefined ? (
-          <></>
+          <h2>Выберите организацию{orgId}</h2>
         ) : (
           <>
             <Contracts />
@@ -31,8 +32,6 @@ const App = () => {
         )}      
       </>
     }
-      
-
     </>
   );
 };

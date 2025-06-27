@@ -1,14 +1,12 @@
 import { Link } from 'react-router';
-import style from './heade.module.css';
+import style from './header.module.css';
 
 const Header = () => {
   //changeLanguage
   return (
-    <header className='noprint'>
+    <header className='noprint' data-testid='header'>
       <nav>
         <Link to={'/contract'}>Договора</Link>
-      </nav>
-      <nav>
         <Link to={'/act'}>Акты</Link>
       </nav>
     </header>

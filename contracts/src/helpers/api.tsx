@@ -34,65 +34,20 @@ const fetchAuth = async (endpont: string, method: string, body?:any) :Promise<nu
     body: body ? JSON.stringify(body) : undefined,
   });
   return res.status;
-  // return await fetch(`${API_SERVER}/${endpont}`, {
-  //   method: method,
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: body ? JSON.stringify(body) : undefined
-  // }).then(async (res) => {
-  //   return res.status;
-  // });
 }
 export const fetchSignIn = (data: User): Promise<number> => {
   return fetchAuth('signIn', 'POST', data);
-  // return fetch(`${API_SERVER}/signIn`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(data),
-  // }).then(async (res) => {
-  //   return res.status;
-  // });
 };
 
 export const fetchLogIn = async (data: User): Promise<number> => {
   return fetchAuth('logIn', 'POST', data);
-  // const res = await fetch(`${API_SERVER}/logIn`, {
-  //   method: 'POST',
-  //   credentials: 'include',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(data),
-  // });
-  // return res.status;
 };
 export const fetchСheckAuth = async (): Promise<number> => {
   return fetchAuth('checkAuth', 'POST');
-  // const res = await fetch(`${API_SERVER}/checkAuth`, {
-  //   method: 'POST',
-  //   credentials: 'include',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // });
-  // return res.status;
 };
 
 export const fetchLogOut = async (): Promise<number> => {
   return await fetchAuth('logout', 'GET');
-
-  // const res = await fetch(`${API_SERVER}/logout`, {
-  //   method: 'GET',
-  //   credentials: 'include',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // });
-  // console.log(res.status);
-  // return res.status;
 };
 
 

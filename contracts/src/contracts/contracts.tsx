@@ -119,7 +119,7 @@ function Contracts() {
       <ul>
         {contracts.length == 0
           ? ''
-          : contracts.map((con, i) => {
+          : contracts?.map((con, i) => {
               return (
                 <li key={i}>
                   {con.number}
@@ -149,7 +149,7 @@ function Contracts() {
               );
             })}
       </ul>
-      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delContract(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delContract(removeId))} close={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 }

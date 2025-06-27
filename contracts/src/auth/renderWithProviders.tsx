@@ -10,10 +10,10 @@ import { store as setupStore } from '../redux/store'
 // as allows the user to specify other things such as initialState, store.
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>
-  store?: AppStore
+  store?: AppStore,
 }
 
-export function renderWithProviders(
+export const renderWithProviders = (
   ui: React.ReactElement,
   {
     preloadedState = {},
@@ -21,7 +21,8 @@ export function renderWithProviders(
     store = setupStore(preloadedState),
     ...renderOptions
   }: ExtendedRenderOptions = {}
-) {
+) => {
+
   function Wrapper({ children }: PropsWithChildren<{}>): React.ReactNode {
     return <Provider store={store}>{children}</Provider>
   }

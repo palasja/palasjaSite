@@ -3,19 +3,20 @@ import style from './removeModal.module.css';
 
 type RemoveModalType = {
   remove: () => void
-  hide: () => void
+  close: () => void
 }
 
-const RemoveAgreePortal = ({ remove, hide } : RemoveModalType) => {
-
+const RemoveAgreePortal = ({ remove, close } : RemoveModalType) => {
+  const closeModal = (e: React.MouseEvent<HTMLElement>) => {e.stopPropagation(); close();}
+  const removeModal = (e: React.MouseEvent<HTMLElement>) => {e.stopPropagation(); remove();}
   return(
     <>
       {createPortal(
-        <div className={style.back} onClick={hide}>
+        <div className={style.back} onClick={(e) => closeModal(e)} data-testid='removeModal'>
           <div  className={style.main}>
             <p>Вы действительно хотитет удалить</p>
-            <button onClick={remove}>Удалить</button>
-            <button onClick={hide}>Отмена</button>
+            <button onClick={(e) => removeModal(e)} data-testid='remove'>Удалить</button>
+            <button onClick={(e) => closeModal(e)} data-testid='close'>Отмена</button>
           </div>
         </div>, 
         document.getElementsByTagName('body')[0]

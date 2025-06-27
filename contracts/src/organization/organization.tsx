@@ -85,7 +85,7 @@ const Organization = () => {
             })}
       </ul>
       <h2>{choosenOrg?.name}</h2>
-      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delOrg(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delOrg(removeId))} close={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 };

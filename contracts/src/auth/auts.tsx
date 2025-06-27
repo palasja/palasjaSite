@@ -21,9 +21,6 @@ const Auth = () => {
       navigate('/contract');
      })
   };
-  useEffect(() =>{
-    dispatch(check());
-  },[]);
 
   return (
     <>

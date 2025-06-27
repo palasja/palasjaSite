@@ -133,7 +133,7 @@ const Personals = ( ) => {
               );
             })}
       </ul>
-      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delPerson(removeId))} hide={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delPerson(removeId))} close={() => setIsShowRemoveModal(false)}/>}
     </>
   );
 };
