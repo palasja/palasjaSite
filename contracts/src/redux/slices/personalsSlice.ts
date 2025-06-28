@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Personal } from '../../helpers/contractTypes';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import {
@@ -11,6 +11,7 @@ import { RootState } from '../../redux/store';
 
 interface PersonalsState {
   personals: Personal[];
+  changingPersonal: Personal | null;
 }
 
 export const fetchPersonalsByOrgId = createAppAsyncThunk(
@@ -49,12 +50,17 @@ export const editPerson = createAppAsyncThunk(
 
 const initialState: PersonalsState = {
   personals: [],
+  changingPersonal: null,
 };
 
 const personalsSlicer = createSlice({
   name: 'personals',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    changingPersonal(state, action: PayloadAction<Personal>) {
+      state.changingPersonal = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPersonalsByOrgId.fulfilled, (state, action) => {
@@ -85,4 +91,6 @@ const personalsSlicer = createSlice({
 
 export default personalsSlicer.reducer;
 
+export const { changingPersonal } = personalsSlicer.actions;
 export const getAllPersonals = (state: RootState) => state.personals.personals;
+export const getChangingPersonals = (state: RootState) => state.personals.changingPersonal;

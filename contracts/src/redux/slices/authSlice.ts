@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import { fetchLogIn, fetchLogOut, fetchSignIn, fetchСheckAuth } from '../../helpers/api';
 import { RootState } from '../../redux/store';

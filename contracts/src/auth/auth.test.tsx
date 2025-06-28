@@ -38,7 +38,6 @@ describe('fill form errors', async () => {
         <Auth />
       </MemoryRouter>
     );
-    screen.debug();
     fireEvent.change(screen.getByTestId('login'), { target: { value: 'qwe' } });
     fireEvent.submit(screen.getByTestId('submit'));
     expect(screen.queryByText(/Логин должно быть заполнено/i)).not.toBeInTheDocument();

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Contract } from '../../helpers/contractTypes';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import {
@@ -13,6 +13,7 @@ import { RootState } from '../../redux/store';
 interface ContractsState {
   contracts: Contract[];
   chosenContract: Contract | null;
+  changingContract: Contract | null;
 }
 
 export const fetchContractsByOrgId = createAppAsyncThunk(
@@ -60,12 +61,17 @@ export const editContract = createAppAsyncThunk(
 const initialState: ContractsState = {
   contracts: [],
   chosenContract: null,
+  changingContract: null,
 };
 
 const contractsSlicer = createSlice({
   name: 'contracts',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    changingContract(state, action: PayloadAction<Contract>) {
+      state.changingContract = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContractsByOrgId.fulfilled, (state, action) => {
@@ -95,5 +101,7 @@ const contractsSlicer = createSlice({
 
 export default contractsSlicer.reducer;
 
+export const { changingContract } = contractsSlicer.actions;
 export const getAllContracts = (state: RootState) => state.contract.contracts;
 export const getChoosenContracts = (state: RootState) => state.contract.chosenContract;
+export const getChangingContract = (state: RootState) => state.contract.changingContract;

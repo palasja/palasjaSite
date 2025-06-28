@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Service } from '../../helpers/contractTypes';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import {
@@ -12,6 +12,8 @@ import { RootState } from '../../redux/store';
 interface ServicesState {
   services: Service[];
   choosenMonth: string;
+  isWithoutOrg: boolean;
+  changingService: Service | null;
 }
 
 export const fetchServicesByOrgIdMonth = createAppAsyncThunk(
@@ -48,6 +50,8 @@ export const editService = createAppAsyncThunk(
 const initialState: ServicesState = {
   services: [],
   choosenMonth: new Date().getMonth().toString(),
+  isWithoutOrg: false,
+  changingService: null,
 };
 
 const servicesSlicer = createSlice({
@@ -56,6 +60,12 @@ const servicesSlicer = createSlice({
   reducers: {
     chooseMonth(state, action) {
       state.choosenMonth = action.payload;
+    },
+    isWithoutOrg(state, action: PayloadAction<boolean>) {
+      state.isWithoutOrg = action.payload;
+    },
+    changingService(state, action: PayloadAction<Service>) {
+      state.changingService = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -84,8 +94,10 @@ const servicesSlicer = createSlice({
   },
 });
 
-export const { chooseMonth } = servicesSlicer.actions;
+export const { chooseMonth, changingService, isWithoutOrg } = servicesSlicer.actions;
 export default servicesSlicer.reducer;
 
 export const getServices = (state: RootState) => state.services.services;
 export const getChoosenMonth = (state: RootState) => state.services.choosenMonth;
+export const getIsWithoutOrg = (state: RootState) => state.services.isWithoutOrg;
+export const getChangingService = (state: RootState) => state.services.changingService;

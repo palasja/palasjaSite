@@ -11,6 +11,7 @@ import { RootState } from '../store';
 interface OrganizationState {
   organizations: Organization[];
   chosenOrg: Organization | null;
+  changingOrg: Organization | null;
   error: string | null;
 }
 export const fetchOrgs = createAppAsyncThunk('orgs/fetchOrgs', async () => {
@@ -41,6 +42,7 @@ export const editOrg = createAppAsyncThunk(
 const initialState: OrganizationState = {
   organizations: [],
   chosenOrg: null,
+  changingOrg: null,
   error: null,
 };
 
@@ -50,6 +52,9 @@ const orgsSlice = createSlice({
   reducers: {
     chooseOrg(state, action: PayloadAction<Organization>) {
       state.chosenOrg = action.payload;
+    },
+    changingOrg(state, action: PayloadAction<Organization>) {
+      state.changingOrg = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -79,7 +84,8 @@ const orgsSlice = createSlice({
 
 export default orgsSlice.reducer;
 
-export const { chooseOrg } = orgsSlice.actions;
+export const { chooseOrg, changingOrg } = orgsSlice.actions;
 export const getChosenOrganization = (state: RootState) => state.orgs.chosenOrg;
+export const getChangingOrganization = (state: RootState) => state.orgs.changingOrg;
 export const getAllOrganisation = (state: RootState) => state.orgs.organizations;
 export const getOrganisationError = (state: RootState) => state.orgs.error;

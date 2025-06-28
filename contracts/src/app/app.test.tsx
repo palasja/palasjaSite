@@ -3,7 +3,7 @@ import App from './app';
 import { renderWithProviders } from '../auth/renderWithProviders';
 import { Organization } from '../helpers/contractTypes';
 import { AppStore, RootState, store } from '../redux/store';
-import { addOrg } from '../redux/slices/orgsSlice';
+import { addOrg, changingOrg } from '../redux/slices/orgsSlice';
 import { MemoryRouter } from 'react-router';
 
 describe('app test switch service with or without org ', () => {
@@ -35,11 +35,13 @@ describe('', () => {
   it('choosen organization exist', () => {
     const mockOrg = {
       id: 1,
-      name: 'test',
+      name: 'testOrg',
     };
     const mockInitState = {
-      organizations: [],
+      organizations: [mockOrg],
       chosenOrg: mockOrg,
+      changingOrg: null,
+
       error: null,
     };
 
@@ -51,6 +53,6 @@ describe('', () => {
     );
 
     expect(screen.queryByText('Выберите организацию')).not.toBeInTheDocument();
-    expect(screen.getByText('test')).toBeInTheDocument();
+    expect(screen.getAllByText('testOrg').length).greaterThan(0);
   });
 });

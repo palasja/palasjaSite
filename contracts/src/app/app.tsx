@@ -1,32 +1,34 @@
-import { useState } from 'react';
 import Contracts from '../contracts';
 import Personals from '../personal';
 import Services from '../services';
 import Organization from '../organization';
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import style from './app.module.css';
+import { getIsWithoutOrg, isWithoutOrg } from '../redux/slices/servicesSlice';
 
 const App = () => {
+  const dispatch = useAppDispatch();
   const orgId = useAppSelector(getChosenOrganization)?.id;
-  const [isWithoutOrg, setIsWithoutOrg] = useState(false);
+  const isNoOrg = useAppSelector(getIsWithoutOrg);
+
   return (
     <>
-      <button onClick={() => setIsWithoutOrg(true)} data-testid="withoutOrg">
+      <button onClick={() => dispatch(isWithoutOrg(true))} data-testid="withoutOrg">
         Услуги без организации
       </button>
-      <button onClick={() => setIsWithoutOrg(false)} data-testid="includeOrg">
+      <button onClick={() => dispatch(isWithoutOrg(false))} data-testid="includeOrg">
         Oрганизации
       </button>
-      {isWithoutOrg ? (
+      {isNoOrg ? (
         <>
-          <Services isWithoutOrg={true} />
+          <Services />
         </>
       ) : (
         <>
           <Organization />
           {orgId == undefined ? (
-            <h2>Выберите организацию{orgId}</h2>
+            <h2>Выберите организацию</h2>
           ) : (
             <>
               <Contracts />

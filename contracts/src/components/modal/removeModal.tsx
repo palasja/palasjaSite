@@ -12,7 +12,6 @@ const RemoveAgreePortal = ({ remove, close }: RemoveModalType) => {
     close();
   };
   const removeModal = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
     remove();
   };
   return (
