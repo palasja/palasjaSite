@@ -5,11 +5,17 @@ import style from './personal.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
-import { createPersonal, delPerson, editPerson, fetchPersonalsByOrgId, getAllPersonals } from '../redux/slices/personalsSlice';
+import {
+  createPersonal,
+  delPerson,
+  editPerson,
+  fetchPersonalsByOrgId,
+  getAllPersonals,
+} from '../redux/slices/personalsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
-const Personals = ( ) => {
+const Personals = () => {
   const {
     register,
     handleSubmit,
@@ -20,11 +26,11 @@ const Personals = ( ) => {
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const personals = useAppSelector(getAllPersonals);
-    const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
-  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
 
   useEffect(() => {
-    choosenOrg && dispatch(fetchPersonalsByOrgId(choosenOrg.id))
+    choosenOrg && dispatch(fetchPersonalsByOrgId(choosenOrg.id));
   }, [choosenOrg]);
   const onSubmitCreate: SubmitHandler<Personal> = (data) => {
     dispatch(createPersonal(data));
@@ -103,10 +109,10 @@ const Personals = ( ) => {
           ? ''
           : personals.map((person, i) => {
               return (
-                <li key={i}>
+                <li key={person.id}>
                   {`${person.firstName} ${person.middleName} ${person.lastName} - ${person.positionName}`}
                   <button
-                    onClick={async () => {
+                    onClick={() => {
                       setRemoveId(person.id);
                       setIsShowRemoveModal(true);
                     }}
@@ -133,7 +139,12 @@ const Personals = ( ) => {
               );
             })}
       </ul>
-      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delPerson(removeId))} close={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && (
+        <RemoveAgreePortal
+          remove={() => dispatch(delPerson(removeId))}
+          close={() => setIsShowRemoveModal(false)}
+        />
+      )}
     </>
   );
 };

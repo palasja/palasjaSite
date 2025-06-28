@@ -12,19 +12,23 @@ type FormValues = {
 };
 
 const Auth = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isErrorAuth = useAppSelector(getIsErrorAuth)
+  const isErrorAuth = useAppSelector(getIsErrorAuth);
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-     dispatch(login(data)).then(() => {
+    dispatch(login(data)).then(() => {
       navigate('/contract');
-     })
+    });
   };
 
   return (
     <>
-      <section className={style.auth} >
+      <section className={style.auth}>
         <Link to={'/signIn'}>signIn</Link>
         <div className={style.formContainer}>
           <h3 className={style.formName}>Войти</h3>
@@ -37,10 +41,12 @@ const Auth = () => {
                 Логин
               </label>
               <input
-                data-testid='login'
+                data-testid="login"
                 className={style.input}
-                {...register('login', { 
-                  required: {value:true, message: 'Логин должно быть заполнено'}, maxLength: 10 })}
+                {...register('login', {
+                  required: { value: true, message: 'Логин должно быть заполнено' },
+                  maxLength: 10,
+                })}
               />
             </div>
             <div className={style.inputField}>
@@ -48,12 +54,15 @@ const Auth = () => {
                 Пароль
               </label>
               <input
-              data-testid='pass'
+                data-testid="pass"
                 className={style.input}
-                {...register('password', { required: {value:true, message: 'Пароль должно быть заполнено'}, maxLength: 10 })}
+                {...register('password', {
+                  required: { value: true, message: 'Пароль должно быть заполнено' },
+                  maxLength: 10,
+                })}
               />
             </div>
-            <input className={style.submit} type="submit" value="Войти" data-testid='submit' />
+            <input className={style.submit} type="submit" value="Войти" data-testid="submit" />
           </form>
         </div>
       </section>

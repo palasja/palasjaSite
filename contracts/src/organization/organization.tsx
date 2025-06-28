@@ -4,7 +4,16 @@ import { Organization as Org } from '../helpers/contractTypes';
 import style from './organization.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { addOrg, chooseOrg, delOrg, editOrg, fetchOrgs, getAllOrganisation, getChosenOrganization, getOrganisationError } from '../redux/slices/orgsSlice';
+import {
+  addOrg,
+  chooseOrg,
+  delOrg,
+  editOrg,
+  fetchOrgs,
+  getAllOrganisation,
+  getChosenOrganization,
+  getOrganisationError,
+} from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
@@ -14,7 +23,7 @@ const Organization = () => {
   const organizations = useAppSelector(getAllOrganisation);
   const choosenOrg = useAppSelector(getChosenOrganization);
   const errors = useAppSelector(getOrganisationError);
-  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
+  const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   
   const onSubmitCreate: SubmitHandler<Org> = (data) => {
@@ -50,10 +59,12 @@ const Organization = () => {
       >
         Очистить
       </button>
-      <ul>
+      
         {organizations.length == 0
           ? ''
-          : organizations.map((org, i) => {
+          : 
+          <ul>
+            {organizations.map((org, i) => {
               return (
                 <li key={i}>
                   <span
@@ -83,7 +94,9 @@ const Organization = () => {
                 </li>
               );
             })}
-      </ul>
+            </ul>
+        }
+      
       <h2>{choosenOrg?.name}</h2>
       {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delOrg(removeId))} close={() => setIsShowRemoveModal(false)}/>}
     </>

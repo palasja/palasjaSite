@@ -5,24 +5,37 @@ import { CreateService, Service } from '../helpers/contractTypes';
 import style from './services.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { createService, delService, editService, fetchServicesByOrgIdMonth, getServices, getChoosenMonth, chooseMonth } from '../redux/slices/servicesSlice';
+import {
+  createService,
+  delService,
+  editService,
+  fetchServicesByOrgIdMonth,
+  getServices,
+  getChoosenMonth,
+  chooseMonth,
+} from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 
 type ServiceProps = {
-  isWithoutOrg?:boolean
-} ;
+  isWithoutOrg?: boolean;
+};
 
-const Services = ({isWithoutOrg} :ServiceProps) => {
-
-  const { register, handleSubmit, setValue, reset, formState: {errors} } = useForm<Service>();
+const Services = ({ isWithoutOrg }: ServiceProps) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<Service>();
   const dispatch = useAppDispatch();
   const services = useAppSelector(getServices);
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
   // const [services, setServices] = useState<Service[]>([]);
   // const [actMonth, setActMonth] = useState(new Date().getMonth().toString());
-  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
-  
+  const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
+
   // const handlerService = () => {
   //   fetchServicesByOrgIdMonth(orgId, actMonth).then((orgs) => setServices(orgs));
   // };
@@ -39,12 +52,13 @@ const Services = ({isWithoutOrg} :ServiceProps) => {
   // const handletActMonth = (month: string): void => setActMonth(month);
 
   useEffect(() => {
-    choosenOrg && dispatch(fetchServicesByOrgIdMonth({orgId:choosenOrg.id, month: choosenMonth}));
+    choosenOrg &&
+      dispatch(fetchServicesByOrgIdMonth({ orgId: choosenOrg.id, month: choosenMonth }));
   }, [choosenMonth, choosenOrg?.id]);
 
   const resetForm = () => {
-    reset({count: 1});
-    if(choosenOrg) setValue('orgId', choosenOrg.id.toString());
+    reset({ count: 1 });
+    if (choosenOrg) setValue('orgId', choosenOrg.id.toString());
     setIsUpdate(false);
   };
 
@@ -56,7 +70,7 @@ const Services = ({isWithoutOrg} :ServiceProps) => {
           {[...new Array(12)].map((_e, i) => {
             return (
               <option value={i} key={i} selected={i.toString() === choosenMonth}>
-                {i+1}
+                {i + 1}
               </option>
             );
           })}
@@ -64,11 +78,15 @@ const Services = ({isWithoutOrg} :ServiceProps) => {
       </div>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         <p>{errors.orgId?.message}</p>
-        {isWithoutOrg ?
-        <></>  
-          :
-        <input value={choosenOrg?.id} type="hidden" {...register('orgId', { required:  { value: true, message: 'Не выбрана организация' } })} />        
-        }
+        {isWithoutOrg ? (
+          <></>
+        ) : (
+          <input
+            value={choosenOrg?.id}
+            type="hidden"
+            {...register('orgId', { required: { value: true, message: 'Не выбрана организация' } })}
+          />
+        )}
         <div>
           {errors.name && <p>{errors.name?.message}</p>}
           <label htmlFor="name">Услуга</label>
@@ -123,11 +141,7 @@ const Services = ({isWithoutOrg} :ServiceProps) => {
           />
         </div>
         <input type="submit" value={btnValue} />
-        <input
-          type="button"
-          onClick={resetForm}
-          value="Очистить"
-        />
+        <input type="button" onClick={resetForm} value="Очистить" />
       </form>
 
       <ul>
@@ -136,7 +150,7 @@ const Services = ({isWithoutOrg} :ServiceProps) => {
           : services.map((service, i) => {
               return (
                 <li key={i}>
-                  {`${service.name} ${service.date} ${service.count } ${service.cost}`}
+                  {`${service.name} ${service.date} ${service.count} ${service.cost}`}
                   <button
                     onClick={async () => {
                       dispatch(delService(service.id));

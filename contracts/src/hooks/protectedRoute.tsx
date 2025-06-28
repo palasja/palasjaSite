@@ -11,25 +11,28 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const isAuth =  useAppSelector(getIsAuth);
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  useEffect(() =>{
+  const isAuth = useAppSelector(getIsAuth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
     if (!isAuth) {
       dispatch(check())
-    .then(unwrapResult)
-    .catch(() => {
-      navigate('/')
-    })
+        .then(unwrapResult)
+        .catch(() => {
+          navigate('/');
+        });
     }
-  },[]);
+  }, []);
 
-  return isAuth ? 
-  <>
-    <Header />
+  return isAuth ? (
+    <>
+      <Header />
       {children}
-    <Footer />
-  </> 
-  :
-   <><p>Unouthorize</p></>;
+      <Footer />
+    </>
+  ) : (
+    <>
+      <p>Unouthorize</p>
+    </>
+  );
 };

@@ -1,76 +1,91 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Service } from "../../helpers/contractTypes";
-import { createAppAsyncThunk } from "../../redux/withTypes";
-import { fetchServicesByOrgIdMonth as fetchServices, removeService, updateService, addService} from "../../helpers/api";
-import { RootState } from "../../redux/store";
+import { createSlice } from '@reduxjs/toolkit';
+import { Service } from '../../helpers/contractTypes';
+import { createAppAsyncThunk } from '../../redux/withTypes';
+import {
+  fetchServicesByOrgIdMonth as fetchServices,
+  removeService,
+  updateService,
+  addService,
+} from '../../helpers/api';
+import { RootState } from '../../redux/store';
 
 interface ServicesState {
-  services: Service[],
-  choosenMonth: string
+  services: Service[];
+  choosenMonth: string;
 }
 
-export const fetchServicesByOrgIdMonth = createAppAsyncThunk('service/fetchServices', async ({orgId, month}: {orgId: number, month: string}) => {
-  const response = await fetchServices(orgId, month);
-  return response;
-})
+export const fetchServicesByOrgIdMonth = createAppAsyncThunk(
+  'service/fetchServices',
+  async ({ orgId, month }: { orgId: number; month: string }) => {
+    const response = await fetchServices(orgId, month);
+    return response;
+  }
+);
 
 export const createService = createAppAsyncThunk('service/addService', async (service: Service) => {
   const response = await addService(service);
   return response;
-})
+});
 
-export const delService = createAppAsyncThunk('service/removeService', async (serviceId: number): Promise<number> => {
-  const response = await removeService(serviceId);
-  if (!response) throw new Error();
-  return serviceId;
-})
+export const delService = createAppAsyncThunk(
+  'service/removeService',
+  async (serviceId: number): Promise<number> => {
+    const response = await removeService(serviceId);
+    if (!response) throw new Error();
+    return serviceId;
+  }
+);
 
-export const editService = createAppAsyncThunk('service/updateService', async (service: Service): Promise<Service> => {
-  const response = await updateService(service);
-  if (!response) throw new Error();
-  return service;
-})
+export const editService = createAppAsyncThunk(
+  'service/updateService',
+  async (service: Service): Promise<Service> => {
+    const response = await updateService(service);
+    if (!response) throw new Error();
+    return service;
+  }
+);
 
 const initialState: ServicesState = {
   services: [],
-  choosenMonth: new Date().getMonth().toString()
+  choosenMonth: new Date().getMonth().toString(),
 };
 
 const servicesSlicer = createSlice({
   name: 'services',
   initialState: initialState,
   reducers: {
-    chooseMonth (state, action){
+    chooseMonth(state, action) {
       state.choosenMonth = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchServicesByOrgIdMonth.fulfilled, (state, action) => {
-      state.services = action.payload
-    })
-    .addCase(createService.fulfilled, (state, action) => {
-      state.services.push(action.payload);
-    })
-    .addCase(delService.fulfilled, (state, action) => {
-       state.services = state.services.filter(p => p.id !== action.payload )
-    })
-    .addCase(editService.fulfilled, (state, action) => {
+    builder
+      .addCase(fetchServicesByOrgIdMonth.fulfilled, (state, action) => {
+        state.services = action.payload;
+      })
+      .addCase(createService.fulfilled, (state, action) => {
+        state.services.push(action.payload);
+      })
+      .addCase(delService.fulfilled, (state, action) => {
+        state.services = state.services.filter((p) => p.id !== action.payload);
+      })
+      .addCase(editService.fulfilled, (state, action) => {
         const editedService = action.payload;
-        const service = state.services.find(p => p.id == editedService.id)
+        const service = state.services.find((p) => p.id == editedService.id);
         if (service) {
-          service.name = editedService.name,
-          service.cost = editedService.cost,
-          service.count = editedService.count,
-          service.date = editedService.date,
-          service.place = editedService.place,
-          service.user = editedService.user
+          (service.name = editedService.name),
+            (service.cost = editedService.cost),
+            (service.count = editedService.count),
+            (service.date = editedService.date),
+            (service.place = editedService.place),
+            (service.user = editedService.user);
         }
-    })
-  }
+      });
+  },
 });
 
-export const { chooseMonth } = servicesSlicer.actions
-export default servicesSlicer.reducer
+export const { chooseMonth } = servicesSlicer.actions;
+export default servicesSlicer.reducer;
 
-export const getServices = (state: RootState) => state.services.services
-export const getChoosenMonth = (state: RootState) => state.services.choosenMonth
+export const getServices = (state: RootState) => state.services.services;
+export const getChoosenMonth = (state: RootState) => state.services.choosenMonth;

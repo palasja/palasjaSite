@@ -13,8 +13,18 @@ import ActPMS from './act_PMS';
 import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
 import Header from '../components/header';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { chooseMonth, getServices, getChoosenMonth, fetchServicesByOrgIdMonth } from '../redux/slices/servicesSlice';
-import { chooseOrg, fetchOrgs, getAllOrganisation, getChosenOrganization } from '../redux/slices/orgsSlice';
+import {
+  chooseMonth,
+  getServices,
+  getChoosenMonth,
+  fetchServicesByOrgIdMonth,
+} from '../redux/slices/servicesSlice';
+import {
+  chooseOrg,
+  fetchOrgs,
+  getAllOrganisation,
+  getChosenOrganization,
+} from '../redux/slices/orgsSlice';
 import { fetchPersonalsByOrgId } from '../redux/slices/personalsSlice';
 import { fetchContractsByOrgIMonth } from '../redux/slices/contractSlice';
 
@@ -25,38 +35,36 @@ const Act = () => {
   const organizations = useAppSelector(getAllOrganisation);
   const services = useAppSelector(getServices);
   useEffect(() => {
-    if(organizations.length == 0) dispatch(fetchOrgs());
+    if (organizations.length == 0) dispatch(fetchOrgs());
   }, []);
   useEffect(() => {
-    if(choosenOrg){
+    if (choosenOrg) {
       let orgId = choosenOrg?.id;
 
-      dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
+      dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: choosenMonth }));
       dispatch(fetchPersonalsByOrgId(orgId));
-      dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
+      dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: choosenMonth }));
     }
-
   }, [choosenOrg]);
 
   useEffect(() => {
-     if(choosenOrg){
-       const orgId = choosenOrg?.id;
-       dispatch(fetchServicesByOrgIdMonth({orgId: orgId, month: choosenMonth}));
-       dispatch(fetchContractsByOrgIMonth({orgId: orgId, month: choosenMonth}));
-
-     }
+    if (choosenOrg) {
+      const orgId = choosenOrg?.id;
+      dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: choosenMonth }));
+      dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: choosenMonth }));
+    }
   }, [choosenMonth]);
 
   const handlerChooseMonth = (month: string) => dispatch(chooseMonth(month));
-  const handlerChooseOrganization = (id: string) =>{
-    const idNum = getIdNum(id); 
-    const organization = NotNullubleValue(organizations.find(o => o.id === idNum));
-     dispatch(chooseOrg(organization))
+  const handlerChooseOrganization = (id: string) => {
+    const idNum = getIdNum(id);
+    const organization = NotNullubleValue(organizations.find((o) => o.id === idNum));
+    dispatch(chooseOrg(organization));
   };
 
   return (
     <>
-      <div className='noprint'>
+      <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
         <select onChange={(e) => handlerChooseMonth(e.target.value)} defaultValue={choosenMonth}>
           {MONTH_R.map((e, i) => {
@@ -80,41 +88,39 @@ const Act = () => {
       {/* {contract === null ? (
         <h2>Нет договора за {MONTH_R[Number.parseInt(choosenMonth)]} месяц</h2>
       ) : ( */}
-        <>
-          {choosenOrg?.name === 'ЖКХ' ? (
-             <>
-              <article className='noprint'>
-                <p>Заработано = {getServicesCost(services)}</p>
-                <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>
-                <p>
-                  К получению после вычета НДС
-                  {getServicesCostWithNDS(services) -
-                    getServicesCostWithNDS(services) * (NDS / 100)}
-                </p>
-              </article>
-              <div className={style.page}>
-                <ActZKH />
-              </div>
-            </>
-          ) : (
-            <>
-
-            <article  className='noprint'>
-                <p>Заработано = {getServicesCost(services)}</p>
-                <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
-                <p>
-                  К получению после вычета НДС ={' '}
-                  {getServicesCostWithNDS_47(services) -
-                    getServicesCost(services) *
-                      ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
-                </p>
-              </article>
-              <div className={style.page}>
-                <ActPMS />
-              </div>
-            </>
-          )}
-        </>
+      <>
+        {choosenOrg?.name === 'ЖКХ' ? (
+          <>
+            <article className="noprint">
+              <p>Заработано = {getServicesCost(services)}</p>
+              <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>
+              <p>
+                К получению после вычета НДС
+                {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
+              </p>
+            </article>
+            <div className={style.page}>
+              <ActZKH />
+            </div>
+          </>
+        ) : (
+          <>
+            <article className="noprint">
+              <p>Заработано = {getServicesCost(services)}</p>
+              <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
+              <p>
+                К получению после вычета НДС ={' '}
+                {getServicesCostWithNDS_47(services) -
+                  getServicesCost(services) *
+                    ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
+              </p>
+            </article>
+            <div className={style.page}>
+              <ActPMS />
+            </div>
+          </>
+        )}
+      </>
       {/* )} */}
     </>
   );

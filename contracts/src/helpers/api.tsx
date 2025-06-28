@@ -3,29 +3,33 @@ import { ActInfo, Contract, Organization, Personal, Service, User } from './cont
 
 const API_SERVER = 'http://127.0.0.1:3000';
 const APP_URL = 'http://127.0.0.1:3002';
-const fetchData = (endpont: string, method: string, errorMessage: string, body?:any): Promise<any> => {
+const fetchData = (
+  endpont: string,
+  method: string,
+  errorMessage: string,
+  body?: any
+): Promise<any> => {
   return fetch(`${API_SERVER}/${endpont}`, {
     method: method, // or 'PUT'
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: body ? JSON.stringify(body) : undefined
-  })
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else if (res.status == 401) {
-        window.location.href = `${APP_URL}/logout`;
-      } else {
-        throw new Error(`${errorMessage}. ErrorCode = ${res.status}`);
-      }
-    })
-    // .catch((err: Error) => console.log(err.message));
-}
+    body: body ? JSON.stringify(body) : undefined,
+  }).then((res) => {
+    if (res.status == 200) {
+      return res.json();
+    } else if (res.status == 401) {
+      window.location.href = `${APP_URL}/logout`;
+    } else {
+      throw new Error(`${errorMessage}. ErrorCode = ${res.status}`);
+    }
+  });
+  // .catch((err: Error) => console.log(err.message));
+};
 
-const fetchAuth = async (endpont: string, method: string, body?:any) :Promise<number> =>{
-    const res = await fetch(`${API_SERVER}/${endpont}`, {
+const fetchAuth = async (endpont: string, method: string, body?: any): Promise<number> => {
+  const res = await fetch(`${API_SERVER}/${endpont}`, {
     method: method,
     credentials: 'include',
     headers: {
@@ -34,7 +38,7 @@ const fetchAuth = async (endpont: string, method: string, body?:any) :Promise<nu
     body: body ? JSON.stringify(body) : undefined,
   });
   return res.status;
-}
+};
 export const fetchSignIn = (data: User): Promise<number> => {
   return fetchAuth('signIn', 'POST', data);
 };
@@ -50,26 +54,34 @@ export const fetchLogOut = async (): Promise<number> => {
   return await fetchAuth('logout', 'GET');
 };
 
-
 export const fetchAllOrganizations = (): Promise<Organization[]> => {
   return fetchData('getOrganizations', 'GET', 'Не удалось загрузить список организаций');
 };
-export const addOrganisation = (
-  organization: Organization
-): Promise<Organization> => {
-  return fetchData('addOrganization', 'PUT', 'Не удалось добавить организацию', { organization: organization });
+export const addOrganisation = (organization: Organization): Promise<Organization> => {
+  return fetchData('addOrganization', 'PUT', 'Не удалось добавить организацию', {
+    organization: organization,
+  });
 };
-export const updateOrganisation = (organization: Organization):Promise<number[]> => {
-  return fetchData('updateOrganization', 'PATCH', `Не удалось сохранить изменения для ${organization.name}`, { organization: organization });
- };
+export const updateOrganisation = (organization: Organization): Promise<number[]> => {
+  return fetchData(
+    'updateOrganization',
+    'PATCH',
+    `Не удалось сохранить изменения для ${organization.name}`,
+    { organization: organization }
+  );
+};
 export const removeOrg = (id: number): Promise<boolean> => {
-  return fetchData('removeOrganization', 'DELETE', `Не удалось удалить организацию`, {id: id});
+  return fetchData('removeOrganization', 'DELETE', `Не удалось удалить организацию`, { id: id });
 };
 export const fetchContractsByOrgId = (orgId: number): Promise<Contract[]> => {
   return fetchData(`getContractsByOrg/${orgId}`, 'GET', `Не удалось загрузить договора`);
 };
 export const fetchContractsByOrgIdMonth = (orgId: number, month: string): Promise<Contract> => {
-  return fetchData(`getContractByOrgIdMonth/${orgId}/${month}`, 'GET', `Не удалось загрузить информацию по договору`);
+  return fetchData(
+    `getContractByOrgIdMonth/${orgId}/${month}`,
+    'GET',
+    `Не удалось загрузить информацию по договору`
+  );
 };
 
 export const addContract = (newContract: Contract): Promise<Contract> => {
@@ -77,7 +89,9 @@ export const addContract = (newContract: Contract): Promise<Contract> => {
 };
 
 export const updateContract = (contract: Contract): Promise<Contract> => {
-  return fetchData(`updateContract`, 'PATCH', `Не удалось обновить договор`, { contract: contract });
+  return fetchData(`updateContract`, 'PATCH', `Не удалось обновить договор`, {
+    contract: contract,
+  });
 };
 
 export const fetchContractsScan = (orgId: number) => {
@@ -97,7 +111,7 @@ export const fetchContractsScan = (orgId: number) => {
 };
 
 export const removeContract = (id: number): Promise<{ isRemove: boolean }> => {
-  return fetchData(`removeContract`, 'DELETE', `Не удалось удалить договор`, {id: id});
+  return fetchData(`removeContract`, 'DELETE', `Не удалось удалить договор`, { id: id });
 };
 
 export const fetchPersonalsByOrgId = (orgId: number): Promise<Personal[]> => {
@@ -105,20 +119,28 @@ export const fetchPersonalsByOrgId = (orgId: number): Promise<Personal[]> => {
 };
 
 export const addPerson = (person: Personal): Promise<Personal> => {
-    return fetchData(`addPersonal`, 'PUT', `Не удалось загрузить список сотрудников`, { personal: person });
+  return fetchData(`addPersonal`, 'PUT', `Не удалось загрузить список сотрудников`, {
+    personal: person,
+  });
 };
 export const updatePerson = (person: Personal): Promise<Personal> => {
-  return fetchData(`updatePersonal`, 'PATCH', `Не удалось сохранить изменения для пользователя`, { personal: person });
+  return fetchData(`updatePersonal`, 'PATCH', `Не удалось сохранить изменения для пользователя`, {
+    personal: person,
+  });
 };
-export const removePerson = (id: number ): Promise<{ isRemove: boolean }> => {
-  return fetchData(`removePersonal`, 'DELETE', `Не удалось удалить сотрудника`, {id: id});
+export const removePerson = (id: number): Promise<{ isRemove: boolean }> => {
+  return fetchData(`removePersonal`, 'DELETE', `Не удалось удалить сотрудника`, { id: id });
 };
 
 export const fetchServices = (orgId: string): Promise<Service[]> => {
   return fetchData(`getServicesByOrgId/${orgId}`, 'GET', `Не удалось загрузить список организаций`);
 };
 export const fetchServicesByOrgIdMonth = (orgId: number, month: string): Promise<Service[]> => {
-  return fetchData(`getServicesByOrgIdMonth/${orgId}/${month}`, 'GET', `Не удалось загрузить услуги`);
+  return fetchData(
+    `getServicesByOrgIdMonth/${orgId}/${month}`,
+    'GET',
+    `Не удалось загрузить услуги`
+  );
 };
 
 export const addService = (service: Service): Promise<Service> => {
@@ -126,7 +148,7 @@ export const addService = (service: Service): Promise<Service> => {
 };
 
 export const removeService = (id: number): Promise<{ isRemove: boolean }> => {
-  return fetchData(`removeService`, 'DELETE', `Не удалось удалить услугу`, {id: id});
+  return fetchData(`removeService`, 'DELETE', `Не удалось удалить услугу`, { id: id });
 };
 
 export const updateService = (service: Service): Promise<Service> => {

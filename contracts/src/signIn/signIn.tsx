@@ -6,14 +6,13 @@ import { useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getIsAuth, signin } from '../redux/slices/authSlice';
 
-
 type FormValues = {
   login: string;
   password: string;
 };
 
 const SignIn = () => {
-    const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit } = useForm<FormValues>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isAuth = useAppSelector(getIsAuth);
@@ -28,7 +27,7 @@ const SignIn = () => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(signin(data)).then(() => {
       navigate('/contract');
-     });
+    });
   };
   return (
     // isLock ? (<h2 className={style.lockMessge}>Данные были введены неверно более 10 раз. Обратитесь к администратору</h2>) :

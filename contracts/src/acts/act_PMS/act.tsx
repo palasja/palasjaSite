@@ -13,10 +13,10 @@ import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
 const REPRESENTOR_POSITION = 'бухгалтер';
 
 const ActPMS = () => {
-    const choosenMonth = useAppSelector(getChoosenMonth);
-    const services = useAppSelector(getServices);
-    const personals = useAppSelector(getAllPersonals);
-    const contract = useAppSelector(getChoosenContracts);
+  const choosenMonth = useAppSelector(getChoosenMonth);
+  const services = useAppSelector(getServices);
+  const personals = useAppSelector(getAllPersonals);
+  const contract = useAppSelector(getChoosenContracts);
   const head = personals.find((p) => p.isHead);
   const itog = getServicesCostWithNDS_47(services);
 
@@ -40,31 +40,56 @@ const ActPMS = () => {
             </div>
             <div className={style.datePlace}>
               <p>
-                от <span className={style.variable}>{new Date(contract.signDate).getDate()} {MONTH_R[Number(choosenMonth)]} {new Date(contract.signDate).getFullYear()}</span> года
+                от{' '}
+                <span className={style.variable}>
+                  {new Date(contract.signDate).getDate()} {MONTH_R[Number(choosenMonth)]}{' '}
+                  {new Date(contract.signDate).getFullYear()}
+                </span>{' '}
+                года
               </p>
               <p>г. Наровля</p>
             </div>
             <div className={style.main}>
               <p className={style.mainInfo}>
-                Мы, стороны по договору от <span className={style.variable}>{new Date(contract.signDate).toLocaleDateString('ru-RU')}</span>{' '}
-                года № <span className={style.variable}>{contract.number}</span>, Коммунальное мелиоративное унитарное предприятие
-                «Наровлянское ПМС», именуемое в дальнейшем «Заказчик», в лице директора{' '}
-                <span className={style.variable}>{head?.lastNameR} {head?.firstNameR} {head?.middleNameR} </span>, действующего на основании
-                Устава, с одной стороны и гражданин Якубенко Иван Александрович, паспорт НВ 2955507,
-                выданный 20.06.2016 г. Наровлянским РОВД, проживающий по адресу: Гомельская область,
-                г. Наровля, ул. Мелиоративная, 43/1, именуемый в дальнейшем «Исполнитель», составили
-                настоящий акт о том, что в соответствии с договором № <span className={style.variable}>{contract.number}</span> от{' '}
-                <span className={style.variable}>{new Date(contract.signDate).toLocaleDateString('ru-RU')}</span> года
-                Исполнителем выполнены следующие работы (оказаны услуги):
+                Мы, стороны по договору от{' '}
+                <span className={style.variable}>
+                  {new Date(contract.signDate).toLocaleDateString('ru-RU')}
+                </span>{' '}
+                года № <span className={style.variable}>{contract.number}</span>, Коммунальное
+                мелиоративное унитарное предприятие «Наровлянское ПМС», именуемое в дальнейшем
+                «Заказчик», в лице директора{' '}
+                <span className={style.variable}>
+                  {head?.lastNameR} {head?.firstNameR} {head?.middleNameR}{' '}
+                </span>
+                , действующего на основании Устава, с одной стороны и гражданин Якубенко Иван
+                Александрович, паспорт НВ 2955507, выданный 20.06.2016 г. Наровлянским РОВД,
+                проживающий по адресу: Гомельская область, г. Наровля, ул. Мелиоративная, 43/1,
+                именуемый в дальнейшем «Исполнитель», составили настоящий акт о том, что в
+                соответствии с договором № <span className={style.variable}>{contract.number}</span>{' '}
+                от{' '}
+                <span className={style.variable}>
+                  {new Date(contract.signDate).toLocaleDateString('ru-RU')}
+                </span>{' '}
+                года Исполнителем выполнены следующие работы (оказаны услуги):
               </p>
-              <p>- <span className={style.variable}>{services.map((s) => s.name).join(', ')}</span>.</p>
               <p>
-                Работы принял представитель Заказчика – <span className={style.variable}>{representor?.firstName}</span>{' '}
-                <span className={style.variable}>{representor?.middleName} {representor?.lastName}, {representor?.positionName}</span>.
+                - <span className={style.variable}>{services.map((s) => s.name).join(', ')}</span>.
               </p>
               <p>
-                Работы по договору выполнены на сумму <span className={style.variable}>{itog.toFixed(2)}</span> (
-                <span className={style.variable}>{convertNumberToWordsRu(itog, currencyOption)}</span>).{' '}
+                Работы принял представитель Заказчика –{' '}
+                <span className={style.variable}>{representor?.firstName}</span>{' '}
+                <span className={style.variable}>
+                  {representor?.middleName} {representor?.lastName}, {representor?.positionName}
+                </span>
+                .
+              </p>
+              <p>
+                Работы по договору выполнены на сумму{' '}
+                <span className={style.variable}>{itog.toFixed(2)}</span> (
+                <span className={style.variable}>
+                  {convertNumberToWordsRu(itog, currencyOption)}
+                </span>
+                ).{' '}
               </p>
               <p>В момент приемки работ Заказчиком претензий к качеству работ не имеет.</p>
             </div>
@@ -78,7 +103,9 @@ const ActPMS = () => {
                 <p>BIC AKBBBY21317 </p>
                 <p>г. Минск, проспект Дзержинского, 18</p>
                 <p>УНП 400517900 ОКПО 290364733</p>
-                <p className={style.sidesInfo_sign}>Директор ___________ <span className={style.variable}>{getShortName(head)}</span></p>
+                <p className={style.sidesInfo_sign}>
+                  Директор ___________ <span className={style.variable}>{getShortName(head)}</span>
+                </p>
                 <p>м.п.</p>
               </div>
               <div>
@@ -96,12 +123,17 @@ const ActPMS = () => {
             <div className={style.signs}>
               <div>
                 <p className={style.position}>Представитель Заказчика</p>
-                <p>________________ <span className={style.variable}>{getShortName(representor)}</span></p>
+                <p>
+                  ________________{' '}
+                  <span className={style.variable}>{getShortName(representor)}</span>
+                </p>
                 <p className={style.sign}>(подпись)</p>
               </div>
               <div>
                 <p className={style.position}>{economist?.positionName}</p>
-                <p>________________ <span className={style.variable}>{getShortName(economist)}</span></p>
+                <p>
+                  ________________ <span className={style.variable}>{getShortName(economist)}</span>
+                </p>
                 <p className={style.sign}>(подпись)</p>
               </div>
             </div>

@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from '../helpers/contractTypes';
-import {
-  fetchContractsScan,
-} from '../helpers/api';
+import { fetchContractsScan } from '../helpers/api';
 import { toBase64 } from '../helpers/helper';
 import style from './contracts.module.css';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { addContract, delContract, editContract, fetchContractsByOrgId, getAllContracts } from '../redux/slices/contractSlice';
+import {
+  addContract,
+  delContract,
+  editContract,
+  fetchContractsByOrgId,
+  getAllContracts,
+} from '../redux/slices/contractSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
@@ -26,7 +30,7 @@ function Contracts() {
   const dispatch = useAppDispatch();
   const contracts = useAppSelector(getAllContracts);
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const {btnValue, isUpdate, setIsUpdate} = useIsUpdate();
+  const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
     //@ts-expect-error: Chome has faleArray instead of File
     data.scan = await toBase64(data.scan[0]);
@@ -42,7 +46,7 @@ function Contracts() {
       //@ts-expect-error: Chome has faleArray instead of File
       data.scan = await toBase64(data.scan[0]);
     }
-     dispatch(editContract(data))
+    dispatch(editContract(data));
     resetForm();
   };
 
@@ -54,7 +58,7 @@ function Contracts() {
   };
 
   useEffect(() => {
-    choosenOrg && dispatch(fetchContractsByOrgId( choosenOrg.id))
+    choosenOrg && dispatch(fetchContractsByOrgId(choosenOrg.id));
   }, []);
   return (
     <>
@@ -62,7 +66,7 @@ function Contracts() {
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
         {errors.number && <span role="alert">{errors.number.message}</span>}
         <input
-          value={ choosenOrg!.id}
+          value={choosenOrg!.id}
           type="hidden"
           {...register('orgId', { required: true, maxLength: 20 })}
         />
@@ -149,7 +153,12 @@ function Contracts() {
               );
             })}
       </ul>
-      {isShowRemoveModal && <RemoveAgreePortal remove={() => dispatch(delContract(removeId))} close={() => setIsShowRemoveModal(false)}/>}
+      {isShowRemoveModal && (
+        <RemoveAgreePortal
+          remove={() => dispatch(delContract(removeId))}
+          close={() => setIsShowRemoveModal(false)}
+        />
+      )}
     </>
   );
 }

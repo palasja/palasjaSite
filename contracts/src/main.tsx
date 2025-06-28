@@ -18,28 +18,28 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store()}>
       <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Auth />} />
-            <Route path="login" element={<Auth />} />
-            <Route path="signin" element={<SignIn />} />
-            <Route path="logout" element={<Logout />} />
-            <Route
-              path="contract"
-              element={
-                <ProtectedRoute>
-                  <App />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="act"
-              element={
-                <ProtectedRoute>
-                  <Act />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<Error404 />} />
-          </Routes>
+          <Route path="/" element={<Auth />} />
+          <Route path="login" element={<Auth />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="logout" element={<Logout />} />
+          <Route
+            path="contract"
+            element={
+              <ProtectedRoute>
+                <App />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="act"
+            element={
+              <ProtectedRoute>
+                <Act />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Error404 />} />
+        </Routes>
       </BrowserRouter>
     </Provider>
   </StrictMode>

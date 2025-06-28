@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export const useIsUpdate = () => {
   const [isUpdate, setIsUpdate] = useState(false);
-  let btnValue = isUpdate ? "Измениить" : "Добавить";
+  let btnValue = isUpdate ? 'Измениить' : 'Добавить';
 
-  return {btnValue, isUpdate, setIsUpdate}
-}
+  return { btnValue, isUpdate, setIsUpdate };
+};
