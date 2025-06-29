@@ -11,7 +11,6 @@ import style from './act.module.css';
 import ActZKH from './act_ZKH';
 import ActPMS from './act_PMS';
 import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
-import Header from '../components/header';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   chooseMonth,
@@ -37,36 +36,33 @@ const Act = () => {
   useEffect(() => {
     if (organizations.length == 0) dispatch(fetchOrgs());
   }, []);
-  useEffect(() => {
-    if (choosenOrg) {
-      let orgId = choosenOrg?.id;
 
-      dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: choosenMonth }));
-      dispatch(fetchPersonalsByOrgId(orgId));
-      dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: choosenMonth }));
-    }
-  }, [choosenOrg]);
-
-  useEffect(() => {
+  const handlerChooseMonth = (month: string) => {
+    dispatch(chooseMonth(month));
     if (choosenOrg) {
       const orgId = choosenOrg?.id;
-      dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: choosenMonth }));
-      dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: choosenMonth }));
+      dispatch(chooseMonth(month));
+      dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: month }));
+      dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: month }));
     }
-  }, [choosenMonth]);
-
-  const handlerChooseMonth = (month: string) => dispatch(chooseMonth(month));
+  
+  };
   const handlerChooseOrganization = (id: string) => {
-    const idNum = getIdNum(id);
-    const organization = NotNullubleValue(organizations.find((o) => o.id === idNum));
-    dispatch(chooseOrg(organization));
+    if(id !== undefined){
+      const idNum = getIdNum(id);
+      const organization = NotNullubleValue(organizations.find((o) => o.id === idNum));
+      dispatch(chooseOrg(organization));
+      dispatch(fetchServicesByOrgIdMonth({ orgId: idNum, month: choosenMonth }));
+      dispatch(fetchPersonalsByOrgId(idNum));
+      dispatch(fetchContractsByOrgIMonth({ orgId: idNum, month: choosenMonth }));
+    }
   };
 
   return (
     <>
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
-        <select onChange={(e) => handlerChooseMonth(e.target.value)} defaultValue={choosenMonth}>
+        <select onChange={(e) => handlerChooseMonth(e.target.value)} defaultValue={choosenMonth} data-testid='monthSelect'>
           {MONTH_R.map((e, i) => {
             return (
               <option value={i} key={i}>
@@ -75,7 +71,8 @@ const Act = () => {
             );
           })}
         </select>
-        <select onChange={(e) => handlerChooseOrganization(e.target.value)}>
+        <select onChange={(e) => handlerChooseOrganization(e.target.value)} data-testid='orgSelect'>
+          <option key={-1}>-</option>
           {organizations.map((org) => {
             return (
               <option value={org.id} key={org.id}>

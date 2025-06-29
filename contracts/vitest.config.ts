@@ -12,6 +12,7 @@ export default defineConfig({
       provider: 'v8', // Use Vite's default coverage provider
       reporter: ['text', 'json', 'html'],
     },
+    mockReset: true,
     // browser: {
     //   provider: 'playwright', // or 'webdriverio'
     //   enabled: true,

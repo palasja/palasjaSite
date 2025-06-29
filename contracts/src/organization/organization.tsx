@@ -25,24 +25,26 @@ const Organization = () => {
   }, []);
   return (
     <>
+      <h2>{import.meta.env.VITE_TEST_VAR}</h2>
       <h2>Организации</h2>
       <h3>{errors}</h3>
-
       <OrganizationForm />
       {organizations.length == 0 ? (
-        <></>
+        <>
+          <h2>Список организаций не загружен</h2>
+        </>
       ) : (
         <ul>
-          {organizations.map((org, i) => {
+          {organizations.map((org) => {
             return (
-              <li key={i}>
-                <span
+              <li key={org.id}>
+                <p
                   onClick={() => {
                     dispatch(chooseOrg(org));
                   }}
                 >
                   {org.name}
-                </span>
+                </p>
                 <button
                   onClick={() => {
                     setRemoveId(org.id);

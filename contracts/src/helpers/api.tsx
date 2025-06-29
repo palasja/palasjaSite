@@ -1,35 +1,33 @@
 import { downloadFile } from './helper';
-import { ActInfo, Contract, Organization, Personal, Service, User } from './contractTypes';
+import { Contract, Organization, Personal, Service, User } from './contractTypes';
 
-const API_SERVER = 'http://127.0.0.1:3000';
-const APP_URL = 'http://127.0.0.1:3002';
-const fetchData = (
+const env = import.meta.env;
+
+const fetchData = async (
   endpont: string,
   method: string,
   errorMessage: string,
   body?: any
 ): Promise<any> => {
-  return fetch(`${API_SERVER}/${endpont}`, {
+  const res = await fetch(`${env.VITE_API_SERVER_URL}/${endpont}`, {
     method: method, // or 'PUT'
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
     body: body ? JSON.stringify(body) : undefined,
-  }).then((res) => {
-    if (res.status == 200) {
-      return res.json();
-    } else if (res.status == 401) {
-      window.location.href = `${APP_URL}/logout`;
-    } else {
-      throw new Error(`${errorMessage}. ErrorCode = ${res.status}`);
-    }
   });
-  // .catch((err: Error) => console.log(err.message));
+  if (res.status == 200) {
+    return res.json();
+  } else if (res.status == 401) {
+    window.location.href = `${env.VITE_APP_URL}/logout`;
+  } else {
+    throw new Error(`${errorMessage}. ErrorCode = ${res.status}`);
+  }
 };
 
 const fetchAuth = async (endpont: string, method: string, body?: any): Promise<number> => {
-  const res = await fetch(`${API_SERVER}/${endpont}`, {
+  const res = await fetch(`${env.VITE_API_SERVER_URL}/${endpont}`, {
     method: method,
     credentials: 'include',
     headers: {
@@ -39,6 +37,23 @@ const fetchAuth = async (endpont: string, method: string, body?: any): Promise<n
   });
   return res.status;
 };
+
+export const fetchContractsScan = (orgId: number) => {
+  return fetch(`${env.VITE_API_SERVER_URL}/contractScan/${orgId}`, {
+    method: 'GET',
+    credentials: 'include',
+  }).then(async (res) => {
+    if (res.status == 200) {
+      const str64 = await res.json();
+      return downloadFile(str64, 'application/pdf', 'laod.pdf');
+    } else if (res.status == 401) {
+      window.location.href = `${env.VITE_APP_URL}/logout`;
+    } else {
+      throw new Error(`Не удалось загрузить скар договора. ErrorCode = ${res.status}`);
+    }
+  });
+};
+
 export const fetchSignIn = (data: User): Promise<number> => {
   return fetchAuth('signIn', 'POST', data);
 };
@@ -94,21 +109,6 @@ export const updateContract = (contract: Contract): Promise<Contract> => {
   });
 };
 
-export const fetchContractsScan = (orgId: number) => {
-  return fetch(`${API_SERVER}/contractScan/${orgId}`, {
-    method: 'GET',
-    credentials: 'include',
-  }).then(async (res) => {
-    if (res.status == 200) {
-      const str64 = await res.json();
-      return downloadFile(str64, 'application/pdf', 'laod.pdf');
-    } else if (res.status == 401) {
-      window.location.href = `${APP_URL}/logout`;
-    } else {
-      throw new Error(`Не удалось загрузить скар договора. ErrorCode = ${res.status}`);
-    }
-  });
-};
 
 export const removeContract = (id: number): Promise<{ isRemove: boolean }> => {
   return fetchData(`removeContract`, 'DELETE', `Не удалось удалить договор`, { id: id });

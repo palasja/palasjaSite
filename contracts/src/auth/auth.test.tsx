@@ -4,8 +4,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from './renderWithProviders';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import Auth from './auts';
-
-const API_SERVER = 'http://127.0.0.1:3000';
+const env = import.meta.env;
 
 export const handlers = [];
 
@@ -60,7 +59,7 @@ describe('fill form errors', async () => {
 describe('wrong auth data 403 status code', async () => {
   it('wrong authorisation data', async () => {
     server.use(
-      http.post(`${API_SERVER}/logIn`, () => {
+      http.post(`${env.VITE_API_SERVER}/logIn`, () => {
         return new HttpResponse(null, { status: 403 });
       })
     );
@@ -83,10 +82,10 @@ describe('OK auth data 200 status code', async () => {
       // http.post(`${API_SERVER}/logIn`, (_req, _res, _ctx) => {
       //   return new HttpResponse(null, {status: 200})
       // }),
-      http.post(`${API_SERVER}/logIn`, () => {
+      http.post(`${env.VITE_API_SERVER_URL}/logIn`, () => {
         return new HttpResponse(null, { status: 200 });
       }),
-      http.post(`${API_SERVER}/checkAuth`, () => {
+      http.post(`${env.VITE_API_SERVER_URL}/checkAuth`, () => {
         return new HttpResponse(null, { status: 403 });
       })
     );
