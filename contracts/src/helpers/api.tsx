@@ -142,7 +142,13 @@ export const fetchServicesByOrgIdMonth = (orgId: number, month: string): Promise
     `Не удалось загрузить услуги`
   );
 };
-
+export const fetchServicesMonth = (month: string): Promise<Service[]> => {
+  return fetchData(
+    `getServicesByMonth/${month}`,
+    'GET',
+    `Не удалось загрузить услуги`
+  );
+};
 export const addService = (service: Service): Promise<Service> => {
   return fetchData(`addService`, 'PUT', `Не удалось добавить услуги`, { service: service });
 };

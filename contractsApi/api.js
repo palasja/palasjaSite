@@ -327,6 +327,25 @@ app.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res)
   });
     res.status(200).json(result);
 }));
+app.get('/getServicesByMonth/:month', asyncHandler( async (req, res) => {
+  const month = Number(req.params.month);
+  const firstWorkDayDate  = new Date(2025, month);
+  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
+  
+   let result = await Service.findAll({
+  where: {
+      [Op.and]:[
+        {date: {
+          [Op.gte]: firstWorkDayDate
+        }},
+        {date: {
+          [Op.lte]: lastWorkDayDate
+        }}
+      ]
+    },
+  });
+    res.status(200).json(result);
+}));
 app.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   const startDate =req.params.startDate;
   const endDate = req.params.endDate;

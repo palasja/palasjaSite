@@ -8,6 +8,7 @@ const Header = () => {
       <nav>
         <Link to={'/contract'}>Договора</Link>
         <Link to={'/act'}>Акты</Link>
+        <Link to={'/stats'}>Статистика</Link>
       </nav>
     </header>
   );

@@ -12,6 +12,7 @@ import './main.css';
 import Act from './acts/act';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
+import Stats from './stats';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -35,6 +36,14 @@ createRoot(document.getElementById('root')!).render(
             element={
               <ProtectedRoute>
                 <Act />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="stats"
+            element={
+              <ProtectedRoute>
+                <Stats />
               </ProtectedRoute>
             }
           />
