@@ -1,4 +1,4 @@
-import { downloadFile } from './helper';
+import { downloadFile, trimObjectProperty } from './helper';
 import { Contract, Organization, Personal, Service, User } from './contractTypes';
 
 const env = import.meta.env;

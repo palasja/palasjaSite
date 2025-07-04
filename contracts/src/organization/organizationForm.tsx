@@ -4,6 +4,7 @@ import { addOrg, editOrg, getChangingOrganization } from '../redux/slices/orgsSl
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useEffect } from 'react';
+import { trimObjectProperty } from '../helpers/helper';
 
 const OrganizationForm = () => {
   const changingOrg = useAppSelector(getChangingOrganization);
@@ -21,10 +22,12 @@ const OrganizationForm = () => {
     reset();
   };
   const onSubmitCreate: SubmitHandler<Org> = (data) => {
+    data = trimObjectProperty(data);
     dispatch(addOrg(data));
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Org> = (data) => {
+    data = trimObjectProperty(data);
     dispatch(editOrg(data));
     resetForm();
   };

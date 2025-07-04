@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from '../helpers/contractTypes';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { toBase64 } from '../helpers/helper';
+import { toBase64, trimObjectProperty } from '../helpers/helper';
 import { addContract, editContract, getChangingContract } from '../redux/slices/contractSlice';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
@@ -26,6 +26,7 @@ const ContractForm = () => {
     setIsUpdate(false);
   };
   const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
+    data = trimObjectProperty(data);
     //@ts-expect-error: Chome has faleArray instead of File
     data.scan = await toBase64(data.scan[0]);
     dispatch(addContract(data));
@@ -33,6 +34,7 @@ const ContractForm = () => {
   };
 
   const onSubmitUpdate: SubmitHandler<Contract> = async (data) => {
+    data = trimObjectProperty(data);
     if (data.scan?.size == 0) {
       //@ts-expect-error: Chome has faleArray instead of File
       delete data.scan;

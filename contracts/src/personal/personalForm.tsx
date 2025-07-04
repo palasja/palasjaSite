@@ -5,6 +5,7 @@ import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
+import { trimObjectProperty } from '../helpers/helper';
 
 const PersonalForm = () => {
   const dispatch = useAppDispatch();
@@ -20,10 +21,12 @@ const PersonalForm = () => {
   } = useForm<Personal>();
 
   const onSubmitCreate: SubmitHandler<Personal> = (data) => {
+    data = trimObjectProperty(data);
     dispatch(createPersonal(data));
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
+    data = trimObjectProperty(data);
     dispatch(editPerson(data));
     resetForm();
   };

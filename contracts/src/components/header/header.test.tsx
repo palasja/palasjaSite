@@ -17,10 +17,10 @@ describe('header no print', () => {
 });
 
 describe('header has all links', () => {
-  it('header has 2 link', () => {
-    expect(screen.queryAllByRole('link').length).toBe(2);
+  it('header has 3 link', () => {
+    expect(screen.queryAllByRole('link').length).toBe(3);
   });
-  it('header has 2 link', () => {
+  it('header has 3 link', () => {
     expect(screen.queryAllByRole('link')[0]).toHaveAttribute('href', '/contract');
     expect(screen.queryAllByRole('link')[1]).toHaveAttribute('href', '/act');
   });

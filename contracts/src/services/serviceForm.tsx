@@ -10,6 +10,7 @@ import {
 } from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
+import { trimObjectProperty } from '../helpers/helper';
 
 const ServiceForm = () => {
   const {
@@ -25,10 +26,12 @@ const ServiceForm = () => {
   const changingService = useAppSelector(getChangingService);
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
+    data = trimObjectProperty(data);
     dispatch(createService(data));
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Service> = (data) => {
+    data = trimObjectProperty(data);
     dispatch(editService(data));
     resetForm();
   };

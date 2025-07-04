@@ -1,5 +1,5 @@
 import { NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA } from './constants';
-import { Personal, Service } from './contractTypes';
+import { Organization, Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -123,3 +123,12 @@ export const getIdNum = (strId: string): number => {
   if (isNaN(numId)) throw new Error(`${strId} can't parse to Int`);
   return numId;
 };
+
+export const trimObjectProperty:<T extends object>(obj: T) => T = ( obj ) => {
+    Object.keys(obj).forEach((key) => {
+      //@ts-ignore
+      if(typeof obj[key] == 'string') obj[key] = obj[key].trim()
+    });
+
+    return obj;
+}

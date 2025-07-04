@@ -71,7 +71,7 @@ const Act = () => {
             );
           })}
         </select>
-        <select onChange={(e) => handlerChooseOrganization(e.target.value)} data-testid='orgSelect'>
+        <select onChange={(e) => handlerChooseOrganization(e.target.value)} defaultValue={choosenOrg?.id} data-testid='orgSelect'>
           <option key={-1}>-</option>
           {organizations.map((org) => {
             return (
