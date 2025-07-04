@@ -1,9 +1,5 @@
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
-import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from '../auth/renderWithProviders';
-import {MemoryRouter, Route, Routes} from 'react-router'
-import * as api from './api';
 import { fetchAllOrganizations } from './api';
 const env = import.meta.env;
 export const handlers = [];
