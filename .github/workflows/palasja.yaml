@@ -1,7 +1,7 @@
 name: Palasja Deploy to cPanel
 
 on:
-  push:
+  [push, workflow_dispatch]:
     branches:
       - yakubenka
 
