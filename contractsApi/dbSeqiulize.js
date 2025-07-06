@@ -1,12 +1,15 @@
 import {Sequelize, DataTypes, STRING}  from 'sequelize';
-
+import 'dotenv/config';
 let sequelize = new Sequelize(
-            "palasjaDB",
-            "palasja",
-            "wania-0806",
+    process.env.MYSQL_DATABASE,
+    process.env.MYSQL_ADMIN,
+    process.env.MYSQL_ADMIN_PASSWORD,
+            // "palasjaDB",
+            // "palasja",
+            // "wania-0806",
           {
             dialect: "mysql",
-            host: "127.0.0.1",
+            host: process.env.MYSQL_HOST,
             port: 3306,
             pool: {
               max: 10,
