@@ -1,4 +1,4 @@
-name: Deploy to cPanel
+name: Contract Deploy to cPanel
 
 on:
   push:
@@ -17,11 +17,11 @@ jobs:
       - name: Checkout Code 🚚
         uses: actions/checkout@v4
 
-      - name: Install Dependencies 📦
+      - name: Install/Build Contracts 📦
         run: |
           npm --prefix contracts/ install
           npm --prefix ./contracts/ run build
-
+          
       - name: Upload to cPanel 📂
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
