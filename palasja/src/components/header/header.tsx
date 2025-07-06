@@ -16,7 +16,7 @@ const Header = () => {
       {/* <FontAwesomeIcon icon={faFacebookF} /> */}
       {/* <FontAwesomeIcon icon="fa-brands fa-twitter" /> */}
       <div className={style.inner}>
-        <p className={style.logo}>ИВАН ЯКУБЕНКО TEST</p>
+        <p className={style.logo}>ИВАН ЯКУБЕНКО</p>
         <nav className={style.nav}>
           <Link className={style.link} to={'/'}>{t('menu.home')}</Link>
           <Link className={style.link} to={'projects'}>{t('menu.project')}</Link>
