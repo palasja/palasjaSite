@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - yakubenka
+      - pavluchenko
+      - dev
 
 jobs:
   deploy:
