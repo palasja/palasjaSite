@@ -3,7 +3,7 @@ name: Deploy to cPanel
 on:
   push:
     branches:
-      - yakubenka
+      - dev
 
 jobs:
   deploy:
@@ -18,9 +18,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Dependencies 📦
-        run: |
-          npm --prefix contracts/ install
-          npm --prefix ./contracts/ run build
+        run: npm install
+
+      - name: Build React App / Vue App (depending on user app) 🏗️
+        run: npm run all:i
+
+      - name: Build React App / Vue App (depending on user app) 🏗️
+        run: npm run all:build
 
       - name: Upload to cPanel 📂
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -28,8 +32,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: 	./contracts/dist/
-          server-dir: /public_html/contracts
+          server-dir: /public_html/
           exclude: |
             **/.git**
             **/.git*/**
