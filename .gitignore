@@ -28,6 +28,6 @@ dist-ssr
 .env
 
 #Tmp
-gusmaryApi
-gusMaryHairSSR
-GusMayHairAdmin
+#gusmaryApi
+#gusMaryHairSSR
+#GusMayHairAdmin

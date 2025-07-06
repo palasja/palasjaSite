@@ -21,7 +21,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.7",
-    "palasja": "file:../contracts",
+    "palasja": "file:..",
     "sequelize": "^6.37.3"
   }
 }
