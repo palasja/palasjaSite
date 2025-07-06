@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './auth.module.css';
 import { Link, useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { check, getIsErrorAuth, login } from '../redux/slices/authSlice';
+import { check, getIsAuth, getIsErrorAuth, login } from '../redux/slices/authSlice';
 import { useEffect, useState } from 'react';
 
 type FormValues = {
@@ -20,10 +20,9 @@ const Auth = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isErrorAuth = useAppSelector(getIsErrorAuth);
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    dispatch(login(data)).then(() => {
-      navigate('/contract');
-    });
+  const isAuth = useAppSelector(getIsAuth);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    dispatch(login(data)).unwrap().then((r: boolean) => {if(r) navigate('/contract')});
   };
 
   return (
@@ -32,7 +31,7 @@ const Auth = () => {
         <Link to={'/signIn'}>signIn</Link>
         <div className={style.formContainer}>
           <h3 className={style.formName}>Войти</h3>
-          {isErrorAuth && <p className={style.errorMeaasge}>Неверный логин или пароль</p>}
+          {isErrorAuth && <p className={style.errorMeaasge}>Время токена истекло, пройдите авторизацию</p>}
           {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}
           {errors.password && <p className={style.errorMeaasge}>{errors.password.message}</p>}
           <form onSubmit={handleSubmit(onSubmit)} className={style.form}>

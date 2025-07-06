@@ -53,11 +53,6 @@ const getToken = (payload, expires) => {
         })
     })
 const router = express.Router()
-// router.use(() => {}); // General middleware
-
-// router.all('/api/*', (req, res) => {
-//   res.status(200).json({test:'333333333'});
-// })
 
 router.get('/test', function  (req, res) {
      res.status(200).json({test:'123'});
@@ -400,6 +395,7 @@ router.get('/contractScan/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
+// path as /api/service
 app.use('/api', router);
 // app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
 //   const month = Number(req.params.month);

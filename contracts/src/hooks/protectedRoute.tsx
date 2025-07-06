@@ -15,14 +15,14 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isAuth) {
+    // if (!isAuth) {
       dispatch(check())
         .then(unwrapResult)
         .catch(() => {
           navigate('/');
         });
-    }
-  }, []);
+    // }
+  }, [children]);
 
   return isAuth ? (
     <>

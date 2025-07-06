@@ -3,6 +3,7 @@ import { createAppAsyncThunk } from '../../redux/withTypes';
 import { fetchLogIn, fetchLogOut, fetchSignIn, fetchСheckAuth } from '../../helpers/api';
 import { RootState } from '../../redux/store';
 import { User } from '../../helpers/contractTypes';
+import { redirect } from 'react-router';
 
 interface AuthState {
   isAuth: boolean;
@@ -15,7 +16,8 @@ export const login = createAppAsyncThunk('auth/login', async (authInfo: User) =>
     return true;
   } else {
     //rejected
-    throw new Error();
+    // Promise.reject();
+    return false;
   }
 });
 
@@ -26,7 +28,7 @@ export const signin = createAppAsyncThunk('auth/signin', async (authInfo: User) 
     return true;
   } else {
     //rejected
-    throw new Error();
+    Promise.reject();
   }
 });
 
@@ -61,13 +63,14 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state) => {
-        state.isAuth = true;
-        state.isErrorAuth = false;
-      })
-      .addCase(login.rejected, (state) => {
-        state.isAuth = false;
-        state.isErrorAuth = true;
+      .addCase(login.fulfilled, (state, action) => {
+        if(action.payload){
+          state.isAuth = action.payload;
+          state.isErrorAuth = false;
+        } else {
+          state.isAuth = false;
+          state.isErrorAuth = true;
+        }
       })
       .addCase(logout.fulfilled, (state) => {
         state.isAuth = false;
@@ -78,9 +81,11 @@ const authSlice = createSlice({
       })
       .addCase(check.fulfilled, (state) => {
         state.isAuth = true;
+        state.isErrorAuth = false;
       })
       .addCase(check.rejected, (state) => {
         state.isAuth = false;
+        state.isErrorAuth = true;
       });
   },
 });
