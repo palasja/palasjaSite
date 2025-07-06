@@ -29,7 +29,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: 	./palasja/dist/
-          server-dir: /public_html/palasja/
+          server-dir: /palasja.site/
           exclude: |
             **/.git**
             **/.git*/**
