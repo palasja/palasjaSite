@@ -26,3 +26,8 @@ dist-ssr
 
 #Varables envitonment
 .env
+
+#Tmp
+gusmaryApi
+gusMaryHairSSR
+GusMayHairAdmin

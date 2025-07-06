@@ -20,10 +20,9 @@
     "gusmaryAdmin:build": "npm --prefix ./GusMayHairAdmin/ run build",
     "gusmary:build": "npm --prefix ./gusMaryHairSSR/ run build",
     "palasja:build": "npm --prefix ./palasja/ run build",
-    "all:i": "concurrently \"npm run install\" \"npm run contracts:i\" \"npm run contractsApi:i\" \"npm run gusmaryApi:i\" \"npm run gusmaryAdmin:i\" \"npm run gusmary:i\" \"npm run palasja:i\"",
-    "all:build": "concurrently \"npm run contracts:build\" \"npm run gusmaryAdmin:build\" \"npm run gusmary:build\" \"npm run palasja:build\"",
-    "all": "concurrently \"npm run contracts\" \"npm run contractsApi\" \"npm run gusmaryApi\" \"npm run gusmaryAdmin\" \"npm run gusmary\" \"npm run palasja\""
-
+    "all:i": "concurrently \"npm run install\" \"npm run contracts:i\" \"npm run contractsApi:i\" \"npm run palasja:i\"",
+    "all:build": "concurrently \"npm run contracts:build\" \"npm run palasja:build\"",
+    "all": "concurrently \"npm run contracts\" \"npm run contractsApi\" \"npm run palasja\""
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
