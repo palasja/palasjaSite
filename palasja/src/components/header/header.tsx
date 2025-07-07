@@ -24,9 +24,9 @@ const Header = () => {
             Контакты
               <div className={style.linksBlock}>
                 <ul>
-                  <li><a>Linked: https://www.linkedin.com/in/palasja</a></li>
-                  <li><a>GitHub: https://github.com/palasja</a></li>
                   <li><a>Email: palasja@gmail.com</a></li>
+                  <li><a>GitHub: https://github.com/palasja</a></li>
+                  <li><a>Linked: https://www.linkedin.com/in/palasja</a></li>                 
                 </ul>
               </div>
             </div>
