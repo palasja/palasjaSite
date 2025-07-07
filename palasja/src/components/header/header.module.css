@@ -43,13 +43,24 @@
 .language{
 	background-color: #146BB3;
 	color: #ffffff;
+	text-align: center;
 	font-size: 18px;
 	border: none;
 	border-radius: 8px;
 	appearance: none;
 	padding: 9px;
 	cursor: pointer;
+
+	-webkit-user-select: none;
+-moz-user-select: -moz-none;
+-ms-user-select: none;
+ user-select: none;
+
+-webkit-appearance: none;
+-moz-appearance: radio-container;
+ appearance: none;
 }
+
 .linksBlock{
 	position: absolute;
 	display: flex;

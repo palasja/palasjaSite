@@ -15,21 +15,21 @@ const Certificates = () => {
       <div className={style.certificates}>
         <h4 className={style.head}>{t('home.cw.certificates')}</h4>
           <div className={style.inner}>
-            <figure >
+            <figure className={style.figure}>
               <img className={style.img} src={rss}></img>
               <figcaption className={style.text}>THE RS SCHOOL - JAVASCRIPT/FRONT-END 2022Q1</figcaption>
             </figure>
-            <figure>
+            <figure className={style.figure}>
               <img className={style.img} src={MS2778}></img>
               <figcaption className={style.text}>
                 MS2778 - Quiring and modifying data in Microsoft SQL Server 2008 with transact-SQL
               </figcaption>
             </figure>
-            <figure>
+            <figure className={style.figure}>
               <img className={style.img} src={softline}></img>
               <figcaption className={style.text}>Softline - Advanced C#/.Net</figcaption>
             </figure>
-            <figure>
+            <figure className={style.figure}>
               <img className={style.img} src={MS6419B}></img>
               <figcaption className={style.text}>
                 MS-6419B - Configuring, managing and Maintaining windows server 2008-based servers

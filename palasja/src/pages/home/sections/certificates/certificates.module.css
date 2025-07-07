@@ -13,9 +13,9 @@
 }
 
 .inner{
-   display: grid;
-   grid-template-columns: repeat(2, 1fr); 
-
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
 }
 
 .img{
@@ -24,9 +24,15 @@
 }
 
 .text{
-    text-align: center;
+    margin-top: 25px;
     text-transform: uppercase;
-     font-family: "Manrope", sans-serif;
-     font-size: 16px;
+    font-family: "Manrope", sans-serif;
+    font-size: 16px;
      
+}
+
+.figure{
+    padding: 0;
+    margin: 0;
+
 }

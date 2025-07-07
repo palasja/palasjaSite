@@ -23,7 +23,7 @@ const Projects = () => {
           {
           srvScanReg.test(location.pathname) && 
           <div className={style.srvNav}>
-            {Object.keys(srvScanCode).map((key, i) => <Link className={style.link} key={i} to={`srvScan/${key}`}>{key}</Link>)}
+            {Object.keys(srvScanCode).map((key, i) => <Link className={style.linkBlue} key={i} to={`srvScan/${key}`}>{key}</Link>)}
           </div>
           }
           <Link className={style.linkBlue} to="getInfo">GetInfo</Link>
