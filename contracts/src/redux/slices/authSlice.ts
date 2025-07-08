@@ -7,7 +7,7 @@ import { redirect } from 'react-router';
 
 interface AuthState {
   isAuth: boolean;
-  isErrorAuth: boolean;
+  authErrorMessage: String | null;
 }
 export const login = createAppAsyncThunk('auth/login', async (authInfo: User) => {
   const logInResult = await fetchLogIn(authInfo);
@@ -54,7 +54,7 @@ const initialState: AuthState = {
   // Note: a real app would probably have more complex auth state,
   // but for this example we'll keep things simple
   isAuth: false,
-  isErrorAuth: false,
+  authErrorMessage: null,
 };
 
 const authSlice = createSlice({
@@ -66,10 +66,10 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         if(action.payload){
           state.isAuth = action.payload;
-          state.isErrorAuth = false;
+          state.authErrorMessage = null;
         } else {
           state.isAuth = false;
-          state.isErrorAuth = true;
+          state.authErrorMessage = "Неверный логин или пароль";
         }
       })
       .addCase(logout.fulfilled, (state) => {
@@ -77,15 +77,15 @@ const authSlice = createSlice({
       })
       .addCase(signin.fulfilled, (state) => {
         state.isAuth = true;
-        state.isErrorAuth = false;
+        state.authErrorMessage = null;
       })
       .addCase(check.fulfilled, (state) => {
         state.isAuth = true;
-        state.isErrorAuth = false;
+        state.authErrorMessage = null;
       })
       .addCase(check.rejected, (state) => {
         state.isAuth = false;
-        state.isErrorAuth = true;
+        state.authErrorMessage = "Время токена истекло, пройдите авторизацию";
       });
   },
 });
@@ -93,5 +93,5 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 
 export const getIsAuth = (state: RootState) => state.auth.isAuth;
-export const getIsErrorAuth = (state: RootState) => state.auth.isErrorAuth;
+export const getAuthErrorMessage = (state: RootState) => state.auth.authErrorMessage;
 // export const selectCurrentUsername = (state: RootState) => state.auth.isAuth
