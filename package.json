@@ -7,7 +7,7 @@
     "contracts": "npm --prefix ./contracts/ run dev",
     "contracts:i": "npm --prefix contracts/ install",
     "contracts:build": "npm --prefix ./contracts/ run build",
-    "contractsApi": "npm --prefix ./contractsApi/ run start",
+    "contractsApi": "npm --prefix ./contractsApi/ run start:local",
     "contractsApi:i": "npm --prefix ./contractsApi/ install",
     "palasja": "npm --prefix ./palasja/ run dev",
     "palasja:i": "npm --prefix ./palasja/ install",

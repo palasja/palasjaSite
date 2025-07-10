@@ -5,7 +5,7 @@ import { fetchContractsByOrgIMonth } from "../redux/slices/contractSlice";
 import { fetchOrgs, getAllOrganisation, getChosenOrganization } from "../redux/slices/orgsSlice";
 import { chooseMonth, getChoosenMonth } from "../redux/slices/servicesSlice";
 import { fetchServicesMonth } from "../helpers/api";
-import { Service } from "../helpers/contractTypes";
+import { Organization, Service } from "../helpers/contractTypes";
 
 const Stats = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +26,7 @@ const Stats = () => {
     }
      getServiceByMonth();
   }, [month]);
+
   return(
     <>
     <select onChange={(e) => setMonth(e.target.value)} defaultValue={choosenMonth}>
@@ -44,6 +45,9 @@ const Stats = () => {
         const arr = services.filter( s => s.orgId == o.id.toString());
         return <p>{o.name} - {getServicesCost(arr)}</p>
       })
+    }
+    {
+      <p>Без организаций - {getServicesCost( services.filter( s => s.orgId === null))}</p>
     }
     </>
   );
