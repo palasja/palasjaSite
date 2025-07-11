@@ -8,6 +8,10 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 3002,
   },
+  // build: {
+  //   outDir: 'dist/contracts',
+  //   emptyOutDir: true,
+  // },
   resolve: {
     alias: {
       // src: "/src",
