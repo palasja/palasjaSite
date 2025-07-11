@@ -49,6 +49,7 @@
 	appearance: none;
 	padding: 9px;
 	cursor: pointer;
+	outline: none;
 
 	-webkit-user-select: none;
 -moz-user-select: -moz-none;
