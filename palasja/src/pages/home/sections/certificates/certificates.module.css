@@ -13,14 +13,30 @@
 }
 
 .inner{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
+   display: grid;
+   grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+   
 }
 
-.img{
-    width: 550px;
-    height: 390px;
+.figura{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+     align-items: center;
+}
+
+.figura:nth-child(odd) {
+  align-items: flex-start;  /* левый столбец */
+}
+
+.figura:nth-child(even) {
+  align-items: flex-end;  /* правый столбец */
+}
+
+.img {
+  width: auto;
+  max-width: 620px;
 }
 
 .text{
@@ -28,11 +44,7 @@
     text-transform: uppercase;
     font-family: "Manrope", sans-serif;
     font-size: 16px;
-     
+    margin: 20px 0 20px 0;
+    width: 100%;
 }
 
-.figure{
-    padding: 0;
-    margin: 0;
-
-}
