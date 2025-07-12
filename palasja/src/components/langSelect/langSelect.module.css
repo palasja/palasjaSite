@@ -1,0 +1,12 @@
+.langList{
+  display: none;
+  position: absolute;
+  list-style: none;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.currentLang:hover > ul {
+  display: block;
+}

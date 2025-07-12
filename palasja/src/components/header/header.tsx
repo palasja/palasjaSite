@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { ContentContainer } from '../containers/contentContainer';
+import LangSelect from '../langSelect';
 
 
 
@@ -32,14 +33,17 @@ const Header = () => {
             </div>
         </nav>
 
-        <div className={style.nav}>
+        {/* <div className={style.nav}>
           <select className={style.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
             <option value="ru">ru</option>
             <option value="en">en</option>
             <option value="by">by</option>
           </select>
-        </div>
+        </div> */}
+        <LangSelect />
       </div>
+
+      
       </ContentContainer>
     </header>
   );
