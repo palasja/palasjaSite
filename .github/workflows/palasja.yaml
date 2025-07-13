@@ -1,4 +1,4 @@
-name: Contract Deploy to cPanel
+name: Palasja Deploy to cPanel
 
 on:
   push:
@@ -15,20 +15,20 @@ jobs:
     steps:
       - name: Checkout Code 🚚
         uses: actions/checkout@v4
-
-      - name: Install/Build Contracts 📦
+ 
+      - name: Install Palasja Dependencies 📦
         run: |
-          npm --prefix contracts/ install
-          npm --prefix ./contracts/ run build
-          
+          npm --prefix ./palasja/ install
+          npm --prefix ./palasja/ run build
+
       - name: Upload to cPanel 📂
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: 	./contracts/dist/
-          server-dir: /public_html/
+          local-dir: 	./palasja/dist/
+          server-dir: /palasja.site/
           exclude: |
             **/.git**
             **/.git*/**
