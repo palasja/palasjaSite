@@ -1,26 +1,20 @@
-import style from './contentContainer.module.css'
+import style from './contentContainer.module.css';
 
 interface ContentWrapperProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 interface ContentWrapper extends ContentWrapperProps {
-  className?: string
+  className?: string;
 }
-export const ContentContainer = ({ children }: ContentWrapperProps)=> {
-  return (
-    <div className={style.container}>
-      {children}
-    </div>
-  )
-}
+export const ContentContainer = ({ children }: ContentWrapperProps) => {
+  return <div className={style.container}>{children}</div>;
+};
 
-export const ContentWrapper = ({ children, className = '' }: ContentWrapper)=> {
+export const ContentWrapper = ({ children, className = '' }: ContentWrapper) => {
   return (
     <section className={`${style.wraper} ${className}`}>
-      <ContentContainer>
-        {children}
-      </ContentContainer>
+      <ContentContainer>{children}</ContentContainer>
     </section>
-  )
-}
+  );
+};

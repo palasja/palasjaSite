@@ -14,7 +14,6 @@ const Footer = () => {
           {t('footer.devPos')} {t('footer.devName')}
         </p>
       </ContentContainer>
-
     </footer>
   );
 };

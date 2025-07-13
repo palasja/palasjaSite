@@ -1,2 +1,2 @@
-import LangSelect from "./langSelect";
+import LangSelect from './langSelect';
 export default LangSelect;

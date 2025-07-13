@@ -1,2 +1,2 @@
-import Languages from "./languages";
+import Languages from './languages';
 export default Languages;

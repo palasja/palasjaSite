@@ -1,2 +1,2 @@
-import GusMary from "./gusMary";
+import GusMary from './gusMary';
 export default GusMary;

@@ -1,2 +1,2 @@
-import Skils from "./skils";
-export  default Skils;
+import Skils from './skils';
+export default Skils;

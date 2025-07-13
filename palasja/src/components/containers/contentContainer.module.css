@@ -1,11 +1,10 @@
-.container
-{
-	width: 100%;
-	max-width: 1300px;
-	margin: 0 auto;
-	padding: 0 15px;
+.container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
-.wraper:nth-child(even){
-	background-color: #146BB3;
+.wraper:nth-child(even) {
+  background-color: #146bb3;
 }

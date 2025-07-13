@@ -11,22 +11,22 @@ const Education = () => {
         <div className={style.inner}>
           <div className={style.inner}>
             <div className={style.date}>{t('home.cw.education.collegeDate')}</div>
-              <div>
-                <p className={style.specialization}>{t('home.cw.education.specialization')}</p>
-                <p>{t('home.cw.education.college')}</p>
-              </div>
-            </div>
-            <div className={style.inner}>
-              <div className={style.date}>{t('home.cw.education.universityDate')}</div>
-                <div>
-                 <p className={style.specialization}>{t('home.cw.education.hightQality')}</p>
-                 <p>{t('home.cw.education.univerrsity')}</p>
-               </div>
+            <div>
+              <p className={style.specialization}>{t('home.cw.education.specialization')}</p>
+              <p>{t('home.cw.education.college')}</p>
             </div>
           </div>
+          <div className={style.inner}>
+            <div className={style.date}>{t('home.cw.education.universityDate')}</div>
+            <div>
+              <p className={style.specialization}>{t('home.cw.education.hightQality')}</p>
+              <p>{t('home.cw.education.univerrsity')}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </ContentWrapper>
   );
-}
+};
 
-export default Education
+export default Education;

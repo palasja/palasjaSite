@@ -1,45 +1,46 @@
-.header{
-	width: 100%;
-	background-color: #ffffff;
-	top: 0;
-    z-index: 999;
+.header {
+  width: 100%;
+  background-color: #ffffff;
+  top: 0;
+  z-index: 999;
 }
 
 .inner {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.logo{
-	font-family: "Manrope", sans-serif;
-	color: #1C2E6A;
-	font-size: 48px;
-	width: 50px;
-	margin: 25px 0;
-	font-weight: 700; 
+.logo {
+  font-family: 'Manrope', sans-serif;
+  color: #1c2e6a;
+  font-size: 48px;
+  width: 50px;
+  margin: 25px 0;
+  font-weight: 700;
 }
 
-.nav{
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.link{
-	position: relative;
-	font-size: 18px;
-	color: #000000;
-	text-decoration: none;
-	margin-right: 33px;
-	transform: color 0.2s linear;
-	cursor: pointer;
+.link {
+  position: relative;
+  font-size: 18px;
+  color: #000000;
+  text-decoration: none;
+  margin-right: 33px;
+  transform: color 0.2s linear;
+  cursor: pointer;
 }
 
-.link:hover{
-	color: #1C2E6A;
+.link:hover {
+  color: #1c2e6a;
 }
 
-.language{
+/* .language{
 	background-color: #146BB3;
 	color: #ffffff;
 	text-align: center;
@@ -59,21 +60,20 @@
 -webkit-appearance: none;
 -moz-appearance: radio-container;
  appearance: none;
+} */
+
+.linksBlock {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+
+  /* display: none; */
+
+  background-color: rgba(20, 107, 179, 0.2);
+  width: 100%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  z-index: 1;
+  border-radius: 8px;
+  text-decoration: none;
 }
-
-.linksBlock{
-	position: absolute;
-	display: flex;
-	flex-direction: row;
-
-	 /* display: none; */
-     
-      background-color: rgba(20,107,179,0.2);
-      width: 100%;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      padding: 10px;
-      z-index: 1;
-      border-radius: 8px;
-	  text-decoration: none;
-}
-

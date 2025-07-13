@@ -1,64 +1,63 @@
-.container{
+.container {
   display: flex;
   background-color: rgb(255, 255, 255);
 }
 
-.nav{
+.nav {
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
-.srvNav{
+.srvNav {
   display: flex;
   flex-direction: column;
   padding-left: 20px;
 }
 
-.link{
+.link {
   text-transform: capitalize;
   width: 265px;
   background-color: #ffffff;
-   color: #000000;
+  color: #000000;
   /* border: 1px solid #146BB3; */
-  box-shadow: 0 0 3px 3px rgba(20, 107, 179, 0.3);  
+  box-shadow: 0 0 3px 3px rgba(20, 107, 179, 0.3);
   border-radius: 8px;
   padding: 15px 35px;
   margin: 0 20px 10px 0;
   text-decoration: none;
   transform: color 0.2s linear;
 }
-.link:hover{
-	background-color: #146BB3;
+.link:hover {
+  background-color: #146bb3;
   color: rgb(255, 255, 255);
   font-weight: 500;
 }
 
-
-.linkBlue{
+.linkBlue {
   width: 285px;
   background-color: #ffffff;
   color: #000000;
   font-weight: 500;
   border-radius: 8px;
-  box-shadow: 0 0 3px 3px rgba(20, 107, 179, 0.3);  
+  box-shadow: 0 0 3px 3px rgba(20, 107, 179, 0.3);
   padding: 15px 35px;
   margin: 0 20px 10px 0;
   text-decoration: none;
   transform: color 0.2s linear;
 }
 
-.linkBlue:hover{
-	background-color: #146BB3;
+.linkBlue:hover {
+  background-color: #146bb3;
   color: rgb(255, 255, 255);
   font-weight: 500;
 }
 
-.linkBlue:last-child{
+.linkBlue:last-child {
   margin-bottom: 0px;
 }
 
-.test{
+.test {
   background-color: #ffffff;
   /* border: 1px solid #146BB3; */
   box-shadow: 0 0 5px 5px rgba(20, 107, 179, 0.3);

@@ -20,17 +20,16 @@ import srvScanCode from './pages/projects/srcScan/code_en';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    
       <Header />
-      
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="projects" element={<Projects />}>
-          <Route path="srvScan" element={<SrvScan />} >
-          {Object.keys(srvScanCode).map((key, i) => 
-          //@ts-ignore
-            <Route key={i} path={key} element={<Code name={key} code={srvScanCode[key]}/>} />)
-          }
+          <Route path="srvScan" element={<SrvScan />}>
+            {Object.keys(srvScanCode).map((key, i) => (
+              //@ts-ignore
+              <Route key={i} path={key} element={<Code name={key} code={srvScanCode[key]} />} />
+            ))}
           </Route>
           <Route path="getInfo" element={<GetInfo />} />
           <Route path="gusmary" element={<GusMary />} />
@@ -40,10 +39,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="*" element={<Error404 />} />
       </Routes>
 
-
-  
       <Footer />
-      
     </BrowserRouter>
   </StrictMode>
 );
