@@ -3,7 +3,7 @@ name: Palasja Deploy to cPanel
 on:
   push:
     branches:
-      - yakubenka
+      - pavluchenko
 jobs:
   deploy:
     runs-on: ubuntu-latest
