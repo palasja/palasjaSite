@@ -21,7 +21,8 @@ const Header = () => {
           <Link className={style.link} to={'/'}>{t('menu.home')}</Link>
           <Link className={style.link} to={'projects'}>{t('menu.project')}</Link>
           <div className={style.link}>
-            Контакты
+            {t('menu.contacts')}
+            
               <div className={style.linksBlock}>
                 <ul>
                   <li><a>Email: palasja@gmail.com</a></li>
