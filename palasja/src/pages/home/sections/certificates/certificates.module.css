@@ -40,6 +40,7 @@
 }
 
 .text{
+  text-align: center;
     margin-top: 25px;
     text-transform: uppercase;
     font-family: "Manrope", sans-serif;

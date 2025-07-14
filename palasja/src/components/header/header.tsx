@@ -27,17 +27,11 @@ const Header = () => {
               {t('menu.contacts')}
 
               <div className={style.linksBlock}>
-                <ul>
-                  <li>
-                    <a>Email: palasja@gmail.com</a>
-                  </li>
-                  <li>
-                    <a>GitHub: https://github.com/palasja</a>
-                  </li>
-                  <li>
-                    <a>Linked: https://www.linkedin.com/in/palasja</a>
-                  </li>
-                </ul>
+                <div className={style.drop}>
+                    <a className={style.content}>Email: palasja@gmail.com</a>
+                    <a className={style.content}>GitHub: https://github.com/palasja</a>
+                    <a className={style.content}>Linked: https://www.linkedin.com/in/palasja</a>
+                </div>
               </div>
             </div>
           </nav>

@@ -17,32 +17,32 @@ const Projects = () => {
       <ContentContainer>
         <div className={style.container}>
           <nav className={style.nav}>
-            <Link className={style.linkBlue} to="srvScan">
+            <Link className={style.link} to="srvScan">
               SrvScan
             </Link>
             {srvScanReg.test(location.pathname) && (
               <div className={style.srvNav}>
                 {Object.keys(srvScanCode).map((key, i) => (
-                  <Link className={style.linkBlue} key={i} to={`srvScan/${key}`}>
+                  <Link className={style.link_two} key={i} to={`srvScan/${key}`}>
                     {key}
                   </Link>
                 ))}
               </div>
             )}
-            <Link className={style.linkBlue} to="getInfo">
+            <Link className={style.link} to="getInfo">
               GetInfo
             </Link>
-            <Link className={style.linkBlue} to="gusmary">
+            <Link className={style.link} to="gusmary">
               GusMary
             </Link>
-            <Link className={style.linkBlue} to="contracts">
+            <Link className={style.link} to="contracts">
               Contracts
             </Link>
-            <Link className={style.linkBlue} to="payroll">
+            <Link className={style.link} to="payroll">
               Payroll
             </Link>
           </nav>
-          <main className={style.test}>
+          <main className={style.block}>
             {projectsReg.test(location.pathname) ? (
               <>
                 <h3>Проекты</h3>
