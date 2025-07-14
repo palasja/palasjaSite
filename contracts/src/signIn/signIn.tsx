@@ -4,7 +4,7 @@ import style from './signIn.module.css';
 
 import { useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { getIsAuth, signin } from '../redux/slices/authSlice';
+import { getAuthErrorMessage, getIsAuth, signin } from '../redux/slices/authSlice';
 
 type FormValues = {
   login: string;
@@ -12,29 +12,21 @@ type FormValues = {
 };
 
 const SignIn = () => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit, formState: { errors }} = useForm<FormValues>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isAuth = useAppSelector(getIsAuth);
-  // const onSubmit: SubmitHandler<FormValues> = async (data) => {
-  //    dispatch(login(data)).then(() => {
-  //     navigate('/contract');
-  //    })
-
-  // };
-  // const [isLock, _setisLock] = useState(false);
-  // const [errorMeaasge, _setErrorMeaasge] = useState();
+  const errorMessage = useAppSelector(getAuthErrorMessage);
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(signin(data)).then(() => {
-      navigate('/contract');
-    });
+    dispatch(signin(data)).unwrap().then((r: boolean) => {if(r) navigate('/contract')});
   };
   return (
     // isLock ? (<h2 className={style.lockMessge}>Данные были введены неверно более 10 раз. Обратитесь к администратору</h2>) :
     <section className={style.auth}>
       <div className={style.formContainer}>
         <h3 className={style.formName}>Регистрация</h3>
-        {/* <p className={style.errorMeaasge}>{errorMeaasge}</p> */}
+        {errorMessage && <p className={style.errorMeaasge}>{errorMessage}</p>}
+        {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}
+        {errors.password && <p className={style.errorMeaasge}>{errors.password.message}</p>}
         <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
           <div className={style.inputField}>
             <label className={style.label} htmlFor="login">
@@ -42,7 +34,10 @@ const SignIn = () => {
             </label>
             <input
               className={style.input}
-              {...register('login', { required: true, maxLength: 10 })}
+              {...register('login', {
+                  required: { value: true, message: 'Логин должно быть заполнено' },
+                  maxLength: 10,
+              })}
             />
           </div>
           <div className={style.inputField}>
@@ -51,7 +46,10 @@ const SignIn = () => {
             </label>
             <input
               className={style.input}
-              {...register('password', { required: true, maxLength: 10 })}
+                {...register('password', {
+                  required: { value: true, message: 'Пароль должно быть заполнено' },
+                  maxLength: 10,
+                })}
             />
           </div>
           <input className={style.submit} type="submit" value="Registration" />

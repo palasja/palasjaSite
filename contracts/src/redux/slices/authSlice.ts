@@ -28,7 +28,7 @@ export const signin = createAppAsyncThunk('auth/signin', async (authInfo: User) 
     return true;
   } else {
     //rejected
-    Promise.reject();
+    return false;
   }
 });
 
@@ -77,7 +77,7 @@ const authSlice = createSlice({
       })
       .addCase(signin.fulfilled, (state) => {
         state.isAuth = true;
-        state.authErrorMessage = null;
+        state.authErrorMessage = "Ошибка регистрации";
       })
       .addCase(check.fulfilled, (state) => {
         state.isAuth = true;

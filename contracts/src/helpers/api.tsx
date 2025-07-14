@@ -39,14 +39,14 @@ const fetchAuth = async (endpont: string, method: string, body?: any): Promise<n
   return res.status;
 };
 
-export const fetchContractsScan = (orgId: number) => {
+export const fetchContractsScan = (orgId: number, filename: string) => {
   return fetch(`${API_SERVER}/contractScan/${orgId}`, {
     method: 'GET',
     credentials: 'include',
   }).then(async (res) => {
     if (res.status == 200) {
       const str64 = await res.json();
-      return downloadFile(str64, 'application/pdf', 'laod.pdf');
+      return downloadFile(str64, 'application/pdf', filename);
     } else if (res.status == 401) {
       window.location.href = `${HOST}/logout`;
     } else {

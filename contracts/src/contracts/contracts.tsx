@@ -12,12 +12,14 @@ import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import ContractForm from './contractsForm';
+import { getChoosenMonth } from '../redux/slices/servicesSlice';
 
 function Contracts() {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const dispatch = useAppDispatch();
   const contracts = useAppSelector(getAllContracts);
   const choosenOrg = useAppSelector(getChosenOrganization);
+  const choosenMonth = useAppSelector(getChoosenMonth);
 
   useEffect(() => {
     choosenOrg && dispatch(fetchContractsByOrgId(choosenOrg.id));
@@ -35,7 +37,7 @@ function Contracts() {
             return (
               <li key={i}>
                 {con.number}
-                <button onClick={() => fetchContractsScan(con.id)}>Scan</button>
+                <button onClick={() => fetchContractsScan(con.id, `${choosenOrg?.name}_${choosenMonth}`)}>Scan</button>
                 <button
                   onClick={() => {
                     setRemoveId(con.id);
