@@ -1,5 +1,5 @@
 import { NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA } from './constants';
-import { Personal, Service } from './contractTypes';
+import { Organization, Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ export const toBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const getURLByBase64File = ( scanStr: string, mimeType: string ) => {
+const getURLByBase64File = (scanStr: string, mimeType: string) => {
   // Remove data URL scheme if present
   const base64Data = scanStr.replace(/^data:.+;base64,/, '');
   const byteCharacters = atob(base64Data); // Decode Base64 string
@@ -23,14 +23,13 @@ const getURLByBase64File = ( scanStr: string, mimeType: string ) => {
   const blob = new Blob([byteArray], { type: mimeType });
   const url = URL.createObjectURL(blob);
   return url;
-
 };
 export const downloadFile = (
   base64String: { scan: string },
   mimeType: string,
   fileName: string
 ) => {
-  const url = getURLByBase64File(base64String.scan, mimeType );
+  const url = getURLByBase64File(base64String.scan, mimeType);
   // Create a link element to download the file
   const link = document.createElement('a');
   link.href = url;
@@ -39,8 +38,7 @@ export const downloadFile = (
 
   // Cleanup
   URL.revokeObjectURL(url);
-}
-
+};
 
 export const getShortName = (person: Personal | undefined): string => {
   return person === undefined || person === null
@@ -67,7 +65,7 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
   if (itogSumm < NDS_VICHET) {
     itogSummNDS = itogSumm + itogSumm * (PENSIA / 100);
   } else if (itogSumm < NDS_VICHET_LIMIT) {
-    const summWithouVichet = (itogSumm - NDS_VICHET);
+    const summWithouVichet = itogSumm - NDS_VICHET;
     const summNDS = (summWithouVichet * 100 + summWithouVichet * (NDS / 100) * 100) / 100;
     itogSummNDS = summNDS + NDS_VICHET;
   } else {
@@ -77,8 +75,7 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
 };
 
 export const getServicesCost = (services: Service[]) => {
-  
-  let itogSumm = services.reduce((result, s ) => result + (s.count * s.cost), 0);
+  let itogSumm = services.reduce((result, s) => result + s.count * s.cost, 0);
   // services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;
 };
@@ -110,7 +107,10 @@ export const MONTH_R = [
   'декабря',
 ];
 
-export function NotNullubleValue<T>(argument: T | undefined | null, message: string = 'This value was promised to be there.'): T {
+export function NotNullubleValue<T>(
+  argument: T | undefined | null,
+  message: string = 'This value was promised to be there.'
+): T {
   if (argument === undefined || argument === null) {
     throw new TypeError(message);
   }
@@ -120,6 +120,15 @@ export function NotNullubleValue<T>(argument: T | undefined | null, message: str
 
 export const getIdNum = (strId: string): number => {
   const numId = parseInt(strId);
-   if(isNaN(numId)) throw new Error(`${strId} can't parse to Int`);
-   return numId;
+  if (isNaN(numId)) throw new Error(`${strId} can't parse to Int`);
+  return numId;
+};
+
+export const trimObjectProperty:<T extends object>(obj: T) => T = ( obj ) => {
+    Object.keys(obj).forEach((key) => {
+      //@ts-ignore
+      if(typeof obj[key] == 'string') obj[key] = obj[key].trim()
+    });
+
+    return obj;
 }

@@ -1,38 +1,43 @@
-import { useState } from 'react';
 import Contracts from '../contracts';
 import Personals from '../personal';
 import Services from '../services';
 import Organization from '../organization';
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
-import style from './app.module.css'
+import style from './app.module.css';
+import { getIsWithoutOrg, isWithoutOrg } from '../redux/slices/servicesSlice';
+
 const App = () => {
+  const dispatch = useAppDispatch();
   const orgId = useAppSelector(getChosenOrganization)?.id;
-  const [isWithoutOrg, setIsWithoutOrg] = useState(false);
+  const isNoOrg = useAppSelector(getIsWithoutOrg);
+
   return (
     <>
-      <p onClick={() => setIsWithoutOrg(true)}>Услуги без организации</p>
-      <p onClick={() => setIsWithoutOrg(false)}>Oрганизации</p>
-      {isWithoutOrg ?
-      <>
-      <Services isWithoutOrg={true}/>
-      </>
-      :
-      <>
-        <Organization />
-        {orgId == undefined ? (
-          <></>
-        ) : (
-          <>
-            <Contracts />
-            <Personals />
-            <Services />
-          </>
-        )}      
-      </>
-    }
-      
-
+      <button onClick={() => dispatch(isWithoutOrg(true))} data-testid="withoutOrg">
+        Услуги без организации
+      </button>
+      <button onClick={() => dispatch(isWithoutOrg(false))} data-testid="includeOrg">
+        Oрганизации
+      </button>
+      {isNoOrg ? (
+        <>
+          <Services />
+        </>
+      ) : (
+        <>
+          <Organization />
+          {orgId == undefined ? (
+            <h2>Выберите организацию</h2>
+          ) : (
+            <>
+              <Contracts />
+              <Personals />
+              <Services />
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

@@ -2,7 +2,6 @@ require('dotenv').config();
 var express = require('express');
 var path = require('path');
 const mysql = require('mysql2/promise');
-var app = express();
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
@@ -14,6 +13,8 @@ const saltRounds = 10;
 var {Sequelize, Op, where} = require('sequelize');
 const {sequelize, Organization, Contracts, Personal, Service, Users} = require('./dbSeqiulize');
 const SECRET = '23sadf6rucvbnvza-sd[pqw,';
+
+var app = express();
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "200mb" }));
@@ -51,12 +52,12 @@ const getToken = (payload, expires) => {
                     });
         })
     })
+const router = express.Router()
 
-app.get('/test', function  (req, res) {
+router.get('/test', function  (req, res) {
      res.status(200).json({test:'123'});
 });
-
-app.post('/signIn', asyncHandler( async (req, res) => {
+router.post('/signIn', asyncHandler( async (req, res) => {
   const admin = await Users.findAll();
   if(admin.length !== 0) {
     res.sendStatus(403); 
@@ -84,8 +85,7 @@ app.post('/signIn', asyncHandler( async (req, res) => {
   }
 
   }));
-
-app.post('/logIn', asyncHandler( async (req, res) => {
+router.post('/logIn', asyncHandler( async (req, res) => {
   const accessToken = req.cookies.accessToken;
   const admin = await Users.findOne( );
   jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
@@ -117,8 +117,7 @@ app.post('/logIn', asyncHandler( async (req, res) => {
   });
 
 }));
-
-app.post('/checkAuth', asyncHandler( async (req, res) => {
+router.post('/checkAuth', asyncHandler( async (req, res) => {
   const accessToken = req.cookies.accessToken;
   jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
     if(err){
@@ -128,14 +127,12 @@ app.post('/checkAuth', asyncHandler( async (req, res) => {
     }
   })
 }));
-
-app.get('/logout', function  (req, res) {
+router.get('/logout', function  (req, res) {
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
   res.sendStatus(200);
 });
-
-app.use((req, res, next) => {
+router.use((req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
   if(accessToken){
@@ -166,18 +163,17 @@ app.use((req, res, next) => {
     return res.sendStatus(401);
   }
 })
-
-app.get('/getOrganizations',  asyncHandler( async (req, res) => {
+router.get('/getOrganizations',  asyncHandler( async (req, res) => {
   let result = await Organization.findAll();
   res.status(200).json(result);
 }));
-app.put('/addOrganization',  asyncHandler( async (req, res) => {
+router.put('/addOrganization',  asyncHandler( async (req, res) => {
   let result = await Organization.create({
     name: req.body.organization.name
   });
   res.status(200).json(result);
 }));
-app.delete('/removeOrganization',  asyncHandler( async (req, res) => {
+router.delete('/removeOrganization',  asyncHandler( async (req, res) => {
   let result = await Organization.destroy({
       where: {
         id: req.body.id,
@@ -186,7 +182,7 @@ app.delete('/removeOrganization',  asyncHandler( async (req, res) => {
     const statusCode = result == true ? 200 : 400;
     res.status(statusCode).json(result);
 }));
-app.patch('/updateOrganization',  asyncHandler( async (req, res) => {
+router.patch('/updateOrganization',  asyncHandler( async (req, res) => {
     const organization = req.body.organization;
     console.log('updateOrganization ' + organization.name);
     let result = await Organization.update(
@@ -199,7 +195,7 @@ app.patch('/updateOrganization',  asyncHandler( async (req, res) => {
     );
     res.status(200).json(result);
 }));
-app.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
+router.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
   let result = await Contracts.findAll({
     attributes: {
       exclude: ['scan'] 
@@ -210,7 +206,7 @@ app.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-app.get('/getContractByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
+router.get('/getContractByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
   const orgId = req.params.orgId;
   const firstWorkDayDate  = new Date(2025, month);
@@ -238,12 +234,11 @@ app.get('/getContractByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res)
     });
     res.status(200).json(result);
 }));
-
-app.put('/addContracts',  asyncHandler( async (req, res) => {
+router.put('/addContracts',  asyncHandler( async (req, res) => {
   let result = await Contracts.create(req.body.contract);
   res.status(200).json(result);
 }));
-app.delete('/removeContract',  asyncHandler( async (req, res) => {
+router.delete('/removeContract',  asyncHandler( async (req, res) => {
   let result = await Contracts.destroy({
       where: {
         id: req.body.id,
@@ -252,7 +247,7 @@ app.delete('/removeContract',  asyncHandler( async (req, res) => {
   const statusCode = result == true ? 200 : 400;
   res.status(statusCode).json(result);
 }));
-app.patch('/updateContract',  asyncHandler( async (req, res) => {
+router.patch('/updateContract',  asyncHandler( async (req, res) => {
     const contract = req.body.contract;
     let result = await Contracts.update(
         contract,
@@ -264,9 +259,7 @@ app.patch('/updateContract',  asyncHandler( async (req, res) => {
     );
     res.status(200).json(result);
 }));
-
-
-app.get('/getPersonalByOrgId/:id',  asyncHandler( async (req, res) => {
+router.get('/getPersonalByOrgId/:id',  asyncHandler( async (req, res) => {
   let result = await Personal.findAll({
       where: {
         orgId: req.params.id,
@@ -274,11 +267,11 @@ app.get('/getPersonalByOrgId/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-app.put('/addPersonal',  asyncHandler( async (req, res) => {
+router.put('/addPersonal',  asyncHandler( async (req, res) => {
   let result = await Personal.create(req.body.personal);
   res.status(200).json(result);
 }));
-app.delete('/removePersonal',  asyncHandler( async (req, res) => {
+router.delete('/removePersonal',  asyncHandler( async (req, res) => {
   let result = await Personal.destroy({
       where: {
         id: req.body.id,
@@ -286,7 +279,7 @@ app.delete('/removePersonal',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-app.patch('/updatePersonal',  asyncHandler( async (req, res) => {
+router.patch('/updatePersonal',  asyncHandler( async (req, res) => {
     const personal = req.body.personal;
     let result = await Personal.update(
         personal,
@@ -298,7 +291,7 @@ app.patch('/updatePersonal',  asyncHandler( async (req, res) => {
     );
     res.status(200).json(result);
 }));
-app.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
+router.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
   let result = await Service.findAll({
       where: {
         orgId: req.params.id,
@@ -306,7 +299,7 @@ app.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-app.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
+router.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
   const orgId = req.params.orgId;
   const firstWorkDayDate  = new Date(2025, month);
@@ -327,7 +320,26 @@ app.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res)
   });
     res.status(200).json(result);
 }));
-app.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
+router.get('/getServicesByMonth/:month', asyncHandler( async (req, res) => {
+  const month = Number(req.params.month);
+  const firstWorkDayDate  = new Date(2025, month);
+  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
+  
+   let result = await Service.findAll({
+  where: {
+      [Op.and]:[
+        {date: {
+          [Op.gte]: firstWorkDayDate
+        }},
+        {date: {
+          [Op.lte]: lastWorkDayDate
+        }}
+      ]
+    },
+  });
+    res.status(200).json(result);
+}));
+router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   const startDate =req.params.startDate;
   const endDate = req.params.endDate;
   res.status(200).json({startDate, endDate});
@@ -350,11 +362,11 @@ app.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   // });
   //   res.status(200).json(result);
 }));
-app.put('/addService',  asyncHandler( async (req, res) => {
+router.put('/addService',  asyncHandler( async (req, res) => {
   let result = await Service.create(req.body.service);
   res.status(200).json(result);
 }));
-app.delete('/removeService',  asyncHandler( async (req, res) => {
+router.delete('/removeService',  asyncHandler( async (req, res) => {
   let result = await Service.destroy({
       where: {
         id: req.body.id,
@@ -362,7 +374,7 @@ app.delete('/removeService',  asyncHandler( async (req, res) => {
     });
   res.status(200).json({isRemove: result});
 }));
-app.patch('/updateService',  asyncHandler( async (req, res) => {
+router.patch('/updateService',  asyncHandler( async (req, res) => {
     const service = req.body.service;
     let result = await Service.update(
         service,
@@ -374,8 +386,7 @@ app.patch('/updateService',  asyncHandler( async (req, res) => {
     );
     res.status(200).json(result);
 }));
-
-app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
+router.get('/contractScan/:id',  asyncHandler( async (req, res) => {
   let result = await Contracts.findOne({
       attributes: ['scan'],
       where: {
@@ -384,7 +395,8 @@ app.get('/contractScan/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-
+// path as /api/service
+app.use('/api', router);
 // app.get('/getActInfo/:orgId/:month',  asyncHandler( async (req, res) => {
 //   const month = Number(req.params.month);
 //   const firstWorkDayDate  = new Date(2025, month);

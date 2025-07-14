@@ -23,7 +23,8 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    //check import 
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 

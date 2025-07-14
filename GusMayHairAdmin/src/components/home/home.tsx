@@ -2,7 +2,6 @@ import AdminDateTime from '../sections/adminDateTaime';
 // import { useCookies } from 'react-cookie';
 import Auth from '../sections/auth';
 import { useEffect, useState } from 'react';
-import { API } from '../../helpers/constants';
 import MoonLoader from 'react-spinners/ClipLoader';
 import Feedback from '../sections/feedback';
 import Services from '../sections/services';

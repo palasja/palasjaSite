@@ -1,7 +1,7 @@
 type Organization = {
   id: number;
   name: string;
-};
+}
 type Contract = {
   id: number;
   number: string;
@@ -35,7 +35,7 @@ type Service = {
   orgId?: string;
 };
 
-type CreateService = Omit<Service, 'id'>
+type CreateService = Omit<Service, 'id'>;
 type ActInfo = {
   contract: Contract;
   persons: Personal[];
@@ -45,5 +45,5 @@ type ActInfo = {
 interface User {
   login: string;
   password: string;
-};
+}
 export type { Organization, Contract, Personal, Service, ActInfo, User, CreateService };

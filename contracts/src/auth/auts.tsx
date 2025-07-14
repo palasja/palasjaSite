@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './auth.module.css';
 import { Link, useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { check, getIsErrorAuth, login } from '../redux/slices/authSlice';
+import { check, getIsAuth, getIsErrorAuth, login } from '../redux/slices/authSlice';
 import { useEffect, useState } from 'react';
 
 type FormValues = {
@@ -12,26 +12,26 @@ type FormValues = {
 };
 
 const Auth = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isErrorAuth = useAppSelector(getIsErrorAuth)
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-     dispatch(login(data)).then(() => {
-      navigate('/contract');
-     })
+  const isErrorAuth = useAppSelector(getIsErrorAuth);
+  const isAuth = useAppSelector(getIsAuth);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    dispatch(login(data)).unwrap().then((r: boolean) => {if(r) navigate('/contract')});
   };
-  useEffect(() =>{
-    dispatch(check());
-  },[]);
 
   return (
     <>
-      <section className={style.auth} >
+      <section className={style.auth}>
         <Link to={'/signIn'}>signIn</Link>
         <div className={style.formContainer}>
           <h3 className={style.formName}>Войти</h3>
-          {isErrorAuth && <p className={style.errorMeaasge}>Неверный логин или пароль</p>}
+          {isErrorAuth && <p className={style.errorMeaasge}>Время токена истекло, пройдите авторизацию</p>}
           {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}
           {errors.password && <p className={style.errorMeaasge}>{errors.password.message}</p>}
           <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
@@ -40,10 +40,12 @@ const Auth = () => {
                 Логин
               </label>
               <input
-                data-testid='login'
+                data-testid="login"
                 className={style.input}
-                {...register('login', { 
-                  required: {value:true, message: 'Логин должно быть заполнено'}, maxLength: 10 })}
+                {...register('login', {
+                  required: { value: true, message: 'Логин должно быть заполнено' },
+                  maxLength: 10,
+                })}
               />
             </div>
             <div className={style.inputField}>
@@ -51,12 +53,15 @@ const Auth = () => {
                 Пароль
               </label>
               <input
-              data-testid='pass'
+                data-testid="pass"
                 className={style.input}
-                {...register('password', { required: {value:true, message: 'Пароль должно быть заполнено'}, maxLength: 10 })}
+                {...register('password', {
+                  required: { value: true, message: 'Пароль должно быть заполнено' },
+                  maxLength: 10,
+                })}
               />
             </div>
-            <input className={style.submit} type="submit" value="Войти" data-testid='submit' />
+            <input className={style.submit} type="submit" value="Войти" data-testid="submit" />
           </form>
         </div>
       </section>

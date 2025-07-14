@@ -1,0 +1,132 @@
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { Service } from '../helpers/contractTypes';
+import { useIsUpdate } from '../hooks/useIsUpdate';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+  createService,
+  editService,
+  getChangingService,
+  getIsWithoutOrg,
+} from '../redux/slices/servicesSlice';
+import { getChosenOrganization } from '../redux/slices/orgsSlice';
+import { useEffect } from 'react';
+import { trimObjectProperty } from '../helpers/helper';
+
+const ServiceForm = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<Service>();
+  const dispatch = useAppDispatch();
+  const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
+  const isWithoutOrg = useAppSelector(getIsWithoutOrg);
+  const changingService = useAppSelector(getChangingService);
+  const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
+  const onSubmitCreate: SubmitHandler<Service> = (data) => {
+    data = trimObjectProperty(data);
+    dispatch(createService(data));
+    resetForm();
+  };
+  const onSubmitUpdate: SubmitHandler<Service> = (data) => {
+    data = trimObjectProperty(data);
+    dispatch(editService(data));
+    resetForm();
+  };
+
+  const resetForm = () => {
+    reset({ count: 1 });
+    if (choosenOrg) setValue('orgId', choosenOrg.id.toString());
+    setIsUpdate(false);
+  };
+  useEffect(() => {
+    if (changingService) {
+      setIsUpdate(true);
+      setValue('id', changingService.id);
+      setValue('name', changingService.name);
+      setValue('date', changingService.date);
+      setValue('user', changingService.user);
+      setValue('place', changingService.place);
+      setValue('cost', changingService.cost);
+      setValue('count', changingService.count);
+    } else {
+      resetForm();
+    }
+  }, [changingService]);
+  return (
+    <>
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+        <p>{errors.orgId?.message}</p>
+        {/* No id field if wishout org */}
+        {isWithoutOrg ? (
+          <></>
+        ) : (
+          <input
+            value={choosenOrg?.id}
+            type="hidden"
+            {...register('orgId', { required: { value: true, message: 'Не выбрана организация' } })}
+          />
+        )}
+        <div>
+          {errors.name && <p>{errors.name?.message}</p>}
+          <label htmlFor="name">Услуга</label>
+          <input
+            {...register('name', {
+              required: { value: true, message: 'Имя услуги должно быть заполнено' },
+            })}
+          />
+        </div>
+        <div>
+          <p>{errors.date?.message}</p>
+          <label htmlFor="date">Дата</label>
+          <input
+            type="date"
+            {...register('date', {
+              required: { value: true, message: 'Дата оказаиня долна быть заполнена' },
+            })}
+          />
+        </div>
+        <div>
+          <p>{errors.user?.message}</p>
+          <label htmlFor="user">Пользоваль</label>
+          <input
+            {...register('user', {
+              required: { value: true, message: 'Пользоваль долно быть заполнена' },
+            })}
+          />
+        </div>
+        <div>
+          <label htmlFor="place">Место</label>
+          <input {...register('place')} />
+        </div>
+        <div>
+          <p>{errors.cost?.message}</p>
+          <label htmlFor="cost">Стоимость</label>
+          <input
+            type="number"
+            {...register('cost', {
+              min: { value: 1, message: 'Стоимость должна быть больше 0' },
+            })}
+          />
+        </div>
+        <div>
+          <p>{errors.count?.message}</p>
+          <label htmlFor="count">Количество</label>
+          <input
+            type="number"
+            defaultValue={1}
+            {...register('count', {
+              min: { value: 1, message: 'Количество должна быть больше 0' },
+            })}
+          />
+        </div>
+        <input type="submit" value={btnValue} />
+        <input type="button" onClick={resetForm} value="Очистить" />
+      </form>
+    </>
+  );
+};
+
+export default ServiceForm;

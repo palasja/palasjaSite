@@ -8,23 +8,22 @@ import servicesSlicer from '../redux/slices/servicesSlice';
 // import postsReducer from '@/features/posts/postsSlice'
 // import use from '../features/users/usersSlice'
 const rootReducer = combineReducers({
-    auth: authReducer,
-    orgs: orgsReducer,
-    contract: contractsReducer,
-    personals: personalsSlicer,
-    services: servicesSlicer,
-  })
-  // export const store1 =  configureStore({
-  //   reducer: rootReducer
-  // })
-
+  auth: authReducer,
+  orgs: orgsReducer,
+  contract: contractsReducer,
+  personals: personalsSlicer,
+  services: servicesSlicer,
+});
+// export const store1 = configureStore({
+//   reducer: rootReducer
+// })
 
 export const store = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer: rootReducer,
-    preloadedState
-  })
-}
+    preloadedState,
+  });
+};
 // // Infer the type of `store`
 // export type AppStore = typeof store
 // // Infer the `AppDispatch` type from the store itself
@@ -32,6 +31,6 @@ export const store = (preloadedState?: Partial<RootState>) => {
 // // Same for the `RootState` type
 // export type RootState1 = ReturnType<typeof store1.getState>
 
-export type RootState = ReturnType<typeof rootReducer>
-export type AppStore = ReturnType<typeof store>
-export type AppDispatch = AppStore['dispatch']
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof store>;
+export type AppDispatch = AppStore['dispatch'];
