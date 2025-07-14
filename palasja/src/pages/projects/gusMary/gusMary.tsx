@@ -6,7 +6,7 @@ import image2 from 'assets/projects/gusmary/2.png';
 
 const GusMary = () => {
   const { t } = useTranslation();
-  return(
+  return (
     <>
       <h3>{t('proj.projectDesc')} GusMaryHair</h3>
       {splitLineGetParagragh(t('proj.gusmary.desc'))}
@@ -23,6 +23,6 @@ const GusMary = () => {
       <img src={image2}></img>
     </>
   );
-}
+};
 
 export default GusMary;

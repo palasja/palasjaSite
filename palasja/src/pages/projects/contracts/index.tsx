@@ -1,2 +1,2 @@
-import Contracts from "./contracts";
+import Contracts from './contracts';
 export default Contracts;

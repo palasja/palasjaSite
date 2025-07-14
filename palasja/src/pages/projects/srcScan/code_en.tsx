@@ -384,7 +384,7 @@ To %fileLog% write log RUN_XML: params, start\end execute.
 `;
 
 const srvScanCode = {
-	errorLoadScan: ErrorLoadScan,
+  errorLoadScan: ErrorLoadScan,
   progError: ProgError,
   readme: Readme,
   runingProgram: RuningProgram,
@@ -392,6 +392,6 @@ const srvScanCode = {
   checkTaskSync: CheckTaskSync,
   copyBak: CopyBak,
   freeSpace: FreeSpace,
-  unloadFiles: UnlodaFile
-}
-export default srvScanCode
+  unloadFiles: UnlodaFile,
+};
+export default srvScanCode;

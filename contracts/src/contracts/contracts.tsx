@@ -21,7 +21,7 @@ function Contracts() {
 
   useEffect(() => {
     choosenOrg && dispatch(fetchContractsByOrgId(choosenOrg.id));
-  }, []);
+  }, [choosenOrg]);
   return (
     <>
       <h3>Договора</h3>

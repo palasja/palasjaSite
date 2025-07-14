@@ -1,15 +1,15 @@
-.certificates{
-    background-color: #146BB3;   
-    padding: 50px 0;
-    color: #ffffff;
+.certificates {
+  background-color: #146bb3;
+  padding: 50px 0;
+  color: #ffffff;
 }
 
-.head{
-   font-family: "Manrope", sans-serif;
-   font-weight: 700; 
-   font-size: 32px;
-   margin-bottom: 35px;
-   text-transform: uppercase;
+.head {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 35px;
+  text-transform: uppercase;
 }
 
 .inner{
@@ -19,19 +19,19 @@
    
 }
 
-.figura{
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-     align-items: center;
+.figura {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .figura:nth-child(odd) {
-  align-items: flex-start;  /* левый столбец */
+  align-items: flex-start; /* левый столбец */
 }
 
 .figura:nth-child(even) {
-  align-items: flex-end;  /* правый столбец */
+  align-items: flex-end; /* правый столбец */
 }
 
 .img {

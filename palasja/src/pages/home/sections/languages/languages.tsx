@@ -3,12 +3,16 @@ import style from './languages.module.css';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  {/* <FontAwesomeIcon icon={faFacebookF} /> */}
-{/* <FontAwesomeIcon icon="fa-regular fa-square-b" /> */}
+{
+  /* <FontAwesomeIcon icon={faFacebookF} /> */
+}
+{
+  /* <FontAwesomeIcon icon="fa-regular fa-square-b" /> */
+}
 
 const Languages = () => {
   const { t } = useTranslation();
-  return(
+  return (
     <ContentWrapper>
       <div className={style.language}>
         <h4 className={style.head}>{t('home.cw.lang.language')}</h4>
@@ -21,6 +25,6 @@ const Languages = () => {
       </div>
     </ContentWrapper>
   );
-}
+};
 
 export default Languages;

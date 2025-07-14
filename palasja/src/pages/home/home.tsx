@@ -6,7 +6,6 @@ import Experience from './sections/experience';
 import Certificates from './sections/certificates';
 
 const Home = () => {
-
   return (
     <main>
       <Description />

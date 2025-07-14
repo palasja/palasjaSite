@@ -9,8 +9,8 @@ import style from './certificates.module.css';
 
 const Certificates = () => {
   const { t } = useTranslation();
-  
-  return(
+
+  return (
     <ContentWrapper>
       <div className={style.certificates}>
         <h4 className={style.head}>{t('home.cw.certificates')}</h4>
@@ -39,6 +39,6 @@ const Certificates = () => {
       </div>
     </ContentWrapper>
   );
-}
+};
 
-export default Certificates
+export default Certificates;

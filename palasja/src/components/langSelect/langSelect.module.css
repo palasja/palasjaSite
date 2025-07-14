@@ -1,0 +1,35 @@
+.language {
+  display: none;
+  position: absolute;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.curLanguage {
+  display: inline-block;
+  padding: 2px;
+}
+.curLanguage,
+.language {
+  width: inherit;
+  background-color: #146bb3;
+  color: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  appearance: none;
+  padding: 9px;
+  cursor: pointer;
+}
+.nav:hover > ul {
+  display: block;
+}
+
+.nav {
+  width: 35px;
+}
+
+.disabled {
+  pointer-events: none;
+}

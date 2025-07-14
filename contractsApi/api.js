@@ -39,10 +39,12 @@ const getToken = (payload, expires) => {
     });
 }
  mysql.createConnection({
-        user     : "palasja",
-        password : "wania-0806"
+        user : process.env.MYSQL_ADMIN,
+      password : process.env.MYSQL_ADMIN_PASSWORD,
+        // user     : "palasja",
+        // password : "wania-0806"
     }).then((connection) => {
-        connection.query('CREATE DATABASE IF NOT EXISTS palasjaDB;').then(() => {
+        connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.MYSQL_DATABASE};`).then(() => {
                 sequelize.sync()
                     .then(() => {
                         console.log("Connection to DB was successful");

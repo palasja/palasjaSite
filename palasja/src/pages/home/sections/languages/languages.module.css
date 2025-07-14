@@ -1,21 +1,21 @@
-.language{
-    background-color: #146BB3;   
-    padding: 50px 0;
-    color: #ffffff;
+.language {
+  background-color: #146bb3;
+  padding: 50px 0;
+  color: #ffffff;
 }
 
-.head{
-   font-family: "Manrope", sans-serif;
-   font-weight: 700; 
-   font-size: 32px;
-   margin-bottom: 35px;
-   text-transform: uppercase;
+.head {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 35px;
+  text-transform: uppercase;
 }
 
-.text{
-    font-family: "Inder", sans-serif;
-    font-size: 16px;
-    margin-bottom: 20px;
+.text {
+  font-family: 'Inder', sans-serif;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 .text:last-child {
   margin-bottom: 0;

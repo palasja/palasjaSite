@@ -2,14 +2,15 @@ import { downloadFile, trimObjectProperty } from './helper';
 import { Contract, Organization, Personal, Service, User } from './contractTypes';
 
 const env = import.meta.env;
-
+const API_SERVER = env.PROD ? env.VITE_API_SERVER_URL_PROD : env.VITE_API_SERVER_URL_DEV;
+const HOST = env.PROD ? env.VITE_APP_URL_PROD : env.VITE_APP_URL_DEV;
 const fetchData = async (
   endpont: string,
   method: string,
   errorMessage: string,
   body?: any
 ): Promise<any> => {
-  const res = await fetch(`${env.VITE_API_SERVER_URL}/${endpont}`, {
+  const res = await fetch(`${API_SERVER}/${endpont}`, {
     method: method, // or 'PUT'
     credentials: 'include',
     headers: {
@@ -20,14 +21,14 @@ const fetchData = async (
   if (res.status == 200) {
     return res.json();
   } else if (res.status == 401) {
-    window.location.href = `${env.VITE_APP_URL}/logout`;
+    window.location.href = `${HOST}/logout`;
   } else {
     throw new Error(`${errorMessage}. ErrorCode = ${res.status}`);
   }
 };
 
 const fetchAuth = async (endpont: string, method: string, body?: any): Promise<number> => {
-  const res = await fetch(`${env.VITE_API_SERVER_URL}/${endpont}`, {
+  const res = await fetch(`${API_SERVER}/${endpont}`, {
     method: method,
     credentials: 'include',
     headers: {
@@ -39,7 +40,7 @@ const fetchAuth = async (endpont: string, method: string, body?: any): Promise<n
 };
 
 export const fetchContractsScan = (orgId: number) => {
-  return fetch(`${env.VITE_API_SERVER_URL}/contractScan/${orgId}`, {
+  return fetch(`${API_SERVER}/contractScan/${orgId}`, {
     method: 'GET',
     credentials: 'include',
   }).then(async (res) => {
@@ -47,7 +48,7 @@ export const fetchContractsScan = (orgId: number) => {
       const str64 = await res.json();
       return downloadFile(str64, 'application/pdf', 'laod.pdf');
     } else if (res.status == 401) {
-      window.location.href = `${env.VITE_APP_URL}/logout`;
+      window.location.href = `${HOST}/logout`;
     } else {
       throw new Error(`Не удалось загрузить скар договора. ErrorCode = ${res.status}`);
     }
