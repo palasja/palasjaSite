@@ -1,3 +1,4 @@
+import ProjectName from '../../../components/projectName';
 import { Code } from './code_en';
 import style from './geInfo.module.css';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +7,7 @@ const GetInfo = () => {
   const { t } = useTranslation();
   return (
     <>
-      <h3>{t('proj.projectDesc')} Get Info</h3>
+      <ProjectName projName='Get Info'/>
       <p>{t('proj.getInfo.desc')}</p>
       <p>{t('proj.getInfo.info')}</p>
       <ul>

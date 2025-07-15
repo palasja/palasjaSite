@@ -2,6 +2,7 @@ import style from './srvScan.module.css';
 import { useTranslation } from 'react-i18next';
 import { splitLineGetParagragh } from '../../../helpers/heper';
 import { Outlet, useLocation } from 'react-router';
+import ProjectName from '../../../components/projectName';
 
 const SrvScan = () => {
   const reg = new RegExp(/SrvScan$/i);
@@ -11,9 +12,10 @@ const SrvScan = () => {
     <>
       {reg.test(location.pathname) && (
         <>
+          <ProjectName projName='SrvScan'/>
           <div className={style.head}>
             <h3 className={style.project}>{t('proj.projectDesc')}</h3> 
-            <span className={style.name}>SrvScan</span>
+            <span className={style.name}></span>
           </div>
           <div className={style.text}>
             {splitLineGetParagragh(t('proj.srvScan.desc'))}

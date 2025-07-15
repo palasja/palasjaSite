@@ -3,11 +3,12 @@ import image1 from 'assets/projects/payroll/1.png';
 import image2 from 'assets/projects/payroll/2.png';
 import image3 from 'assets/projects/payroll/3.png';
 import { useTranslation } from 'react-i18next';
+import ProjectName from '../../../components/projectName';
 const Payroll = () => {
   const { t } = useTranslation();
   return (
     <>
-      <h3>{t('proj.projectDesc')} Payroll</h3>
+      <ProjectName projName='Payroll'/>
       Проект написан на С# и состоит из двух частей Payroll и Contract. Оба проекта разделелы на
       логические слои: бизнесс логика, доступ к данным, уровень представления. Данные хранятся на
       MSSQL Server. Для передачи данных между уровнями используется AutoMapper. Уровень
