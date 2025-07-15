@@ -2,13 +2,11 @@ import { ContentWrapper } from '../../../../components/containers/contentContain
 import style from './languages.module.css';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-{
-  /* <FontAwesomeIcon icon={faFacebookF} /> */
-}
-{
-  /* <FontAwesomeIcon icon="fa-regular fa-square-b" /> */
-}
+import r from '/src/favicon/r.png';
+import b from '/src/favicon/b.png';
+import e from '/src/favicon/e.png';
+
+//  <img src={code} className={style.img}></img>
 
 const Languages = () => {
   const { t } = useTranslation();
@@ -16,12 +14,20 @@ const Languages = () => {
     <ContentWrapper>
       <div className={style.language}>
         <h4 className={style.head}>{t('home.cw.lang.language')}</h4>
-        <ul>
-          {/* <FontAwesomeIcon icon={faSquareB}/> */}
-          <li className={style.text}>{t('home.cw.lang.belarus')}</li>
-          <li className={style.text}>{t('home.cw.lang.russian')}</li>
-          <li className={style.text}>{t('home.cw.lang.english')}</li>
-        </ul>
+        <div>
+          <div className={style.inner}>
+            <img src={r} className={style.img}></img>
+            <div>{t('home.cw.lang.belarus')}</div>
+          </div>
+          <div className={style.inner}>
+            <img src={b} className={style.img}></img>
+            <div>{t('home.cw.lang.russian')}</div>
+          </div>
+          <div className={style.inner}>
+            <img src={e} className={style.img}></img>
+            <div>{t('home.cw.lang.english')}</div>
+          </div>
+        </div>
       </div>
     </ContentWrapper>
   );

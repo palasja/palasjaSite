@@ -28,9 +28,9 @@ const Header = () => {
 
               <div className={style.linksBlock}>
                 <div className={style.drop}>
-                    <a className={style.content}>Email: palasja@gmail.com</a>
-                    <a className={style.content}>GitHub: https://github.com/palasja</a>
-                    <a className={style.content}>Linked: https://www.linkedin.com/in/palasja</a>
+                    <p className={style.content}><a>Email: palasja@gmail.com</a></p>
+                    <p className={style.content}><a>GitHub: https://github.com/palasja</a></p>
+                    <p className={style.content}><a>Linked: https://www.linkedin.com/in/palasja</a></p>
                 </div>
               </div>
             </div>

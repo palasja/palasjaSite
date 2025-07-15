@@ -12,12 +12,22 @@
   text-transform: uppercase;
 }
 
-.text {
+.inner {
   font-family: 'Inder', sans-serif;
   font-size: 16px;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;    /* по горизонтали */
+
 }
 
-.text:last-child {
+.inner:last-child {
   margin-bottom: 0;
+}
+
+.img{
+  border-radius: 8px;
+  width: 35px;
+  height: 35px;
+  margin-right: 25px;
 }

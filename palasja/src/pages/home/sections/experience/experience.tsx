@@ -2,6 +2,7 @@ import { ContentWrapper } from '../../../../components/containers/contentContain
 import style from './experience.module.css';
 import { useTranslation } from 'react-i18next';
 
+
 const Experience = () => {
   const { t } = useTranslation();
   return (
