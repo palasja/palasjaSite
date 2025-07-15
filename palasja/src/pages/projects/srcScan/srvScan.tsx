@@ -11,13 +11,18 @@ const SrvScan = () => {
     <>
       {reg.test(location.pathname) && (
         <>
-          <h3>{t('proj.projectDesc')} SrvScan</h3>
-          {splitLineGetParagragh(t('proj.srvScan.desc'))}
-          {[...new Array(8)].map((_v, i) => (
-            <li key={i}>
-              {i + 1} - {t(`proj.srvScan.params.${i + 1}`)}
-            </li>
-          ))}
+          <div className={style.head}>
+            <h3 className={style.project}>{t('proj.projectDesc')}</h3> 
+            <span className={style.name}>SrvScan</span>
+          </div>
+          <div className={style.text}>
+            {splitLineGetParagragh(t('proj.srvScan.desc'))}
+            {[...new Array(8)].map((_v, i) => (
+              <li key={i}>
+                {i + 1} - {t(`proj.srvScan.params.${i + 1}`)}
+              </li>
+            ))}
+          </div>
         </>
       )}
       <Outlet />

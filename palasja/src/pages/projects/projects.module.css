@@ -20,6 +20,7 @@
   width: 265px;
   background-color: #ffffff;
   color: #000000;
+  font-family: "Manrope", sans-serif;
   box-shadow: 0 0 3px 3px rgba(20, 107, 179, 0.3);
   border-radius: 8px;
   padding: 15px 35px;
@@ -30,26 +31,28 @@
 .link_two:hover {
   background-color: #146bb3;
   color: rgb(255, 255, 255);
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .link {
   width: 285px;
   background-color: #ffffff;
   color: #000000;
-  font-weight: 500;
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
   border-radius: 8px;
   box-shadow: 0 0 3px 3px rgba(20, 107, 179, 0.3);
   padding: 15px 35px;
   margin: 0 20px 10px 0;
   text-decoration: none;
   transform: color 0.2s linear;
+
 }
 
 .link:hover {
   background-color: #146bb3;
   color: rgb(255, 255, 255);
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .link:last-child {
@@ -62,5 +65,5 @@
   box-shadow: 0 0 5px 5px rgba(20, 107, 179, 0.3);
   border-radius: 8px;
   padding: 30px 35px;
-  max-width: 895px;
+  max-width: 960px;
 }

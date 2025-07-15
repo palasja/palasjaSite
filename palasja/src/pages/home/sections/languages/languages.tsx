@@ -16,11 +16,11 @@ const Languages = () => {
         <h4 className={style.head}>{t('home.cw.lang.language')}</h4>
         <div>
           <div className={style.inner}>
-            <img src={r} className={style.img}></img>
+            <img src={b} className={style.img}></img>
             <div>{t('home.cw.lang.belarus')}</div>
           </div>
           <div className={style.inner}>
-            <img src={b} className={style.img}></img>
+            <img src={r} className={style.img}></img>
             <div>{t('home.cw.lang.russian')}</div>
           </div>
           <div className={style.inner}>
