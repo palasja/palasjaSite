@@ -10,6 +10,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { getChoosenContracts } from '../../redux/slices/contractSlice';
 import { getAllPersonals } from '../../redux/slices/personalsSlice';
 import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
+import PageWrapper from '../pageWrapper';
 const REPRESENTOR_POSITION = 'бухгалтер';
 
 const ActPMS = () => {
@@ -25,7 +26,7 @@ const ActPMS = () => {
     (p) => !new RegExp(REPRESENTOR_POSITION).test(p.positionName) && !p.isHead
   );
   return (
-    <>
+    <PageWrapper>
       {contract === null ? (
         <>
           <h1>No contract</h1>
@@ -140,7 +141,7 @@ const ActPMS = () => {
           </div>
         </>
       )}
-    </>
+    </PageWrapper>
   );
 };
 

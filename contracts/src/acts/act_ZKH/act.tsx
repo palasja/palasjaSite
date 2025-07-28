@@ -7,10 +7,24 @@ import { getChosenOrganization } from '../../redux/slices/orgsSlice';
 import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
 import { getAllPersonals } from '../../redux/slices/personalsSlice';
 import { getChoosenContracts } from '../../redux/slices/contractSlice';
-import { Service } from '../../helpers/contractTypes';
+import { Contract, Personal, Service } from '../../helpers/contractTypes';
+import PageWrapper from '../pageWrapper';
 
 type ServiceForTableType = Pick<Service, 'name' | 'cost' | 'count'>;
 
+type ActZKHHeadProps = {
+  head?: Personal;
+  sign?: Personal;
+}
+type ActZKFooterProps = {
+  contract: Contract | null;
+  sign?: Personal;
+}
+type ActZKTableProps = {
+  groupedServices: ServiceForTableType[];
+  itog?: number;
+  choosenMonth?: string;
+}
 const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] => {
   let grouped = Object.groupBy(services, (s) => s.name + s.cost);
   let groupedArray = Object.values(grouped).map((arr) => {
@@ -37,22 +51,12 @@ const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] =
   return sortedByNameArray;
 };
 
-const ActZKH = () => {
-  const choosenMonth = useAppSelector(getChoosenMonth);
-  const choosenOrg = useAppSelector(getChosenOrganization);
-  const services = useAppSelector(getServices);
-  const personals = useAppSelector(getAllPersonals);
-  const contract = useAppSelector(getChoosenContracts);
-  const head = personals.find((p) => p.isHead);
-  const sign = personals.find((p) => !p.isHead);
-  const itog = getServicesCostWithNDS(services);
-  const groupedServices = groupServiseByCostAndName(services);
+
+
+const ActZKHHead = ({head, sign}:ActZKHHeadProps) => {
   return (
     <>
-      {choosenOrg ? (
-        <>
-          <div className={style.print}>
-            <div className={style.headSign}>
+                <div className={style.headSign}>
               <p>УТВЕРЖДАЮ:</p>
               <p>
                 <span className={style.variable}>{head?.positionName}</span>
@@ -86,7 +90,37 @@ const ActZKH = () => {
                 расчетно-справочном центре:
               </p>
             </div>
-            <table className={style.actTtable}>
+    </>
+  );
+}
+const ActZKHFooter = ({sign, contract}:ActZKFooterProps) => {
+  return (
+    <>
+      <div>
+        <p className={style.indent}>
+          Акт составлен на предмет оплаты за выполненный объем работы, согласно заключенного
+          договора подряда № <span className={style.variable}>{contract?.number}</span> от{' '}
+          <span className={style.variable}>
+            {contract && new Date(contract.signDate).toLocaleDateString('ru-RU')}
+          </span>
+        </p>
+      </div>
+      <div className={style.sign}>
+        <p>
+          Работу принял __________________{' '}
+          <span className={style.variable}>{getShortName(sign)}</span>
+        </p>
+        <p>
+          Работу сдал __________________ <span className={style.variable}>{SHORT_NAME}</span>
+        </p>
+      </div>
+    </>
+  );
+}
+const ActZKHTable = ({groupedServices, itog, choosenMonth,} : ActZKTableProps) => {
+  return (
+    <>
+        <table className={style.actTtable}>
               <thead>
                 <tr>
                   <th>Услуга</th>
@@ -95,12 +129,16 @@ const ActZKH = () => {
                   <th>Сумма с НДС</th>
                 </tr>
               </thead>
-              <tfoot>
-                <tr>
-                  <td colSpan={3}>Итог</td>
-                  <td className={style.tableNumber}>{itog}</td>
-                </tr>
-              </tfoot>
+              {
+                itog &&  
+                  <tfoot>
+                    <tr>
+                      <td colSpan={3}>Итог</td>
+                      <td className={style.tableNumber}>{itog}</td>
+                    </tr>
+                  </tfoot>
+              }
+
               <tbody>
                 {groupedServices.map((s, i) => {
                   return (
@@ -117,7 +155,7 @@ const ActZKH = () => {
                 })}
               </tbody>
             </table>
-
+            {itog && 
             <div>
               <p className={style.lower}>
                 (<span className={style.variable}>{convertNumberToWordsRu(itog)}</span>)
@@ -133,30 +171,114 @@ const ActZKH = () => {
                 </span>{' '}
                 согласно заключенного договора подряда.
               </p>
-              <p className={style.indent}>
-                Акт составлен на предмет оплаты за выполненный объем работы, согласно заключенного
-                договора подряда № <span className={style.variable}>{contract?.number}</span> от{' '}
-                <span className={style.variable}>
-                  {contract && new Date(contract.signDate).toLocaleDateString('ru-RU')}
-                </span>
-              </p>
-            </div>
 
-            <div className={style.sign}>
-              <p>
-                Работу принял __________________{' '}
-                <span className={style.variable}>{getShortName(sign)}</span>
-              </p>
-              <p>
-                Работу сдал __________________ <span className={style.variable}>{SHORT_NAME}</span>
-              </p>
             </div>
-          </div>
-        </>
-      ) : (
-        <h3> Выбкрите организацию</h3>
-      )}
+            }
     </>
+
+  );
+}
+const ActZKH = () => {
+  const choosenMonth = useAppSelector(getChoosenMonth);
+  const choosenOrg = useAppSelector(getChosenOrganization);
+  const services = useAppSelector(getServices);
+  const personals = useAppSelector(getAllPersonals);
+  const contract = useAppSelector(getChoosenContracts);
+  const head = personals.find((p) => p.isHead);
+  const sign = personals.find((p) => !p.isHead);
+  const itog = getServicesCostWithNDS(services);
+  const groupedServices = groupServiseByCostAndName(services);
+  const COUNT_FOR_ONE_PAGE = 19;
+  const pageCount = Math.ceil(groupedServices.length / COUNT_FOR_ONE_PAGE );
+  return (
+    <>
+          {
+      pageCount === 1 ? 
+        <PageWrapper>
+            <ActZKHHead head={head} sign={sign} />
+            <ActZKHTable groupedServices={groupedServices} itog={itog} choosenMonth={choosenMonth}/>
+            <ActZKHFooter contract={contract} sign={sign} />
+        </PageWrapper>
+      :
+      <>
+      <PageWrapper>
+        <ActZKHHead head={head} sign={sign} />
+        <ActZKHTable groupedServices={groupedServices}  itog={itog} choosenMonth={choosenMonth}/>
+      </PageWrapper>
+      <PageWrapper>
+        
+        <ActZKHFooter contract={contract} sign={sign} />
+      </PageWrapper>
+      </>
+      
+    }  
+    </>
+
+
+    // <PageWrapper>
+    // <>
+    //    {choosenOrg ? (
+    //     <>
+    //       <div className={style.print}>
+    //         <ActZKHHead head={head} sign={sign} />
+    //         <table className={style.actTtable}>
+    //           <thead>
+    //             <tr>
+    //               <th>Услуга</th>
+    //               <th>Количество</th>
+    //               <th>Стоимость</th>
+    //               <th>Сумма с НДС</th>
+    //             </tr>
+    //           </thead>
+    //           <tfoot>
+    //             <tr>
+    //               <td colSpan={3}>Итог</td>
+    //               <td className={style.tableNumber}>{itog}</td>
+    //             </tr>
+    //           </tfoot>
+    //           <tbody>
+    //             {groupedServices.map((s, i) => {
+    //               return (
+    //                 <tr key={i}>
+    //                   <td>{s.name}</td>
+    //                   <td className={style.tableNumber}>{s.count}</td>
+    //                   <td className={style.tableNumber}>{s.cost}</td>
+    //                   <td className={style.tableNumber}>
+    //                     {(s.count * s.cost * 100 + s.count * s.cost * (NDS / 100) * 100) / 100}
+    //                   </td>
+    //                   {/* <td>{Math.round(((s.count * s.cost) + (s.count * s.cost * (NDS/100))*100))/100}</td> */}
+    //                 </tr>
+    //               );
+    //             })}
+    //           </tbody>
+    //         </table>
+
+    //         <div>
+    //           <p className={style.lower}>
+    //             (<span className={style.variable}>{convertNumberToWordsRu(itog)}</span>)
+    //           </p>
+    //           <p>
+    //             в полном объеме с{' '}
+    //             <span className={style.variable}>
+    //               {new Date(2025, Number(choosenMonth)).toLocaleDateString('ru-RU')}
+    //             </span>{' '}
+    //             по{' '}
+    //             <span className={style.variable}>
+    //               {new Date(2025, Number(choosenMonth) + 1, 0).toLocaleDateString('ru-RU')}
+    //             </span>{' '}
+    //             согласно заключенного договора подряда.
+    //           </p>
+
+    //         </div>
+    //         <ActZKHFooter />
+    //       </div>
+    //     </>
+    //   ) : (
+    //     <h3> Выбкрите организацию</h3>
+    //   )}
+    // </>
+    //             </PageWrapper>
+
   );
 };
 

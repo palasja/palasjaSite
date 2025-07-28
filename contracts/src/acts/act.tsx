@@ -26,6 +26,7 @@ import {
 } from '../redux/slices/orgsSlice';
 import { fetchPersonalsByOrgId } from '../redux/slices/personalsSlice';
 import { fetchContractsByOrgIMonth } from '../redux/slices/contractSlice';
+import PageWrapper from './pageWrapper';
 
 const Act = () => {
   const dispatch = useAppDispatch();
@@ -96,10 +97,8 @@ const Act = () => {
                 {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
               </p>
             </article>
-            <div className={style.page}>
               <ActZKH />
-            </div>
-          </>
+            </>
         ) : (
           <>
             <article className="noprint">

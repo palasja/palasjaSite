@@ -1,0 +1,39 @@
+p {
+  margin: 2px 0 2px 0;
+}
+
+.page {
+  margin-top: 30px;
+  width: 210mm;
+  height: 313mm;
+  padding: 0 20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+  line-height: 20px;
+  box-shadow: 10px 8px 10px 10px rgba(34, 60, 80, 0.13);
+}
+
+.print {
+  width: 210mm;
+  height: 297mm;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 22px;
+  line-height: 24px;
+  page-break-before: always;
+}
+
+@media print {
+  .page {
+    width: auto;
+    height: auto;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .variable {
+    color: inherit;
+  }
+}
