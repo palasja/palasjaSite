@@ -18,7 +18,7 @@ interface ServicesState {
 
 export const fetchServicesByOrgIdMonth = createAppAsyncThunk(
   'service/fetchServices',
-  async ({ orgId, month }: { orgId: number; month: string }) => {
+  async ({ orgId, month }: { orgId: number | null; month: string }) => {
     const response = await fetchServices(orgId, month);
     return response;
   }

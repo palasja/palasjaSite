@@ -50,7 +50,7 @@ const orgsSlice = createSlice({
   name: 'orgs',
   initialState: initialState,
   reducers: {
-    chooseOrg(state, action: PayloadAction<Organization>) {
+    chooseOrg(state, action: PayloadAction<Organization | null>) {
       state.chosenOrg = action.payload;
     },
     changingOrg(state, action: PayloadAction<Organization>) {

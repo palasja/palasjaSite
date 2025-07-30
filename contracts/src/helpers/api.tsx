@@ -136,7 +136,8 @@ export const removePerson = (id: number): Promise<{ isRemove: boolean }> => {
 export const fetchServices = (orgId: string): Promise<Service[]> => {
   return fetchData(`getServicesByOrgId/${orgId}`, 'GET', `Не удалось загрузить список организаций`);
 };
-export const fetchServicesByOrgIdMonth = (orgId: number, month: string): Promise<Service[]> => {
+export const fetchServicesByOrgIdMonth = (orgId: number | null, month: string): Promise<Service[]> => {
+  
   return fetchData(
     `getServicesByOrgIdMonth/${orgId}/${month}`,
     'GET',

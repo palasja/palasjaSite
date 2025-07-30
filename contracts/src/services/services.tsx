@@ -7,7 +7,6 @@ import {
   getServices,
   getChoosenMonth,
   chooseMonth,
-  getIsWithoutOrg,
   changingService,
 } from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
@@ -16,14 +15,20 @@ import ServiceForm from './serviceForm';
 const Services = () => {
   const dispatch = useAppDispatch();
   const services = useAppSelector(getServices);
-  const isWithoutOrg = useAppSelector(getIsWithoutOrg);
-  const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
+  const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
 
   useEffect(() => {
-    choosenOrg &&
+    console.log(choosenOrg);
+    if(choosenOrg === null) {
+      console.log(123);
+      dispatch(fetchServicesByOrgIdMonth({ orgId: null, month: choosenMonth }));
+    } else if(choosenOrg) {
       dispatch(fetchServicesByOrgIdMonth({ orgId: choosenOrg.id, month: choosenMonth }));
-  }, [choosenMonth, choosenOrg?.id]);
+    }
+    // choosenOrg &&
+    //   dispatch(fetchServicesByOrgIdMonth({ orgId: choosenOrg.id, month: choosenMonth }));
+  }, [choosenMonth, choosenOrg]);
 
   return (
     <>
