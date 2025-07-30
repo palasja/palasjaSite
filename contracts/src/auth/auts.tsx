@@ -3,8 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './auth.module.css';
 import { Link, useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { check, getIsAuth, getAuthErrorMessage, login } from '../redux/slices/authSlice';
-import { useEffect, useState } from 'react';
+import { getAuthErrorMessage, login } from '../redux/slices/authSlice';
 
 type FormValues = {
   login: string;
@@ -20,7 +19,6 @@ const Auth = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const errorMessage = useAppSelector(getAuthErrorMessage);
-  const isAuth = useAppSelector(getIsAuth);
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(login(data)).unwrap().then((r: boolean) => {if(r) navigate('/contract')});
   };

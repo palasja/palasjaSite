@@ -41,3 +41,9 @@
 .variable {
   color: darkturquoise;
 }
+
+@media print {
+  .variable {
+    color: inherit;
+  }
+}

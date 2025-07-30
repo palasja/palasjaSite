@@ -22,7 +22,7 @@ describe('fetch data', async () => {
     const data = [{"id": 1, name: "testOrg"}, {"id": 2, name: "testOrg1"}];
     
     server.use(
-      http.get(`${env.VITE_API_SERVER_URL}/getOrganizations`, () => {
+      http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
         return new HttpResponse(JSON.stringify(data), { status: 200 });
       }),
     );
@@ -32,7 +32,7 @@ describe('fetch data', async () => {
 
   it('unauthorization fetch data', async () => {
     server.use(
-      http.get(`${env.VITE_API_SERVER_URL}/getOrganizations`, () => {
+      http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
         return new HttpResponse(null, { status: 401 });
       }),
     );
@@ -49,9 +49,8 @@ describe('fetch data', async () => {
   });
   
   it('throw error', async () => {
-
     server.use(
-      http.get(`${env.VITE_API_SERVER_URL}/getOrganizations`, () => {
+      http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
         return new HttpResponse(null, { status: 400 });
       }),
     );

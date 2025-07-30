@@ -59,9 +59,9 @@ describe('fill form errors', async () => {
 describe('wrong auth data 403 status code', async () => {
   it('wrong authorisation data', async () => {
     server.use(
-      http.post(`${env.VITE_API_SERVER}/logIn`, () => {
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
         return new HttpResponse(null, { status: 403 });
-      })
+      }),
     );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
@@ -82,10 +82,10 @@ describe('OK auth data 200 status code', async () => {
       // http.post(`${API_SERVER}/logIn`, (_req, _res, _ctx) => {
       //   return new HttpResponse(null, {status: 200})
       // }),
-      http.post(`${env.VITE_API_SERVER_URL}/logIn`, () => {
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
         return new HttpResponse(null, { status: 200 });
       }),
-      http.post(`${env.VITE_API_SERVER_URL}/checkAuth`, () => {
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
         return new HttpResponse(null, { status: 403 });
       })
     );
