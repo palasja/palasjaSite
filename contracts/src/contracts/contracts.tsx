@@ -37,7 +37,11 @@ function Contracts() {
             return (
               <li key={i}>
                 {con.number}
-                <button onClick={() => fetchContractsScan(con.id, `${choosenOrg?.name}_${choosenMonth}`)}>Scan</button>
+                <button
+                  onClick={() => fetchContractsScan(con.id, `${choosenOrg?.name}_${choosenMonth}`)}
+                >
+                  Scan
+                </button>
                 <button
                   onClick={() => {
                     setRemoveId(con.id);

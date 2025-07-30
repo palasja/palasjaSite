@@ -1,2 +1,2 @@
-import SelectMonth from "./selectMonth";
-export default SelectMonth
+import SelectMonth from './selectMonth';
+export default SelectMonth;

@@ -20,7 +20,11 @@ const Auth = () => {
   const navigate = useNavigate();
   const errorMessage = useAppSelector(getAuthErrorMessage);
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(login(data)).unwrap().then((r: boolean) => {if(r) navigate('/contract')});
+    dispatch(login(data))
+      .unwrap()
+      .then((r: boolean) => {
+        if (r) navigate('/contract');
+      });
   };
 
   return (

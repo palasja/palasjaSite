@@ -16,44 +16,46 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('fetch data', async () => {
-  
   it('success fetch data', async () => {
     // const spy = vi.spyOn(api, 'fetchAllOrganizations' );
-    const data = [{"id": 1, name: "testOrg"}, {"id": 2, name: "testOrg1"}];
-    
+    const data = [
+      { id: 1, name: 'testOrg' },
+      { id: 2, name: 'testOrg1' },
+    ];
+
     server.use(
       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
         return new HttpResponse(JSON.stringify(data), { status: 200 });
-      }),
+      })
     );
     const res = await fetchAllOrganizations();
-    expect( res.length ).toBe(2);
+    expect(res.length).toBe(2);
   });
 
   it('unauthorization fetch data', async () => {
     server.use(
       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
         return new HttpResponse(null, { status: 401 });
-      }),
+      })
     );
     window = Object.create(window);
-    const url = "http://localhost:3000/";
+    const url = 'http://localhost:3000/';
     Object.defineProperty(window, 'location', {
       value: {
-        href: url
+        href: url,
       },
-      writable: true // possibility to override
+      writable: true, // possibility to override
     });
     await fetchAllOrganizations();
-    expect( window.location.href ).toMatch(/logout/i);
+    expect(window.location.href).toMatch(/logout/i);
   });
-  
+
   it('throw error', async () => {
     server.use(
       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
         return new HttpResponse(null, { status: 400 });
-      }),
+      })
     );
-    expect( fetchAllOrganizations() ).rejects.toThrowError()
+    expect(fetchAllOrganizations()).rejects.toThrowError();
   });
 });

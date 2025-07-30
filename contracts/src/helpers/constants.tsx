@@ -7,3 +7,4 @@ export const DOHOD = 13;
 export const NDS = DOHOD + PENSIA;
 export const NDS_VICHET = 192;
 export const NDS_VICHET_LIMIT = 1164;
+export const COUNT_FOR_ONE_PAGE = 19;

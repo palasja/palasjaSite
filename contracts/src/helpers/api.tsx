@@ -110,7 +110,6 @@ export const updateContract = (contract: Contract): Promise<Contract> => {
   });
 };
 
-
 export const removeContract = (id: number): Promise<{ isRemove: boolean }> => {
   return fetchData(`removeContract`, 'DELETE', `Не удалось удалить договор`, { id: id });
 };
@@ -136,8 +135,10 @@ export const removePerson = (id: number): Promise<{ isRemove: boolean }> => {
 export const fetchServices = (orgId: string): Promise<Service[]> => {
   return fetchData(`getServicesByOrgId/${orgId}`, 'GET', `Не удалось загрузить список организаций`);
 };
-export const fetchServicesByOrgIdMonth = (orgId: number | null, month: string): Promise<Service[]> => {
-  
+export const fetchServicesByOrgIdMonth = (
+  orgId: number | null,
+  month: string
+): Promise<Service[]> => {
   return fetchData(
     `getServicesByOrgIdMonth/${orgId}/${month}`,
     'GET',
@@ -145,11 +146,7 @@ export const fetchServicesByOrgIdMonth = (orgId: number | null, month: string): 
   );
 };
 export const fetchServicesMonth = (month: string): Promise<Service[]> => {
-  return fetchData(
-    `getServicesByMonth/${month}`,
-    'GET',
-    `Не удалось загрузить услуги`
-  );
+  return fetchData(`getServicesByMonth/${month}`, 'GET', `Не удалось загрузить услуги`);
 };
 export const addService = (service: Service): Promise<Service> => {
   return fetchData(`addService`, 'PUT', `Не удалось добавить услуги`, { service: service });

@@ -15,7 +15,7 @@ const App = () => {
   const noOrgHandler = () => {
     dispatch(isWithoutOrg(true));
     dispatch(chooseOrg(null));
-  }
+  };
 
   return (
     <>

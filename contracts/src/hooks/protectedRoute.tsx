@@ -16,11 +16,11 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const navigate = useNavigate();
   useEffect(() => {
     // if (!isAuth) {
-      dispatch(check())
-        .then(unwrapResult)
-        .catch(() => {
-          navigate('/');
-        });
+    dispatch(check())
+      .then(unwrapResult)
+      .catch(() => {
+        navigate('/');
+      });
     // }
   }, [children]);
 

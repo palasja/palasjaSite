@@ -1,2 +1,2 @@
-import PageWrapper from "./pageWrapper";
+import PageWrapper from './pageWrapper';
 export default PageWrapper;

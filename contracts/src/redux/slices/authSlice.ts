@@ -64,12 +64,12 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        if(action.payload){
+        if (action.payload) {
           state.isAuth = action.payload;
           state.authErrorMessage = null;
         } else {
           state.isAuth = false;
-          state.authErrorMessage = "Неверный логин или пароль";
+          state.authErrorMessage = 'Неверный логин или пароль';
         }
       })
       .addCase(logout.fulfilled, (state) => {
@@ -77,7 +77,7 @@ const authSlice = createSlice({
       })
       .addCase(signin.fulfilled, (state) => {
         state.isAuth = true;
-        state.authErrorMessage = "Ошибка регистрации";
+        state.authErrorMessage = 'Ошибка регистрации';
       })
       .addCase(check.fulfilled, (state) => {
         state.isAuth = true;
@@ -85,7 +85,7 @@ const authSlice = createSlice({
       })
       .addCase(check.rejected, (state) => {
         state.isAuth = false;
-        state.authErrorMessage = "Время токена истекло, пройдите авторизацию";
+        state.authErrorMessage = 'Время токена истекло, пройдите авторизацию';
       });
   },
 });

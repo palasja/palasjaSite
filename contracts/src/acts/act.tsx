@@ -46,10 +46,9 @@ const Act = () => {
       dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: month }));
       dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: month }));
     }
-  
   };
   const handlerChooseOrganization = (id: string) => {
-    if(id !== undefined){
+    if (id !== undefined) {
       const idNum = getIdNum(id);
       const organization = NotNullubleValue(organizations.find((o) => o.id === idNum));
       dispatch(chooseOrg(organization));
@@ -63,7 +62,11 @@ const Act = () => {
     <>
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
-        <select onChange={(e) => handlerChooseMonth(e.target.value)} defaultValue={choosenMonth} data-testid='monthSelect'>
+        <select
+          onChange={(e) => handlerChooseMonth(e.target.value)}
+          defaultValue={choosenMonth}
+          data-testid="monthSelect"
+        >
           {MONTH_R.map((e, i) => {
             return (
               <option value={i} key={i}>
@@ -72,7 +75,11 @@ const Act = () => {
             );
           })}
         </select>
-        <select onChange={(e) => handlerChooseOrganization(e.target.value)} defaultValue={choosenOrg?.id} data-testid='orgSelect'>
+        <select
+          onChange={(e) => handlerChooseOrganization(e.target.value)}
+          defaultValue={choosenOrg?.id}
+          data-testid="orgSelect"
+        >
           <option key={-1}>-</option>
           {organizations.map((org) => {
             return (
@@ -97,8 +104,8 @@ const Act = () => {
                 {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
               </p>
             </article>
-              <ActZKH />
-            </>
+            <ActZKH />
+          </>
         ) : (
           <>
             <article className="noprint">

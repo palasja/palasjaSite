@@ -61,7 +61,7 @@ describe('wrong auth data 403 status code', async () => {
     server.use(
       http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
         return new HttpResponse(null, { status: 403 });
-      }),
+      })
     );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>

@@ -19,15 +19,11 @@ const Services = () => {
   const choosenMonth = useAppSelector(getChoosenMonth);
 
   useEffect(() => {
-    console.log(choosenOrg);
-    if(choosenOrg === null) {
-      console.log(123);
+    if (choosenOrg === null) {
       dispatch(fetchServicesByOrgIdMonth({ orgId: null, month: choosenMonth }));
-    } else if(choosenOrg) {
+    } else if (choosenOrg) {
       dispatch(fetchServicesByOrgIdMonth({ orgId: choosenOrg.id, month: choosenMonth }));
     }
-    // choosenOrg &&
-    //   dispatch(fetchServicesByOrgIdMonth({ orgId: choosenOrg.id, month: choosenMonth }));
   }, [choosenMonth, choosenOrg]);
 
   return (

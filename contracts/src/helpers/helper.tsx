@@ -124,11 +124,11 @@ export const getIdNum = (strId: string): number => {
   return numId;
 };
 
-export const trimObjectProperty:<T extends object>(obj: T) => T = ( obj ) => {
-    Object.keys(obj).forEach((key) => {
-      //@ts-ignore
-      if(typeof obj[key] == 'string') obj[key] = obj[key].trim()
-    });
+export const trimObjectProperty: <T extends object>(obj: T) => T = (obj) => {
+  Object.keys(obj).forEach((key) => {
+    //@ts-ignore
+    if (typeof obj[key] == 'string') obj[key] = obj[key].trim();
+  });
 
-    return obj;
-}
+  return obj;
+};

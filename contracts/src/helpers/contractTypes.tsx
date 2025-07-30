@@ -1,7 +1,7 @@
 type Organization = {
   id: number;
   name: string;
-}
+};
 type Contract = {
   id: number;
   number: string;
