@@ -4,7 +4,7 @@ import style from './signIn.module.css';
 
 import { useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { getAuthErrorMessage, getIsAuth, signin } from '../redux/slices/authSlice';
+import { getAuthErrorMessage, signin } from '../redux/slices/authSlice';
 
 type FormValues = {
   login: string;
