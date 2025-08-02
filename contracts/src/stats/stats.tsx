@@ -13,7 +13,6 @@ const Stats = () => {
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenOrg = useAppSelector(getChosenOrganization);
   const organizations = useAppSelector(getAllOrganisation);
-  const isLoading = useIsLoading();
   const [month, setMonth] = useState(new Date().getMonth().toString());
   const [services, setServices] = useState<Service[]>([]);
   useEffect(() => {
@@ -30,9 +29,6 @@ const Stats = () => {
   }, [month]);
 
   return (
-        isLoading ? 
-    <>Loading...</>
-    :
     <>
       <select onChange={(e) => setMonth(e.target.value)} defaultValue={choosenMonth}>
         {MONTH_R.map((e, i) => {

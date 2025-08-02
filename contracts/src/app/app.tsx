@@ -14,16 +14,12 @@ const App = () => {
   const dispatch = useAppDispatch();
   const orgId = useAppSelector(getChosenOrganization)?.id;
   const isNoOrg = useAppSelector(getIsWithoutOrg);
-  const isLoading = useIsLoading();
   const noOrgHandler = () => {
     dispatch(isWithoutOrg(true));
     dispatch(chooseOrg(null));
   };
 
   return (
-    isLoading ? 
-      <>Loading...</>
-    :
     <>
       <button onClick={() => noOrgHandler()} data-testid="withoutOrg">
         Услуги без организации

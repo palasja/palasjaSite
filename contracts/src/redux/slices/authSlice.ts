@@ -6,7 +6,7 @@ import { FetchStatus, User } from '../../helpers/contractTypes';
 import { redirect } from 'react-router';
 
 interface AuthState {
-  isAuth: boolean;
+  // isAuth: boolean;
   authErrorMessage: String | null;
   status: FetchStatus;
 }
@@ -54,7 +54,7 @@ export const check = createAppAsyncThunk('auth/check', async (): Promise<boolean
 const initialState: AuthState = {
   // Note: a real app would probably have more complex auth state,
   // but for this example we'll keep things simple
-  isAuth: false,
+  // isAuth: false,
   authErrorMessage: null,
   status: 'idle',
 };
@@ -68,35 +68,40 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         if (action.payload) {
           state.status = 'succeeded';
-          state.isAuth = action.payload;
+          // state.isAuth = action.payload;
           state.authErrorMessage = null;
         } else {
           state.status = 'rejected';
-          state.isAuth = false;
+          // state.isAuth = false;
           state.authErrorMessage = 'Неверный логин или пароль';
         }
       })
       .addCase(logout.fulfilled, (state) => {
         state.status = 'succeeded';
-        state.isAuth = false;
+        // state.isAuth = false;
       })
       .addCase(logout.pending, (state) => {
         state.status = 'pending';
       })
       .addCase(signin.fulfilled, (state) => {
         state.status = 'succeeded';
-        state.isAuth = true;
+        // state.isAuth = true;
         state.authErrorMessage = 'Ошибка регистрации';
       })
       .addCase(signin.pending, (state) => {
         state.status = 'pending';
       })
       .addCase(check.fulfilled, (state) => {
-        state.isAuth = true;
+        state.status = 'succeeded';
+        // state.isAuth = true;
         state.authErrorMessage = null;
       })
+      .addCase(check.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(check.rejected, (state) => {
-        state.isAuth = false;
+        state.status = 'rejected';
+        // state.isAuth = false;
         state.authErrorMessage = 'Время токена истекло, пройдите авторизацию';
       });
   },
@@ -104,7 +109,7 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const getIsAuth = (state: RootState) => state.auth.isAuth;
+// export const getIsAuth = (state: RootState) => state.auth.isAuth;
 export const getAuthErrorMessage = (state: RootState) => state.auth.authErrorMessage;
 export const getAuthSatus = (state: RootState) => state.auth.status;
 // export const selectCurrentUsername = (state: RootState) => state.auth.isAuth

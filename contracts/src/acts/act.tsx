@@ -38,7 +38,6 @@ const Act = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const organizations = useAppSelector(getAllOrganisation);
   const services = useAppSelector(getServices);
-  const isLoading = useIsLoading();
   useEffect(() => {
     if (organizations.length == 0) dispatch(fetchOrgs());
   }, []);
@@ -64,9 +63,6 @@ const Act = () => {
   };
 
   return (
-    isLoading ? 
-    <>Loading...</>
-    :
     <>
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>

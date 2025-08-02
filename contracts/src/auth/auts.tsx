@@ -30,10 +30,7 @@ const Auth = () => {
 
   return (
     <>
-      {status === 'pending' ? (
-        <>Loading...</>
-      ) : (
-        <section className={style.auth}>
+         <section className={style.auth}>
           <Link to={'/signIn'}>signIn</Link>
           <div className={style.formContainer}>
             <h3 className={style.formName}>Войти</h3>
@@ -71,7 +68,7 @@ const Auth = () => {
             </form>
           </div>
         </section>
-      )}
+      
     </>
   );
 };
