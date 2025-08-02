@@ -37,19 +37,18 @@ describe('', () => {
       id: 1,
       name: 'testOrg',
     };
-    const mockInitState = {
-      organizations: [mockOrg],
-      chosenOrg: mockOrg,
-      changingOrg: null,
-
-      error: null,
-    };
-
+ 
     renderWithProviders(
       <MemoryRouter initialEntries={['/contract']}>
         <App />
       </MemoryRouter>,
-      { preloadedState: { orgs: mockInitState } }
+      { preloadedState: { orgs: {
+      organizations: [mockOrg],
+      chosenOrg: mockOrg,
+      changingOrg: null,
+      status: "idle",
+      error: null,
+    },  } }
     );
 
     expect(screen.queryByText('Выберите организацию')).not.toBeInTheDocument();

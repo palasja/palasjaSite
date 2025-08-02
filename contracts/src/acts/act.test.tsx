@@ -160,6 +160,7 @@ describe('act load data', () => {
           chosenOrg: null,
           changingOrg: null,
           error: null,
+          status: 'idle'
         },
       },
     });
@@ -184,6 +185,7 @@ describe('act selected', async () => {
           chosenOrg: null,
           changingOrg: null,
           error: null,
+          status: 'idle'
         },
       },
     });
@@ -214,6 +216,7 @@ describe('act conditional rendering', async () => {
           chosenOrg: null,
           changingOrg: null,
           error: null,
+          status: 'idle'
         },
       },
     });

@@ -47,6 +47,7 @@ describe('dispatch organization ', () => {
           chosenOrg: null,
           changingOrg: null,
           error: null,
+          status: "idle"
         },
       },
     });
@@ -64,6 +65,7 @@ describe('dispatch organization ', () => {
           chosenOrg: null,
           changingOrg: null,
           error: null,
+          status: "idle"
         },
       },
     });
@@ -92,6 +94,7 @@ describe('show organisation', () => {
           chosenOrg: null,
           changingOrg: null,
           error: null,
+          status: "idle"
         },
       },
     });

@@ -20,6 +20,7 @@ describe('pages count', () => {
           choosenMonth: '',
           isWithoutOrg: false,
           changingService: null,
+          status: "idle"
         },
         personals: {
           personals: [
@@ -43,6 +44,7 @@ describe('pages count', () => {
             },
           ],
           changingPersonal: null,
+          status: "idle"
         },
         contract: {
           contracts: [],
@@ -56,6 +58,7 @@ describe('pages count', () => {
             orgId: '',
           },
           changingContract: null,
+          status: "idle"
         },
       },
     });
@@ -79,6 +82,7 @@ describe('pages count', () => {
           choosenMonth: '',
           isWithoutOrg: false,
           changingService: null,
+          status: "idle"
         },
         personals: {
           personals: [
@@ -102,6 +106,7 @@ describe('pages count', () => {
             },
           ],
           changingPersonal: null,
+          status: "idle"
         },
         contract: {
           contracts: [],
@@ -115,6 +120,7 @@ describe('pages count', () => {
             orgId: '',
           },
           changingContract: null,
+          status: "idle"
         },
       },
     });
