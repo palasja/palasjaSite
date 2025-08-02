@@ -46,4 +46,15 @@ interface User {
   login: string;
   password: string;
 }
-export type { Organization, Contract, Personal, Service, ActInfo, User, CreateService };
+
+type FetchStatus = 'idle' | 'pending' | 'succeeded' | 'rejected';
+export type {
+  Organization,
+  Contract,
+  Personal,
+  Service,
+  ActInfo,
+  User,
+  CreateService,
+  FetchStatus,
+};

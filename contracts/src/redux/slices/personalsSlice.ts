@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Personal } from '../../helpers/contractTypes';
+import { FetchStatus, Personal } from '../../helpers/contractTypes';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import {
   addPerson,
@@ -12,6 +12,7 @@ import { RootState } from '../../redux/store';
 interface PersonalsState {
   personals: Personal[];
   changingPersonal: Personal | null;
+  status: FetchStatus;
 }
 
 export const fetchPersonalsByOrgId = createAppAsyncThunk(
@@ -51,6 +52,7 @@ export const editPerson = createAppAsyncThunk(
 const initialState: PersonalsState = {
   personals: [],
   changingPersonal: null,
+  status: 'idle',
 };
 
 const personalsSlicer = createSlice({
@@ -64,15 +66,28 @@ const personalsSlicer = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPersonalsByOrgId.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.personals = action.payload;
       })
+      .addCase(fetchPersonalsByOrgId.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(createPersonal.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.personals.push(action.payload);
       })
+      .addCase(createPersonal.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(delPerson.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.personals = state.personals.filter((p) => p.id !== action.payload);
       })
+      .addCase(delPerson.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(editPerson.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         const editedPerson = action.payload;
         const person = state.personals.find((p) => p.id == editedPerson.id);
         if (person) {
@@ -85,6 +100,9 @@ const personalsSlicer = createSlice({
             (person.positionName = editedPerson.positionName),
             (person.isHead = editedPerson.isHead);
         }
+      })
+      .addCase(editPerson.pending, (state) => {
+        state.status = 'pending';
       });
   },
 });
@@ -94,3 +112,4 @@ export default personalsSlicer.reducer;
 export const { changingPersonal } = personalsSlicer.actions;
 export const getAllPersonals = (state: RootState) => state.personals.personals;
 export const getChangingPersonals = (state: RootState) => state.personals.changingPersonal;
+export const getPersonalSatus = (state: RootState) => state.auth.status;

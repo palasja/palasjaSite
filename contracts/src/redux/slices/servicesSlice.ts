@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Service } from '../../helpers/contractTypes';
+import { FetchStatus, Service } from '../../helpers/contractTypes';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import {
   fetchServicesByOrgIdMonth as fetchServices,
@@ -14,6 +14,7 @@ interface ServicesState {
   choosenMonth: string;
   isWithoutOrg: boolean;
   changingService: Service | null;
+  status: FetchStatus;
 }
 
 export const fetchServicesByOrgIdMonth = createAppAsyncThunk(
@@ -52,6 +53,7 @@ const initialState: ServicesState = {
   choosenMonth: new Date().getMonth().toString(),
   isWithoutOrg: false,
   changingService: null,
+  status: 'idle',
 };
 
 const servicesSlicer = createSlice({
@@ -72,12 +74,24 @@ const servicesSlicer = createSlice({
     builder
       .addCase(fetchServicesByOrgIdMonth.fulfilled, (state, action) => {
         state.services = action.payload;
+        state.status = 'succeeded';
+      })
+      .addCase(fetchServicesByOrgIdMonth.pending, (state) => {
+        state.status = 'pending';
       })
       .addCase(createService.fulfilled, (state, action) => {
         state.services.push(action.payload);
+        state.status = 'succeeded';
+      })
+      .addCase(createService.pending, (state) => {
+        state.status = 'pending';
       })
       .addCase(delService.fulfilled, (state, action) => {
         state.services = state.services.filter((p) => p.id !== action.payload);
+        state.status = 'succeeded';
+      })
+      .addCase(delService.pending, (state) => {
+        state.status = 'pending';
       })
       .addCase(editService.fulfilled, (state, action) => {
         const editedService = action.payload;
@@ -90,6 +104,10 @@ const servicesSlicer = createSlice({
             (service.place = editedService.place),
             (service.user = editedService.user);
         }
+        state.status = 'succeeded';
+      })
+      .addCase(editService.pending, (state) => {
+        state.status = 'pending';
       });
   },
 });
@@ -101,3 +119,4 @@ export const getServices = (state: RootState) => state.services.services;
 export const getChoosenMonth = (state: RootState) => state.services.choosenMonth;
 export const getIsWithoutOrg = (state: RootState) => state.services.isWithoutOrg;
 export const getChangingService = (state: RootState) => state.services.changingService;
+export const getServicesSatus = (state: RootState) => state.auth.status;

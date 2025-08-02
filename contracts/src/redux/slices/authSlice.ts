@@ -2,12 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import { fetchLogIn, fetchLogOut, fetchSignIn, fetchСheckAuth } from '../../helpers/api';
 import { RootState } from '../../redux/store';
-import { User } from '../../helpers/contractTypes';
+import { FetchStatus, User } from '../../helpers/contractTypes';
 import { redirect } from 'react-router';
 
 interface AuthState {
   isAuth: boolean;
   authErrorMessage: String | null;
+  status: FetchStatus;
 }
 export const login = createAppAsyncThunk('auth/login', async (authInfo: User) => {
   const logInResult = await fetchLogIn(authInfo);
@@ -55,6 +56,7 @@ const initialState: AuthState = {
   // but for this example we'll keep things simple
   isAuth: false,
   authErrorMessage: null,
+  status: 'idle',
 };
 
 const authSlice = createSlice({
@@ -65,19 +67,29 @@ const authSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         if (action.payload) {
+          state.status = 'succeeded';
           state.isAuth = action.payload;
           state.authErrorMessage = null;
         } else {
+          state.status = 'rejected';
           state.isAuth = false;
           state.authErrorMessage = 'Неверный логин или пароль';
         }
       })
       .addCase(logout.fulfilled, (state) => {
+        state.status = 'succeeded';
         state.isAuth = false;
       })
+      .addCase(logout.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(signin.fulfilled, (state) => {
+        state.status = 'succeeded';
         state.isAuth = true;
         state.authErrorMessage = 'Ошибка регистрации';
+      })
+      .addCase(signin.pending, (state) => {
+        state.status = 'pending';
       })
       .addCase(check.fulfilled, (state) => {
         state.isAuth = true;
@@ -94,4 +106,5 @@ export default authSlice.reducer;
 
 export const getIsAuth = (state: RootState) => state.auth.isAuth;
 export const getAuthErrorMessage = (state: RootState) => state.auth.authErrorMessage;
+export const getAuthSatus = (state: RootState) => state.auth.status;
 // export const selectCurrentUsername = (state: RootState) => state.auth.isAuth

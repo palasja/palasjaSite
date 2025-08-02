@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Contract } from '../../helpers/contractTypes';
+import { Contract, FetchStatus } from '../../helpers/contractTypes';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import {
   addContract as createContract,
@@ -14,6 +14,7 @@ interface ContractsState {
   contracts: Contract[];
   chosenContract: Contract | null;
   changingContract: Contract | null;
+  status: FetchStatus;
 }
 
 export const fetchContractsByOrgId = createAppAsyncThunk(
@@ -62,6 +63,7 @@ const initialState: ContractsState = {
   contracts: [],
   chosenContract: null,
   changingContract: null,
+  status: 'idle',
 };
 
 const contractsSlicer = createSlice({
@@ -75,18 +77,35 @@ const contractsSlicer = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchContractsByOrgId.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.contracts = action.payload;
       })
+      .addCase(fetchContractsByOrgId.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(fetchContractsByOrgIMonth.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.chosenContract = action.payload;
       })
+      .addCase(fetchContractsByOrgIMonth.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(addContract.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.contracts.push(action.payload);
       })
+      .addCase(addContract.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(delContract.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.contracts = state.contracts.filter((con) => con.id !== action.payload);
       })
+      .addCase(delContract.pending, (state) => {
+        state.status = 'pending';
+      })
       .addCase(editContract.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         const editedContract = action.payload;
         const contract = state.contracts.find((con) => con.id == editedContract.id);
         if (contract) {
@@ -95,6 +114,9 @@ const contractsSlicer = createSlice({
             (contract.signDate = editedContract.signDate),
             (contract.startDate = editedContract.startDate);
         }
+      })
+      .addCase(editContract.pending, (state) => {
+        state.status = 'pending';
       });
   },
 });
@@ -105,3 +127,4 @@ export const { changingContract } = contractsSlicer.actions;
 export const getAllContracts = (state: RootState) => state.contract.contracts;
 export const getChoosenContracts = (state: RootState) => state.contract.chosenContract;
 export const getChangingContract = (state: RootState) => state.contract.changingContract;
+export const getContractSatus = (state: RootState) => state.auth.status;

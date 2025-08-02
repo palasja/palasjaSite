@@ -17,15 +17,18 @@ import {
   getServices,
   getChoosenMonth,
   fetchServicesByOrgIdMonth,
+  getServicesSatus,
 } from '../redux/slices/servicesSlice';
 import {
   chooseOrg,
   fetchOrgs,
   getAllOrganisation,
   getChosenOrganization,
+  getOrganisationError,
+  getOrganisationSatus,
 } from '../redux/slices/orgsSlice';
-import { fetchPersonalsByOrgId } from '../redux/slices/personalsSlice';
-import { fetchContractsByOrgIMonth } from '../redux/slices/contractSlice';
+import { fetchPersonalsByOrgId, getPersonalSatus } from '../redux/slices/personalsSlice';
+import { fetchContractsByOrgIMonth, getContractSatus } from '../redux/slices/contractSlice';
 import PageWrapper from './pageWrapper';
 
 const Act = () => {
@@ -34,6 +37,10 @@ const Act = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const organizations = useAppSelector(getAllOrganisation);
   const services = useAppSelector(getServices);
+  const stateOrg = useAppSelector(getOrganisationSatus);
+  const statePersonal = useAppSelector(getPersonalSatus);
+  const stateContract = useAppSelector(getContractSatus);
+  const stateServices = useAppSelector(getServicesSatus);
   useEffect(() => {
     if (organizations.length == 0) dispatch(fetchOrgs());
   }, []);
@@ -59,6 +66,9 @@ const Act = () => {
   };
 
   return (
+    stateOrg === 'pending' || statePersonal === 'pending' || stateContract === 'pending' || stateServices === 'pending' ? 
+    <>Loading...</>
+    :
     <>
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
@@ -130,3 +140,4 @@ const Act = () => {
 };
 
 export default Act;
+
