@@ -6,12 +6,14 @@ import { fetchOrgs, getAllOrganisation, getChosenOrganization } from '../redux/s
 import { chooseMonth, getChoosenMonth } from '../redux/slices/servicesSlice';
 import { fetchServicesMonth } from '../helpers/api';
 import { Organization, Service } from '../helpers/contractTypes';
+import useIsLoading from '../hooks/useIsLoading';
 
 const Stats = () => {
   const dispatch = useAppDispatch();
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenOrg = useAppSelector(getChosenOrganization);
   const organizations = useAppSelector(getAllOrganisation);
+  const isLoading = useIsLoading();
   const [month, setMonth] = useState(new Date().getMonth().toString());
   const [services, setServices] = useState<Service[]>([]);
   useEffect(() => {
@@ -28,6 +30,9 @@ const Stats = () => {
   }, [month]);
 
   return (
+        isLoading ? 
+    <>Loading...</>
+    :
     <>
       <select onChange={(e) => setMonth(e.target.value)} defaultValue={choosenMonth}>
         {MONTH_R.map((e, i) => {

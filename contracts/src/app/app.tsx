@@ -8,23 +8,21 @@ import style from './app.module.css';
 import { getIsWithoutOrg, getServicesSatus, isWithoutOrg } from '../redux/slices/servicesSlice';
 import { getContractSatus } from '../redux/slices/contractSlice';
 import { getPersonalSatus } from '../redux/slices/personalsSlice';
+import useIsLoading from '../hooks/useIsLoading';
 
 const App = () => {
   const dispatch = useAppDispatch();
   const orgId = useAppSelector(getChosenOrganization)?.id;
   const isNoOrg = useAppSelector(getIsWithoutOrg);
-  const stateOrg = useAppSelector(getOrganisationSatus);
-  const statePersonal = useAppSelector(getPersonalSatus);
-  const stateContract = useAppSelector(getContractSatus);
-  const stateServices = useAppSelector(getServicesSatus);
+  const isLoading = useIsLoading();
   const noOrgHandler = () => {
     dispatch(isWithoutOrg(true));
     dispatch(chooseOrg(null));
   };
 
   return (
-        stateOrg === 'pending' || statePersonal === 'pending' || stateContract === 'pending' || stateServices === 'pending' ? 
-    <>Loading...</>
+    isLoading ? 
+      <>Loading...</>
     :
     <>
       <button onClick={() => noOrgHandler()} data-testid="withoutOrg">

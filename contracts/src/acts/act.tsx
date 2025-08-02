@@ -30,6 +30,7 @@ import {
 import { fetchPersonalsByOrgId, getPersonalSatus } from '../redux/slices/personalsSlice';
 import { fetchContractsByOrgIMonth, getContractSatus } from '../redux/slices/contractSlice';
 import PageWrapper from './pageWrapper';
+import useIsLoading from '../hooks/useIsLoading';
 
 const Act = () => {
   const dispatch = useAppDispatch();
@@ -37,10 +38,7 @@ const Act = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const organizations = useAppSelector(getAllOrganisation);
   const services = useAppSelector(getServices);
-  const stateOrg = useAppSelector(getOrganisationSatus);
-  const statePersonal = useAppSelector(getPersonalSatus);
-  const stateContract = useAppSelector(getContractSatus);
-  const stateServices = useAppSelector(getServicesSatus);
+  const isLoading = useIsLoading();
   useEffect(() => {
     if (organizations.length == 0) dispatch(fetchOrgs());
   }, []);
@@ -66,7 +64,7 @@ const Act = () => {
   };
 
   return (
-    stateOrg === 'pending' || statePersonal === 'pending' || stateContract === 'pending' || stateServices === 'pending' ? 
+    isLoading ? 
     <>Loading...</>
     :
     <>

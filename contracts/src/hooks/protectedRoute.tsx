@@ -27,7 +27,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   return isAuth ? (
     <>
-    <CookiesProvider>
+    <CookiesProvider  defaultSetOptions={{ path: '/' }}>
       <Header />
     </CookiesProvider>
       {children}
