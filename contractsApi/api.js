@@ -24,9 +24,9 @@ app.use(cors({
 }));
 
 const expire = {
-  day: 86400, // 24 hours
-  month: 2592000, // 30 days
-  quarter: 7776000, // 90 days
+  day: 86400000, // 24 hours
+  month: 2592000000, // 30 days
+  quarter: 7776000000, // 90 days
 }
 const getToken = (payload, expires) => {
   return jwt.sign(
@@ -78,11 +78,12 @@ router.post('/signIn', asyncHandler( async (req, res) => {
     const options = {
       httpOnly: true,
     };
-
-    const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+    const expireDate =  Date.now() + expire.day;
+    const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
     const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
     res.cookie('accessToken', newAccessToken, options);
     res.cookie('refreshToken', newRefreshToken, options);
+    res.cookie('expireDate', expireDate);
     res.sendStatus(200);
   }
 
@@ -104,10 +105,12 @@ router.post('/logIn', asyncHandler( async (req, res) => {
             httpOnly: true,
             path: '/'
           };
-          const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+          const expireDate =  Date.now() + expire.day;
+          const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
           const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
           res.cookie('accessToken', newAccessToken, options);
           res.cookie('refreshToken', newRefreshToken, options);
+          res.cookie('expireDate', expireDate );
           res.sendStatus(200);
         } else {
           res.sendStatus(403); 
@@ -132,6 +135,7 @@ router.post('/checkAuth', asyncHandler( async (req, res) => {
 router.get('/logout', function  (req, res) {
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
+  res.clearCookie("expireDate");
   res.sendStatus(200);
 });
 router.use((req, res, next) => {
@@ -144,16 +148,19 @@ router.use((req, res, next) => {
           if (err) {
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");
+            res.clearCookie("expireDate");
              res.sendStatus(401);
              return;
           } else{
             const options = {
               httpOnly: true,
             };
-            const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+            const expireDate =  Date.now() + expire.day;
+            const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
             const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
             res.cookie('accessToken', newAccessToken, options);
             res.cookie('refreshToken', newRefreshToken, options);
+            res.cookie('expireDate', expireDate );
             return next();
           }
         });

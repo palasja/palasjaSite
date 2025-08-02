@@ -5,6 +5,7 @@ import Header from '../components/header';
 import { useEffect } from 'react';
 import { check, getIsAuth } from '../redux/slices/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { CookiesProvider } from 'react-cookie';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -26,7 +27,9 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   return isAuth ? (
     <>
+    <CookiesProvider>
       <Header />
+    </CookiesProvider>
       {children}
       <Footer />
     </>
