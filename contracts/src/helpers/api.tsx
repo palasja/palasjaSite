@@ -13,6 +13,7 @@ const fetchData = async (
   const res = await fetch(`${API_SERVER}/${endpont}`, {
     method: method, // or 'PUT'
     credentials: 'include',
+    mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -31,8 +32,10 @@ const fetchAuth = async (endpont: string, method: string, body?: any): Promise<n
   const res = await fetch(`${API_SERVER}/${endpont}`, {
     method: method,
     credentials: 'include',
+    mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
+      
     },
     body: body ? JSON.stringify(body) : undefined,
   });
