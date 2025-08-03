@@ -30,7 +30,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   return isLoading ? 
     <>
       Loading...
-    </> : 
+    </> 
+    : 
       stateAuth === 'rejected' ? 
       <p>Unouthorize</p>
       : 

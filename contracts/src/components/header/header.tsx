@@ -4,7 +4,11 @@ import Countdown from 'react-countdown';
 import {  useCookies } from 'react-cookie';
 
 const Header = () => {
-  const [cookies, setCookie] = useCookies(['expireDate']);
+  const [cookies, setCookie] = useCookies(['expireDate', 'test']);
+  console.log(cookies.test);
+  setCookie('test', parseInt(cookies.test || 0, 10) + 1);
+  // setCookie('test', 111);
+  console.log(cookies.test);
   console.log(cookies.expireDate);
   return (
     <header className="noprint" data-testid="header">

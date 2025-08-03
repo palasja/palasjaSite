@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 var express = require('express');
 var path = require('path');
 const mysql = require('mysql2/promise');
@@ -13,7 +14,15 @@ const saltRounds = 10;
 var {Sequelize, Op, where} = require('sequelize');
 const {sequelize, Organization, Contracts, Personal, Service, Users} = require('./dbSeqiulize');
 const SECRET = '23sadf6rucvbnvza-sd[pqw,';
-
+const cookieOption =  {
+      httpOnly: true,
+      path: '/',
+      domain: '.palasja.by'
+    };
+const cookieRaadOption = {
+      path: '/',
+      domain: '.palasja.by'
+}
 var app = express();
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "200mb" }));
@@ -75,15 +84,12 @@ router.post('/signIn', asyncHandler( async (req, res) => {
       password: hash
     } );
 
-    const options = {
-      httpOnly: true,
-    };
     const expireDate =  Date.now() + expire.day;
     const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
     const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
-    res.cookie('accessToken', newAccessToken, options);
-    res.cookie('refreshToken', newRefreshToken, options);
-    res.cookie('expireDate', expireDate);
+    res.cookie('accessToken', newAccessToken, cookieOption);
+    res.cookie('refreshToken', newRefreshToken, cookieOption);
+    res.cookie('expireDate', expireDate, cookieRaadOption);
     res.sendStatus(200);
   }
 
@@ -101,16 +107,13 @@ router.post('/logIn', asyncHandler( async (req, res) => {
       } else {
       const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
       if(isPassCorrect && userName == admin.login){
-          const options = {
-            httpOnly: true,
-            path: '/'
-          };
+
           const expireDate =  Date.now() + expire.day;
           const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
           const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
-          res.cookie('accessToken', newAccessToken, options);
-          res.cookie('refreshToken', newRefreshToken, options);
-          res.cookie('expireDate', expireDate );
+          res.cookie('accessToken', newAccessToken, cookieOption);
+          res.cookie('refreshToken', newRefreshToken, cookieOption);
+          res.cookie('expireDate', expireDate, cookieRaadOption );
           res.sendStatus(200);
         } else {
           res.sendStatus(403); 
@@ -152,15 +155,12 @@ router.use((req, res, next) => {
              res.sendStatus(401);
              return;
           } else{
-            const options = {
-              httpOnly: true,
-            };
             const expireDate =  Date.now() + expire.day;
             const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
             const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
-            res.cookie('accessToken', newAccessToken, options);
-            res.cookie('refreshToken', newRefreshToken, options);
-            res.cookie('expireDate', expireDate );
+            res.cookie('accessToken', newAccessToken, cookieOption);
+            res.cookie('refreshToken', newRefreshToken, cookieOption);
+            res.cookie('expireDate', expireDate, cookieRaadOption );
             return next();
           }
         });
