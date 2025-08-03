@@ -65,9 +65,22 @@ const getToken = (payload, expires) => {
     })
 const router = express.Router()
 
-router.get('/test', function  (req, res) {
-     res.status(200).json({test:'123'});
+router.get('/test',  asyncHandler( async (req, res) => {
+
+const connection = await mysql.createConnection({
+    host: 'localhost',
+    user: 'palasjaby_DB',
+    database: 'palasjaby_contracts',
+    port: 3306,
+    password: `${process.env.MYSQL_ADMIN_PASSWORD}`,
 });
+  let result = await connection.execute(
+    'SELECT * FROM organization'  );
+  res.status(200).json(result);
+    //  res.status(200).json({
+    //      test:process.env.MYSQL_ADMIN, test1:process.env.MYSQL_ADMIN_PASSWORD});
+}));
+
 router.post('/signIn', asyncHandler( async (req, res) => {
   const admin = await Users.findAll();
   if(admin.length !== 0) {
