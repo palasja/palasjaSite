@@ -1,5 +1,5 @@
-require('dotenv').config();
 
+const env = require('dotenv').config();
 var express = require('express');
 var path = require('path');
 const mysql = require('mysql2/promise');
@@ -10,6 +10,7 @@ var jwt = require("jsonwebtoken");
 const asyncHandler = require('express-async-handler');
 const cookieParser = require('cookie-parser');
 const saltRounds = 10;
+const HOST = env.PROD ?  '.palasja.by' : '.127.0.0.1';
 
 var {Sequelize, Op, where} = require('sequelize');
 const {sequelize, Organization, Contracts, Personal, Service, Users} = require('./dbSeqiulize');
@@ -18,12 +19,12 @@ const cookieOption =  {
       httpOnly: true,
       path: '/',
       // partitioned: true
-      // domain: '.palasja.by'
+      domain: HOST
     };
 const cookieRaadOption = {
       path: '/',
       // partitioned: true
-      // domain: '.palasja.by'
+      domain: HOST
 }
 var app = express();
 app.use(cookieParser());
@@ -159,7 +160,6 @@ router.get('/logout', function  (req, res) {
 router.use((req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
-    console.log(req.cookies.accessToken);
   if(accessToken){
     jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
       if (err && err.name == 'TokenExpiredError') {
