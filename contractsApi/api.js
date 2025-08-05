@@ -17,11 +17,13 @@ const SECRET = '23sadf6rucvbnvza-sd[pqw,';
 const cookieOption =  {
       httpOnly: true,
       path: '/',
-      domain: '.palasja.by'
+      // partitioned: true
+      // domain: '.palasja.by'
     };
 const cookieRaadOption = {
       path: '/',
-      domain: '.palasja.by'
+      // partitioned: true
+      // domain: '.palasja.by'
 }
 var app = express();
 app.use(cookieParser());
@@ -66,14 +68,13 @@ const getToken = (payload, expires) => {
 const router = express.Router()
 
 router.get('/test',  asyncHandler( async (req, res) => {
-
-const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'palasjaby_DB',
-    database: 'palasjaby_contracts',
-    port: 3306,
-    password: `${process.env.MYSQL_ADMIN_PASSWORD}`,
-});
+  const connection = await mysql.createConnection({
+      host: 'localhost',
+      user: 'process.env.MYSQL_ADMIN_PASSWORD',
+      database: 'process.env.MYSQL_ADMIN_PASSWORD',
+      port: 3306,
+      password: `${process.env.MYSQL_ADMIN_PASSWORD}`,
+  });
   let result = await connection.execute(
     'SELECT * FROM organization'  );
   res.status(200).json(result);
@@ -103,6 +104,7 @@ router.post('/signIn', asyncHandler( async (req, res) => {
     res.cookie('accessToken', newAccessToken, cookieOption);
     res.cookie('refreshToken', newRefreshToken, cookieOption);
     res.cookie('expireDate', expireDate, cookieRaadOption);
+    res.cookie.
     res.sendStatus(200);
   }
 
@@ -149,14 +151,15 @@ router.post('/checkAuth', asyncHandler( async (req, res) => {
   })
 }));
 router.get('/logout', function  (req, res) {
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
-  res.clearCookie("expireDate");
+  res.clearCookie('accessToken', cookieOption);
+  res.clearCookie('efreshToken', cookieOption);
+  res.clearCookie('expireDate', cookieRaadOption);
   res.sendStatus(200);
 });
 router.use((req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
+    console.log(req.cookies.accessToken);
   if(accessToken){
     jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
       if (err && err.name == 'TokenExpiredError') {

@@ -45,10 +45,19 @@ export const logout = createAppAsyncThunk('auth/logout', async () => {
   });
 });
 
-export const check = createAppAsyncThunk('auth/check', async (): Promise<boolean> => {
-  const res = await fetchСheckAuth();
-  if (res !== 200) throw new Error();
-  return true;
+export const check = createAppAsyncThunk('auth/check', async () => {
+  // const res = await fetchСheckAuth();
+  // if (res !== 200) throw new Error();
+  // return true;
+    await fetchСheckAuth().then((status) => {
+    if (status == 200) {
+      //fullfiled
+      return true;
+    } else {
+      //rejected
+      throw new Error();
+    }
+  });
 });
 
 const initialState: AuthState = {
