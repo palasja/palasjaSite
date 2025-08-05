@@ -10,7 +10,7 @@ var jwt = require("jsonwebtoken");
 const asyncHandler = require('express-async-handler');
 const cookieParser = require('cookie-parser');
 const saltRounds = 10;
-const HOST = env.PROD ?  '.palasja.by' : '.127.0.0.1';
+const HOST = process.env.PROD ?  '.palasja.by' : '.127.0.0.1';
 
 var {Sequelize, Op, where} = require('sequelize');
 const {sequelize, Organization, Contracts, Personal, Service, Users} = require('./dbSeqiulize');
@@ -69,6 +69,7 @@ const getToken = (payload, expires) => {
 const router = express.Router()
 
 router.get('/test',  asyncHandler( async (req, res) => {
+  
   const connection = await mysql.createConnection({
       host: 'localhost',
       user: 'process.env.MYSQL_ADMIN_PASSWORD',
@@ -79,6 +80,7 @@ router.get('/test',  asyncHandler( async (req, res) => {
   let result = await connection.execute(
     'SELECT * FROM organization'  );
   res.status(200).json(result);
+  // res.status(200).json({r: process.env.PROD})
     //  res.status(200).json({
     //      test:process.env.MYSQL_ADMIN, test1:process.env.MYSQL_ADMIN_PASSWORD});
 }));
