@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import style from './header.module.css';
 import Countdown from 'react-countdown';
-import {  useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 
 const Header = () => {
   const [cookies, setCookie] = useCookies(['expireDate', 'test']);
@@ -11,14 +11,11 @@ const Header = () => {
         <Link to={'/contract'}>Договора</Link>
         <Link to={'/act'}>Акты</Link>
         <Link to={'/stats'}>Статистика</Link>
-
       </nav>
-      <div data-testid='qwe'>
-<Countdown date={cookies.expireDate} />
+      <div data-testid="qwe">
+        <Countdown date={cookies.expireDate} />
       </div>
-      
     </header>
-
   );
 };
 

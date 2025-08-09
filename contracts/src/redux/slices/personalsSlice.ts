@@ -8,6 +8,8 @@ import {
   updatePerson,
 } from '../../helpers/api';
 import { RootState } from '../../redux/store';
+import { AuthError } from '../../helpers/authError';
+import { changeStatus } from './authSlice';
 
 interface PersonalsState {
   personals: Personal[];
@@ -18,34 +20,71 @@ interface PersonalsState {
 export const fetchPersonalsByOrgId = createAppAsyncThunk(
   'personals/fetchPersonal',
   async (orgId: number) => {
-    const response = await fetchByOrgId(orgId);
-    return response;
+    try {
+      const response = await fetchByOrgId(orgId);
+      return response;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+
+    // const response = await fetchByOrgId(orgId);
+    // return response;
   }
 );
 
 export const createPersonal = createAppAsyncThunk(
   'personals/addPerson',
   async (person: Personal) => {
-    const response = await addPerson(person);
-    return response;
+    try {
+      const response = await addPerson(person);
+      return response;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await addPerson(person);
+    // return response;
   }
 );
 
 export const delPerson = createAppAsyncThunk(
   'personals/removePerson',
   async (contractId: number): Promise<number> => {
-    const response = await removePerson(contractId);
-    if (!response) throw new Error();
-    return contractId;
+    try {
+      await removePerson(contractId);
+      return contractId;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await removePerson(contractId);
+    // if (!response) throw new Error();
+    // return contractId;
   }
 );
 
 export const editPerson = createAppAsyncThunk(
   'personals/updatePerson',
   async (person: Personal): Promise<Personal> => {
-    const response = await updatePerson(person);
-    if (!response) throw new Error();
-    return person;
+    try {
+      await updatePerson(person);
+      return person;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await updatePerson(person);
+    // if (!response) throw new Error();
+    // return person;
   }
 );
 
@@ -112,4 +151,7 @@ export default personalsSlicer.reducer;
 export const { changingPersonal } = personalsSlicer.actions;
 export const getAllPersonals = (state: RootState) => state.personals.personals;
 export const getChangingPersonals = (state: RootState) => state.personals.changingPersonal;
-export const getPersonalSatus = (state: RootState) => state.auth.status;
+export const getPersonalSatus = (state: RootState) => state.personals.status;
+function dispatch(arg0: { payload: undefined; type: 'auth/changeStatus' }) {
+  throw new Error('Function not implemented.');
+}

@@ -1,5 +1,6 @@
 import { downloadFile, trimObjectProperty } from './helper';
 import { Contract, Organization, Personal, Service, User } from './contractTypes';
+import { AuthError } from './authError';
 
 const env = import.meta.env;
 const API_SERVER = env.PROD ? env.VITE_API_SERVER_URL_PROD : env.VITE_API_SERVER_URL_DEV;
@@ -21,7 +22,8 @@ const fetchData = async (
   if (res.status == 200) {
     return res.json();
   } else if (res.status == 401) {
-    window.location.href = `${HOST}/logout`;
+    throw new AuthError('Unauthorize');
+    // window.location.href = `${HOST}/logout`;
   } else {
     throw new Error(`${errorMessage}. ErrorCode = ${res.status}`);
   }

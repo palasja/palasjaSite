@@ -33,8 +33,8 @@ type ActZKTableProps = {
   choosenMonth?: string;
 };
 const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] => {
-  let grouped = Object.groupBy(services, (s) => s.name + s.cost);
-  let groupedArray = Object.values(grouped).map((arr) => {
+  const grouped = Object.groupBy(services, (s) => s.name + s.cost);
+  const groupedArray = Object.values(grouped).map((arr) => {
     if (arr?.length === 1) {
       return arr[0];
     } else {
@@ -44,7 +44,7 @@ const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] =
       return { name: itog.name, cost: itog.cost, count: c };
     }
   });
-  let sortedByNameArray = groupedArray.sort((a, b) => {
+  const sortedByNameArray = groupedArray.sort((a, b) => {
     const nameA = a.name.toUpperCase().trim();
     const nameB = b.name.toUpperCase().trim();
     if (nameA < nameB) {

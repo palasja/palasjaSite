@@ -36,14 +36,15 @@ app.use(cors({
 }));
 
 const expire = {
-  day: 86400000, // 24 hours
-  month: 2592000000, // 30 days
-  quarter: 7776000000, // 90 days
+  test: 10, // 10 seconds
+  day: 86400, // 24 hours
+  month: 2592000, // 30 days
+  quarter: 7776000, // 90 days
 }
 const getToken = (payload, expires) => {
   return jwt.sign(
     payload,
-    `${SECRET}`,
+    SECRET,
     {
       algorithm: 'HS256',
       allowInsecureKeySizes: true,
@@ -101,12 +102,11 @@ router.post('/signIn', asyncHandler( async (req, res) => {
       password: hash
     } );
 
-    const expireDate =  Date.now() + expire.day;
-    const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
-    const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
+    const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+    const newRefreshToken = getToken({ expireIn:  Date.now() + expire.month}, expire.month);
     res.cookie('accessToken', newAccessToken, cookieOption);
     res.cookie('refreshToken', newRefreshToken, cookieOption);
-    res.cookie('expireDate', expireDate, cookieRaadOption);
+    res.cookie('expireDate',  Date.now() + (expire.day * 1000), cookieRaadOption);
     res.cookie.
     res.sendStatus(200);
   }
@@ -126,12 +126,11 @@ router.post('/logIn', asyncHandler( async (req, res) => {
       const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
       if(isPassCorrect && userName == admin.login){
 
-          const expireDate =  Date.now() + expire.day;
-          const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
-          const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
+          const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+          const newRefreshToken = getToken({ expireIn:  Date.now() + expire.month}, expire.month);
           res.cookie('accessToken', newAccessToken, cookieOption);
           res.cookie('refreshToken', newRefreshToken, cookieOption);
-          res.cookie('expireDate', expireDate, cookieRaadOption );
+          res.cookie('expireDate', Date.now() + (expire.day * 1000), cookieRaadOption );
           res.sendStatus(200);
         } else {
           res.sendStatus(403); 
@@ -173,12 +172,11 @@ router.use((req, res, next) => {
              res.sendStatus(401);
              return;
           } else{
-            const expireDate =  Date.now() + expire.day;
-            const newAccessToken = getToken({ expireIn: expireDate}, expire.day);
-            const newRefreshToken = getToken({ expireIn:  Date.now() + expire.quarter}, expire.quarter);
+            const newAccessToken = getToken({ expireIn: Date.now() + expire.day}, expire.day);
+            const newRefreshToken = getToken({ expireIn:  Date.now() + expire.month}, expire.month);
             res.cookie('accessToken', newAccessToken, cookieOption);
             res.cookie('refreshToken', newRefreshToken, cookieOption);
-            res.cookie('expireDate', expireDate, cookieRaadOption );
+            res.cookie('expireDate', Date.now() + (expire.day * 1000), cookieRaadOption );
             return next();
           }
         });

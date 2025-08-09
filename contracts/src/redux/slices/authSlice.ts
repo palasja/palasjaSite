@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../redux/withTypes';
 import { fetchLogIn, fetchLogOut, fetchSignIn, fetchСheckAuth } from '../../helpers/api';
 import { RootState } from '../../redux/store';
@@ -7,7 +7,7 @@ import { redirect } from 'react-router';
 
 interface AuthState {
   // isAuth: boolean;
-  authErrorMessage: String | null;
+  authErrorMessage: string | null;
   status: FetchStatus;
 }
 export const login = createAppAsyncThunk('auth/login', async (authInfo: User) => {
@@ -46,10 +46,15 @@ export const logout = createAppAsyncThunk('auth/logout', async () => {
 });
 
 export const check = createAppAsyncThunk('auth/check', async () => {
-  // const res = await fetchСheckAuth();
+  const res = await fetchСheckAuth();
   // if (res !== 200) throw new Error();
   // return true;
-    await fetchСheckAuth().then((status) => {
+
+  // return new Promise(() => {
+  //   throw new Error();
+  // })
+
+  await fetchСheckAuth().then((status) => {
     if (status == 200) {
       //fullfiled
       return true;
@@ -71,7 +76,11 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    changeStatus(state) {
+      state.status = 'rejected';
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
@@ -118,6 +127,7 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
+export const { changeStatus } = authSlice.actions;
 // export const getIsAuth = (state: RootState) => state.auth.isAuth;
 export const getAuthErrorMessage = (state: RootState) => state.auth.authErrorMessage;
 export const getAuthSatus = (state: RootState) => state.auth.status;

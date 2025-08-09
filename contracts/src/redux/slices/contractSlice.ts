@@ -9,6 +9,7 @@ import {
   updateContract,
 } from '../../helpers/api';
 import { RootState } from '../../redux/store';
+import { AuthError } from '../../helpers/authError';
 
 interface ContractsState {
   contracts: Contract[];
@@ -20,42 +21,87 @@ interface ContractsState {
 export const fetchContractsByOrgId = createAppAsyncThunk(
   'contracts/fetchContracts',
   async (orgId: number) => {
-    const response = await fetchByOrgId(orgId);
-    return response;
+    try {
+      const response = await fetchByOrgId(orgId);
+      return response;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await fetchByOrgId(orgId);
+    // return response;
   }
 );
 
 export const fetchContractsByOrgIMonth = createAppAsyncThunk(
   'contracts/fetchContractsByOrgIMonth',
   async ({ orgId, month }: { orgId: number; month: string }) => {
-    const response = await fetchContractsByOrgIdMonth(orgId, month);
-    return response;
+    try {
+      const response = await fetchContractsByOrgIdMonth(orgId, month);
+      return response;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await fetchContractsByOrgIdMonth(orgId, month);
+    // return response;
   }
 );
 
 export const addContract = createAppAsyncThunk(
   'contracts/addContract',
   async (contract: Contract) => {
-    const response = await createContract(contract);
-    return response;
+    try {
+      const response = await createContract(contract);
+      return response;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await createContract(contract);
+    // return response;
   }
 );
 
 export const delContract = createAppAsyncThunk(
   'contracts/delContract',
   async (contractId: number): Promise<number> => {
-    const response = await removeContract(contractId);
-    if (!response) throw new Error();
-    return contractId;
+    try {
+      const response = await removeContract(contractId);
+      return contractId;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await removeContract(contractId);
+    // if (!response) throw new Error();
+    // return contractId;
   }
 );
 
 export const editContract = createAppAsyncThunk(
   'contracts/editContract',
   async (contract: Contract): Promise<Contract> => {
-    const response = await updateContract(contract);
-    if (!response) throw new Error();
-    return contract;
+    try {
+      const response = await updateContract(contract);
+      return contract;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await updateContract(contract);
+    // if (!response) throw new Error();
+    // return contract;
   }
 );
 
@@ -127,4 +173,11 @@ export const { changingContract } = contractsSlicer.actions;
 export const getAllContracts = (state: RootState) => state.contract.contracts;
 export const getChoosenContracts = (state: RootState) => state.contract.chosenContract;
 export const getChangingContract = (state: RootState) => state.contract.changingContract;
-export const getContractSatus = (state: RootState) => state.auth.status;
+export const getContractSatus = (state: RootState) => state.contract.status;
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}
+
+function changeStatus(): any {
+  throw new Error('Function not implemented.');
+}

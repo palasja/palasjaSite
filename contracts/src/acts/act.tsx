@@ -134,4 +134,3 @@ const Act = () => {
 };
 
 export default Act;
-

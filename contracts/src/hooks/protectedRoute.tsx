@@ -7,39 +7,35 @@ import { check, getAuthSatus } from '../redux/slices/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { CookiesProvider } from 'react-cookie';
 import useIsLoading from './useIsLoading';
+import { getContractSatus } from '../redux/slices/contractSlice';
+import { getOrganisationSatus } from '../redux/slices/orgsSlice';
+import { getPersonalSatus } from '../redux/slices/personalsSlice';
+import { getServicesSatus } from '../redux/slices/servicesSlice';
+import { FetchStatus } from '../helpers/contractTypes';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // const isAuth = useAppSelector(getIsAuth);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isLoading = useIsLoading();
+  // const isLoading = useIsLoading();
   const stateAuth = useAppSelector(getAuthSatus);
+  // console.log(isLoading)
   useEffect(() => {
-    // if (!isAuth) {
-    dispatch(check())
-      .then(unwrapResult)
-      .catch(() => {
-        navigate('/');
-      });
-    // }
-  }, [children]);
-  return isLoading ? 
+    if (stateAuth === 'rejected') {
+      navigate('/');
+    }
+  }, [stateAuth]);
+  return (
     <>
-      Loading...
-    </> 
-    : 
-      stateAuth === 'rejected' ? 
-      <p>Unouthorize</p>
-      : 
-        <>
-        <CookiesProvider  defaultSetOptions={{ path: '/' }}>
-          <Header />
-        </CookiesProvider>
-          {children}
-          <Footer />
-        </>
+      <CookiesProvider defaultSetOptions={{ path: '/' }}>
+        <Header />
+      </CookiesProvider>
+      {children}
+      <Footer />
+    </>
+  );
 };
+//

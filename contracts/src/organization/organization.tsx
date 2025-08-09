@@ -25,7 +25,6 @@ const Organization = () => {
   }, []);
   return (
     <>
-      <h2>{import.meta.env.VITE_TEST_VAR}</h2>
       <h2>Организации</h2>
       <h3>{errors}</h3>
       <OrganizationForm />

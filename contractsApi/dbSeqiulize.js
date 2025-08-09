@@ -163,7 +163,7 @@ const Organization = sequelize.define("organization", {
       onDelete: 'CASCADE',
     });
     const Users = sequelize.define(
-      'Users', {
+      'users', {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,

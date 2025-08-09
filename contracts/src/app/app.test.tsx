@@ -37,18 +37,22 @@ describe('', () => {
       id: 1,
       name: 'testOrg',
     };
- 
+
     renderWithProviders(
       <MemoryRouter initialEntries={['/contract']}>
         <App />
       </MemoryRouter>,
-      { preloadedState: { orgs: {
-      organizations: [mockOrg],
-      chosenOrg: mockOrg,
-      changingOrg: null,
-      status: "idle",
-      error: null,
-    },  } }
+      {
+        preloadedState: {
+          orgs: {
+            organizations: [mockOrg],
+            chosenOrg: mockOrg,
+            changingOrg: null,
+            status: 'idle',
+            error: null,
+          },
+        },
+      }
     );
 
     expect(screen.queryByText('Выберите организацию')).not.toBeInTheDocument();

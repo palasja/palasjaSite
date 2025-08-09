@@ -1,12 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import Header from './header';
 import { MemoryRouter } from 'react-router';
+import { CookiesProvider } from 'react-cookie';
 
 beforeEach(() => {
   render(
+    <CookiesProvider>
     <MemoryRouter initialEntries={['/']}>
       <Header />
     </MemoryRouter>
+    </CookiesProvider>
+
   );
 });
 

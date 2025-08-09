@@ -60,7 +60,7 @@ export const getServicesCostWithNDS = (services: Service[]) => {
  * @returns cost with NDS
  */
 export const getServicesCostWithNDS_47 = (services: Service[]) => {
-  let itogSumm = getServicesCost(services);
+  const itogSumm = getServicesCost(services);
   let itogSummNDS = 0;
   if (itogSumm < NDS_VICHET) {
     itogSummNDS = itogSumm + itogSumm * (PENSIA / 100);
@@ -75,7 +75,7 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
 };
 
 export const getServicesCost = (services: Service[]) => {
-  let itogSumm = services.reduce((result, s) => result + s.count * s.cost, 0);
+  const itogSumm = services.reduce((result, s) => result + s.count * s.cost, 0);
   // services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;
 };

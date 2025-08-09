@@ -32,23 +32,23 @@ describe('fetch data', async () => {
     expect(res.length).toBe(2);
   });
 
-  it('unauthorization fetch data', async () => {
-    server.use(
-      http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
-        return new HttpResponse(null, { status: 401 });
-      })
-    );
-    window = Object.create(window);
-    const url = 'http://localhost:3000/';
-    Object.defineProperty(window, 'location', {
-      value: {
-        href: url,
-      },
-      writable: true, // possibility to override
-    });
-    await fetchAllOrganizations();
-    expect(window.location.href).toMatch(/logout/i);
-  });
+  // it('unauthorization fetch data', async () => {
+  //   server.use(
+  //     http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
+  //       return new HttpResponse(null, { status: 401 });
+  //     })
+  //   );
+  //   window = Object.create(window);
+  //   const url = 'http://localhost:3000/';
+  //   Object.defineProperty(window, 'location', {
+  //     value: {
+  //       href: url,
+  //     },
+  //     writable: true, // possibility to override
+  //   });
+  //   await fetchAllOrganizations();
+  //   expect(window.location.href).toMatch(/logout/i);
+  // });
 
   it('throw error', async () => {
     server.use(

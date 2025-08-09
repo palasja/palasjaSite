@@ -8,6 +8,7 @@ import {
   addService,
 } from '../../helpers/api';
 import { RootState } from '../../redux/store';
+import { AuthError } from '../../helpers/authError';
 
 interface ServicesState {
   services: Service[];
@@ -20,31 +21,67 @@ interface ServicesState {
 export const fetchServicesByOrgIdMonth = createAppAsyncThunk(
   'service/fetchServices',
   async ({ orgId, month }: { orgId: number | null; month: string }) => {
-    const response = await fetchServices(orgId, month);
-    return response;
+    try {
+      const response = await fetchServices(orgId, month);
+      return response;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await fetchServices(orgId, month);
+    // return response;
   }
 );
 
 export const createService = createAppAsyncThunk('service/addService', async (service: Service) => {
-  const response = await addService(service);
-  return response;
+  try {
+    const response = await addService(service);
+    return response;
+  } catch (err) {
+    if (err instanceof AuthError) {
+      dispatch(changeStatus());
+    }
+    throw err;
+  }
+  // const response = await addService(service);
+  // return response;
 });
 
 export const delService = createAppAsyncThunk(
   'service/removeService',
   async (serviceId: number): Promise<number> => {
-    const response = await removeService(serviceId);
-    if (!response) throw new Error();
-    return serviceId;
+    try {
+      await removeService(serviceId);
+      return serviceId;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await removeService(serviceId);
+    // if (!response) throw new Error();
+    // return serviceId;
   }
 );
 
 export const editService = createAppAsyncThunk(
   'service/updateService',
   async (service: Service): Promise<Service> => {
-    const response = await updateService(service);
-    if (!response) throw new Error();
-    return service;
+    try {
+      await updateService(service);
+      return service;
+    } catch (err) {
+      if (err instanceof AuthError) {
+        dispatch(changeStatus());
+      }
+      throw err;
+    }
+    // const response = await updateService(service);
+    // if (!response) throw new Error();
+    // return service;
   }
 );
 
@@ -119,4 +156,15 @@ export const getServices = (state: RootState) => state.services.services;
 export const getChoosenMonth = (state: RootState) => state.services.choosenMonth;
 export const getIsWithoutOrg = (state: RootState) => state.services.isWithoutOrg;
 export const getChangingService = (state: RootState) => state.services.changingService;
-export const getServicesSatus = (state: RootState) => state.auth.status;
+export const getServicesSatus = (state: RootState) => state.services.status;
+function fetchByOrgId(orgId: number | null) {
+  throw new Error('Function not implemented.');
+}
+
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}
+
+function changeStatus(): any {
+  throw new Error('Function not implemented.');
+}
