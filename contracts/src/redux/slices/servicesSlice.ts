@@ -9,6 +9,7 @@ import {
 } from '../../helpers/api';
 import { RootState } from '../../redux/store';
 import { AuthError } from '../../helpers/authError';
+import { changeStatus } from './authSlice';
 
 interface ServicesState {
   services: Service[];
@@ -20,7 +21,7 @@ interface ServicesState {
 
 export const fetchServicesByOrgIdMonth = createAppAsyncThunk(
   'service/fetchServices',
-  async ({ orgId, month }: { orgId: number | null; month: string }) => {
+  async ({ orgId, month }: { orgId: number | null; month: string }, {dispatch}) => {
     try {
       const response = await fetchServices(orgId, month);
       return response;
@@ -32,10 +33,19 @@ export const fetchServicesByOrgIdMonth = createAppAsyncThunk(
     }
     // const response = await fetchServices(orgId, month);
     // return response;
-  }
+  },
+      {
+        condition(arg, thunkApi) {
+          const status = getServicesSatus(thunkApi.getState())
+    
+          if (  status === 'pending' ) {
+            return false
+          }
+        }
+      }
 );
 
-export const createService = createAppAsyncThunk('service/addService', async (service: Service) => {
+export const createService = createAppAsyncThunk('service/addService', async (service: Service, {dispatch}) => {
   try {
     const response = await addService(service);
     return response;
@@ -51,7 +61,7 @@ export const createService = createAppAsyncThunk('service/addService', async (se
 
 export const delService = createAppAsyncThunk(
   'service/removeService',
-  async (serviceId: number): Promise<number> => {
+  async (serviceId: number, {dispatch}): Promise<number> => {
     try {
       await removeService(serviceId);
       return serviceId;
@@ -69,7 +79,7 @@ export const delService = createAppAsyncThunk(
 
 export const editService = createAppAsyncThunk(
   'service/updateService',
-  async (service: Service): Promise<Service> => {
+  async (service: Service, {dispatch}): Promise<Service> => {
     try {
       await updateService(service);
       return service;
@@ -157,14 +167,4 @@ export const getChoosenMonth = (state: RootState) => state.services.choosenMonth
 export const getIsWithoutOrg = (state: RootState) => state.services.isWithoutOrg;
 export const getChangingService = (state: RootState) => state.services.changingService;
 export const getServicesSatus = (state: RootState) => state.services.status;
-function fetchByOrgId(orgId: number | null) {
-  throw new Error('Function not implemented.');
-}
-
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}
-
-function changeStatus(): any {
-  throw new Error('Function not implemented.');
-}
+export const isServicesLoading = (state: RootState) => state.services.status === 'pending';

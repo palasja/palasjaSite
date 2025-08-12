@@ -18,17 +18,16 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const isLoading = useIsLoading();
+  const isLoading = useIsLoading();
   const stateAuth = useAppSelector(getAuthSatus);
-  // console.log(isLoading)
   useEffect(() => {
     if (stateAuth === 'rejected') {
       navigate('/');
     }
   }, [stateAuth]);
   return (
+    isLoading ? <>Loading...</>:
     <>
       <CookiesProvider defaultSetOptions={{ path: '/' }}>
         <Header />

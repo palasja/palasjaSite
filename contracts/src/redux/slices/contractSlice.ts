@@ -10,6 +10,7 @@ import {
 } from '../../helpers/api';
 import { RootState } from '../../redux/store';
 import { AuthError } from '../../helpers/authError';
+import { changeStatus } from './authSlice';
 
 interface ContractsState {
   contracts: Contract[];
@@ -20,7 +21,7 @@ interface ContractsState {
 
 export const fetchContractsByOrgId = createAppAsyncThunk(
   'contracts/fetchContracts',
-  async (orgId: number) => {
+  async (orgId: number, { dispatch }) => {
     try {
       const response = await fetchByOrgId(orgId);
       return response;
@@ -32,12 +33,21 @@ export const fetchContractsByOrgId = createAppAsyncThunk(
     }
     // const response = await fetchByOrgId(orgId);
     // return response;
-  }
+  },
+    {
+      condition(arg, thunkApi) {
+        const status = getContractSatus(thunkApi.getState())
+  
+        if ( status === 'pending' ) {
+          return false
+        }
+      }
+    }
 );
 
 export const fetchContractsByOrgIMonth = createAppAsyncThunk(
   'contracts/fetchContractsByOrgIMonth',
-  async ({ orgId, month }: { orgId: number; month: string }) => {
+  async ({ orgId, month }: { orgId: number; month: string },  { dispatch }) => {
     try {
       const response = await fetchContractsByOrgIdMonth(orgId, month);
       return response;
@@ -54,7 +64,7 @@ export const fetchContractsByOrgIMonth = createAppAsyncThunk(
 
 export const addContract = createAppAsyncThunk(
   'contracts/addContract',
-  async (contract: Contract) => {
+  async (contract: Contract, { dispatch }) => {
     try {
       const response = await createContract(contract);
       return response;
@@ -71,7 +81,7 @@ export const addContract = createAppAsyncThunk(
 
 export const delContract = createAppAsyncThunk(
   'contracts/delContract',
-  async (contractId: number): Promise<number> => {
+  async (contractId: number, { dispatch }): Promise<number> => {
     try {
       const response = await removeContract(contractId);
       return contractId;
@@ -89,7 +99,7 @@ export const delContract = createAppAsyncThunk(
 
 export const editContract = createAppAsyncThunk(
   'contracts/editContract',
-  async (contract: Contract): Promise<Contract> => {
+  async (contract: Contract, { dispatch }): Promise<Contract> => {
     try {
       const response = await updateContract(contract);
       return contract;
@@ -174,10 +184,5 @@ export const getAllContracts = (state: RootState) => state.contract.contracts;
 export const getChoosenContracts = (state: RootState) => state.contract.chosenContract;
 export const getChangingContract = (state: RootState) => state.contract.changingContract;
 export const getContractSatus = (state: RootState) => state.contract.status;
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}
+export const isContractLoading = (state: RootState) => state.contract.status === 'pending';
 
-function changeStatus(): any {
-  throw new Error('Function not implemented.');
-}

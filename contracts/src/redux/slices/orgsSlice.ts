@@ -30,7 +30,17 @@ export const fetchOrgs = createAppAsyncThunk('orgs/fetchOrgs', async (_, { dispa
   }
   //   const response = await fetchAllOrganizations();
   //   return response;
-});
+},
+  {
+    condition(arg, thunkApi) {
+      const status = getOrganisationSatus(thunkApi.getState())
+
+      if (status !== 'idle' ) {
+        return false
+      }
+    }
+  }
+);
 
 export const addOrg = createAppAsyncThunk(
   'orgs/addOrg',
@@ -173,3 +183,4 @@ export const getChangingOrganization = (state: RootState) => state.orgs.changing
 export const getAllOrganisation = (state: RootState) => state.orgs.organizations;
 export const getOrganisationError = (state: RootState) => state.orgs.error;
 export const getOrganisationSatus = (state: RootState) => state.orgs.status;
+export const isOrgLoading = (state: RootState) => state.orgs.status === 'pending';

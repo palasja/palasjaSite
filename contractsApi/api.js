@@ -209,7 +209,6 @@ router.delete('/removeOrganization',  asyncHandler( async (req, res) => {
 }));
 router.patch('/updateOrganization',  asyncHandler( async (req, res) => {
     const organization = req.body.organization;
-    console.log('updateOrganization ' + organization.name);
     let result = await Organization.update(
         organization,
         {

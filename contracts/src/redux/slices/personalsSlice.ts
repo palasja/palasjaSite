@@ -19,7 +19,7 @@ interface PersonalsState {
 
 export const fetchPersonalsByOrgId = createAppAsyncThunk(
   'personals/fetchPersonal',
-  async (orgId: number) => {
+  async (orgId: number, {dispatch}) => {
     try {
       const response = await fetchByOrgId(orgId);
       return response;
@@ -32,12 +32,21 @@ export const fetchPersonalsByOrgId = createAppAsyncThunk(
 
     // const response = await fetchByOrgId(orgId);
     // return response;
-  }
+  },
+      {
+        condition(arg, thunkApi) {
+          const status = getPersonalSatus(thunkApi.getState())
+    
+          if ( status === 'pending' ) {
+            return false
+          }
+        }
+      }
 );
 
 export const createPersonal = createAppAsyncThunk(
   'personals/addPerson',
-  async (person: Personal) => {
+  async (person: Personal, {dispatch}) => {
     try {
       const response = await addPerson(person);
       return response;
@@ -54,7 +63,7 @@ export const createPersonal = createAppAsyncThunk(
 
 export const delPerson = createAppAsyncThunk(
   'personals/removePerson',
-  async (contractId: number): Promise<number> => {
+  async (contractId: number, {dispatch}): Promise<number> => {
     try {
       await removePerson(contractId);
       return contractId;
@@ -72,7 +81,7 @@ export const delPerson = createAppAsyncThunk(
 
 export const editPerson = createAppAsyncThunk(
   'personals/updatePerson',
-  async (person: Personal): Promise<Personal> => {
+  async (person: Personal, {dispatch}): Promise<Personal> => {
     try {
       await updatePerson(person);
       return person;
@@ -152,6 +161,4 @@ export const { changingPersonal } = personalsSlicer.actions;
 export const getAllPersonals = (state: RootState) => state.personals.personals;
 export const getChangingPersonals = (state: RootState) => state.personals.changingPersonal;
 export const getPersonalSatus = (state: RootState) => state.personals.status;
-function dispatch(arg0: { payload: undefined; type: 'auth/changeStatus' }) {
-  throw new Error('Function not implemented.');
-}
+export const isPersonalLoading = (state: RootState) => state.personals.status === 'pending';
