@@ -1,40 +1,41 @@
-// import { useCookies } from 'react-cookie';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import style from './auth.module.css';
+import style from './login.module.css';
 import { Link, useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { getAuthErrorMessage, getAuthSatus, login } from '../redux/slices/authSlice';
+import { useLazyCheckQuery, useLazyLoginQuery } from '../../redux/slices/authRTKSlce';
+import { useEffect } from 'react';
 
 type FormValues = {
   login: string;
   password: string;
 };
 
-const Auth = () => {
+const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const errorMessage = useAppSelector(getAuthErrorMessage);
-  const status = useAppSelector(getAuthSatus);
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(login(data))
-      .unwrap()
-      .then((r: boolean) => {
-        if (r) navigate('/contract');
-      });
+  const [login] = useLazyLoginQuery();
+  const [check] = useLazyCheckQuery();
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    let result = await login(data).unwrap();
+    if (result == 'OK') navigate('/contract');
   };
-
+  useEffect(() => {
+    const checkAuth = async () => {
+      let result = await check().unwrap();
+      if (result == 'OK') navigate('/contract');
+    }
+    checkAuth();
+  } ,[]);
   return (
     <>
       <section className={style.auth}>
         <Link to={'/signIn'}>signIn</Link>
         <div className={style.formContainer}>
           <h3 className={style.formName}>Войти</h3>
-          {errorMessage && <p className={style.errorMeaasge}>{errorMessage}</p>}
+          {/* {errorMessage && <p className={style.errorMeaasge}>{errorMessage}</p>} */}
           {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}
           {errors.password && <p className={style.errorMeaasge}>{errors.password.message}</p>}
           <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
@@ -72,4 +73,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Login;

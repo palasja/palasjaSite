@@ -58,3 +58,12 @@ export type {
   CreateService,
   FetchStatus,
 };
+
+export type OrgMonth = {
+  orgId: number | null;
+  month: string;
+};
+
+export type ContractScan = {
+  orgId: number | null;
+};

@@ -1,13 +1,17 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Organization as Org } from '../helpers/contractTypes';
-import { addOrg, editOrg, getChangingOrganization } from '../redux/slices/orgsSlice';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { Organization as Org, Organization } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
+import {
+  useAddOrganizationMutation,
+  useUpdateOrganizationMutation,
+} from '../redux/slices/organizationRTKSlice';
 
-const OrganizationForm = () => {
-  const changingOrg = useAppSelector(getChangingOrganization);
+type OrganizationForm = {
+  changingOrg: Organization | undefined;
+}
+const OrganizationForm = ({changingOrg}: OrganizationForm) => {
   const {
     register,
     handleSubmit,
@@ -16,20 +20,35 @@ const OrganizationForm = () => {
     formState: { errors },
   } = useForm<Org>();
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
-  const dispatch = useAppDispatch();
+  const [addOrganisation] = useAddOrganizationMutation();
+  const [updateOrganization] = useUpdateOrganizationMutation();
+  let isLoadingUpd = false;
+  {
+    const [updateOrg, { isLoading }] = useUpdateOrganizationMutation();
+    isLoadingUpd = isLoading;
+  }
+
   const resetForm = () => {
     setIsUpdate(false);
     reset();
   };
-  const onSubmitCreate: SubmitHandler<Org> = (data) => {
+  const onSubmitCreate: SubmitHandler<Org> = async (data) => {
     data = trimObjectProperty(data);
-    dispatch(addOrg(data));
-    resetForm();
+    try {
+      await addOrganisation(data).unwrap();
+      resetForm();
+    } catch (err) {
+      console.error('Failed to save the post: ', err);
+    }
   };
-  const onSubmitUpdate: SubmitHandler<Org> = (data) => {
+  const onSubmitUpdate: SubmitHandler<Org> = async (data) => {
     data = trimObjectProperty(data);
-    dispatch(editOrg(data));
-    resetForm();
+    try {
+      await updateOrganization(data).unwrap();
+      resetForm();
+    } catch (err) {
+      console.error('Failed to save the post: ', err);
+    }
   };
   useEffect(() => {
     if (changingOrg) {

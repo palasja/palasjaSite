@@ -1,5 +1,5 @@
 import { NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA } from './constants';
-import { Organization, Personal, Service } from './contractTypes';
+import { Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ export const toBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const getURLByBase64File = (scanStr: string, mimeType: string) => {
+export const getURLByBase64File = (scanStr: string, mimeType: string) => {
   // Remove data URL scheme if present
   const base64Data = scanStr.replace(/^data:.+;base64,/, '');
   const byteCharacters = atob(base64Data); // Decode Base64 string
@@ -24,21 +24,21 @@ const getURLByBase64File = (scanStr: string, mimeType: string) => {
   const url = URL.createObjectURL(blob);
   return url;
 };
-export const downloadFile = (
-  base64String: { scan: string },
-  mimeType: string,
-  fileName: string
-) => {
-  const url = getURLByBase64File(base64String.scan, mimeType);
-  // Create a link element to download the file
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = fileName;
-  link.click();
+// export const downloadFile = (
+//   base64String: { scan: string },
+//   mimeType: string,
+//   fileName: string
+// ) => {
+//   const url = getURLByBase64File(base64String.scan, mimeType);
+//   // Create a link element to download the file
+//   const link = document.createElement('a');
+//   link.href = url;
+//   link.download = fileName;
+//   link.click();
 
-  // Cleanup
-  URL.revokeObjectURL(url);
-};
+//   // Cleanup
+//   URL.revokeObjectURL(url);
+// };
 
 export const getShortName = (person: Personal | undefined): string => {
   return person === undefined || person === null
@@ -131,4 +131,13 @@ export const trimObjectProperty: <T extends object>(obj: T) => T = (obj) => {
   });
 
   return obj;
+};
+
+export const providesRTKTagList = <R extends { id: string | number }[], T extends string>(
+  resultsWithIds: R | undefined,
+  tagType: T
+) => {
+  return resultsWithIds
+    ? [{ type: tagType, id: 'LIST' }, ...resultsWithIds.map(({ id }) => ({ type: tagType, id }))]
+    : [{ type: tagType, id: 'LIST' }];
 };

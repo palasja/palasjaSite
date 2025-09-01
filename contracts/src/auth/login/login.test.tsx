@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from './renderWithProviders';
+import { renderWithProviders } from '../renderWithProviders';
 import { MemoryRouter, Route, Routes } from 'react-router';
-import Auth from './auts';
+import Auth from '.';
 const env = import.meta.env;
 
 export const handlers = [];

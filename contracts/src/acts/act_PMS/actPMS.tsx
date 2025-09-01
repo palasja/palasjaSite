@@ -7,32 +7,27 @@ import {
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
 import { useAppSelector } from '../../redux/hooks';
-import { getChoosenContracts } from '../../redux/slices/contractSlice';
-import { getAllPersonals } from '../../redux/slices/personalsSlice';
-import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
+import { getChoosenMonth } from '../../redux/slices/servicesSlice';
 import PageWrapper from '../pageWrapper';
+import { Contract, Personal, Service } from '../../helpers/contractTypes';
 const REPRESENTOR_POSITION = 'бухгалтер';
-
-const ActPMS = () => {
+type ActPMSProps = {
+  contract: Contract;
+  personal: Personal[];
+  services: Service[];
+};
+const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
   const choosenMonth = useAppSelector(getChoosenMonth);
-  const services = useAppSelector(getServices);
-  const personals = useAppSelector(getAllPersonals);
-  const contract = useAppSelector(getChoosenContracts);
-  const head = personals.find((p) => p.isHead);
+  const head = personal.find((p) => p.isHead);
   const itog = getServicesCostWithNDS_47(services);
 
-  const representor = personals.find((p) => new RegExp(REPRESENTOR_POSITION).test(p.positionName));
-  const economist = personals.find(
+  const representor = personal.find((p) => new RegExp(REPRESENTOR_POSITION).test(p.positionName));
+  const economist = personal.find(
     (p) => !new RegExp(REPRESENTOR_POSITION).test(p.positionName) && !p.isHead
   );
-  return (
-    <PageWrapper>
-      {contract === null ? (
-        <>
-          <h1>No contract</h1>
-        </>
-      ) : (
-        <>
+
+  const emptyContract = <h1>No contract</h1>;
+  const content = <>
           <div className={style.page}>
             <div className={style.head}>
               <p>А К Т</p>
@@ -139,8 +134,10 @@ const ActPMS = () => {
               </div>
             </div>
           </div>
-        </>
-      )}
+        </>;
+  return (
+    <PageWrapper>
+      {contract === null ? emptyContract : content }
     </PageWrapper>
   );
 };

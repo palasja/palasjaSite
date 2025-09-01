@@ -1,18 +1,16 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import {
-  createService,
-  editService,
-  getChangingService,
-  getIsWithoutOrg,
-} from '../redux/slices/servicesSlice';
+import { useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
+import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
+import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
 
-const ServiceForm = () => {
+type ChangingServiceFormProps = { changingService: Service | undefined };
+
+const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const {
     register,
     handleSubmit,
@@ -20,19 +18,19 @@ const ServiceForm = () => {
     reset,
     formState: { errors },
   } = useForm<Service>();
-  const dispatch = useAppDispatch();
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
+  const [addService] = useAddServiceMutation();
+  const [updateService] = useUpdateServiceMutation();
   const isWithoutOrg = useAppSelector(getIsWithoutOrg);
-  const changingService = useAppSelector(getChangingService);
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
-    dispatch(createService(data));
+    addService(data);
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
-    dispatch(editService(data));
+    updateService(data);
     resetForm();
   };
 

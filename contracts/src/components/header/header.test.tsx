@@ -6,11 +6,10 @@ import { CookiesProvider } from 'react-cookie';
 beforeEach(() => {
   render(
     <CookiesProvider>
-    <MemoryRouter initialEntries={['/']}>
-      <Header />
-    </MemoryRouter>
+      <MemoryRouter initialEntries={['/']}>
+        <Header />
+      </MemoryRouter>
     </CookiesProvider>
-
   );
 });
 

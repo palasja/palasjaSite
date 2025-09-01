@@ -1,30 +1,43 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
-import {
-  changingPersonal,
-  delPerson,
-  fetchPersonalsByOrgId,
-  getAllPersonals,
-} from '../redux/slices/personalsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import PersonalForm from './personalForm';
+import { Personal } from '../helpers/contractTypes';
+import {
+  useAddPersonalMutation,
+  useDeletePersonalMutation,
+  useGetPersonalsByOrgIdQuery,
+  useUpdatePersonalMutation,
+} from '../redux/slices/personalRTKSlice';
+import Loading from '../components/loading';
+import { useState } from 'react';
 
 const Personals = () => {
-  const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const personals = useAppSelector(getAllPersonals);
+  const [__, { isLoading: isAddLoading }] = useAddPersonalMutation();
+  const [deletePersonal, { isLoading: isDeleteLoading }] = useDeletePersonalMutation();
+  const [_, { isLoading: isUpdateLoading }] = useUpdatePersonalMutation();
+  let personals: Personal[] = [];
+  let isGetLoading = false;
+  if (choosenOrg) {
+    const {
+      data: p = [],
+      isLoading,
+      isSuccess,
+      isError,
+      error,
+    } = useGetPersonalsByOrgIdQuery(choosenOrg.id);
+    personals = p;
+    isGetLoading = isLoading;
+  }
+
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
-
-  useEffect(() => {
-    choosenOrg && dispatch(fetchPersonalsByOrgId(choosenOrg.id));
-  }, [choosenOrg]);
-
-  return (
+  const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
+  const page = (
     <>
       <h3>Personal</h3>
-      <PersonalForm />
+      <PersonalForm changingPersonal={changingPersonal} />
 
       {personals.length == 0 ? (
         <></>
@@ -42,7 +55,7 @@ const Personals = () => {
                 >
                   Удалить
                 </button>
-                <button onClick={() => dispatch(changingPersonal(person))}>Переименовать</button>
+                <button onClick={() => setChangingPersonal(person)}>Переименовать</button>
               </li>
             );
           })}
@@ -51,12 +64,13 @@ const Personals = () => {
 
       {isShowRemoveModal && (
         <RemoveAgreePortal
-          remove={() => dispatch(delPerson(removeId))}
+          remove={() => deletePersonal(removeId)}
           close={() => setIsShowRemoveModal(false)}
         />
       )}
     </>
   );
+  return isGetLoading || isUpdateLoading || isAddLoading || isDeleteLoading ? <Loading /> : page;
 };
 
 export default Personals;

@@ -2,13 +2,17 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from '../helpers/contractTypes';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { toBase64, trimObjectProperty } from '../helpers/helper';
-import { addContract, editContract, getChangingContract } from '../redux/slices/contractSlice';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
+import {
+  useAddContractMutation,
+  useUpdateContractMutation,
+} from '../redux/slices/contractRTKSlice';
 
-const ContractForm = () => {
-  const dispatch = useAppDispatch();
+type ChangingContractFormProps = { changingContract: Contract | undefined };
+
+const ContractForm = ({ changingContract }: ChangingContractFormProps) => {
   const {
     register,
     handleSubmit,
@@ -17,7 +21,8 @@ const ContractForm = () => {
     formState: { errors },
   } = useForm<Contract>();
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const changingContract = useAppSelector(getChangingContract);
+  const [addContract] = useAddContractMutation();
+  const [updateContract] = useUpdateContractMutation();
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const resetForm = () => {
     reset({
@@ -29,20 +34,20 @@ const ContractForm = () => {
     data = trimObjectProperty(data);
     //@ts-expect-error: Chome has faleArray instead of File
     data.scan = await toBase64(data.scan[0]);
-    dispatch(addContract(data));
+    addContract(data);
     resetForm();
   };
 
   const onSubmitUpdate: SubmitHandler<Contract> = async (data) => {
     data = trimObjectProperty(data);
     if (data.scan?.size == 0) {
-      //@ts-expect-error: Chome has faleArray instead of File
+      //@ts-expect-error: Chome has fileArray instead of File
       delete data.scan;
     } else {
-      //@ts-expect-error: Chome has faleArray instead of File
+      //@ts-expect-error: Chome has fileArray instead of File
       data.scan = await toBase64(data.scan[0]);
     }
-    dispatch(editContract(data));
+    updateContract(data);
     resetForm();
   };
   useEffect(() => {

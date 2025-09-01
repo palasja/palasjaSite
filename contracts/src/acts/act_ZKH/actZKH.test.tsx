@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../auth/renderWithProviders';
 import { screen } from '@testing-library/react';
-import ActZKH from './act';
+import ActZKH from './actZKH';
 import { COUNT_FOR_ONE_PAGE } from '../../helpers/constants';
 
 describe('pages count', () => {

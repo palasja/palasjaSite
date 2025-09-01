@@ -1,2 +1,2 @@
-import ActZKH from './act';
+import ActZKH from './actZKH';
 export default ActZKH;

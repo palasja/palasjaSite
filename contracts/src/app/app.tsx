@@ -5,10 +5,7 @@ import Organization from '../organization';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { chooseOrg, getChosenOrganization, getOrganisationSatus } from '../redux/slices/orgsSlice';
 import style from './app.module.css';
-import { getIsWithoutOrg, getServicesSatus, isWithoutOrg } from '../redux/slices/servicesSlice';
-import { getContractSatus } from '../redux/slices/contractSlice';
-import { getPersonalSatus } from '../redux/slices/personalsSlice';
-import useIsLoading from '../hooks/useIsLoading';
+import { getIsWithoutOrg, isWithoutOrg } from '../redux/slices/servicesSlice';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -19,8 +16,7 @@ const App = () => {
     dispatch(chooseOrg(null));
   };
 
-  return (
-    <>
+  const appContent =     <>
       <button onClick={() => noOrgHandler()} data-testid="withoutOrg">
         Услуги без организации
       </button>
@@ -45,7 +41,10 @@ const App = () => {
           )}
         </>
       )}
-    </>
+    </> 
+
+  return (
+      appContent
   );
 };
 

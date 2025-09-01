@@ -1,33 +1,45 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   chooseOrg,
   changingOrg,
-  delOrg,
-  fetchOrgs,
-  getAllOrganisation,
   getChosenOrganization,
   getOrganisationError,
 } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import OrganizationForm from './organizationForm';
+import {
+  useGetOrganizationQuery,
+  useDeleteOrganizationMutation,
+  useUpdateOrganizationMutation,
+  useAddOrganizationMutation,
+} from '../redux/slices/organizationRTKSlice';
+import Loading from '../components/loading';
+import { Organization as Org } from '../helpers/contractTypes';
 
 const Organization = () => {
   const dispatch = useAppDispatch();
-  const organizations = useAppSelector(getAllOrganisation);
   const choosenOrg = useAppSelector(getChosenOrganization);
   const errors = useAppSelector(getOrganisationError);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  const [deleteOrganization, { isLoading: isDeleteLoading }] = useDeleteOrganizationMutation();
+  const [_, { isLoading: isUpdateLoading }] = useUpdateOrganizationMutation();
+  const [__, { isLoading: isAddLoading }] = useAddOrganizationMutation();
+  const [organization, setOrganization] = useState<Org | undefined>();
+  const {
+    data: organizations = [],
+    isLoading: isGetLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetOrganizationQuery();
 
-  useEffect(() => {
-    dispatch(fetchOrgs());
-  }, []);
-  return (
+  const page = (
     <>
       <h2>Организации</h2>
       <h3>{errors}</h3>
-      <OrganizationForm />
+      <OrganizationForm changingOrg ={organization}/>
       {organizations.length == 0 ? (
         <>
           <h2>Список организаций не загружен</h2>
@@ -48,12 +60,14 @@ const Organization = () => {
                   onClick={() => {
                     setRemoveId(org.id);
                     setIsShowRemoveModal(true);
+                    dispatch(chooseOrg(null));
                   }}
                 >
                   Удалить
                 </button>
                 <button
                   onClick={() => {
+                    setOrganization(org);
                     dispatch(changingOrg(org));
                   }}
                 >
@@ -68,12 +82,14 @@ const Organization = () => {
       <h2>{choosenOrg?.name}</h2>
       {isShowRemoveModal && (
         <RemoveAgreePortal
-          remove={() => dispatch(delOrg(removeId))}
+          remove={() => deleteOrganization(removeId)}
           close={() => setIsShowRemoveModal(false)}
         />
       )}
     </>
   );
+
+  return isGetLoading || isUpdateLoading || isAddLoading || isDeleteLoading ? <Loading /> : page;
 };
 
 export default Organization;

@@ -1,9 +1,8 @@
 import { fetchServicesByOrgIdMonth } from '../../helpers/api';
 import { MONTH_R } from '../../helpers/helper';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { fetchContractsByOrgIMonth } from '../../redux/slices/contractSlice';
-import { getChosenOrganization, getAllOrganisation } from '../../redux/slices/orgsSlice';
-import { getChoosenMonth, getServices, chooseMonth } from '../../redux/slices/servicesSlice';
+import { getChosenOrganization } from '../../redux/slices/orgsSlice';
+import { getChoosenMonth, chooseMonth } from '../../redux/slices/servicesSlice';
 
 const SelectMonth = () => {
   const dispatch = useAppDispatch();
@@ -12,10 +11,7 @@ const SelectMonth = () => {
   const handlerChooseMonth = (month: string) => {
     dispatch(chooseMonth(month));
     if (choosenOrg) {
-      const orgId = choosenOrg?.id;
       dispatch(chooseMonth(month));
-      // dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: month }));
-      dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: month }));
     }
   };
   return (

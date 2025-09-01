@@ -68,7 +68,7 @@ const getToken = (payload, expires) => {
         })
     })
 const router = express.Router()
-
+router.get('/testErr',  asyncHandler( async (req, res) => {res.sendStatus(401);}))
 router.get('/test',  asyncHandler( async (req, res) => {
   
   const connection = await mysql.createConnection({
@@ -194,21 +194,22 @@ router.get('/getOrganizations',  asyncHandler( async (req, res) => {
 }));
 router.put('/addOrganization',  asyncHandler( async (req, res) => {
   let result = await Organization.create({
-    name: req.body.organization.name
+    name: req.body.name
   });
   res.status(200).json(result);
 }));
-router.delete('/removeOrganization',  asyncHandler( async (req, res) => {
+router.delete('/removeOrganization/:id',  asyncHandler( async (req, res) => {
+  const {id} = req.params
   let result = await Organization.destroy({
       where: {
-        id: req.body.id,
+        id: id,
       },
     });
     const statusCode = result == true ? 200 : 400;
     res.status(statusCode).json(result);
 }));
 router.patch('/updateOrganization',  asyncHandler( async (req, res) => {
-    const organization = req.body.organization;
+    const organization = req.body;
     let result = await Organization.update(
         organization,
         {
@@ -259,20 +260,21 @@ router.get('/getContractByOrgIdMonth/:orgId/:month', asyncHandler( async (req, r
     res.status(200).json(result);
 }));
 router.put('/addContracts',  asyncHandler( async (req, res) => {
-  let result = await Contracts.create(req.body.contract);
+  let result = await Contracts.create(req.body);
   res.status(200).json(result);
 }));
-router.delete('/removeContract',  asyncHandler( async (req, res) => {
+router.delete('/removeContract/:id',  asyncHandler( async (req, res) => {
+  const {id} = req.params
   let result = await Contracts.destroy({
       where: {
-        id: req.body.id,
+        id: id,
       },
     });
   const statusCode = result == true ? 200 : 400;
   res.status(statusCode).json(result);
 }));
 router.patch('/updateContract',  asyncHandler( async (req, res) => {
-    const contract = req.body.contract;
+    const contract = req.body;
     let result = await Contracts.update(
         contract,
         {
@@ -292,19 +294,19 @@ router.get('/getPersonalByOrgId/:id',  asyncHandler( async (req, res) => {
   res.status(200).json(result);
 }));
 router.put('/addPersonal',  asyncHandler( async (req, res) => {
-  let result = await Personal.create(req.body.personal);
+  let result = await Personal.create(req.body);
   res.status(200).json(result);
 }));
-router.delete('/removePersonal',  asyncHandler( async (req, res) => {
+router.delete('/removePersonal/:id',  asyncHandler( async (req, res) => {
   let result = await Personal.destroy({
       where: {
-        id: req.body.id,
+        id: req.params.id,
       },
     });
   res.status(200).json({isRemove: result});
 }));
 router.patch('/updatePersonal',  asyncHandler( async (req, res) => {
-    const personal = req.body.personal;
+    const personal = req.body;
     let result = await Personal.update(
         personal,
         {
@@ -387,19 +389,19 @@ router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   //   res.status(200).json(result);
 }));
 router.put('/addService',  asyncHandler( async (req, res) => {
-  let result = await Service.create(req.body.service);
+  let result = await Service.create(req.body);
   res.status(200).json(result);
 }));
-router.delete('/removeService',  asyncHandler( async (req, res) => {
+router.delete('/removeService/:id',  asyncHandler( async (req, res) => {
   let result = await Service.destroy({
       where: {
-        id: req.body.id,
+        id: req.params.id,
       },
     });
   res.status(200).json({isRemove: result});
 }));
 router.patch('/updateService',  asyncHandler( async (req, res) => {
-    const service = req.body.service;
+    const service = req.body;
     let result = await Service.update(
         service,
         {

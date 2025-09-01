@@ -1,4 +1,4 @@
-import { getShortName, getServicesCostWithNDS, NotNullubleValue } from '../../helpers/helper';
+import { getShortName, getServicesCostWithNDS } from '../../helpers/helper';
 import {
   COUNT_FOR_ONE_PAGE,
   FIRST_NAME,
@@ -10,15 +10,17 @@ import {
 import { convert as convertNumberToWordsRu } from 'number-to-words-ru';
 import style from './act.module.css';
 import { useAppSelector } from '../../redux/hooks';
-import { getChosenOrganization } from '../../redux/slices/orgsSlice';
-import { getChoosenMonth, getServices } from '../../redux/slices/servicesSlice';
-import { getAllPersonals } from '../../redux/slices/personalsSlice';
-import { getChoosenContracts } from '../../redux/slices/contractSlice';
+import { getChoosenMonth } from '../../redux/slices/servicesSlice';
+
 import { Contract, Personal, Service } from '../../helpers/contractTypes';
 import PageWrapper from '../pageWrapper';
 
 type ServiceForTableType = Pick<Service, 'name' | 'cost' | 'count'>;
-
+type ActZKHProps = {
+  contract: Contract;
+  personal: Personal[];
+  services: Service[];
+};
 type ActZKHHeadProps = {
   head?: Personal;
   sign?: Personal;
@@ -178,13 +180,11 @@ const ActZKHTable = ({ groupedServices, itog, choosenMonth }: ActZKTableProps) =
     </>
   );
 };
-const ActZKH = () => {
+const ActZKH = ({ contract, personal, services }: ActZKHProps) => {
   const choosenMonth = useAppSelector(getChoosenMonth);
-  const services = useAppSelector(getServices);
-  const personals = useAppSelector(getAllPersonals);
-  const contract = useAppSelector(getChoosenContracts);
-  const head = personals.find((p) => p.isHead);
-  const sign = personals.find((p) => !p.isHead);
+
+  const head = personal.find((p) => p.isHead);
+  const sign = personal.find((p) => !p.isHead);
   const itog = getServicesCostWithNDS(services);
   const groupedServices = groupServiseByCostAndName(services);
 

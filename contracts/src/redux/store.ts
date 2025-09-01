@@ -1,27 +1,44 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  createListenerMiddleware,
+  isRejected,
+  Middleware,
+  MiddlewareAPI,
+} from '@reduxjs/toolkit';
 
-import authReducer from '../redux/slices/authSlice';
+import { apiSlice } from './slices/apiSlice';
+import authReducer, { changeStatus } from '../redux/slices/authSlice';
 import orgsReducer from '../redux/slices/orgsSlice';
-import contractsReducer from '../redux/slices/contractSlice';
-import personalsSlicer from '../redux/slices/personalsSlice';
+
+
 import servicesSlicer from '../redux/slices/servicesSlice';
-// import postsReducer from '@/features/posts/postsSlice'
-// import use from '../features/users/usersSlice'
 const rootReducer = combineReducers({
   auth: authReducer,
   orgs: orgsReducer,
-  contract: contractsReducer,
-  personals: personalsSlicer,
   services: servicesSlicer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
 });
-// export const store1 = configureStore({
-//   reducer: rootReducer
-// })
 
+export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
+  if (isRejected(action)) {
+    //@ts-ignore
+    if (action.payload?.originalStatus === 401 && action.payload?.originalStatus === 403) {
+      api.dispatch(changeStatus());
+    }
+  }
+
+  return next(action);
+};
 export const store = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer: rootReducer,
     preloadedState,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware()
+        .prepend(createListenerMiddleware().middleware)
+        .concat(apiSlice.middleware)
+        .concat(rtkQueryErrorLogger),
   });
 };
 // // Infer the type of `store`

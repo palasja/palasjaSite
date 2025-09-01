@@ -1,17 +1,20 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Personal } from '../helpers/contractTypes';
-import { createPersonal, editPerson, getChangingPersonals } from '../redux/slices/personalsSlice';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
+import {
+  useAddPersonalMutation,
+  useUpdatePersonalMutation,
+} from '../redux/slices/personalRTKSlice';
 
-const PersonalForm = () => {
-  const dispatch = useAppDispatch();
+type ChangingPersonalFormProps = { changingPersonal: Personal | undefined };
+
+const PersonalForm = ({ changingPersonal }: ChangingPersonalFormProps) => {
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const changingPersonal = useAppSelector(getChangingPersonals);
   const {
     register,
     handleSubmit,
@@ -19,15 +22,17 @@ const PersonalForm = () => {
     reset,
     formState: { errors },
   } = useForm<Personal>();
+  const [addPersonal] = useAddPersonalMutation();
+  const [updatePersonal] = useUpdatePersonalMutation();
 
   const onSubmitCreate: SubmitHandler<Personal> = (data) => {
     data = trimObjectProperty(data);
-    dispatch(createPersonal(data));
+    addPersonal(data);
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
     data = trimObjectProperty(data);
-    dispatch(editPerson(data));
+    updatePersonal(data);
     resetForm();
   };
   const resetForm = () => {

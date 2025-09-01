@@ -1,2 +1,2 @@
-import ActPMS from './act';
+import ActPMS from './actPMS';
 export default ActPMS;

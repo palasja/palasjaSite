@@ -1,32 +1,42 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
-  delService,
-  fetchServicesByOrgIdMonth,
-  getServices,
   getChoosenMonth,
   chooseMonth,
-  changingService,
 } from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
+import { Service } from '../helpers/contractTypes';
+import {
+  useAddServiceMutation,
+  useDeleteServiceMutation,
+  useLazyGetServicesByOrgIdMonthQuery,
+  useUpdateServiceMutation,
+} from '../redux/slices/servicesRTKSlice';
+import Loading from '../components/loading';
+import RemoveAgreePortal from '../components/modal/removeModal';
+import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 const Services = () => {
   const dispatch = useAppDispatch();
-  const services = useAppSelector(getServices);
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
-
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  const [loadServices, { data: services, isLoading: isGetLoading }] =
+    useLazyGetServicesByOrgIdMonthQuery();
+  const [deleteService, { isLoading: isDeleteLoading }] = useDeleteServiceMutation();
+  const [_, { isLoading: isUpdateLoading }] = useUpdateServiceMutation();
+  const [__, { isLoading: isAddLoading }] = useAddServiceMutation();
+  const [changingService, setChangingService] = useState<Service | undefined>();
   useEffect(() => {
     if (choosenOrg === null) {
-      dispatch(fetchServicesByOrgIdMonth({ orgId: null, month: choosenMonth }));
+      loadServices({ orgId: null, month: choosenMonth });
     } else if (choosenOrg) {
-      dispatch(fetchServicesByOrgIdMonth({ orgId: choosenOrg.id, month: choosenMonth }));
+      loadServices({ orgId: choosenOrg.id, month: choosenMonth });
     }
   }, [choosenMonth, choosenOrg]);
-
-  return (
+  const page = (
     <>
       <h3>Услуги</h3>
       <div>
@@ -40,30 +50,38 @@ const Services = () => {
           })}
         </select>
       </div>
-      <ServiceForm />
-      {services.length == 0 ? (
+      <ServiceForm changingService={changingService} />
+      {services?.length == 0 ? (
         <></>
       ) : (
         <ul>
-          {services.map((service) => {
+          {services?.map((service) => {
             return (
               <li key={service.id}>
                 {`${service.name} ${service.date} ${service.count} ${service.cost}`}
                 <button
-                  onClick={async () => {
-                    dispatch(delService(service.id));
+                  onClick={() => {
+                    setRemoveId(service.id);
+                    setIsShowRemoveModal(true);
                   }}
                 >
                   Удалить
                 </button>
-                <button onClick={() => dispatch(changingService(service))}>Изменить</button>
+                <button onClick={() => setChangingService(service)}>Изменить</button>
               </li>
             );
           })}
         </ul>
       )}
+      {isShowRemoveModal && (
+        <RemoveAgreePortal
+          remove={() => deleteService(removeId)}
+          close={() => setIsShowRemoveModal(false)}
+        />
+      )}
     </>
   );
+  return isGetLoading || isUpdateLoading || isAddLoading || isDeleteLoading ? <Loading /> : page;
 };
 
 export default Services;

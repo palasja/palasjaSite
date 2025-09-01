@@ -14,41 +14,35 @@ import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   chooseMonth,
-  getServices,
   getChoosenMonth,
-  fetchServicesByOrgIdMonth,
-  getServicesSatus,
 } from '../redux/slices/servicesSlice';
 import {
   chooseOrg,
-  fetchOrgs,
-  getAllOrganisation,
   getChosenOrganization,
   getOrganisationError,
   getOrganisationSatus,
 } from '../redux/slices/orgsSlice';
-import { fetchPersonalsByOrgId, getPersonalSatus } from '../redux/slices/personalsSlice';
-import { fetchContractsByOrgIMonth, getContractSatus } from '../redux/slices/contractSlice';
-import PageWrapper from './pageWrapper';
-import useIsLoading from '../hooks/useIsLoading';
+import { useGetOrganizationQuery } from '../redux/slices/organizationRTKSlice';
+import { useLazyGetContractsByOrgIdMonthQuery } from '../redux/slices/contractRTKSlice';
+import { Contract } from '../helpers/contractTypes';
+import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
+import { useLazyGetServicesByOrgIdMonthQuery } from '../redux/slices/servicesRTKSlice';
 
 const Act = () => {
   const dispatch = useAppDispatch();
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const organizations = useAppSelector(getAllOrganisation);
-  const services = useAppSelector(getServices);
-  useEffect(() => {
-    if (organizations.length == 0) dispatch(fetchOrgs());
-  }, []);
-
+  const { data: organizations = [] } = useGetOrganizationQuery();
+  const [loadContract, { data: choosenContract }] = useLazyGetContractsByOrgIdMonthQuery();
+  const [loadPersonal, { data: personal }] = useLazyGetPersonalsByOrgIdQuery();
+  const [loadServices, { data: services }] = useLazyGetServicesByOrgIdMonthQuery();
   const handlerChooseMonth = (month: string) => {
     dispatch(chooseMonth(month));
     if (choosenOrg) {
       const orgId = choosenOrg?.id;
       dispatch(chooseMonth(month));
-      dispatch(fetchServicesByOrgIdMonth({ orgId: orgId, month: month }));
-      dispatch(fetchContractsByOrgIMonth({ orgId: orgId, month: month }));
+      loadServices({ orgId: orgId, month: month });
+      loadContract({ orgId: orgId, month: month });
     }
   };
   const handlerChooseOrganization = (id: string) => {
@@ -56,9 +50,9 @@ const Act = () => {
       const idNum = getIdNum(id);
       const organization = NotNullubleValue(organizations.find((o) => o.id === idNum));
       dispatch(chooseOrg(organization));
-      dispatch(fetchServicesByOrgIdMonth({ orgId: idNum, month: choosenMonth }));
-      dispatch(fetchPersonalsByOrgId(idNum));
-      dispatch(fetchContractsByOrgIMonth({ orgId: idNum, month: choosenMonth }));
+      loadServices({ orgId: idNum, month: choosenMonth });
+      loadPersonal(idNum);
+      loadContract({ orgId: organization.id, month: choosenMonth });
     }
   };
 
@@ -98,7 +92,7 @@ const Act = () => {
         <h2>Нет договора за {MONTH_R[Number.parseInt(choosenMonth)]} месяц</h2>
       ) : ( */}
       <>
-        {choosenOrg?.name === 'ЖКХ' ? (
+        {choosenOrg?.name === 'ЖКХ' && services !== undefined ? (
           <>
             <article className="noprint">
               <p>Заработано = {getServicesCost(services)}</p>
@@ -108,24 +102,30 @@ const Act = () => {
                 {getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)}
               </p>
             </article>
-            <ActZKH />
+            {choosenContract && personal && (
+              <ActZKH contract={choosenContract} personal={personal} services={services} />
+            )}
           </>
         ) : (
-          <>
-            <article className="noprint">
-              <p>Заработано = {getServicesCost(services)}</p>
-              <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
-              <p>
-                К получению после вычета НДС ={' '}
-                {getServicesCostWithNDS_47(services) -
-                  getServicesCost(services) *
-                    ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
-              </p>
-            </article>
-            <div className={style.page}>
-              <ActPMS />
-            </div>
-          </>
+          services && (
+            <>
+              <article className="noprint">
+                <p>Заработано = {getServicesCost(services)}</p>
+                <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
+                <p>
+                  К получению после вычета НДС ={' '}
+                  {getServicesCostWithNDS_47(services) -
+                    getServicesCost(services) *
+                      ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)}
+                </p>
+              </article>
+              <div className={style.page}>
+                {choosenContract && personal && (
+                  <ActPMS contract={choosenContract} personal={personal} services={services} />
+                )}
+              </div>
+            </>
+          )
         )}
       </>
       {/* )} */}
