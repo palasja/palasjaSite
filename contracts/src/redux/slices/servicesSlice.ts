@@ -1,15 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FetchStatus, Service } from '../../helpers/contractTypes';
-import { createAppAsyncThunk } from '../../redux/withTypes';
-import {
-  fetchServicesByOrgIdMonth as fetchServices,
-  removeService,
-  updateService,
-  addService,
-} from '../../helpers/api';
+import {  Service } from '../../helpers/contractTypes';
+
 import { RootState } from '../../redux/store';
-import { AuthError } from '../../helpers/authError';
-import { changeStatus } from './authSlice';
 
 interface ServicesState {
   // services: Service[];

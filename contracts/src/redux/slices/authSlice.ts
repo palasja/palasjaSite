@@ -1,9 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createAppAsyncThunk } from '../../redux/withTypes';
-import { fetchLogIn, fetchLogOut, fetchSignIn, fetchСheckAuth } from '../../helpers/api';
+import { createSlice, } from '@reduxjs/toolkit';
 import { RootState } from '../../redux/store';
-import { FetchStatus, User } from '../../helpers/contractTypes';
-import { redirect } from 'react-router';
+import { FetchStatus } from '../../helpers/contractTypes';
 
 interface AuthState {
   authErrorMessage: string | null;

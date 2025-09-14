@@ -9,7 +9,7 @@ const Logout = () => {
   useEffect(() => {
     const out = async() => {
       let result = await logout().unwrap();
-      if (result == 'OK') navigate('/contract');
+      if (result == 'OK') navigate('/');
     }
     out();
   }, []);
