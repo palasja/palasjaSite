@@ -11,9 +11,9 @@ const Home = () => {
       <Description />
       <Skils />
       <Education />
-      <Languages />
-      <Experience />
-      <Certificates />
+      <Languages /> 
+      <Experience />  
+      {/* <Certificates /> */}
     </main>
   );
 };

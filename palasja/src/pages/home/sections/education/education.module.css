@@ -13,15 +13,19 @@
   text-transform: uppercase;
 }
 
-.inner {
+.innerContainer {
   display: flex;
   margin-right: 45px;
   font-size: 16px;
 }
 
-.inner:last-child {
-  margin-right: 0;
+.inner {
+  display: flex;
+  margin-right: 45px;
 }
+/* .inner:last-child {
+  margin-right: 0;
+} */
 
 .specialization {
   font-family: 'Manrope', sans-serif;
@@ -33,3 +37,19 @@
 .date {
   margin-right: 65px;
 }
+@media (max-width: 362px ) {
+  .innerContainer{
+    flex-direction: column;
+    margin-right: 0;
+    gap: 15px;
+    font-size: 14px;
+  }
+  .inner {
+    margin-right: 0;
+    gap: 50px;
+  }
+  .date {
+    margin-right: 0;
+  }
+}
+

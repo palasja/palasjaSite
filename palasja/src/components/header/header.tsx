@@ -1,28 +1,33 @@
-import { Link } from 'react-router';
+import { NavLink } from 'react-router';
 import style from './header.module.css';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { ContentContainer } from '../containers/contentContainer';
 import LangSelect from '../langSelect';
+import Burger from './burger';
+import { useState, useEffect } from 'react';
+import { MOBILE_WIDTH } from '../../helpers/heper';
 
 const Header = () => {
   const { t, i18n } = useTranslation();
+    const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    setIsMobile(document.body.clientWidth <= MOBILE_WIDTH ? true : false);
+  }, []);
   //changeLanguage
   return (
     <header className={style.header}>
       <ContentContainer>
-        {/* <FontAwesomeIcon icon={faFacebookF} /> */}
-        {/* <FontAwesomeIcon icon="fa-brands fa-twitter" /> */}
-        <div className={style.inner}>
+        <div className={style.inner} id='test'>
           <p className={style.logo}>ИВАН ЯКУБЕНКО</p>
           <nav className={style.nav}>
-            <Link className={style.link} to={'/'}>
+            <NavLink className={style.link} to={'/'}
+            >
               {t('menu.home')}
-            </Link>
-            <Link className={style.link} to={'projects'}>
+            </NavLink>
+            <NavLink className={style.link} to={'projects'}>
               {t('menu.project')}
-            </Link>
+            </NavLink>
             <div className={style.link}>
               {t('menu.contacts')}
 
@@ -35,7 +40,7 @@ const Header = () => {
               </div>
             </div>
           </nav>
-
+          
           {/* <div className={style.nav}>
           <select className={style.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
             <option value="ru">ru</option>
@@ -44,6 +49,7 @@ const Header = () => {
           </select>
         </div> */}
           <LangSelect />
+          {isMobile && <Burger />}
         </div>
       </ContentContainer>
     </header>

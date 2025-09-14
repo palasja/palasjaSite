@@ -31,3 +31,24 @@
   height: 35px;
   margin-right: 25px;
 }
+
+.skillName{
+  margin-right: 5px;
+}
+
+@media (max-width: 362px ) {
+  .head{
+    font-size: 20px;
+  }
+  .inner {
+    font-size: 14px;
+  }
+  .skillName{
+    display: none;
+  }
+  .img{
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+  }
+}

@@ -8,7 +8,7 @@ const Education = () => {
     <ContentWrapper>
       <div className={style.education}>
         <h4 className={style.head_}>{t('home.cw.education.education')}</h4>
-        <div className={style.inner}>
+        <div className={style.innerContainer}>
           <div className={style.inner}>
             <div className={style.date}>{t('home.cw.education.collegeDate')}</div>
             <div>

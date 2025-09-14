@@ -19,17 +19,28 @@
   border: none;
   border-radius: 8px;
   appearance: none;
-  padding: 9px;
+  padding: 3px 7px;
   cursor: pointer;
 }
-.nav:hover > ul {
+.lang:hover > ul {
   display: block;
 }
 
-.nav {
+.lang {
   width: 35px;
 }
 
 .disabled {
   pointer-events: none;
 }
+
+@media (max-width: 362px ) {
+  /* .lang{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    align-items: end;
+    margin-right: 15px;
+  } */
+}
+

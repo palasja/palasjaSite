@@ -16,25 +16,25 @@ const Skils = () => {
         <div>
           <div className={style.inner}>
             <img src={code} className={style.img}></img>
-            <span>{t('home.cw.skils.languages')}:</span> SQL, JS, C#, SQL, Typescript, CSS, HTML5,
+            <span className={style.skillName}>{t('home.cw.skils.languages')}: </span> SQL, JS, C#, SQL, Typescript, CSS, HTML5,
             Node.js, Batch
           </div>
           <div className={style.inner}>
             <img src={set} className={style.img}></img>
-            <span>{t('home.cw.skils.frameworks')}:</span> Express, ASP.NET Core, React
+            <span className={style.skillName}>{t('home.cw.skils.frameworks')}: </span> Express, ASP.NET Core, React
           </div>
           <div className={style.inner}>
             <img src={wrench} className={style.img}></img>
-            <span>{t('home.cw.skils.tools')}:</span> Enterprise Manager, MS Office, IBExpert, Vmware
+            <span className={style.skillName}>{t('home.cw.skils.tools')}: </span> Enterprise Manager, MS Office, IBExpert, Vmware
             Workstation, VSphere, Sequelize, Git, Vite
           </div>
           <div className={style.inner}>
             <img src={win} className={style.img}></img>
-            <span>{t('home.cw.skils.platforms')}:</span> Visual Studio, Visual Studio Code
+            <span className={style.skillName}>{t('home.cw.skils.platforms')}: </span> Visual Studio, Visual Studio Code
           </div>
           <div className={style.inner}>
             <img src={head} className={style.img}></img>
-            <span>{t('home.cw.skils.softSkils')}:</span> Self-organization, Stress resilience,
+            <span className={style.skillName}>{t('home.cw.skils.softSkils')}: </span> Self-organization, Stress resilience,
             Problem solving, Adaptability and flexibility
           </div>
         </div>
