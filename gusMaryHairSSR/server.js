@@ -6,15 +6,7 @@ import robots from 'express-robots-txt';
 const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 3004;
 const base = process.env.BASE || '/';
-const botList = [
-  'baiduspider',
-  'baiduspider-mobile',
-  'bingbot',
-  'Googlebot',
-  'Storebot-Google',
-  'slurp',
-  'YandexBot',
-];
+
 
 // Cached production assets
 const templateHtml = isProduction ? await fs.readFile('./dist/client/index.html', 'utf-8') : '';

@@ -211,7 +211,7 @@ app.get('/servicesCost', asyncHandler( async (req, res) => {
     let fullData = [{services: servicesWithoutType }, {name: types.name, services: servicesWithType }];
     res.json(fullData);
 }));
-app.listen(3003, function(err){
+app.listen(3013, function(err){
     if (err) console.log("Error in server setup")
-    console.log("Server listening on Port", 3003);
+    console.log("Server listening on Port", 3013);
 })
