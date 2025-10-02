@@ -11,7 +11,6 @@ import { apiSlice } from './slices/apiSlice';
 import authReducer, { changeStatus } from '../redux/slices/authSlice';
 import orgsReducer from '../redux/slices/orgsSlice';
 
-
 import servicesSlicer from '../redux/slices/servicesSlice';
 const rootReducer = combineReducers({
   auth: authReducer,

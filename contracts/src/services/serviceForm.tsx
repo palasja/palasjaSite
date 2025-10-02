@@ -8,9 +8,9 @@ import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
 
-type ChangingServiceFormProps = { changingService: Service | undefined };
+type ChangingServiceFormProps = { changingService: Service | undefined; clearCallback: () => void };
 
-const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
+const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProps) => {
   const {
     register,
     handleSubmit,
@@ -25,6 +25,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
+    data.ispaid = isWithoutOrg;
     addService(data);
     resetForm();
   };
@@ -49,6 +50,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
       setValue('place', changingService.place);
       setValue('cost', changingService.cost);
       setValue('count', changingService.count);
+      setValue('description', changingService.description);
     } else {
       resetForm();
     }
@@ -120,8 +122,19 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
             })}
           />
         </div>
+        <div>
+          <label htmlFor="description">Комент</label>
+          <textarea {...register('description')} />
+        </div>
         <input type="submit" value={btnValue} />
-        <input type="button" onClick={resetForm} value="Очистить" />
+        <input
+          type="button"
+          onClick={() => {
+            resetForm();
+            clearCallback();
+          }}
+          value="Очистить"
+        />
       </form>
     </>
   );

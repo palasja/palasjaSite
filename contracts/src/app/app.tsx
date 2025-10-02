@@ -16,7 +16,8 @@ const App = () => {
     dispatch(chooseOrg(null));
   };
 
-  const appContent =     <>
+  const appContent = (
+    <>
       <button onClick={() => noOrgHandler()} data-testid="withoutOrg">
         Услуги без организации
       </button>
@@ -41,11 +42,10 @@ const App = () => {
           )}
         </>
       )}
-    </> 
-
-  return (
-      appContent
+    </>
   );
+
+  return appContent;
 };
 
 export default App;

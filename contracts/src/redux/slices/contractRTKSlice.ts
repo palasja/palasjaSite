@@ -1,4 +1,4 @@
-import { Contract, ContractScan, OrgMonth } from '../../helpers/contractTypes';
+import { Contract, ContractScan, OrgMonthPayment } from '../../helpers/contractTypes';
 import { providesRTKTagList } from '../../helpers/helper';
 import { apiSlice } from './apiSlice';
 
@@ -8,7 +8,7 @@ const contractApi = apiSlice.injectEndpoints({
       query: (orgId) => `/getContractsByOrg/${orgId}`,
       providesTags: (result) => providesRTKTagList(result, 'Contract'),
     }),
-    getContractsByOrgIdMonth: builder.query<Contract, OrgMonth>({
+    getContractsByOrgIdMonth: builder.query<Contract, OrgMonthPayment>({
       query: ({ orgId, month }) => `getContractByOrgIdMonth/${orgId}/${month}`,
     }),
     getContractsScan: builder.query<{ scan: string }, ContractScan>({

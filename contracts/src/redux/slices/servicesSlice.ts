@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {  Service } from '../../helpers/contractTypes';
+import { Service } from '../../helpers/contractTypes';
 
 import { RootState } from '../../redux/store';
 
@@ -7,7 +7,7 @@ interface ServicesState {
   // services: Service[];
   choosenMonth: string;
   isWithoutOrg: boolean;
-  changingService: Service | null;
+  // changingService: Service | null;
   // status: FetchStatus;
 }
 
@@ -91,7 +91,7 @@ const initialState: ServicesState = {
   // services: [],
   choosenMonth: new Date().getMonth().toString(),
   isWithoutOrg: false,
-  changingService: null,
+  // changingService: null,
   // status: 'idle',
 };
 
@@ -157,6 +157,6 @@ export default servicesSlicer.reducer;
 // export const getServices = (state: RootState) => state.services.services;
 export const getChoosenMonth = (state: RootState) => state.services.choosenMonth;
 export const getIsWithoutOrg = (state: RootState) => state.services.isWithoutOrg;
-export const getChangingService = (state: RootState) => state.services.changingService;
+// export const getChangingService = (state: RootState) => state.services.changingService;
 // export const getServicesSatus = (state: RootState) => state.services.status;
 // export const isServicesLoading = (state: RootState) => state.services.status === 'pending';

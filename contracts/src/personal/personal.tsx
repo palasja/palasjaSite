@@ -36,8 +36,11 @@ const Personals = () => {
   const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
   const page = (
     <>
-      <h3>Personal</h3>
-      <PersonalForm changingPersonal={changingPersonal} />
+      <h3>Personal ( {choosenOrg?.name} )</h3>
+      <PersonalForm
+        changingPersonal={changingPersonal}
+        clearCallback={() => setChangingPersonal(undefined)}
+      />
 
       {personals.length == 0 ? (
         <></>

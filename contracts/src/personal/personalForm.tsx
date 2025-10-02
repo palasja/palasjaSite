@@ -10,9 +10,12 @@ import {
   useUpdatePersonalMutation,
 } from '../redux/slices/personalRTKSlice';
 
-type ChangingPersonalFormProps = { changingPersonal: Personal | undefined };
+type ChangingPersonalFormProps = {
+  changingPersonal: Personal | undefined;
+  clearCallback: () => void;
+};
 
-const PersonalForm = ({ changingPersonal }: ChangingPersonalFormProps) => {
+const PersonalForm = ({ changingPersonal, clearCallback }: ChangingPersonalFormProps) => {
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const {
@@ -120,6 +123,7 @@ const PersonalForm = ({ changingPersonal }: ChangingPersonalFormProps) => {
       <button
         onClick={() => {
           resetForm();
+          clearCallback();
         }}
       >
         Очистить

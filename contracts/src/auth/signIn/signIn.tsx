@@ -5,7 +5,6 @@ import style from './signIn.module.css';
 import { useNavigate } from 'react-router';
 import { useLazySigninQuery } from '../../redux/slices/authRTKSlce';
 
-
 type FormValues = {
   login: string;
   password: string;
@@ -19,8 +18,8 @@ const SignIn = () => {
   } = useForm<FormValues>();
   const navigate = useNavigate();
   const [signin] = useLazySigninQuery();
-  const onSubmit: SubmitHandler<FormValues> = async(data) => {
-     let result = await signin(data).unwrap();
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    let result = await signin(data).unwrap();
     if (result == 'OK') navigate('/contract');
   };
   return (

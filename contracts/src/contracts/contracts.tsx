@@ -42,8 +42,11 @@ function Contracts() {
 
   const page = (
     <>
-      <h3>Договора</h3>
-      <ContractForm changingContract={changingContract} />
+      <h3>Договора ( {choosenOrg?.name} )</h3>
+      <ContractForm
+        changingContract={changingContract}
+        clearCallback={() => setChangingContract(undefined)}
+      />
 
       {contracts.length == 0 ? (
         <></>

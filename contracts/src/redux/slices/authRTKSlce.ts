@@ -48,4 +48,11 @@ const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLazySigninQuery, useLazyLoginQuery, useLazyLogoutQuery, useLazyCheckQuery, useLogoutQuery, useCheckQuery, } = authApi;
+export const {
+  useLazySigninQuery,
+  useLazyLoginQuery,
+  useLazyLogoutQuery,
+  useLazyCheckQuery,
+  useLogoutQuery,
+  useCheckQuery,
+} = authApi;

@@ -46,9 +46,14 @@ export const getShortName = (person: Personal | undefined): string => {
     : `${person.firstName[0]}. ${person.middleName[0]}. ${person.lastName}`;
 };
 
+export const circleCost = (cost: number) => {
+  return Math.trunc(cost * 100) / 100;
+};
+
 export const getServicesCostWithNDS = (services: Service[]) => {
   const itogSumm = getServicesCost(services);
-  return (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
+  const itogWithNDS = Math.trunc((itogSumm + itogSumm * (NDS / 100)) * 100) / 100;
+  return circleCost(itogWithNDS);
 };
 
 /**

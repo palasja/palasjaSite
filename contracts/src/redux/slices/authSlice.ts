@@ -1,4 +1,4 @@
-import { createSlice, } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../redux/store';
 import { FetchStatus } from '../../helpers/contractTypes';
 

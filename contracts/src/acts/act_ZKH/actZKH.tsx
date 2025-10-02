@@ -1,4 +1,4 @@
-import { getShortName, getServicesCostWithNDS } from '../../helpers/helper';
+import { getShortName, getServicesCostWithNDS, MONTH_R } from '../../helpers/helper';
 import {
   COUNT_FOR_ONE_PAGE,
   FIRST_NAME,
@@ -20,10 +20,12 @@ type ActZKHProps = {
   contract: Contract;
   personal: Personal[];
   services: Service[];
+  signDate: Date;
 };
 type ActZKHHeadProps = {
   head?: Personal;
   sign?: Personal;
+  signDate: Date;
 };
 type ActZKFooterProps = {
   contract: Contract | null;
@@ -60,7 +62,7 @@ const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] =
   return sortedByNameArray;
 };
 
-const ActZKHHead = ({ head, sign }: ActZKHHeadProps) => {
+const ActZKHHead = ({ head, sign, signDate }: ActZKHHeadProps) => {
   return (
     <>
       <div className={style.headSign}>
@@ -80,7 +82,9 @@ const ActZKHHead = ({ head, sign }: ActZKHHeadProps) => {
 
       <div className={style.underAct}>
         <p>г. Наровля</p>
-        <p>«___»___________2025</p>
+        <p className={style.variable}>
+          « {signDate.getDate()} » {MONTH_R[signDate.getMonth()]} {signDate.getFullYear()}
+        </p>
       </div>
 
       <div className={style.indent}>
@@ -180,11 +184,10 @@ const ActZKHTable = ({ groupedServices, itog, choosenMonth }: ActZKTableProps) =
     </>
   );
 };
-const ActZKH = ({ contract, personal, services }: ActZKHProps) => {
+const ActZKH = ({ contract, personal, services, signDate }: ActZKHProps) => {
   const choosenMonth = useAppSelector(getChoosenMonth);
-
-  const head = personal.find((p) => p.isHead);
-  const sign = personal.find((p) => !p.isHead);
+  const head = personal[0];
+  const sign = personal[1];
   const itog = getServicesCostWithNDS(services);
   const groupedServices = groupServiseByCostAndName(services);
 
@@ -194,14 +197,14 @@ const ActZKH = ({ contract, personal, services }: ActZKHProps) => {
     <>
       {pageCount === 1 ? (
         <PageWrapper>
-          <ActZKHHead head={head} sign={sign} />
+          <ActZKHHead head={head} sign={sign} signDate={signDate} />
           <ActZKHTable groupedServices={groupedServices} itog={itog} choosenMonth={choosenMonth} />
           <ActZKHFooter contract={contract} sign={sign} />
         </PageWrapper>
       ) : (
         <>
           <PageWrapper>
-            <ActZKHHead head={head} sign={sign} />
+            <ActZKHHead head={head} sign={sign} signDate={signDate} />
             <ActZKHTable groupedServices={groupedServices.slice(0, COUNT_SERVICES_ON_BREAK_PAGE)} />
           </PageWrapper>
           <PageWrapper>

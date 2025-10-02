@@ -37,7 +37,7 @@ const orgsSlice = createSlice({
     chooseOrg(state, action: PayloadAction<Organization | null>) {
       state.chosenOrg = action.payload;
     },
-    changingOrg(state, action: PayloadAction<Organization>) {
+    changingOrg(state, action: PayloadAction<Organization | null>) {
       state.changingOrg = action.payload;
     },
   },

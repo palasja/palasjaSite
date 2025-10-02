@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './login.module.css';
 import { Link, useNavigate } from 'react-router';
 import { useLazyCheckQuery, useLazyLoginQuery } from '../../redux/slices/authRTKSlce';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type FormValues = {
   login: string;
@@ -18,58 +18,66 @@ const Login = () => {
   const navigate = useNavigate();
   const [login] = useLazyLoginQuery();
   const [check] = useLazyCheckQuery();
+  const [isCheked, setIsChecked] = useState(false);
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     let result = await login(data).unwrap();
     if (result == 'OK') navigate('/contract');
   };
   useEffect(() => {
     const checkAuth = async () => {
-      let result = await check().unwrap();
-      if (result == 'OK') navigate('/contract');
-    }
+      try {
+        let result = await check().unwrap();
+        if (result == 'OK') navigate('/contract');
+      } catch {
+        setIsChecked(true);
+      }
+    };
     checkAuth();
-  } ,[]);
+  }, []);
+
   return (
-    <>
-      <section className={style.auth}>
-        <Link to={'/signIn'}>signIn</Link>
-        <div className={style.formContainer}>
-          <h3 className={style.formName}>Войти</h3>
-          {/* {errorMessage && <p className={style.errorMeaasge}>{errorMessage}</p>} */}
-          {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}
-          {errors.password && <p className={style.errorMeaasge}>{errors.password.message}</p>}
-          <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
-            <div className={style.inputField}>
-              <label className={style.label} htmlFor="login">
-                Логин
-              </label>
-              <input
-                data-testid="login"
-                className={style.input}
-                {...register('login', {
-                  required: { value: true, message: 'Логин должно быть заполнено' },
-                  maxLength: 10,
-                })}
-              />
-            </div>
-            <div className={style.inputField}>
-              <label className={style.label} htmlFor="password">
-                Пароль
-              </label>
-              <input
-                data-testid="pass"
-                className={style.input}
-                {...register('password', {
-                  required: { value: true, message: 'Пароль должно быть заполнено' },
-                  maxLength: 10,
-                })}
-              />
-            </div>
-            <input className={style.submit} type="submit" value="Войти" data-testid="submit" />
-          </form>
-        </div>
-      </section>
-    </>
+    isCheked && (
+      <>
+        <section className={style.auth}>
+          <Link to={'/signIn'}>signIn</Link>
+          <div className={style.formContainer}>
+            <h3 className={style.formName}>Войти</h3>
+            {/* {errorMessage && <p className={style.errorMeaasge}>{errorMessage}</p>} */}
+            {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}
+            {errors.password && <p className={style.errorMeaasge}>{errors.password.message}</p>}
+            <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
+              <div className={style.inputField}>
+                <label className={style.label} htmlFor="login">
+                  Логин
+                </label>
+                <input
+                  data-testid="login"
+                  className={style.input}
+                  {...register('login', {
+                    required: { value: true, message: 'Логин должно быть заполнено' },
+                    maxLength: 10,
+                  })}
+                />
+              </div>
+              <div className={style.inputField}>
+                <label className={style.label} htmlFor="password">
+                  Пароль
+                </label>
+                <input
+                  data-testid="pass"
+                  className={style.input}
+                  {...register('password', {
+                    required: { value: true, message: 'Пароль должно быть заполнено' },
+                    maxLength: 10,
+                  })}
+                />
+              </div>
+              <input className={style.submit} type="submit" value="Войти" data-testid="submit" />
+            </form>
+          </div>
+        </section>
+      </>
+    )
   );
 };
 

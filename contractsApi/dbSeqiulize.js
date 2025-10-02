@@ -110,6 +110,13 @@ const Organization = sequelize.define("organization", {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
+        ispaid: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+        },
+        description: {
+          type: DataTypes.STRING
+        },
         orgId:{
           type: Sequelize.INTEGER,
         },

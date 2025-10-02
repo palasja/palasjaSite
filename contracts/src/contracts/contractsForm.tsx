@@ -10,9 +10,12 @@ import {
   useUpdateContractMutation,
 } from '../redux/slices/contractRTKSlice';
 
-type ChangingContractFormProps = { changingContract: Contract | undefined };
+type ChangingContractFormProps = {
+  changingContract: Contract | undefined;
+  clearCallback: () => void;
+};
 
-const ContractForm = ({ changingContract }: ChangingContractFormProps) => {
+const ContractForm = ({ changingContract, clearCallback }: ChangingContractFormProps) => {
   const {
     register,
     handleSubmit,
@@ -121,6 +124,7 @@ const ContractForm = ({ changingContract }: ChangingContractFormProps) => {
         <button
           onClick={() => {
             resetForm();
+            clearCallback();
           }}
         >
           Очистить

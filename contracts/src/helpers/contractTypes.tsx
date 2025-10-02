@@ -33,6 +33,8 @@ type Service = {
   cost: number;
   count: number;
   orgId?: string;
+  description: string;
+  ispaid: boolean;
 };
 
 type CreateService = Omit<Service, 'id'>;
@@ -59,9 +61,10 @@ export type {
   FetchStatus,
 };
 
-export type OrgMonth = {
+export type OrgMonthPayment = {
   orgId: number | null;
   month: string;
+  isPaid?: boolean;
 };
 
 export type ContractScan = {

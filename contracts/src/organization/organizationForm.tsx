@@ -7,11 +7,12 @@ import {
   useAddOrganizationMutation,
   useUpdateOrganizationMutation,
 } from '../redux/slices/organizationRTKSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { changingOrg, getChangingOrganization } from '../redux/slices/orgsSlice';
 
-type OrganizationForm = {
-  changingOrg: Organization | undefined;
-}
-const OrganizationForm = ({changingOrg}: OrganizationForm) => {
+const OrganizationForm = () => {
+  const dispatch = useAppDispatch();
+  const org = useAppSelector(getChangingOrganization);
   const {
     register,
     handleSubmit,
@@ -22,11 +23,6 @@ const OrganizationForm = ({changingOrg}: OrganizationForm) => {
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const [addOrganisation] = useAddOrganizationMutation();
   const [updateOrganization] = useUpdateOrganizationMutation();
-  let isLoadingUpd = false;
-  {
-    const [updateOrg, { isLoading }] = useUpdateOrganizationMutation();
-    isLoadingUpd = isLoading;
-  }
 
   const resetForm = () => {
     setIsUpdate(false);
@@ -51,14 +47,14 @@ const OrganizationForm = ({changingOrg}: OrganizationForm) => {
     }
   };
   useEffect(() => {
-    if (changingOrg) {
+    if (org) {
       setIsUpdate(true);
-      setValue('id', changingOrg?.id);
-      setValue('name', changingOrg?.name);
+      setValue('id', org?.id);
+      setValue('name', org?.name);
     } else {
       resetForm();
     }
-  }, [changingOrg]);
+  }, [org]);
   return (
     <>
       {errors.name && <p>{errors.name.message}</p>}
@@ -85,6 +81,7 @@ const OrganizationForm = ({changingOrg}: OrganizationForm) => {
         onClick={() => {
           setIsUpdate(false);
           reset();
+          dispatch(changingOrg(null));
         }}
       >
         Очистить

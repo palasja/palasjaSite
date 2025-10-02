@@ -5,6 +5,7 @@ import {
   changingOrg,
   getChosenOrganization,
   getOrganisationError,
+  getChangingOrganization,
 } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
@@ -20,13 +21,13 @@ import { Organization as Org } from '../helpers/contractTypes';
 
 const Organization = () => {
   const dispatch = useAppDispatch();
-  const choosenOrg = useAppSelector(getChosenOrganization);
+  const changingOrganization = useAppSelector(getChangingOrganization);
   const errors = useAppSelector(getOrganisationError);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const [deleteOrganization, { isLoading: isDeleteLoading }] = useDeleteOrganizationMutation();
   const [_, { isLoading: isUpdateLoading }] = useUpdateOrganizationMutation();
   const [__, { isLoading: isAddLoading }] = useAddOrganizationMutation();
-  const [organization, setOrganization] = useState<Org | undefined>();
+  // const [organization, setOrganization] = useState<Org | undefined>();
   const {
     data: organizations = [],
     isLoading: isGetLoading,
@@ -39,7 +40,7 @@ const Organization = () => {
     <>
       <h2>Организации</h2>
       <h3>{errors}</h3>
-      <OrganizationForm changingOrg ={organization}/>
+      <OrganizationForm />
       {organizations.length == 0 ? (
         <>
           <h2>Список организаций не загружен</h2>
@@ -61,13 +62,13 @@ const Organization = () => {
                     setRemoveId(org.id);
                     setIsShowRemoveModal(true);
                     dispatch(chooseOrg(null));
+                    if (changingOrganization?.name === org.name) dispatch(changingOrg(null));
                   }}
                 >
                   Удалить
                 </button>
                 <button
                   onClick={() => {
-                    setOrganization(org);
                     dispatch(changingOrg(org));
                   }}
                 >
@@ -79,7 +80,6 @@ const Organization = () => {
         </ul>
       )}
 
-      <h2>{choosenOrg?.name}</h2>
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteOrganization(removeId)}

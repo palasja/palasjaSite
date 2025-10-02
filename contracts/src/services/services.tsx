@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import {
-  getChoosenMonth,
-  chooseMonth,
-} from '../redux/slices/servicesSlice';
+import { getChoosenMonth, chooseMonth } from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
@@ -19,6 +16,7 @@ import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 
 const Services = () => {
+  const [isPaid, setIsPaid] = useState(false);
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
@@ -31,26 +29,46 @@ const Services = () => {
   const [changingService, setChangingService] = useState<Service | undefined>();
   useEffect(() => {
     if (choosenOrg === null) {
-      loadServices({ orgId: null, month: choosenMonth });
+      //Без организации всегда оплачено
+      loadServices({ orgId: null, month: choosenMonth, isPaid: true });
     } else if (choosenOrg) {
-      loadServices({ orgId: choosenOrg.id, month: choosenMonth });
+      loadServices({ orgId: choosenOrg.id, month: choosenMonth, isPaid: isPaid });
     }
-  }, [choosenMonth, choosenOrg]);
+  }, [choosenMonth, choosenOrg, isPaid]);
+
+  const handlerPaidService = (paid: boolean) => {
+    setIsPaid(paid);
+  };
   const page = (
     <>
-      <h3>Услуги</h3>
+      <h3>Услуги {choosenOrg && `( ${choosenOrg.name} )`}</h3>
+      <label htmlFor="paid">Оплаченые</label>
+      <input
+        type="checkbox"
+        name="paid"
+        onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
+      />
       <div>
-        <select onChange={(e) => dispatch(chooseMonth(e.target.value))}>
-          {[...new Array(12)].map((_e, i) => {
-            return (
-              <option value={i} key={i} selected={i.toString() === choosenMonth}>
-                {i + 1}
-              </option>
-            );
-          })}
-        </select>
+        {isPaid && (
+          <select
+            onChange={(e) => dispatch(chooseMonth(e.target.value))}
+            defaultValue={choosenMonth}
+          >
+            {[...new Array(12)].map((_e, i) => {
+              return (
+                <option value={i} key={i}>
+                  {i + 1}
+                </option>
+              );
+            })}
+          </select>
+        )}
+        <br />
       </div>
-      <ServiceForm changingService={changingService} />
+      <ServiceForm
+        changingService={changingService}
+        clearCallback={() => setChangingService(undefined)}
+      />
       {services?.length == 0 ? (
         <></>
       ) : (
