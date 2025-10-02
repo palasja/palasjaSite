@@ -39,7 +39,9 @@ export const getTimeByDate = async (
   availableDate: Date[],
   day: string
 ): Promise<AppointmentItem[]> => {
+console.log(availableDate);
   if (availableDate.find((d) => d.toLocaleDateString('en-CA') == day) == undefined) return [];
+    console.log(123);
   const times = await fetchTimeByDate(day);
   return times.sort(sortTime);
 };
