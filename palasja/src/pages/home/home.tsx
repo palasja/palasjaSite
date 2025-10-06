@@ -13,7 +13,7 @@ const Home = () => {
       <Education />
       <Languages /> 
       <Experience />  
-      {/* <Certificates /> */}
+      <Certificates />
     </main>
   );
 };

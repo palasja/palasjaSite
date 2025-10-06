@@ -3,7 +3,6 @@ import style from './header.module.css';
 import { useTranslation } from 'react-i18next';
 import { ContentContainer } from '../containers/contentContainer';
 import LangSelect from '../langSelect';
-import Burger from './burger';
 import { useState, useEffect } from 'react';
 import { MOBILE_WIDTH } from '../../helpers/heper';
 
@@ -49,7 +48,6 @@ const Header = () => {
           </select>
         </div> */}
           <LangSelect />
-          {isMobile && <Burger />}
         </div>
       </ContentContainer>
     </header>

@@ -33,3 +33,25 @@
   font-weight: 700;
   margin-bottom: 35px;
 }
+
+@media (max-width: 362px ) {
+  .experiance {
+    padding: 0 0;
+  }
+  .head {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  .text {
+    font-size: 14px;
+  }
+
+  .hide{
+    height: 75px;
+    overflow: hidden;
+  }
+
+  .list ~ * {
+    margin-left: 40px;
+  }
+}

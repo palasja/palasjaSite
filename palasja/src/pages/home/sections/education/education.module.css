@@ -38,6 +38,14 @@
   margin-right: 65px;
 }
 @media (max-width: 362px ) {
+  .education {
+    padding: 0 0;
+
+  }
+  .head_ {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
   .innerContainer{
     flex-direction: column;
     margin-right: 0;

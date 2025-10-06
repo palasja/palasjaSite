@@ -1,0 +1,13 @@
+  .detail{
+    display: none;
+  }
+
+  @media (max-width: 362px ) {
+    .detail{
+      display: block;
+      font-family: 'Inder', sans-serif;
+      font-size: 14px;
+      color: #000;
+      opacity: 25%;
+    }
+  }
