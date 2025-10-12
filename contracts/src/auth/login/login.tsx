@@ -19,22 +19,26 @@ const Login = () => {
   const [login] = useLazyLoginQuery();
   const [check] = useLazyCheckQuery();
   const [isCheked, setIsChecked] = useState(false);
+  const [isError, setIsError] = useState(false)
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    let result = await login(data).unwrap();
-    if (result == 'OK') navigate('/contract');
+    try{
+      let result = await login(data).unwrap();
+      if (result == 'OK')  navigate('/contract')
+    } catch {
+      setIsError(true);
+    }
   };
   useEffect(() => {
     const checkAuth = async () => {
       try {
         let result = await check().unwrap();
-        if (result == 'OK') navigate('/contract');
+        if (result == 'OK') navigate('/contract')
       } catch {
         setIsChecked(true);
       }
     };
     checkAuth();
   }, []);
-
   return (
     isCheked && (
       <>
@@ -42,7 +46,7 @@ const Login = () => {
           <Link to={'/signIn'}>signIn</Link>
           <div className={style.formContainer}>
             <h3 className={style.formName}>Войти</h3>
-            {/* {errorMessage && <p className={style.errorMeaasge}>{errorMessage}</p>} */}
+            {isError && <p className={style.errorMeaasge}>Неверный логин или пароль</p>}
             {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}
             {errors.password && <p className={style.errorMeaasge}>{errors.password.message}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
