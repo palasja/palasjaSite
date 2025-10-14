@@ -50,9 +50,9 @@ const PersonalForm = ({ changingPersonal, clearCallback }: ChangingPersonalFormP
       setValue('firstName', changingPersonal.firstName);
       setValue('middleName', changingPersonal.middleName);
       setValue('lastName', changingPersonal.lastName);
-      setValue('firstNameR', changingPersonal.firstName);
-      setValue('middleNameR', changingPersonal.middleName);
-      setValue('lastNameR', changingPersonal.lastName);
+      setValue('firstNameR', changingPersonal.firstNameR);
+      setValue('middleNameR', changingPersonal.middleNameR);
+      setValue('lastNameR', changingPersonal.lastNameR);
       setValue('isHead', changingPersonal.isHead);
       setValue('positionName', changingPersonal.positionName);
       setValue('id', changingPersonal.id);
