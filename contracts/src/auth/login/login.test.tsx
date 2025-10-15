@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { renderWithProviders } from '../renderWithProviders';
 import { MemoryRouter, Route, Routes } from 'react-router';
-import Auth from '.';
+import Login from '.';
 const env = import.meta.env;
 
 export const handlers = [];
@@ -23,10 +23,10 @@ describe('fill form errors', async () => {
   it('error empty form', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Auth />
+        <Login />
       </MemoryRouter>
     );
-    fireEvent.submit(screen.getByTestId('submit'));
+    fireEvent.submit(await screen.findByTestId('submit'));
     expect(await screen.findByText(/Логин должно быть заполнено/i)).toBeInTheDocument();
     expect(await screen.findByText(/Пароль должно быть заполнено/i)).toBeInTheDocument();
   });
@@ -34,11 +34,11 @@ describe('fill form errors', async () => {
   it('login fill, password empty', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Auth />
+        <Login />
       </MemoryRouter>
     );
-    fireEvent.change(screen.getByTestId('login'), { target: { value: 'qwe' } });
-    fireEvent.submit(screen.getByTestId('submit'));
+    fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
+    fireEvent.submit(await screen.findByTestId('submit'));
     expect(screen.queryByText(/Логин должно быть заполнено/i)).not.toBeInTheDocument();
     expect(await screen.findByText(/Пароль должно быть заполнено/i)).toBeInTheDocument();
   });
@@ -46,11 +46,12 @@ describe('fill form errors', async () => {
   it('fill form', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Auth />
+        <Login />
       </MemoryRouter>
     );
-    fireEvent.change(screen.getByTestId('login'), { target: { value: 'qwe' } });
-    fireEvent.change(screen.getByTestId('pass'), { target: { value: 'qwe' } });
+    screen.debug();
+    fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
+    fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });
     expect(screen.queryByText(/Логин должно быть заполнено/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Неверный логин или пароль/i)).not.toBeInTheDocument();
   });
@@ -65,13 +66,13 @@ describe('wrong auth data 403 status code', async () => {
     );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Auth />
+        <Login />
       </MemoryRouter>
     );
-
-    fireEvent.change(screen.getByTestId('login'), { target: { value: 'qwe' } });
-    fireEvent.change(screen.getByTestId('pass'), { target: { value: 'qwe' } });
-    fireEvent.submit(screen.getByTestId('submit'));
+    screen.debug();
+    fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
+    fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });
+    fireEvent.submit(await screen.findByTestId('submit'));
     expect(await screen.findByText(/Неверный логин или пароль/i)).toBeInTheDocument();
   });
 });
@@ -83,7 +84,7 @@ describe('OK auth data 200 status code', async () => {
       //   return new HttpResponse(null, {status: 200})
       // }),
       http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
-        return new HttpResponse(null, { status: 200 });
+        return new HttpResponse('OK', { status: 200 });
       }),
       http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
         return new HttpResponse(null, { status: 403 });
@@ -92,14 +93,16 @@ describe('OK auth data 200 status code', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/', 'contract']} initialIndex={0}>
         <Routes>
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<Login />} />
           <Route path="contract" element={<>Contract</>} />
         </Routes>
       </MemoryRouter>
     );
-    fireEvent.change(screen.getByTestId('login'), { target: { value: 'qwe' } });
-    fireEvent.change(screen.getByTestId('pass'), { target: { value: 'qwe' } });
-    fireEvent.submit(screen.getByTestId('submit'));
+
+    fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
+    fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });
+    fireEvent.submit(await screen.findByTestId('submit'));
+    screen.debug();
     expect(await screen.findByText(/Contract/i)).toBeInTheDocument();
   });
 });

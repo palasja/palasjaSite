@@ -19,11 +19,11 @@ const Login = () => {
   const [login] = useLazyLoginQuery();
   const [check] = useLazyCheckQuery();
   const [isCheked, setIsChecked] = useState(false);
-  const [isError, setIsError] = useState(false)
+  const [isError, setIsError] = useState(false);
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    try{
+    try {
       let result = await login(data).unwrap();
-      if (result == 'OK')  navigate('/contract')
+      if (result == 'OK') navigate('/contract');
     } catch {
       setIsError(true);
     }
@@ -32,7 +32,7 @@ const Login = () => {
     const checkAuth = async () => {
       try {
         let result = await check().unwrap();
-        if (result == 'OK') navigate('/contract')
+        if (result == 'OK') navigate('/contract');
       } catch {
         setIsChecked(true);
       }
@@ -43,7 +43,7 @@ const Login = () => {
     isCheked && (
       <>
         <section className={style.auth}>
-          <Link to={'/signIn'}>signIn</Link>
+          <Link to={'/signIn'}>Регистрация</Link>
           <div className={style.formContainer}>
             <h3 className={style.formName}>Войти</h3>
             {isError && <p className={style.errorMeaasge}>Неверный логин или пароль</p>}

@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   chooseOrg,
   changingOrg,
-  getChosenOrganization,
   getOrganisationError,
   getChangingOrganization,
 } from '../redux/slices/orgsSlice';
@@ -38,8 +36,8 @@ const Organization = () => {
 
   const page = (
     <>
-      <h2>Организации</h2>
-      <h3>{errors}</h3>
+      <h3>Организации</h3>
+      <h4>{errors}</h4>
       <OrganizationForm />
       {organizations.length == 0 ? (
         <>

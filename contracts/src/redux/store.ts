@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
 export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
   if (isRejected(action)) {
     //@ts-ignore
-    if (action.payload?.originalStatus === 401 && action.payload?.originalStatus === 403) {
+    if (action.payload?.originalStatus === 401 || action.payload?.originalStatus === 403) {
       api.dispatch(changeStatus());
     }
   }

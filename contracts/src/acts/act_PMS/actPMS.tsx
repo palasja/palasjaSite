@@ -24,9 +24,9 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
   const itog = getServicesCostWithNDS_47(services);
 
   const emptyContract = <h1>No contract</h1>;
-  const content = (
-    <>
-      <div className={style.page}>
+  const ActPMSHead = () => {
+    return (
+      <>
         <div className={style.head}>
           <p>А К Т</p>
           <p>приемки выполненных работ по</p>
@@ -43,6 +43,12 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
           </p>
           <p>г. Наровля</p>
         </div>
+      </>
+    );
+  };
+  const ActPMSInfo = () => {
+    return (
+      <>
         <div className={style.main}>
           <p className={style.mainInfo}>
             Мы, стороны по договору от{' '}
@@ -84,6 +90,12 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
           </p>
           <p>В момент приемки работ Заказчиком претензий к качеству работ не имеет.</p>
         </div>
+      </>
+    );
+  };
+  const ActPMSFooter = () => {
+    return (
+      <>
         <div className={style.sidesInfo}>
           <div>
             <p>ЗАКАЗЧИК:</p>
@@ -127,10 +139,23 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
             <p className={style.sign}>(подпись)</p>
           </div>
         </div>
-      </div>
-    </>
+      </>
+    );
+  };
+
+  return (
+    <PageWrapper>
+      {contract === null ? (
+        emptyContract
+      ) : (
+        <div className={style.page}>
+          <ActPMSHead />
+          <ActPMSInfo />
+          <ActPMSFooter />
+        </div>
+      )}
+    </PageWrapper>
   );
-  return <PageWrapper>{contract === null ? emptyContract : content}</PageWrapper>;
 };
 
 export default ActPMS;
