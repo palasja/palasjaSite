@@ -11,6 +11,7 @@ const Header = () => {
         <Link to={'/contract'}>Договора</Link>
         <Link to={'/act'}>Акты</Link>
         <Link to={'/stats'}>Статистика</Link>
+        <Link to={'/logout'}>Выход</Link>
       </nav>
       <div data-testid="qwe">
         <Countdown date={cookies.expireDate} />
