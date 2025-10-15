@@ -2,7 +2,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import style from './signIn.module.css';
 
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useLazySigninQuery } from '../../redux/slices/authRTKSlce';
 
 type FormValues = {
@@ -24,6 +24,7 @@ const SignIn = () => {
   };
   return (
     <section className={style.auth}>
+      <Link to={'/login'}>Вход</Link>
       <div className={style.formContainer}>
         <h3 className={style.formName}>Регистрация</h3>
         {errors.login && <p className={style.errorMeaasge}>{errors.login.message}</p>}

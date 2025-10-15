@@ -120,14 +120,35 @@ router.post('/logIn', asyncHandler( async (req, res) => {
 
 }));
 router.post('/checkAuth', asyncHandler( async (req, res) => {
-  const accessToken = req.cookies.accessToken;
-  jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
-    if(err){
-        res.sendStatus(403); 
-    } else {
-      res.sendStatus(200);
-    }
-  })
+const accessToken = req.cookies.accessToken;
+  const refreshToken = req.cookies.refreshToken;
+  if(accessToken){
+    jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+      if (err && err.name == 'TokenExpiredError') {
+        jwt.verify(refreshToken, SECRET, (err, decoded) => {
+          if (err) {
+            res.clearCookie("accessToken");
+            res.clearCookie("refreshToken");
+             res.sendStatus(401);
+             return;
+          } else{
+            const options = {
+              httpOnly: true,
+            };
+            const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
+            const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
+            res.cookie('accessToken', newAccessToken, options);
+            res.cookie('refreshToken', newRefreshToken, options);
+            res.sendStatus(200);
+          }
+        });
+      } else {
+           res.sendStatus(200);
+      }
+      });
+  } else {
+    return res.sendStatus(401);
+  }
 }));
 router.get('/logout', function  (req, res) {
   res.clearCookie("accessToken");
