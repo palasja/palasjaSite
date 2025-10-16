@@ -5,32 +5,21 @@ import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import PersonalForm from './personalForm';
 import { Personal } from '../helpers/contractTypes';
 import {
-  useAddPersonalMutation,
   useDeletePersonalMutation,
   useGetPersonalsByOrgIdQuery,
-  useUpdatePersonalMutation,
 } from '../redux/slices/personalRTKSlice';
 import Loading from '../components/loading';
 import { useState } from 'react';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 const Personals = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const [__, { isLoading: isAddLoading }] = useAddPersonalMutation();
-  const [deletePersonal, { isLoading: isDeleteLoading }] = useDeletePersonalMutation();
-  const [_, { isLoading: isUpdateLoading }] = useUpdatePersonalMutation();
-  let personals: Personal[] = [];
-  let isGetLoading = false;
-  if (choosenOrg) {
-    const {
-      data: p = [],
+  const [deletePersonal] = useDeletePersonalMutation();
+  const {
+      data: personals = [],
       isLoading,
-      isSuccess,
-      isError,
-      error,
-    } = useGetPersonalsByOrgIdQuery(choosenOrg.id);
-    personals = p;
-    isGetLoading = isLoading;
-  }
+      isFetching
+    } = useGetPersonalsByOrgIdQuery(choosenOrg?.id ?? skipToken);
 
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
@@ -62,6 +51,7 @@ const Personals = () => {
               </li>
             );
           })}
+          <li>{isFetching && <Loading />}</li>
         </ul>
       )}
 
@@ -73,7 +63,7 @@ const Personals = () => {
       )}
     </>
   );
-  return isGetLoading || isUpdateLoading || isAddLoading || isDeleteLoading ? <Loading /> : page;
+  return isLoading ? <Loading /> : page;
 };
 
 export default Personals;

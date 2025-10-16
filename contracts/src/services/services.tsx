@@ -6,10 +6,8 @@ import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
 import {
-  useAddServiceMutation,
   useDeleteServiceMutation,
   useLazyGetServicesByOrgIdMonthQuery,
-  useUpdateServiceMutation,
 } from '../redux/slices/servicesRTKSlice';
 import Loading from '../components/loading';
 import RemoveAgreePortal from '../components/modal/removeModal';
@@ -21,11 +19,9 @@ const Services = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
-  const [loadServices, { data: services, isLoading: isGetLoading }] =
+  const [loadServices, { data: services, isLoading, isFetching }] =
     useLazyGetServicesByOrgIdMonthQuery();
-  const [deleteService, { isLoading: isDeleteLoading }] = useDeleteServiceMutation();
-  const [_, { isLoading: isUpdateLoading }] = useUpdateServiceMutation();
-  const [__, { isLoading: isAddLoading }] = useAddServiceMutation();
+  const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
   useEffect(() => {
     if (choosenOrg === null) {
@@ -89,6 +85,7 @@ const Services = () => {
               </li>
             );
           })}
+          <li>{isFetching && <Loading />}</li>
         </ul>
       )}
       {isShowRemoveModal && (
@@ -99,7 +96,7 @@ const Services = () => {
       )}
     </>
   );
-  return isGetLoading || isUpdateLoading || isAddLoading || isDeleteLoading ? <Loading /> : page;
+  return isLoading ? <Loading /> : page;
 };
 
 export default Services;

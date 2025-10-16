@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Organization as Org, Organization } from '../helpers/contractTypes';
+import { Organization as Org } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
@@ -27,6 +27,7 @@ const OrganizationForm = () => {
   const resetForm = () => {
     setIsUpdate(false);
     reset();
+    dispatch(changingOrg(null));
   };
   const onSubmitCreate: SubmitHandler<Org> = async (data) => {
     data = trimObjectProperty(data);
@@ -77,13 +78,7 @@ const OrganizationForm = () => {
 
         <input type="submit" value={btnValue} data-testid="submit" />
       </form>
-      <button
-        onClick={() => {
-          setIsUpdate(false);
-          reset();
-          dispatch(changingOrg(null));
-        }}
-      >
+      <button onClick={() => resetForm()} >
         Очистить
       </button>
     </>

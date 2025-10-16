@@ -36,6 +36,7 @@ const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProp
   };
 
   const resetForm = () => {
+    clearCallback();
     reset({ count: 1 });
     if (choosenOrg) setValue('orgId', choosenOrg.id.toString());
     setIsUpdate(false);
@@ -129,10 +130,7 @@ const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProp
         <input type="submit" value={btnValue} />
         <input
           type="button"
-          onClick={() => {
-            resetForm();
-            clearCallback();
-          }}
+          onClick={() => resetForm() }
           value="Очистить"
         />
       </form>

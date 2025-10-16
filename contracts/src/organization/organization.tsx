@@ -15,23 +15,18 @@ import {
   useAddOrganizationMutation,
 } from '../redux/slices/organizationRTKSlice';
 import Loading from '../components/loading';
-import { Organization as Org } from '../helpers/contractTypes';
 
 const Organization = () => {
   const dispatch = useAppDispatch();
   const changingOrganization = useAppSelector(getChangingOrganization);
   const errors = useAppSelector(getOrganisationError);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
-  const [deleteOrganization, { isLoading: isDeleteLoading }] = useDeleteOrganizationMutation();
-  const [_, { isLoading: isUpdateLoading }] = useUpdateOrganizationMutation();
-  const [__, { isLoading: isAddLoading }] = useAddOrganizationMutation();
-  // const [organization, setOrganization] = useState<Org | undefined>();
+  const [deleteOrganization] = useDeleteOrganizationMutation();
+
   const {
     data: organizations = [],
-    isLoading: isGetLoading,
-    isSuccess,
-    isError,
-    error,
+    isLoading,
+    isFetching
   } = useGetOrganizationQuery();
 
   const page = (
@@ -75,6 +70,7 @@ const Organization = () => {
               </li>
             );
           })}
+          <li>{isFetching && <Loading />}</li>
         </ul>
       )}
 
@@ -87,7 +83,7 @@ const Organization = () => {
     </>
   );
 
-  return isGetLoading || isUpdateLoading || isAddLoading || isDeleteLoading ? <Loading /> : page;
+  return isLoading ? <Loading /> : page;
 };
 
 export default Organization;

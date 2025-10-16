@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Contract } from '../helpers/contractTypes';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../redux/hooks';
 import { toBase64, trimObjectProperty } from '../helpers/helper';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
@@ -28,6 +28,7 @@ const ContractForm = ({ changingContract, clearCallback }: ChangingContractFormP
   const [updateContract] = useUpdateContractMutation();
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const resetForm = () => {
+    clearCallback();
     reset({
       orgId: choosenOrg?.id.toString(),
     });
@@ -121,12 +122,7 @@ const ContractForm = ({ changingContract, clearCallback }: ChangingContractFormP
         </div>
 
         <input type="submit" value={btnValue} />
-        <button
-          onClick={() => {
-            resetForm();
-            clearCallback();
-          }}
-        >
+        <button onClick={() => resetForm()} >
           Очистить
         </button>
       </form>

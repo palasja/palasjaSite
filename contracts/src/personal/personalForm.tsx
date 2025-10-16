@@ -39,6 +39,7 @@ const PersonalForm = ({ changingPersonal, clearCallback }: ChangingPersonalFormP
     resetForm();
   };
   const resetForm = () => {
+    clearCallback();
     setIsUpdate(false);
     reset({
       orgId: choosenOrg?.id.toString(),
@@ -123,7 +124,6 @@ const PersonalForm = ({ changingPersonal, clearCallback }: ChangingPersonalFormP
       <button
         onClick={() => {
           resetForm();
-          clearCallback();
         }}
       >
         Очистить

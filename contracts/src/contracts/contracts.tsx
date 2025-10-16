@@ -16,28 +16,20 @@ import {
 import { Contract } from '../helpers/contractTypes';
 import Loading from '../components/loading';
 import { getURLByBase64File } from '../helpers/helper';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 function Contracts() {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
-  const [delContract, { isLoading: isDeleteLoading }] = useDeleteContractMutation();
-  const [getContractScan, { data: scanStr }] = useLazyGetContractsScanQuery();
-  let contracts: Contract[] = [];
-  let isGetLoading = false;
-  if (choosenOrg) {
-    const {
-      data: con = [],
-      isLoading,
-      isSuccess,
-      isError,
-      error,
-    } = useGetContractsByOrgQuery(choosenOrg.id);
-    contracts = con;
-    isGetLoading = isLoading;
-  }
-  const [_, { isLoading: isUpdateLoading }] = useUpdateContractMutation();
-  const [__, { isLoading: isAddLoading }] = useAddContractMutation();
+  const [delContract] = useDeleteContractMutation();
+  const [getContractScan] = useLazyGetContractsScanQuery();
+  const {
+        data: contracts = [],
+        isLoading,
+        isFetching
+      } = useGetContractsByOrgQuery(choosenOrg?.id ?? skipToken);
+
   const [changingContract, setChangingContract] = useState<Contract | undefined>();
 
   const page = (
@@ -52,9 +44,7 @@ function Contracts() {
         <></>
       ) : (
         <ul>
-          {contracts?.map((con, i) => {
-            return (
-              <li key={i}>
+          {contracts?.map((con, i) => <li key={i}>
                 {con.number}
                 <button
                   onClick={async () => {
@@ -81,8 +71,8 @@ function Contracts() {
                 </button>
                 <button onClick={() => setChangingContract(con)}>Переименовать</button>
               </li>
-            );
-          })}
+            )}
+          <li>{isFetching && <Loading />}</li>
         </ul>
       )}
 
@@ -94,7 +84,7 @@ function Contracts() {
       )}
     </>
   );
-  return isGetLoading || isUpdateLoading || isAddLoading || isDeleteLoading ? <Loading /> : page;
+  return  isLoading ? <Loading /> : page;
 }
 
 export default Contracts;

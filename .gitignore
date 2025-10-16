@@ -26,6 +26,7 @@ dist-ssr
 
 #Varables envitonment
 .env
+*.env
 
 #Tmp
 #gusmaryApi
