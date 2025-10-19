@@ -79,7 +79,7 @@
 .lockScroll {
   overflow: hidden;
 }
-@media (max-width: 362px ) {
+@media (max-width: 890px ) {
   .inner{
     gap: 25px;
     padding: 0 25px;
@@ -89,7 +89,7 @@
   }
 
 .logo {
-  flex-grow: 1;
+  flex-grow: 0;
   font-size: 24px;
   width: 50px;
   margin: 25px 0;

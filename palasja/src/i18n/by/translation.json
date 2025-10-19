@@ -20,10 +20,12 @@
           "education": "Адукацыя",
           "univerrsity": "Гомельскі дзяржаўны тэхнічны унівесітэт імя П.В. Сухога",
           "hightQality": "Інжэнер па радыёэлектроніцы",
-          "universityDate": "верасень 2011 - снежань 2016",
+          "universityStartDate": "Верасень 2011 - ",
+          "universityEndDate": "Снежань 2016",          
           "college": "Гомельскі дзяржаўны дарожна-будаўнічы тэхнікум",
           "specialization": "тэхнік-электрык",
-          "collegeDate": "верасень 2007 - чэрвень 2011"
+          "collegeStartDate": "Верасень 2007 - ",
+          "collegeEndDate": "Чэрвень 2011"
         },
         "skils": {
           "skils": "Навыкі",
@@ -37,9 +39,11 @@
           "experiance": "Досвед працы",
           "factory": "Гомельскі радёзавод",
           "factoryPost": "РЭГУЛИРОЎШЧЫК РАДЫЁЭКТРОНАЙ АПАРАТУРЫ И ПРЫБОРАЎ",
-          "factoryDate": "10.2011-01.2012",
+          "factoryStartDate": "Кастрычнік 2011 - ",
+          "factorEndDate": "Студзень 2012",          
           "ivc": "ІВЦ Мінфіна",
-          "ivcDate": "04.2012-06.2023",
+          "ivcStartDate": "Красавік 2012 - ",
+          "ivcEndDate": "Чэрвень 2023",
           "ivcPost": "ИНЖЕНЕР 1 КАТЕГОРИИ"
         },
         "certificates": "Курсы & Сертіфікаты"

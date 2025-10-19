@@ -49,7 +49,37 @@
     width: 100%;
 }
 
-@media (max-width: 362px ) {
+@media (max-width: 1260px ) {
+.inner{
+        gap: 20px;
+        grid-template-columns: repeat(1, 1fr);
+        width: min-content;
+        justify-self: center;
+}
+.figura {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.figura:nth-child(odd) {
+  align-items: flex-start;
+}
+
+.figura:nth-child(even) {
+  align-items: flex-start;
+}
+.text{
+  text-align: center;
+}
+}
+@media (max-width: 650px ) {
+  .img {
+  height: 275px;;
+}
+}
+@media (max-width: 475px ) {
 .certificates {
   padding: 0;
 }
@@ -57,7 +87,7 @@
   font-size: 20px;
 }
   .img {
-  max-width: 330px;
+  height: 275px;;
 }
 .text{
   padding: 0 10px;
@@ -65,6 +95,7 @@
   margin: 10px 0 0 0;
 }
 .inner{
+  
   gap: 20px;
   grid-template-columns: repeat(1, 1fr);
 }

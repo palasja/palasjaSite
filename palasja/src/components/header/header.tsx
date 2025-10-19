@@ -18,7 +18,7 @@ const Header = () => {
     <header className={style.header}>
       <ContentContainer>
         <div className={style.inner} id='test'>
-          <p className={style.logo}>ИВАН ЯКУБЕНКО</p>
+          <p className={style.logo}>ИВАН <br/> ЯКУБЕНКО</p>
           <nav className={style.nav}>
             <NavLink className={style.link} to={'/'}
             >

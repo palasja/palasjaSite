@@ -20,10 +20,12 @@
           "education": "Education",
           "univerrsity": "Sukhoi State Technical University of Gomel",
           "hightQality": "Engineer of radioelectronics",
-          "universityDate": "September 2011- January 2016",
+          "universityStartDate": "September 2011 - ",
+          "universityEndDate": "January 2016",
           "college": "Gomel State Road Construction College",
           "specialization": "Electronics technician",
-          "collegeDate": "September 2007- June 2011"
+          "collegeStartDate": "September 2007 - ",
+          "collegeEndDate": "June 2011"
         },
         "skils": {
           "skils": "Skill Summary",
@@ -37,10 +39,12 @@
           "experiance": "Work Experience",
           "factory": "Gomel Radiofactory",
           "factoryPost": "RADIOELECTRONIC EQUIPMENT AND INSTRUMENTS CONTROLLER",
-          "factoryDate": "10.2011-01.2012",
+          "factoryStartDate": "October 2011 - ",
+          "factorEndDate": "January 2012",
           "ivc": "IVC Minfina",
-          "ivcDate": "04.2012-06.2023",
-          "ivcPost": "Engineer"
+          "ivcStartDate": "April 2012 - ",
+          "ivcEndDate": "June 2023",
+             "ivcPost": "Engineer"
         },
         "certificates": "Courses & Certificates"
       },

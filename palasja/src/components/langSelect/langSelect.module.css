@@ -34,7 +34,7 @@
   pointer-events: none;
 }
 
-@media (max-width: 362px ) {
+@media (max-width: 475px ) {
   /* .lang{
     display: flex;
     flex-direction: column;

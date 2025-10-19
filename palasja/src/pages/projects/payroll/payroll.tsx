@@ -16,9 +16,9 @@ const Payroll = () => {
       приложения. Он использует ExcelDataReader для чтения xls документа. Документ сохраняестся базу
       данных. Проект Contract на уравне представления написан на Razor. Для авторизации используется
       Scaffold Identity.
-      <img src={image1}></img>
-      <img src={image2}></img>
-      <img src={image3}></img>
+      <img className={style.image}  src={image1}></img>
+      <img className={style.image}  src={image2}></img>
+      <img className={style.image}  src={image3}></img>
     </>
   );
 };

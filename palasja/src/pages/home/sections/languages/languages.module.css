@@ -32,7 +32,7 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 362px ) {
+@media (max-width: 475px ) {
   .language {
     padding: 0 0;
   }

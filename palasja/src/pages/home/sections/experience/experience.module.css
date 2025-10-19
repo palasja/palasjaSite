@@ -25,7 +25,9 @@
 .text:last-child {
   margin-bottom: 30px;
 }
-
+.jobDate{
+  white-space: nowrap;
+}
 .post {
   font-family: 'Manrope', sans-serif;
   color: #1c2e6a;
@@ -34,7 +36,13 @@
   margin-bottom: 35px;
 }
 
-@media (max-width: 362px ) {
+@media (max-width: 800px ) {
+  .inner{
+    flex-direction: row-reverse;
+    gap: 60px;
+    justify-content: start;
+
+  }
   .experiance {
     padding: 0 0;
   }

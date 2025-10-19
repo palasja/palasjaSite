@@ -10,14 +10,18 @@ const Education = () => {
         <h4 className={style.head_}>{t('home.cw.education.education')}</h4>
         <div className={style.innerContainer}>
           <div className={style.inner}>
-            <div className={style.date}>{t('home.cw.education.collegeDate')}</div>
+            <div className={style.date}>
+              <span className={style.educationDate}>{t('home.cw.education.collegeStartDate')}</span><br/><span className={style.educationDate}>{t('home.cw.education.collegeEndDate')}</span>
+            </div>
             <div>
               <p className={style.specialization}>{t('home.cw.education.specialization')}</p>
               <p>{t('home.cw.education.college')}</p>
             </div>
           </div>
           <div className={style.inner}>
-            <div className={style.date}>{t('home.cw.education.universityDate')}</div>
+            <div className={style.date}>
+              <span className={style.educationDate}>{t('home.cw.education.universityStartDate')}</span><br/><span className={style.educationDate}>{t('home.cw.education.universityEndDate')}</span>
+            </div>
             <div>
               <p className={style.specialization}>{t('home.cw.education.hightQality')}</p>
               <p>{t('home.cw.education.univerrsity')}</p>

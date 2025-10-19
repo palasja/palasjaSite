@@ -23,9 +23,10 @@
   display: flex;
   margin-right: 45px;
 }
-/* .inner:last-child {
-  margin-right: 0;
-} */
+
+.educationDate{
+  white-space: nowrap;
+}
 
 .specialization {
   font-family: 'Manrope', sans-serif;
@@ -37,7 +38,15 @@
 .date {
   margin-right: 65px;
 }
-@media (max-width: 362px ) {
+@media (max-width: 635px ) {
+  .innerContainer{
+    flex-direction: column;
+    margin-right: 0;
+    gap: 15px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 880px ) {
   .education {
     padding: 0 0;
 

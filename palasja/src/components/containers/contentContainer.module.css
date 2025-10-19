@@ -9,7 +9,7 @@
   background-color: #146bb3;
 }
 
-@media (max-width: 362px ) {
+@media (max-width: 475px ) {
   .container {
     padding: 0;
   }

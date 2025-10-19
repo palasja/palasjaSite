@@ -1,10 +1,9 @@
 import { ContentWrapper } from '../../../../components/containers/contentContainer';
 import style from './languages.module.css';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import r from '/src/favicon/r.png';
-import b from '/src/favicon/b.png';
-import e from '/src/favicon/e.png';
+import r from 'assets/icons/r.png';
+import b from 'assets/icons/b.png';
+import e from 'assets/icons/e.png';
 
 //  <img src={code} className={style.img}></img>
 

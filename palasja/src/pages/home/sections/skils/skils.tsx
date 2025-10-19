@@ -1,11 +1,11 @@
 import { ContentWrapper } from '../../../../components/containers/contentContainer';
 import style from './skils.module.css';
 import { useTranslation } from 'react-i18next';
-import set from '/src/favicon/settings.png';
-import head from '/src/favicon/head.png';
-import wrench from '/src/favicon/wrench.png';
-import win from '/src/favicon/window.png';
-import code from '/src/favicon/code.png';
+import set from 'assets/icons/settings.png';
+import head from 'assets/icons/head.png';
+import wrench from 'assets/icons/wrench.png';
+import win from 'assets/icons/window.png';
+import code from 'assets/icons/code.png';
 
 const Skils = () => {
   const { t } = useTranslation();

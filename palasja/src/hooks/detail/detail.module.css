@@ -2,7 +2,7 @@
     display: none;
   }
 
-  @media (max-width: 362px ) {
+  @media (max-width: 475px ) {
     .detail{
       display: block;
       font-family: 'Inder', sans-serif;

@@ -10,6 +10,7 @@ const GusMary = () => {
   return (
     <>
       <ProjectName projName='GusMaryHair'/>
+      <a href='http://gusmary.palasja.site/'>GusMaryHair</a>
       {splitLineGetParagragh(t('proj.gusmary.desc'))}
       <ul>
         <li>vite</li>
@@ -20,8 +21,8 @@ const GusMary = () => {
         <li>express </li>
         <li>sequelize </li>
       </ul>
-      <img src={image1}></img>
-      <img src={image2}></img>
+      <img className={style.image} src={image1}></img>
+      <img className={style.image} src={image2}></img>
     </>
   );
 };

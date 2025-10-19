@@ -18,7 +18,8 @@ const Experience = () => {
               <p className={style.post}>{t('home.cw.experiance.factoryPost')}</p>
             </div>
           </div>
-          <p className={style.date}>{t('home.cw.experiance.factoryDate')}</p>
+          <p className={style.text}>
+            <span className={style.jobDate}>{t('home.cw.experiance.factoryStartDate')}</span><br/><span className={style.jobDate}>{t('home.cw.experiance.factorEndDate')}</span></p>
         </div>
 
         <div className={style.inner}>
@@ -28,7 +29,8 @@ const Experience = () => {
               <p className={style.post}>{t('home.cw.experiance.ivcPost')}</p>
             </div>
           </div>
-          <p className={style.date}>{t('home.cw.experiance.ivcDate')}</p>
+          <p className={style.text}>
+            <span className={style.jobDate}>{t('home.cw.experiance.ivcStartDate')}</span><br/><span className={style.jobDate}>{t('home.cw.experiance.ivcEndDate')}</span></p>
         </div>
         <div>
           <ul className={`${style.list} ${isShowMobileDetail ?  "" : style.hide}`}>
