@@ -4,7 +4,7 @@ export type { Organization };
 const env = import.meta.env;
 const API_SERVER: string = env.PROD ? env.VITE_API_SERVER_URL_PROD : env.VITE_API_SERVER_URL_DEV;
 
-const tags = ['Organization', 'Contract', 'Personal', 'Service'];
+const tags = ['Organization', 'Contract', 'Personal', 'Service', 'ServiceCost'];
 
 export const apiSlice = createApi({
   reducerPath: 'api',

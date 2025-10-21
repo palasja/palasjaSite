@@ -374,6 +374,12 @@ router.get('/getServicesByMonth/:month', asyncHandler( async (req, res) => {
   });
     res.status(200).json(result);
 }));
+router.get('/getServicesCost',  asyncHandler( async (req, res) => {
+  let result = await Service.findAll({
+    attributes:  ['id', 'cost', 'count', 'orgId'] 
+    });
+  res.status(200).json(result);
+}));
 router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   const startDate =req.params.startDate;
   const endDate = req.params.endDate;
