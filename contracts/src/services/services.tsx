@@ -61,33 +61,187 @@ const Services = () => {
         )}
         <br />
       </div>
-      <ServiceForm
+      <div className={style.split}>
+        <div>
+                <ServiceForm
         changingService={changingService}
         clearCallback={() => setChangingService(undefined)}
       />
-      {services?.length == 0 ? (
+        </div>
+        <div  className={style.cardBlock}>
+          {services?.length == 0 ? (
         <></>
       ) : (
-        <ul>
+        <>
           {services?.map((service) => {
             return (
-              <li key={service.id}>
-                {`${service.name} ${service.date} ${service.count} ${service.cost}`}
-                <button
-                  onClick={() => {
-                    setRemoveId(service.id);
-                    setIsShowRemoveModal(true);
-                  }}
-                >
-                  Удалить
-                </button>
-                <button onClick={() => setChangingService(service)}>Изменить</button>
-              </li>
+              <div key={service.id} className={style.card}>
+                <div>
+                  <p>name: : {service.name} </p>
+                  <p>date: {service.date.toString()} </p>
+                  <p>user: {service.user} </p>
+                  <p>place: {service.place} </p>
+                  <p>cost: {service.cost} </p>
+                  <p>count: {service.count} </p>
+                  <p>description: {service.description} </p>
+                </div>
+                {/* {`${service.name} ${service.date} ${service.count} ${service.cost}`} */}
+                <div className={style.cardBtn}>
+                  <button
+                    onClick={() => {
+                      setRemoveId(service.id);
+                      setIsShowRemoveModal(true);
+                    }}
+                  >
+                    Удалить
+                  </button>
+                  <button onClick={() => setChangingService(service)}>Изменить</button>
+                </div>
+              </div>
+            );
+          })}
+                    {services?.map((service) => {
+            return (
+              <div key={service.id} className={style.card}>
+                <div>
+                  <p>name: : {service.name} </p>
+                  <p>date: {service.date.toString()} </p>
+                  <p>user: {service.user} </p>
+                  <p>place: {service.place} </p>
+                  <p>cost: {service.cost} </p>
+                  <p>count: {service.count} </p>
+                  <p>description: {service.description} </p>
+                </div>
+                {/* {`${service.name} ${service.date} ${service.count} ${service.cost}`} */}
+                <div className={style.cardBtn}>
+                  <button
+                    onClick={() => {
+                      setRemoveId(service.id);
+                      setIsShowRemoveModal(true);
+                    }}
+                  >
+                    Удалить
+                  </button>
+                  <button onClick={() => setChangingService(service)}>Изменить</button>
+                </div>
+              </div>
+            );
+          })}
+                    {services?.map((service) => {
+            return (
+              <div key={service.id} className={style.card}>
+                <div>
+                  <p>name: : {service.name} </p>
+                  <p>date: {service.date.toString()} </p>
+                  <p>user: {service.user} </p>
+                  <p>place: {service.place} </p>
+                  <p>cost: {service.cost} </p>
+                  <p>count: {service.count} </p>
+                  <p>description: {service.description} </p>
+                </div>
+                {/* {`${service.name} ${service.date} ${service.count} ${service.cost}`} */}
+                <div className={style.cardBtn}>
+                  <button
+                    onClick={() => {
+                      setRemoveId(service.id);
+                      setIsShowRemoveModal(true);
+                    }}
+                  >
+                    Удалить
+                  </button>
+                  <button onClick={() => setChangingService(service)}>Изменить</button>
+                </div>
+              </div>
+            );
+          })}
+                    {services?.map((service) => {
+            return (
+              <div key={service.id} className={style.card}>
+                <div>
+                  <p>name: : {service.name} </p>
+                  <p>date: {service.date.toString()} </p>
+                  <p>user: {service.user} </p>
+                  <p>place: {service.place} </p>
+                  <p>cost: {service.cost} </p>
+                  <p>count: {service.count} </p>
+                  <p>description: {service.description} </p>
+                </div>
+                {/* {`${service.name} ${service.date} ${service.count} ${service.cost}`} */}
+                <div className={style.cardBtn}>
+                  <button
+                    onClick={() => {
+                      setRemoveId(service.id);
+                      setIsShowRemoveModal(true);
+                    }}
+                  >
+                    Удалить
+                  </button>
+                  <button onClick={() => setChangingService(service)}>Изменить</button>
+                </div>
+              </div>
+            );
+          })}
+                    {services?.map((service) => {
+            return (
+              <div key={service.id} className={style.card}>
+                <div>
+                  <p>name: : {service.name} </p>
+                  <p>date: {service.date.toString()} </p>
+                  <p>user: {service.user} </p>
+                  <p>place: {service.place} </p>
+                  <p>cost: {service.cost} </p>
+                  <p>count: {service.count} </p>
+                  <p>description: {service.description} </p>
+                </div>
+                {/* {`${service.name} ${service.date} ${service.count} ${service.cost}`} */}
+                <div className={style.cardBtn}>
+                  <button
+                    onClick={() => {
+                      setRemoveId(service.id);
+                      setIsShowRemoveModal(true);
+                    }}
+                  >
+                    Удалить
+                  </button>
+                  <button onClick={() => setChangingService(service)}>Изменить</button>
+                </div>
+              </div>
+            );
+          })}
+                    {services?.map((service) => { 
+            return (
+              <div key={service.id} className={style.card}>
+                <div>
+                  <p>name: : {service.name} </p>
+                  <p>date: {service.date.toString()} </p>
+                  <p>user: {service.user} </p>
+                  <p>place: {service.place} </p>
+                  <p>cost: {service.cost} </p>
+                  <p>count: {service.count} </p>
+                  <p>description: {service.description} </p>
+                </div>
+                {/* {`${service.name} ${service.date} ${service.count} ${service.cost}`} */}
+                <div className={style.cardBtn}>
+                  <button
+                    onClick={() => {
+                      setRemoveId(service.id);
+                      setIsShowRemoveModal(true);
+                    }}
+                  >
+                    Удалить
+                  </button>
+                  <button onClick={() => setChangingService(service)}>Изменить</button>
+                </div>
+              </div>
             );
           })}
           <li>{isFetching && <Loading />}</li>
-        </ul>
+        </>
       )}
+        </div>
+      </div>
+
+      
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteService(removeId)}

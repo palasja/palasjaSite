@@ -13,6 +13,10 @@ import { Provider } from 'react-redux';
 import Stats from './stats';
 import Logout from './auth/logout';
 import SignIn from './auth/signIn';
+import Organization from './organization';
+import Personals from './personal';
+import Contracts from './contracts';
+import Services from './services';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -44,6 +48,31 @@ createRoot(document.getElementById('root')!).render(
             element={
               <ProtectedRoute>
                 <Stats />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="organization"
+            element={
+              <ProtectedRoute>
+                <Organization />
+                <Personals />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="contracts"
+            element={
+              <ProtectedRoute>
+                <Contracts />
+              </ProtectedRoute>
+            }
+          />
+                    <Route
+            path="services"
+            element={
+              <ProtectedRoute>
+                <Services />
               </ProtectedRoute>
             }
           />

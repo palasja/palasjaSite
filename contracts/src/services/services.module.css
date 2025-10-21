@@ -1,0 +1,17 @@
+.split{
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
+.card{
+  background-color: aqua;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.cardBlock{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
