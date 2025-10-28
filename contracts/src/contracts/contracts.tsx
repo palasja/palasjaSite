@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from './contracts.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
@@ -25,13 +25,15 @@ function Contracts() {
   const [delContract] = useDeleteContractMutation();
   const [getContractScan] = useLazyGetContractsScanQuery();
   const {
-        data: contracts = [],
-        isLoading,
-        isFetching
-      } = useGetContractsByOrgQuery(choosenOrg?.id ?? skipToken);
+    data: contracts = [],
+    isLoading,
+    isFetching,
+  } = useGetContractsByOrgQuery(choosenOrg?.id ?? skipToken);
 
   const [changingContract, setChangingContract] = useState<Contract | undefined>();
-
+  useEffect(() => {
+    setChangingContract(undefined);
+  }, [choosenOrg]);
   const page = (
     <>
       <h3>Договора ( {choosenOrg?.name} )</h3>
@@ -44,34 +46,35 @@ function Contracts() {
         <></>
       ) : (
         <ul>
-          {contracts?.map((con, i) => <li key={i}>
-                {con.number}
-                <button
-                  onClick={async () => {
-                    const fileName = `${choosenOrg?.name}_${choosenMonth}`;
-                    const result = await getContractScan({ orgId: con.id }).unwrap();
-                    const url = getURLByBase64File(result.scan, 'application/pdf');
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = fileName;
-                    link.click();
-                    // Cleanup
-                    URL.revokeObjectURL(url);
-                  }}
-                >
-                  Scan
-                </button>
-                <button
-                  onClick={() => {
-                    setRemoveId(con.id);
-                    setIsShowRemoveModal(true);
-                  }}
-                >
-                  Удалить
-                </button>
-                <button onClick={() => setChangingContract(con)}>Переименовать</button>
-              </li>
-            )}
+          {contracts?.map((con, i) => (
+            <li key={i}>
+              {con.number}
+              <button
+                onClick={async () => {
+                  const fileName = `${choosenOrg?.name}_${choosenMonth}`;
+                  const result = await getContractScan({ orgId: con.id }).unwrap();
+                  const url = getURLByBase64File(result.scan, 'application/pdf');
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = fileName;
+                  link.click();
+                  // Cleanup
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                Scan
+              </button>
+              <button
+                onClick={() => {
+                  setRemoveId(con.id);
+                  setIsShowRemoveModal(true);
+                }}
+              >
+                Удалить
+              </button>
+              <button onClick={() => setChangingContract(con)}>Изменить</button>
+            </li>
+          ))}
           <li>{isFetching && <Loading />}</li>
         </ul>
       )}
@@ -84,7 +87,7 @@ function Contracts() {
       )}
     </>
   );
-  return  isLoading ? <Loading /> : page;
+  return isLoading ? <Loading /> : page;
 }
 
 export default Contracts;

@@ -23,11 +23,7 @@ const Organization = () => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const [deleteOrganization] = useDeleteOrganizationMutation();
 
-  const {
-    data: organizations = [],
-    isLoading,
-    isFetching
-  } = useGetOrganizationQuery();
+  const { data: organizations = [], isLoading, isFetching } = useGetOrganizationQuery();
 
   const page = (
     <>
@@ -65,7 +61,7 @@ const Organization = () => {
                     dispatch(changingOrg(org));
                   }}
                 >
-                  Переименовать
+                  Изменить
                 </button>
               </li>
             );

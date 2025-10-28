@@ -53,5 +53,5 @@ export const {
   useAddServiceMutation,
   useUpdateServiceMutation,
   useDeleteServiceMutation,
-  useLazyGetServicesCostQuery
+  useLazyGetServicesCostQuery,
 } = ServiceApi;

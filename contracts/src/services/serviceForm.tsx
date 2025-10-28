@@ -128,11 +128,7 @@ const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProp
           <textarea {...register('description')} />
         </div>
         <input type="submit" value={btnValue} />
-        <input
-          type="button"
-          onClick={() => resetForm() }
-          value="Очистить"
-        />
+        <input type="button" onClick={() => resetForm()} value="Очистить" />
       </form>
     </>
   );

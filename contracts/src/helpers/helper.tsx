@@ -79,7 +79,7 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
   return itogSummNDS;
 };
 
-export const getServicesCost = <T extends {cost: number, count: number}>(services: T[]) => {
+export const getServicesCost = <T extends { cost: number; count: number }>(services: T[]) => {
   const itogSumm = services.reduce((result, s) => result + s.count * s.cost, 0);
   // services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;

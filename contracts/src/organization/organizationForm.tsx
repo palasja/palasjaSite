@@ -78,9 +78,7 @@ const OrganizationForm = () => {
 
         <input type="submit" value={btnValue} data-testid="submit" />
       </form>
-      <button onClick={() => resetForm()} >
-        Очистить
-      </button>
+      <button onClick={() => resetForm()}>Очистить</button>
     </>
   );
 };

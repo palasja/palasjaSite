@@ -376,7 +376,7 @@ router.get('/getServicesByMonth/:month', asyncHandler( async (req, res) => {
 }));
 router.get('/getServicesCost',  asyncHandler( async (req, res) => {
   let result = await Service.findAll({
-    attributes:  ['id', 'cost', 'count', 'orgId'] 
+    attributes:  ['id', 'cost', 'count', 'orgId', 'date'] 
     });
   res.status(200).json(result);
 }));

@@ -1,3 +1,89 @@
-.axisText:hover { 
-    stroke: #fce57e;
+.axisLine:hover,
+.axisLine:hover + .axisText {
+  stroke: #fce57e;
+}
+
+.axisSubText {
+  font-size: 12px;
+  visibility: hidden;
+}
+
+.axisSubLine:hover,
+.axisSubLine:hover + .axisSubText {
+  stroke: rgb(65, 0, 245);
+  visibility: visible;
+}
+.column {
+  opacity: 0.8;
+}
+.column:hover {
+  opacity: 1;
+}
+
+.columnText {
+  visibility: hidden;
+}
+.column:hover > .columnText {
+  visibility: visible;
+}
+.legend:nth-child(1):hover > .columnText:nth-child(1) {
+  visibility: visible;
+}
+.column__0 {
+  fill: var(--color_0);
+}
+.column__1,
+.legend:nth-child(1) {
+  fill: var(--color_1);
+}
+.column__2,
+.legend:nth-child(2) {
+  fill: var(--color_2);
+}
+.column__3,
+.legend:nth-child(3) {
+  fill: var(--color_3);
+}
+.column__4,
+.legend:nth-child(4) {
+  fill: var(--color_4);
+}
+.column__5,
+.legend:nth-child(5) {
+  fill: var(--color_5);
+}
+.column__6,
+.legend:nth-child(6) {
+  fill: var(--color_6);
+}
+.column__7,
+.legend:nth-child(7) {
+  fill: var(--color_7);
+}
+.column__8,
+.legend:nth-child(8) {
+  fill: var(--color_8);
+}
+.column__9,
+.legend:nth-child(9) {
+  fill: var(--color_9);
+}
+.visible > *{
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+.visible {
+    opacity: 1 !important;
+}
+:root {
+  --color_0: #00c3ff;
+  --color_1: #f70505;
+  --color_2: #f7f705;
+  --color_3: #06ec66;
+  --color_4: #05f7d7;
+  --color_5: #0531f7;
+  --color_6: #9806ec;
+  --color_7: #f705eb;
+  --color_8: #f70562;
+  --color_9: #ecc206;
 }

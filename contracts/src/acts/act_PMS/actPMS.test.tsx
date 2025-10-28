@@ -58,30 +58,27 @@ describe('act PMS', () => {
       orgId: '1',
     } as Contract;
 
-    const spyNDS47 = vi.spyOn(helper, 'getServicesCostWithNDS_47')
+    const spyNDS47 = vi.spyOn(helper, 'getServicesCostWithNDS_47');
 
-    renderWithProviders(
-      <ActPMS contract={contract} personal={personals} services={services} />,
-      {
-        preloadedState: {
-          orgs:{
-            chosenOrg: {id: 1, name: 'testOrg'},
-            changingOrg: null,
-            error: null,
-            status: 'idle'
-          },
-          services: {
-            choosenMonth: '1',
-            isWithoutOrg: false,
-          },
+    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} />, {
+      preloadedState: {
+        orgs: {
+          chosenOrg: { id: 1, name: 'testOrg' },
+          changingOrg: null,
+          error: null,
+          status: 'idle',
         },
-      }
-    );
+        services: {
+          choosenMonth: '1',
+          isWithoutOrg: false,
+        },
+      },
+    });
 
     expect(spyNDS47).toBeCalled();
   });
 
-    it('all persons on act', () => {
+  it('all persons on act', () => {
     const date = new Date('01-01-2025');
     const services = [...new Array(COUNT_FOR_ONE_PAGE)].map(
       (_e, i) =>
@@ -134,27 +131,23 @@ describe('act PMS', () => {
       orgId: '1',
     } as Contract;
 
-    renderWithProviders(
-      <ActPMS contract={contract} personal={personals} services={services} />,
-      {
-        preloadedState: {
-          orgs:{
-            chosenOrg: {id: 1, name: 'testOrg'},
-            changingOrg: null,
-            error: null,
-            status: 'idle'
-          },
-          services: {
-            choosenMonth: '1',
-            isWithoutOrg: false,
-          },
+    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} />, {
+      preloadedState: {
+        orgs: {
+          chosenOrg: { id: 1, name: 'testOrg' },
+          changingOrg: null,
+          error: null,
+          status: 'idle',
         },
-      }
-    );
+        services: {
+          choosenMonth: '1',
+          isWithoutOrg: false,
+        },
+      },
+    });
 
     expect(screen.getByText(/a. a. a/i)).toBeInTheDocument();
     expect(screen.getByText(/b. b. b/i)).toBeInTheDocument();
     expect(screen.getByText(/c. c. c/i)).toBeInTheDocument();
   });
-
 });

@@ -122,9 +122,7 @@ const ContractForm = ({ changingContract, clearCallback }: ChangingContractFormP
         </div>
 
         <input type="submit" value={btnValue} />
-        <button onClick={() => resetForm()} >
-          Очистить
-        </button>
+        <button onClick={() => resetForm()}>Очистить</button>
       </form>
     </>
   );

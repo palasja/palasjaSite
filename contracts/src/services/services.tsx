@@ -24,6 +24,7 @@ const Services = () => {
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
   useEffect(() => {
+    setChangingService(undefined);
     if (choosenOrg === null) {
       //Без организации всегда оплачено
       loadServices({ orgId: null, month: choosenMonth, isPaid: true });

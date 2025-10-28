@@ -1,77 +1,143 @@
+import { Organization, OrganizationCost } from '../helpers/contractTypes';
 import style from './SVGCan.module.css';
 
-const SVGCan = () => {
+type ServiseCostByMonthProps = {
+  serviseCostByMonth: {
+    date: string;
+    services: OrganizationCost[];
+}[];
+orgs: Organization[];
+}
+const SVGCan = ({serviseCostByMonth, orgs}: ServiseCostByMonthProps) => {
+  const scale = 2;
+  const width=1400;
+  const height=350;
   const startX = 40;
   const startY = 10;
-  const endX = 500;
+  const endX = 1000;
   const endY = 300;
 
-  const maxCost = 2000;
-  const coef = (endY - startY) / maxCost
+  const maxCost = 1500;
+  const costStep = 250;
+  const costSubStep = 50;
+
+  const orgColorMap = new Map();
+  orgColorMap.set(0, 0);
+  orgs.forEach((o, i) => orgColorMap.set(o.id, i+1));
+  const coef = (endY ) / (maxCost *  scale);
+  const getColHeight = (cost: number) =>  (endY - cost * coef);
+
   const getAxis = () => {
     const arrAxisLine = [];
-    const step = 50;
+    const YAxisStep = 50;
+    const YAxisSubStep = 10;
+    const YAxisSubCount = 5;
+    const countLine = endY / YAxisStep;
 
-    for (let i = 1; i < 6; i++) {
-      let tmp = startY - step * i;
-      arrAxisLine.push(<g>
-        <path d={`M ${startX} ${tmp} L ${endX} ${tmp} `} />
-        <text x='0' y={tmp} className={style.axisText}>{tmp}</text>
-      </g>);
-      
+    const textMiddleFix = 5;
+    for (let i = 1; i < countLine; i++) {
+      let tmp = endY - YAxisStep * i;
+      const subLineArr = [];
+      for (let e = 0; e < YAxisSubCount; e++) {
+        subLineArr.push(<g  key={e}>
+          <path d={`M ${startX} ${tmp + e * YAxisSubStep} L ${endX} ${tmp + e * YAxisSubStep} `} className={style.axisSubLine}/>
+          <text x={textMiddleFix} y={tmp + e * YAxisSubStep} className={style.axisSubText}>{((costStep * i) - (e * costSubStep)) * scale}</text>
+        </g>);
+      }
+      arrAxisLine.push(<g key={i}>
+        {subLineArr.map(e => e)}
+        <path d={`M ${startX} ${tmp} L ${endX} ${tmp} `} className={style.axisLine}/>
+        <text x='0' y={tmp+textMiddleFix} className={style.axisText}>{i * costStep * scale}</text>
+      </g>)
     }
-
+    
     return <g stroke='#000000ff' fill='none'>
         <path d={`M${startX} ${startY} L ${startX} ${endY} L ${endX} ${endY} `} />
         {arrAxisLine.map( e => e)}
-
       </g>
   }
-
   const getColumn = () => {
-    const columnGap = 10;
-    const columnWidth = 15;
+    const columnWidth = 40;
     const axisXGap = 20;
-    const serviceCost = [
-      {name: 'pms', cost: 25},
-      {name: 'jkh', cost: 1000},
-      {name: 'tcson', cost: 0},
-      {name: 'noOrg', cost: 100}
-    ];
 
-    const serviseCostByMonth = [
-      {month: 'January', services: serviceCost },
-      {month: 'February', services: serviceCost },
-      {month: 'Mart', services: serviceCost }
-    ]
-    serviceCost.sort((a, b) => b.cost - a.cost);
-
-    const orgWidthGap = (serviceCost.length - 1 ) * columnGap;
-    const orgColWidth = serviceCost.length * columnWidth;
-    const orgBlockWidth = orgWidthGap + orgColWidth;
     
     const axisXWidth = endX - startX;
-    const freeSpace = axisXWidth - (axisXGap * 2 + (orgBlockWidth * serviceCost.length) );
+    const freeSpace = axisXWidth - (axisXGap * 2 + (columnWidth * serviseCostByMonth.length) );
     const monthGag = freeSpace / (serviseCostByMonth.length -1);
-    const cols = serviceCost.map((sc, i) => {
-      const startXpos = (startX + axisXGap) + (i * (columnWidth + columnGap));
-      const colHeight = endY - sc.cost * coef;
-        return <path d={`M ${startXpos} ${endY} L ${startXpos} ${colHeight} L ${startXpos + columnWidth} ${colHeight} L ${startXpos + columnWidth} ${endY}`} />
+    const startXpos = startX + axisXGap;
+    const getColumns = (startXpos: number, monthGag: number) => {
+    const columns = serviseCostByMonth.map((oc, i) => {
+      const colStartXPos = startXpos + i * monthGag + i * columnWidth;
+      const maxCol = oc.services.sort((a, b) => b.cost - a.cost)[0].cost;
+      const summ = oc.services.reduce((a, c ) =>  a + c.cost, 0 );
+      return <g  key={i}> 
+        {getOrgColumn(oc.services, colStartXPos)}
+        <text x={colStartXPos + 5} y={endY + 20} className={style.axisText}>{oc.date}</text>
+        <text x={colStartXPos + 5} y={getColHeight(maxCol) - 30} className={style.axisText}>{summ}</text>
+      </g>
     });
-    return <g fill='#cc0000ff'>
-      {cols.map( e => e)}
+    
+    return columns;
+    }
+
+
+    const getOrgColumn = (serviceCost: OrganizationCost[], startXpos: number ) => {
+      const YText = getColHeight(serviceCost[0].cost) - 10;
+      serviceCost.sort((a, b) => b.cost - a.cost);
+      const cols = serviceCost.map((sc, i) => {
+        const colHeight = getColHeight(sc.cost);
+
+        return <g  key={i} className={`${style.column} ${style[`column__${orgColorMap.get(parseInt(sc.orgId ?? '0'))}`]}`}>
+          <path d={`M ${startXpos} ${endY} L ${startXpos} ${colHeight} L ${startXpos + columnWidth} ${colHeight} L ${startXpos + columnWidth} ${endY}`} />
+          <text x={startXpos} y={YText} className={style.columnText}>{ sc.cost}</text>
+        </g>
+      });
+      return cols;
+    } 
+    return getColumns(startXpos, monthGag);
+  }
+
+    const showAllOrgData = (className: string) => {
+      [...document.getElementsByClassName(className)].forEach(e => {
+        e.classList.toggle(style.visible);
+      })
+    }
+
+  const getLegend = () => {
+    const axisXGap = 20;
+    const axisYGap = 50;
+    const textGap = 10;
+    const fontSize = 14;
+    const startXLegend = endX + axisXGap;
+    const startYLegend = startY + axisYGap;
+    const legendOrg = orgs.map( (o, i) => {
+      const y = startYLegend + i * fontSize + i * textGap;
+      return <text x={startXLegend} y={y} className={`${style[`column__${orgColorMap.get(o.id)}`]}`}  key={i}
+      onMouseEnter={() => showAllOrgData(style[`column__${orgColorMap.get(o.id)}`])}
+      onMouseLeave={() => showAllOrgData(style[`column__${orgColorMap.get(o.id)}`])}      
+      >{o.name}</text>
+    })
+    const y = startYLegend + legendOrg.length * fontSize + legendOrg.length * textGap;
+    legendOrg.push(<text x={startXLegend} y={y} className={`${style[`column__${orgColorMap.get(0)}`]}`}  key={orgs.length}
+     onMouseEnter={() => showAllOrgData(style[`column__${orgColorMap.get(0)}`])}
+      onMouseLeave={() => showAllOrgData(style[`column__${orgColorMap.get(0)}`])}
+     >Без орги</text>)
+    return <g>
+      {legendOrg.map(l => l)}
     </g>
   }
+
   return(
     <svg 
-      width="600px"
-      height="600px"
+      width={`${width}px`}
+      height={`${height}px`}
       // viewBox="-300 -300 600 600"
       xmlns="http://www.w3.org/2000/svg"
       // xmlns:xlink="http://www.w3.org/1999/xlink"
       >
       {getAxis()};
       {getColumn()};
+      {getLegend()};
     </svg>
   )
 }

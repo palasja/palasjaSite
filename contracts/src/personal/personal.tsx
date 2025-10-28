@@ -9,20 +9,23 @@ import {
   useGetPersonalsByOrgIdQuery,
 } from '../redux/slices/personalRTKSlice';
 import Loading from '../components/loading';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 const Personals = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
   const [deletePersonal] = useDeletePersonalMutation();
   const {
-      data: personals = [],
-      isLoading,
-      isFetching
-    } = useGetPersonalsByOrgIdQuery(choosenOrg?.id ?? skipToken);
+    data: personals = [],
+    isLoading,
+    isFetching,
+  } = useGetPersonalsByOrgIdQuery(choosenOrg?.id ?? skipToken);
 
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
   const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
+  useEffect(() => {
+    setChangingPersonal(undefined);
+  }, [choosenOrg]);
   const page = (
     <>
       <h3>Personal ( {choosenOrg?.name} )</h3>
@@ -47,7 +50,7 @@ const Personals = () => {
                 >
                   Удалить
                 </button>
-                <button onClick={() => setChangingPersonal(person)}>Переименовать</button>
+                <button onClick={() => setChangingPersonal(person)}>Изменить</button>
               </li>
             );
           })}

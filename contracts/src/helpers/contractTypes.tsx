@@ -37,7 +37,7 @@ type Service = {
   ispaid: boolean;
 };
 
-export type ServiceCost = Pick<Service, 'id' |'cost' | 'count' | 'orgId'>;
+export type ServiceCost = Pick<Service, 'id' | 'cost' | 'count' | 'orgId' | 'date'>;
 
 type CreateService = Omit<Service, 'id'>;
 type ActInfo = {
@@ -72,3 +72,5 @@ export type OrgMonthPayment = {
 export type ContractScan = {
   orgId: number | null;
 };
+
+export type OrganizationCost = { orgId?: string; cost: number };
