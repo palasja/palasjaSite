@@ -38,9 +38,7 @@ const Stats = () => {
     let firstDay = new Date(`${minDate.getFullYear()}-${minDate.getMonth() + 1}`);
     const servicesByMonth = [];
     while (firstDay < maxDate) {
-      const lastDay = new Date(
-        new Date(`${firstDay.getFullYear()}-${firstDay.getMonth() + 2}`).setDate(-1)
-      );
+      const lastDay = new Date(new Date(`${firstDay.getFullYear()}-${firstDay.getMonth() + 2}`).getTime() - 1000);
       const serviceByMonth = services.filter(
         (s) => new Date(s.date) >= firstDay && new Date(s.date) <= lastDay
       );
