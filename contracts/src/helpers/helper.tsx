@@ -1,7 +1,7 @@
 import { NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA } from './constants';
 import { Personal, Service } from './contractTypes';
 
-export const toBase64 = (file: File): Promise<string> =>
+export const toBase64 = (file: File | Blob): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

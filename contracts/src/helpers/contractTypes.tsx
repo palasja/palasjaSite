@@ -1,8 +1,8 @@
-type Organization = {
+export type Organization = {
   id: number;
   name: string;
 };
-type Contract = {
+export type Contract = {
   id: number;
   number: string;
   signDate: Date;
@@ -11,7 +11,7 @@ type Contract = {
   scan: Blob;
   orgId: string;
 };
-type Personal = {
+export type Personal = {
   id: number;
   lastName: string;
   middleName: string;
@@ -24,7 +24,7 @@ type Personal = {
   orgId: string;
 };
 
-type Service = {
+export type Service = {
   id: number;
   name: string;
   date: Date;
@@ -39,29 +39,19 @@ type Service = {
 
 export type ServiceCost = Pick<Service, 'id' | 'cost' | 'count' | 'orgId' | 'date'>;
 
-type CreateService = Omit<Service, 'id'>;
-type ActInfo = {
+export type CreateService = Omit<Service, 'id'>;
+export type ActInfo = {
   contract: Contract;
   persons: Personal[];
   services: Service[];
 };
 
-interface User {
+export interface User {
   login: string;
   password: string;
 }
 
-type FetchStatus = 'idle' | 'pending' | 'succeeded' | 'rejected';
-export type {
-  Organization,
-  Contract,
-  Personal,
-  Service,
-  ActInfo,
-  User,
-  CreateService,
-  FetchStatus,
-};
+export type FetchStatus = 'idle' | 'pending' | 'succeeded' | 'rejected';
 
 export type OrgMonthPayment = {
   orgId: number | null;
@@ -74,3 +64,18 @@ export type ContractScan = {
 };
 
 export type OrganizationCost = { orgId?: string; cost: number };
+
+export type SoftInfoContentType = { type: 'text' | 'image',  id: string, value?: string}
+export type SoftInfoLink = { id: string, name: string, url: string}
+export type SoftArticle = {
+  id: string;
+  links?: SoftInfoLink[],
+  name: string,
+  info: string
+}
+
+export type SoftInfoType = {
+  id: string,
+  name: string,
+  articlesName: {id: string, name: string}[]
+}

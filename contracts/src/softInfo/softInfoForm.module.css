@@ -1,0 +1,32 @@
+.field{
+  border: none;
+  background-color: rgb(170, 241, 218, 0.4);
+  width: 100%; 
+  padding: 10px;
+resize: none;
+field-sizing:content;
+    /* overflow: hidden;
+    min-height: 50px;
+    max-height: 100px; */
+}
+
+.field:focus, .field:focus-visible{
+  outline: none !important;
+}
+
+.closeBtn{
+    position: absolute;
+    margin: 20px;
+    background: rgba(18, 252, 232, 0.178);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+}
+
+.closeBtn:hover{
+  background: rgba(18, 252, 232, 0.8);
+  cursor: pointer;
+}

@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import Stats from './stats';
 import Logout from './auth/logout';
 import SignIn from './auth/signIn';
+import SoftInfo from './softInfo';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -47,6 +48,15 @@ createRoot(document.getElementById('root')!).render(
               </ProtectedRoute>
             }
           />
+          <Route
+            path="softinfo"
+            element={
+              <ProtectedRoute>
+                <SoftInfo />
+              </ProtectedRoute>
+            }
+          />          
+          
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>

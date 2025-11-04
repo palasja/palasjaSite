@@ -8,3 +8,5 @@ export const NDS = DOHOD + PENSIA;
 export const NDS_VICHET = 192;
 export const NDS_VICHET_LIMIT = 1164;
 export const COUNT_FOR_ONE_PAGE = 19;
+export const SOFT_INFO_SPLITER_IMAGE = '__split__';
+export const SOFT_INFO_IMAGE_PREFIX = 'image/png;base64';
