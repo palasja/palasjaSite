@@ -16,22 +16,24 @@ let sequelize = new Sequelize(
               min: 0,
             }
           }
-        );
-const Organization = sequelize.define("organization", {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+        );``
+    const Organization = sequelize.define("organization", 
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-  },
-  {
-        freezeTableName: true,
-        timestamps: false,
-    });
+    {
+      freezeTableName: true,
+      timestamps: false,
+    }
+    );
     const Personal = sequelize.define("personal", {
         id: {
           type: DataTypes.INTEGER,
@@ -188,4 +190,78 @@ const Organization = sequelize.define("organization", {
       }
     );
 
-export {sequelize, Organization, Personal, Contracts,Service, Users}
+    const SoftArticleLinks = sequelize.define(
+      'softLinks', {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          allowNull: false,
+          autoIncrement: true
+        },
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false
+        }, 
+        url: {
+          type: DataTypes.STRING,
+          allowNull: false
+        },
+      },
+      {
+            freezeTableName: true,
+            timestamps: false,
+        });
+
+    const SoftArticle = sequelize.define(
+      'softArticle', {
+        id: {
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          primaryKey: true,
+          allowNull: false,
+        },
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false
+        }, 
+        info: {
+          type: DataTypes.TEXT,
+        },
+      },
+      {
+            freezeTableName: true,
+            timestamps: false,
+        });      
+      SoftArticle.hasMany(SoftArticleLinks, {as: "softLinks"});
+    SoftArticleLinks.belongsTo(SoftArticle, {
+      foreignKey: "softArticleId",
+      as: "softArticleLinks",
+      onDelete: 'CASCADE',
+    });
+
+    const SoftInfo = sequelize.define(
+      'softInfo', {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          allowNull: false,
+          autoIncrement: true
+        },
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false
+        }, 
+      },
+      {
+            freezeTableName: true,
+            timestamps: false,
+        });
+      SoftInfo.hasMany(SoftArticle, {as: "softArticle"});
+    SoftArticle.belongsTo(SoftInfo, {
+      foreignKey: "softInfoId",
+      as: "softInfo",
+      onDelete: 'CASCADE',
+    });
+    
+
+export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo}
