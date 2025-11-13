@@ -1,2 +1,2 @@
-import SoftPrompt from "./softPrompt";
+import SoftPrompt from './softPrompt';
 export default SoftPrompt;

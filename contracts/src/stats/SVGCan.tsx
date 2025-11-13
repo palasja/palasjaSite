@@ -25,8 +25,8 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
   orgColorMap.set(0, 0);
   orgs.forEach((o, i) => orgColorMap.set(o.id, i + 1));
   const coef = endY / (maxCost * scale);
-  const getColHeight = (cost: number) => endY - cost * coef;
-
+  const getColHeightFromStart = (cost: number) => endY - cost * coef;
+  const getColHeight = (cost: number) => cost * coef;
   const getAxis = () => {
     const arrAxisLine = [];
     const YAxisStep = 50;
@@ -88,7 +88,11 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
             <text x={colStartXPos + 5} y={endY + 20} className={style.axisText}>
               {oc.date}
             </text>
-            <text x={colStartXPos + 5} y={getColHeight(maxCol) - 30} className={style.axisText}>
+            <text
+              x={colStartXPos + 5}
+              y={getColHeightFromStart(maxCol) - 30}
+              className={style.axisText}
+            >
               {summ}
             </text>
           </g>
@@ -99,22 +103,47 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
     };
 
     const getOrgColumn = (serviceCost: OrganizationCost[], startXpos: number) => {
-      const YText = getColHeight(serviceCost[0].cost) - 10;
+      const YText = getColHeightFromStart(serviceCost[0].cost) - 10;
       serviceCost.sort((a, b) => b.cost - a.cost);
-      const cols = serviceCost.map((sc, i) => {
-        const colHeight = getColHeight(sc.cost);
-
+      let costPosSumm = endY;
+      const showZeroValue = false;
+      const isNested = false;
+      const serviceCostByOtion = showZeroValue
+        ? serviceCost
+        : serviceCost.filter((sc) => sc.cost !== 0);
+      const cols = serviceCostByOtion.map((sc, i, arr) => {
+        const colHeight = getColHeightFromStart(sc.cost);
+        // console.log(`${colStartYPos} - ${getColHeight(sc.cost)}`);
+        if (i !== 0) costPosSumm -= getColHeight(arr[i - 1].cost);
+        console.log(costPosSumm);
         return (
           <g
             key={i}
             className={`${style.column} ${style[`column__${orgColorMap.get(parseInt(sc.orgId ?? '0'))}`]}`}
           >
-            <path
-              d={`M ${startXpos} ${endY} L ${startXpos} ${colHeight} L ${startXpos + columnWidth} ${colHeight} L ${startXpos + columnWidth} ${endY}`}
-            />
-            <text x={startXpos} y={YText} className={style.columnText}>
-              {sc.cost}
-            </text>
+            {isNested ? (
+              <>
+                <path
+                  d={`M ${startXpos} ${endY} L ${startXpos} ${colHeight} L ${startXpos + columnWidth} ${colHeight} L ${startXpos + columnWidth} ${endY}`}
+                />
+                <text x={startXpos} y={YText} className={style.columnText}>
+                  {sc.cost}
+                </text>
+              </>
+            ) : (
+              <>
+                <path
+                  d={`M ${startXpos} ${costPosSumm} L ${startXpos} ${costPosSumm - getColHeight(sc.cost)} L ${startXpos + columnWidth} ${costPosSumm - getColHeight(sc.cost)} L ${startXpos + columnWidth} ${costPosSumm}`}
+                />
+                <text
+                  x={startXpos + columnWidth}
+                  y={costPosSumm - getColHeight(sc.cost) + 10}
+                  className={style.columnText}
+                >
+                  {sc.cost}
+                </text>
+              </>
+            )}
           </g>
         );
       });

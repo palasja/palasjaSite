@@ -51,7 +51,7 @@ const SoftPromptForm = ({ softInfo, clearCallback }: ChangingSoftInfoFormProps) 
       resetForm();
     }
   }, [softInfo]);
-  
+
   return (
     <>
       {errors.name && <p>{errors.name.message}</p>}

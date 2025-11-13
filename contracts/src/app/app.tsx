@@ -35,9 +35,9 @@ const App = () => {
             <h2>Выберите организацию</h2>
           ) : (
             <>
+              <Services />
               <Contracts />
               <Personals />
-              <Services />
             </>
           )}
         </>

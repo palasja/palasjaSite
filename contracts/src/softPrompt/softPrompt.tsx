@@ -124,7 +124,6 @@ const SoftInfoArticleLink = ({ links }: { links: SoftArticleLink[] }) => {
   );
 };
 
-
 const SoftPrompt = () => {
   const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
   const softInfo = softinfoExample;
@@ -182,7 +181,7 @@ const SoftPrompt = () => {
     );
   };
 
-  const SoftInfo = ({soft} : {soft: SoftInfoType}) => {
+  const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
     return (
       <div key={soft.id}>
         <li>
@@ -203,8 +202,8 @@ const SoftPrompt = () => {
           ))}
         </ul>
       </div>
-    )
-}
+    );
+  };
 
   return (
     <>
@@ -213,8 +212,7 @@ const SoftPrompt = () => {
       <aside>
         <ul>
           {softInfo.map((soft, i) => {
-            return ( <SoftInfo soft={soft}/>
-              );
+            return <SoftInfo soft={soft} />;
           })}
         </ul>
       </aside>

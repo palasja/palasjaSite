@@ -190,7 +190,7 @@ const SoftInfoArticleForm = ({
       setValue('id', changingSoftArticle.id);
       setValue('name', changingSoftArticle.name);
       changingSoftLinks && setValue('softLinks', changingSoftLinks);
-      
+
       const imagePrefRegExp = new RegExp(SOFT_INFO_IMAGE_PREFIX);
       const arr: SoftInfoContentType[] = changingSoftArticle.info
         .split(SOFT_INFO_SPLITER_IMAGE)

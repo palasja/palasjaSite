@@ -225,7 +225,8 @@ let sequelize = new Sequelize(
           allowNull: false
         }, 
         info: {
-          type: DataTypes.TEXT,
+          type: DataTypes.TEXT('long'),
+           
         },
       },
       {
