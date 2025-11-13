@@ -78,7 +78,7 @@ const Act = () => {
     const idNum = parseInt(id, 10);
     personal?.find((p) => p.id == idNum) as Personal;
     const person = findPerson(id);
-    let a = [...personalByOrder.slice(0, num), person, ...personalByOrder.slice(num + 1)];
+    const a = [...personalByOrder.slice(0, num), person, ...personalByOrder.slice(num + 1)];
     setPersonalByOrder(a);
   };
 

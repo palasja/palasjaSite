@@ -20,7 +20,8 @@ const Organization = () => {
   const dispatch = useAppDispatch();
   const changingOrganization = useAppSelector(getChangingOrganization);
   const errors = useAppSelector(getOrganisationError);
-  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
+    useRemoveEntity<number>(-1);
   const [deleteOrganization] = useDeleteOrganizationMutation();
 
   const { data: organizations = [], isLoading, isFetching } = useGetOrganizationQuery();

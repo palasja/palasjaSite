@@ -1,4 +1,3 @@
-import { Contract } from '../../helpers/contractTypes';
 import { providesRTKTagList } from '../../helpers/helper';
 import { apiSlice, Organization } from './apiSlice';
 
@@ -6,7 +5,6 @@ const organizationApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getOrganization: builder.query<Organization[], void>({
       query: () => '/getOrganizations',
-      // providesTags: ['Organization']
       providesTags: (result) => providesRTKTagList(result, 'Organization'),
     }),
     addOrganization: builder.mutation<Organization, Organization>({
@@ -23,8 +21,7 @@ const organizationApi = apiSlice.injectEndpoints({
         method: 'PATCH',
         body: JSON.stringify(org),
       }),
-      // invalidatesTags: ['Organization']
-      invalidatesTags: (result, error, arg) => [{ type: 'Organization', id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Organization', id: arg.id }],
     }),
     deleteOrganization: builder.mutation<boolean, number>({
       query: (id) => ({

@@ -22,7 +22,7 @@ const Login = () => {
   const [isError, setIsError] = useState(false);
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      let result = await login(data).unwrap();
+      const result = await login(data).unwrap();
       if (result == 'OK') navigate('/contract');
     } catch {
       setIsError(true);
@@ -31,7 +31,7 @@ const Login = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        let result = await check().unwrap();
+        const result = await check().unwrap();
         if (result == 'OK') navigate('/contract');
       } catch {
         setIsChecked(true);

@@ -38,12 +38,14 @@ const Stats = () => {
     let firstDay = new Date(`${minDate.getFullYear()}-${minDate.getMonth() + 1}`);
     const servicesByMonth = [];
     while (firstDay < maxDate) {
-      const lastDay = new Date(new Date(`${firstDay.getFullYear()}-${firstDay.getMonth() + 2}`).getTime() - 1000);
+      const lastDay = new Date(
+        new Date(`${firstDay.getFullYear()}-${firstDay.getMonth() + 2}`).getTime() - 1000
+      );
       const serviceByMonth = services.filter(
         (s) => new Date(s.date) >= firstDay && new Date(s.date) <= lastDay
       );
 
-      let organisationsCost: OrganizationCost[] = organizations.map((o) => {
+      const organisationsCost: OrganizationCost[] = organizations.map((o) => {
         const arr = serviceByMonth.filter((s) => s.orgId == o.id.toString());
 
         return { orgId: o.id.toString(), cost: getServicesCost(arr) };

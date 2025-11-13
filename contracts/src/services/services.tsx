@@ -18,7 +18,8 @@ const Services = () => {
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
-  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
+    useRemoveEntity<number>(-1);
   const [loadServices, { data: services, isLoading, isFetching }] =
     useLazyGetServicesByOrgIdMonthQuery();
   const [deleteService] = useDeleteServiceMutation();

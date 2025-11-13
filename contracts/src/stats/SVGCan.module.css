@@ -68,12 +68,12 @@
 .legend:nth-child(9) {
   fill: var(--color_9);
 }
-.visible > *{
-    visibility: visible !important;
-    opacity: 1 !important;
+.visible > * {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 .visible {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
 :root {
   --color_0: #00c3ff;

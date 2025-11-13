@@ -19,7 +19,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [signin] = useLazySigninQuery();
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    let result = await signin(data).unwrap();
+    const result = await signin(data).unwrap();
     if (result == 'OK') navigate('/contract');
   };
   return (

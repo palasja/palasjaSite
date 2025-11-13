@@ -19,7 +19,8 @@ import { getURLByBase64File } from '../helpers/helper';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 function Contracts() {
-  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
+    useRemoveEntity<number>(-1);
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
   const [delContract] = useDeleteContractMutation();

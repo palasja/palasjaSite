@@ -28,8 +28,7 @@ const contractApi = apiSlice.injectEndpoints({
         method: 'PATCH',
         body: JSON.stringify(contract),
       }),
-      // invalidatesTags: ['Organization']
-      invalidatesTags: (result, error, arg) => [{ type: 'Contract', id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Contract', id: arg.id }],
     }),
     deleteContract: builder.mutation<boolean, number>({
       query: (id) => ({

@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const saltRounds = 10;
 
 var {Sequelize, Op, where} = require('sequelize');
-const {sequelize, Organization, Contracts, Personal, Service, Users} = require('./dbSeqiulize');
+const {sequelize, Organization, Contracts, Personal, Service, Users, SoftInfo, SoftArticle, SoftArticleLinks} = require('./dbSeqiulize');
 const SECRET = '23sadf6rucvbnvza-sd[pqw,';
 
 var app = express();
@@ -207,7 +207,6 @@ router.delete('/removeOrganization/:id',  asyncHandler( async (req, res) => {
 }));
 router.patch('/updateOrganization',  asyncHandler( async (req, res) => {
     const organization = req.body;
-    console.log('updateOrganization ' + organization.name);
     let result = await Organization.update(
         organization,
         {
@@ -404,7 +403,6 @@ router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   //   res.status(200).json(result);
 }));
 router.put('/addService',  asyncHandler( async (req, res) => {
-  console.log(req.body);
   let result = await Service.create(req.body);
   res.status(200).json(result);
 }));
@@ -436,6 +434,113 @@ router.get('/contractScan/:id',  asyncHandler( async (req, res) => {
       },
     });
   res.status(200).json(result);
+}));
+
+
+
+
+router.get('/getSoftInfo',  asyncHandler( async (req, res) => {
+  let result = await SoftInfo.findAll({
+    include: [{
+        model: SoftArticle,
+        as: 'softArticle',
+        attributes:['id', 'name']
+      }]
+  });
+  res.status(200).json(result);
+}));
+router.put('/addSoftInfo',  asyncHandler( async (req, res) => {
+  let result = await SoftInfo.create(req.body);
+  res.status(200).json(result);
+}));
+router.delete('/removeSoftInfo/:id',  asyncHandler( async (req, res) => {
+  let result = await SoftInfo.destroy({
+      where: {
+        id:  req.params.id,
+      },
+    });
+    const statusCode = result == true ? 200 : 400;
+    res.status(statusCode).json(result);
+}));
+router.patch('/updateSoftInfo',  asyncHandler( async (req, res) => {
+    const softInfo = req.body;
+    let result = await SoftInfo.update(
+        softInfo,
+        {
+            where: {
+                id: softInfo.id,
+            },
+        },
+    );
+    res.status(200).json(result);
+}));
+
+
+router.get('/getSoftArticle/:id',  asyncHandler( async (req, res) => {
+  let result = await SoftArticle.findOne({
+    where: {
+      id: req.params.id
+    },
+  });
+  res.status(200).json(result);
+}));
+router.put('/addSoftArticle',  asyncHandler( async (req, res) => {
+  let result = await SoftArticle.create({
+    name: req.body.name,
+    info: req.body.info,
+    softInfoId: req.body.softInfoId,
+  });
+
+  res.status(200).json(result);
+}));
+router.delete('/removeSoftArticle/:id',  asyncHandler( async (req, res) => {
+  let result = await SoftArticle.destroy({
+      where: {
+        id:  req.params.id,
+      },
+    });
+    const statusCode = result == true ? 200 : 400;
+    res.status(statusCode).json(result);
+}));
+router.patch('/updateSoftArticle',  asyncHandler( async (req, res) => {
+  const softArticle = req.body;
+  let result = await SoftArticle.update(
+    softArticle,
+    {
+      where: {
+          id: softArticle.id,
+      },
+    },
+  );
+  res.status(200).json(result);
+}));
+
+
+router.get('/getSoftArticleLinksByArticleId/:id',  asyncHandler( async (req, res) => {
+  let result = await SoftArticleLinks.findAll({
+    where: {
+      softArticleId: req.params.id
+    },
+  });
+  res.status(200).json(result);
+}));
+router.put('/addSoftArticleLinks',  asyncHandler( async (req, res) => {
+  let result = await SoftArticleLinks.bulkCreate(req.body)
+  res.status(200).json(result);
+}));
+router.delete('/removeSoftArticleLink/:id',  asyncHandler( async (req, res) => {
+  let result = await SoftArticleLinks.destroy({
+      where: {
+        id:  req.params.id,
+      },
+    });
+    const statusCode = result == true ? 200 : 400;
+    res.status(statusCode).json(result);
+}));
+router.patch('/updateArticleLinks',  asyncHandler( async (req, res) => {
+    const softArticleLinks = req.body;
+    let result = await SoftArticleLinks.bulkCreate(softArticleLinks, { updateOnDuplicate: ["id"] })
+    res.status(200).json(result);
 }));
 // path as /api/service
 app.use('/api', router);

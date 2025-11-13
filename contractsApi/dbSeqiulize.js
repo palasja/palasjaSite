@@ -215,10 +215,10 @@ let sequelize = new Sequelize(
     const SoftArticle = sequelize.define(
       'softArticle', {
         id: {
-          type: Sequelize.UUID,
-          defaultValue: Sequelize.UUIDV4,
+          type: DataTypes.INTEGER,
           primaryKey: true,
           allowNull: false,
+          autoIncrement: true
         },
         name: {
           type: DataTypes.STRING,
@@ -232,7 +232,7 @@ let sequelize = new Sequelize(
             freezeTableName: true,
             timestamps: false,
         });      
-      SoftArticle.hasMany(SoftArticleLinks, {as: "softLinks"});
+      SoftArticle.hasMany(SoftArticleLinks, {as: "softLinks", onDelete: 'cascade'});
     SoftArticleLinks.belongsTo(SoftArticle, {
       foreignKey: "softArticleId",
       as: "softArticleLinks",
@@ -256,7 +256,7 @@ let sequelize = new Sequelize(
             freezeTableName: true,
             timestamps: false,
         });
-      SoftInfo.hasMany(SoftArticle, {as: "softArticle"});
+      SoftInfo.hasMany(SoftArticle, {as: "softArticle", onDelete: 'cascade'});
     SoftArticle.belongsTo(SoftInfo, {
       foreignKey: "softInfoId",
       as: "softInfo",
@@ -264,4 +264,4 @@ let sequelize = new Sequelize(
     });
     
 
-export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo}
+export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo, SoftArticle, SoftArticleLinks}

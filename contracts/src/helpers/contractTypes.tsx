@@ -65,17 +65,24 @@ export type ContractScan = {
 
 export type OrganizationCost = { orgId?: string; cost: number };
 
-export type SoftInfoContentType = { type: 'text' | 'image',  id: string, value?: string}
-export type SoftInfoLink = { id: string, name: string, url: string}
+export type SoftInfoContentType = { type: 'text' | 'image'; id: string; value?: string };
+export type SoftArticleLink = {
+  id: string;
+  name: string;
+  url: string;
+  softArticleId: string;
+};
+export type NewSoftArticleLink = Omit<SoftArticleLink, 'id'>;
 export type SoftArticle = {
   id: string;
-  links?: SoftInfoLink[],
-  name: string,
-  info: string
-}
-
-export type SoftInfoType = {
-  id: string,
-  name: string,
-  articlesName: {id: string, name: string}[]
-}
+  name: string;
+  info: string;
+  softInfoId: string;
+};
+export type SoftInfoForm = SoftArticle & { softLinks: SoftArticleLink[] };
+export type ArticlesName = { id: string; name: string };
+export type SoftInfo = {
+  id: string;
+  name: string;
+  softArticle: ArticlesName[];
+};

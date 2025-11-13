@@ -21,7 +21,8 @@ const Personals = () => {
     isFetching,
   } = useGetPersonalsByOrgIdQuery(choosenOrg?.id ?? skipToken);
 
-  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } = useRemoveEntity();
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
+    useRemoveEntity<number>(-1);
   const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
   useEffect(() => {
     setChangingPersonal(undefined);

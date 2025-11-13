@@ -7,7 +7,7 @@ const Logout = () => {
   const [logout] = useLazyLogoutQuery();
   useEffect(() => {
     const out = async () => {
-      let result = await logout().unwrap();
+      const result = await logout().unwrap();
       if (result == 'OK') navigate('/');
     };
     out();
