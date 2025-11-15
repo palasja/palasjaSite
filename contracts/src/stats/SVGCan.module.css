@@ -1,3 +1,7 @@
+.axis{
+  fill: none;
+  stroke: #000000ff;
+}
 .axisLine:hover,
 .axisLine:hover + .axisText {
   stroke: #fce57e;

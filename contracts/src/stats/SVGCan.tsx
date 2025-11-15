@@ -8,6 +8,42 @@ type ServiseCostByMonthProps = {
   }[];
   orgs: Organization[];
 };
+
+type Point = {x: number, y: number};
+type Line = {startPoint: Point, endPoint: Point};
+type AxisLine = {value: string | number} & Line;
+type AxisLines = { mainLine: AxisLine, subLines?: AxisLine[]}[]
+
+const Line = ({linePorp, lineStyle = style.axisLine, textStyle = style.axisText} : {linePorp: AxisLine, lineStyle?: string, textStyle?: string} ) => {
+  const textMiddleFix = 5;
+  const {startPoint, endPoint} = linePorp;
+  const getSVGLine :(start: Point, end: Point)=> string = (start: Point, end: Point) => {
+    return `M ${start.x} ${start.y} L ${end.x} ${end.y} `;
+  }
+  return (
+    <g>
+      <path
+        d={getSVGLine(startPoint, endPoint)}
+        className={lineStyle}
+      />
+      <text x={textMiddleFix} y={startPoint.y} className={textStyle}>
+        {linePorp.value}
+      </text>
+    </g>
+  ) 
+}
+
+const Column = ({points, textPoint, value, colStyle} : {points: Point[], textPoint: Point, value: number, colStyle: string}) => {
+  const colSVGStr = `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y} L ${points[2].x} ${points[2].y} L ${points[3].x} ${points[3].y}`
+  return (
+    <g className={`${style.column} ${colStyle}`}>
+       <path d={colSVGStr} />
+       <text x={textPoint.x} y={textPoint.y} className={style.columnText}>
+         {value}
+       </text>
+    </g>
+  )
+}
 const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
   const scale = 2;
   const width = 1400;
@@ -21,54 +57,69 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
   const costStep = 250;
   const costSubStep = 50;
 
+      const showZeroValue = false;
+      const isNested = false;
+
   const orgColorMap = new Map();
   orgColorMap.set(0, 0);
   orgs.forEach((o, i) => orgColorMap.set(o.id, i + 1));
   const coef = endY / (maxCost * scale);
   const getColHeightFromStart = (cost: number) => endY - cost * coef;
   const getColHeight = (cost: number) => cost * coef;
-  const getAxis = () => {
-    const arrAxisLine = [];
-    const YAxisStep = 50;
-    const YAxisSubStep = 10;
-    const YAxisSubCount = 5;
-    const countLine = endY / YAxisStep;
 
-    const textMiddleFix = 5;
-    for (let i = 1; i < countLine; i++) {
-      const tmp = endY - YAxisStep * i;
-      const subLineArr = [];
-      for (let e = 0; e < YAxisSubCount; e++) {
-        subLineArr.push(
-          <g key={e}>
-            <path
-              d={`M ${startX} ${tmp + e * YAxisSubStep} L ${endX} ${tmp + e * YAxisSubStep} `}
-              className={style.axisSubLine}
-            />
-            <text x={textMiddleFix} y={tmp + e * YAxisSubStep} className={style.axisSubText}>
-              {(costStep * i - e * costSubStep) * scale}
-            </text>
-          </g>
-        );
-      }
-      arrAxisLine.push(
-        <g key={i}>
-          {subLineArr.map((e) => e)}
-          <path d={`M ${startX} ${tmp} L ${endX} ${tmp} `} className={style.axisLine} />
-          <text x="0" y={tmp + textMiddleFix} className={style.axisText}>
-            {i * costStep * scale}
-          </text>
-        </g>
-      );
+  const getAxis = () => {
+    const YAxisStep = 50;
+    const YAxisSubCount = 5;
+    const YAxisSubStep = YAxisStep / YAxisSubCount;
+    const countMainLine = endY / YAxisStep;
+    const axis = `M${startX} ${startY} L ${startX} ${endY} L ${endX} ${endY}`;
+    
+    const getAxisLine = (value: number, startPoint: Point, endPoint: Point) => {
+      return {
+          value: value,
+          startPoint: startPoint,
+          endPoint: endPoint
+        }
     }
+    const getSublines: (startYPos: number, skipZeroValueFix: number) => AxisLine[] = (startYPos: number, skipZeroValueFix: number) => {
+      return [...new Array(YAxisSubCount)].map((_el, e) => {
+        const yPos = startYPos + e * YAxisSubStep;
+        const value: number = (costStep * skipZeroValueFix - e * costSubStep) * scale;
+        const startPoint: Point = {x: startX, y: yPos};
+        const endPoint: Point = {x: endX, y: yPos};
+
+        return getAxisLine(value, startPoint, endPoint);
+      })
+    }
+    const arrAxisLines: AxisLines =[...new Array(countMainLine)].map( (_al, i) => {
+      const skipZeroValueFix = i + 1;
+      const sublineYPos = endY - YAxisStep * skipZeroValueFix;
+      const subLineArr = getSublines(sublineYPos, skipZeroValueFix);
+
+      return {
+        mainLine: getAxisLine(
+          skipZeroValueFix * costStep * scale,
+          {x: startX, y: sublineYPos},
+          {x: endX, y: sublineYPos}
+        ),
+        subLines: subLineArr
+      }
+    })      
 
     return (
-      <g stroke="#000000ff" fill="none">
-        <path d={`M${startX} ${startY} L ${startX} ${endY} L ${endX} ${endY} `} />
-        {arrAxisLine.map((e) => e)}
+      <g className={style.axis}>
+        <path d={axis} />
+        {arrAxisLines.map( (al, i) => {
+          const {subLines, mainLine} = al;
+          return  <g key={i}>
+           {subLines?.map((sl, i) => <Line linePorp={sl} lineStyle={style.axisSubLine} textStyle={style.axisSubText} key={i} />)}
+           <Line linePorp={mainLine} lineStyle={style.axisLine} textStyle={style.axisText} key={i} />
+         </g>
+        })}
       </g>
     );
   };
+  
   const getColumn = () => {
     const columnWidth = 40;
     const axisXGap = 20;
@@ -106,46 +157,37 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
       const YText = getColHeightFromStart(serviceCost[0].cost) - 10;
       serviceCost.sort((a, b) => b.cost - a.cost);
       let costPosSumm = endY;
-      const showZeroValue = false;
-      const isNested = false;
+
       const serviceCostByOtion = showZeroValue
         ? serviceCost
         : serviceCost.filter((sc) => sc.cost !== 0);
+
       const cols = serviceCostByOtion.map((sc, i, arr) => {
         const colHeight = getColHeightFromStart(sc.cost);
-        // console.log(`${colStartYPos} - ${getColHeight(sc.cost)}`);
         if (i !== 0) costPosSumm -= getColHeight(arr[i - 1].cost);
-        console.log(costPosSumm);
-        return (
-          <g
-            key={i}
-            className={`${style.column} ${style[`column__${orgColorMap.get(parseInt(sc.orgId ?? '0'))}`]}`}
-          >
-            {isNested ? (
-              <>
-                <path
-                  d={`M ${startXpos} ${endY} L ${startXpos} ${colHeight} L ${startXpos + columnWidth} ${colHeight} L ${startXpos + columnWidth} ${endY}`}
-                />
-                <text x={startXpos} y={YText} className={style.columnText}>
-                  {sc.cost}
-                </text>
-              </>
-            ) : (
-              <>
-                <path
-                  d={`M ${startXpos} ${costPosSumm} L ${startXpos} ${costPosSumm - getColHeight(sc.cost)} L ${startXpos + columnWidth} ${costPosSumm - getColHeight(sc.cost)} L ${startXpos + columnWidth} ${costPosSumm}`}
-                />
-                <text
-                  x={startXpos + columnWidth}
-                  y={costPosSumm - getColHeight(sc.cost) + 10}
-                  className={style.columnText}
-                >
-                  {sc.cost}
-                </text>
-              </>
-            )}
-          </g>
-        );
+
+        let colPoints: Point[] = [];
+        let textPoint = {x: startXpos, y: YText};
+        if( isNested ){
+          colPoints = [
+            {x: startXpos, y: endY},
+            {x: startXpos, y: colHeight},
+            {x: startXpos + columnWidth, y: colHeight},
+            {x: startXpos + columnWidth, y: endY},
+          ];
+          textPoint = {x: startXpos, y: YText};
+        } else {
+          colPoints = [
+            {x: startXpos, y: costPosSumm},
+            {x: startXpos, y: costPosSumm - getColHeight(sc.cost)},
+            {x: startXpos + columnWidth, y: costPosSumm - getColHeight(sc.cost)},
+            {x: startXpos + columnWidth, y: costPosSumm},
+          ];
+          textPoint = {x: startXpos + columnWidth, y: costPosSumm - getColHeight(sc.cost) + 10};
+        }
+        const colStyle = style[`column__${orgColorMap.get(parseInt(sc.orgId ?? '0'))}`];
+
+        return <Column points={colPoints} textPoint={textPoint} value={sc.cost} colStyle={colStyle} key={i}/>
       });
       return cols;
     };
