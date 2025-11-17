@@ -12,9 +12,18 @@ type ServiseCostByMonthProps = {
 type Point = {x: number, y: number};
 type Line = {startPoint: Point, endPoint: Point};
 type AxisLine = {value: string | number} & Line;
-type AxisLines = { mainLine: AxisLine, subLines?: AxisLine[]}[]
+type AxisLines = { mainLine: AxisLine, subLines?: AxisLine[]}[];
+type ColumnText = {textPoint: Point, value: string | number}
+type ColumnPart = {points: Point[], textPoint: Point, value: number, colStyle: string}
+type Legend = { styleName: string} & ColumnText;
+type ColumnInfo = {
+  columnSum: ColumnText,
+  columnDate: ColumnText,
+  columnParts: ColumnPart[]
+}
+type LineProp = {linePorp: AxisLine, lineStyle?: string, textStyle?: string}
 
-const Line = ({linePorp, lineStyle = style.axisLine, textStyle = style.axisText} : {linePorp: AxisLine, lineStyle?: string, textStyle?: string} ) => {
+const Line = ({linePorp, lineStyle = style.axisLine, textStyle = style.axisText} : LineProp ) => {
   const textMiddleFix = 5;
   const {startPoint, endPoint} = linePorp;
   const getSVGLine :(start: Point, end: Point)=> string = (start: Point, end: Point) => {
@@ -32,8 +41,25 @@ const Line = ({linePorp, lineStyle = style.axisLine, textStyle = style.axisText}
     </g>
   ) 
 }
-
-const Column = ({points, textPoint, value, colStyle} : {points: Point[], textPoint: Point, value: number, colStyle: string}) => {
+const LegendInfo = ({legend}:{legend: Legend}) => {
+    const showAllOrgData = (className: string) => {
+    [...document.getElementsByClassName(className)].forEach((e) => {
+      e.classList.toggle(style.visible);
+    });
+  };
+  return(
+        <text
+          x={legend.textPoint.x}
+          y={legend.textPoint.y}
+          className={`${style[legend.styleName]}`}
+          onMouseEnter={() => showAllOrgData(style[legend.styleName])}
+          onMouseLeave={() => showAllOrgData(style[legend.styleName])}
+        >
+          {legend.value}
+        </text>
+  )
+}
+const ColumnPart = ({points, textPoint, value, colStyle} : ColumnPart) => {
   const colSVGStr = `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y} L ${points[2].x} ${points[2].y} L ${points[3].x} ${points[3].y}`
   return (
     <g className={`${style.column} ${colStyle}`}>
@@ -42,6 +68,37 @@ const Column = ({points, textPoint, value, colStyle} : {points: Point[], textPoi
          {value}
        </text>
     </g>
+  )
+}
+const ColumnDate = ({textPoint, value} : ColumnText) => {
+  return (
+    <text x={textPoint.x} y={textPoint.y} className={style.axisText}>
+      {value}
+    </text>
+  )
+}
+const Axis = ({axis, arrAxisLines} : {axis: string, arrAxisLines: AxisLines}) => {
+  return (
+      <g className={style.axis}>
+        <path d={axis} />
+        {arrAxisLines.map( (al, i) => {
+          const {subLines, mainLine} = al;
+          return  <g key={i}>
+           {subLines?.map((sl, i) => <Line linePorp={sl} lineStyle={style.axisSubLine} textStyle={style.axisSubText} key={i} />)}
+           <Line linePorp={mainLine} lineStyle={style.axisLine} textStyle={style.axisText} key={i} />
+         </g>
+        })}
+      </g>
+  );
+}
+const ColumnSum = ({textPoint, value} : ColumnText) => {
+  return (
+    <text
+      x={textPoint.x} y={textPoint.y}
+      className={style.axisText}
+    >
+      {value}
+    </text>
   )
 }
 const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
@@ -53,12 +110,16 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
   const endX = 1000;
   const endY = 300;
 
+  const columnWidth = 40;
+  const axisXGap = 20;
+
   const maxCost = 1500;
   const costStep = 250;
   const costSubStep = 50;
 
-      const showZeroValue = false;
-      const isNested = false;
+  const showZeroValue = false;
+  const isNested = false;
+  const axis = `M${startX} ${startY} L ${startX} ${endY} L ${endX} ${endY}`;
 
   const orgColorMap = new Map();
   orgColorMap.set(0, 0);
@@ -71,8 +132,8 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
     const YAxisStep = 50;
     const YAxisSubCount = 5;
     const YAxisSubStep = YAxisStep / YAxisSubCount;
-    const countMainLine = endY / YAxisStep;
-    const axis = `M${startX} ${startY} L ${startX} ${endY} L ${endX} ${endY}`;
+    const countMainLine = endY / YAxisStep -1;
+    
     
     const getAxisLine = (value: number, startPoint: Point, endPoint: Point) => {
       return {
@@ -106,147 +167,119 @@ const SVGCan = ({ serviseCostByMonth, orgs }: ServiseCostByMonthProps) => {
       }
     })      
 
-    return (
-      <g className={style.axis}>
-        <path d={axis} />
-        {arrAxisLines.map( (al, i) => {
-          const {subLines, mainLine} = al;
-          return  <g key={i}>
-           {subLines?.map((sl, i) => <Line linePorp={sl} lineStyle={style.axisSubLine} textStyle={style.axisSubText} key={i} />)}
-           <Line linePorp={mainLine} lineStyle={style.axisLine} textStyle={style.axisText} key={i} />
-         </g>
-        })}
-      </g>
-    );
+    return arrAxisLines;
   };
-  
-  const getColumn = () => {
-    const columnWidth = 40;
-    const axisXGap = 20;
 
+  const getColumnInfo: () => ColumnInfo[] = () => {
     const axisXWidth = endX - startX;
     const freeSpace = axisXWidth - (axisXGap * 2 + columnWidth * serviseCostByMonth.length);
-    const monthGag = freeSpace / (serviseCostByMonth.length - 1);
+    const monthGap = freeSpace / (serviseCostByMonth.length - 1);
     const startXpos = startX + axisXGap;
-    const getColumns = (startXpos: number, monthGag: number) => {
-      const columns = serviseCostByMonth.map((oc, i) => {
-        const colStartXPos = startXpos + i * monthGag + i * columnWidth;
-        const maxCol = oc.services.sort((a, b) => b.cost - a.cost)[0].cost;
-        const summ = oc.services.reduce((a, c) => a + c.cost, 0);
-        return (
-          <g key={i}>
-            {getOrgColumn(oc.services, colStartXPos)}
-            <text x={colStartXPos + 5} y={endY + 20} className={style.axisText}>
-              {oc.date}
-            </text>
-            <text
-              x={colStartXPos + 5}
-              y={getColHeightFromStart(maxCol) - 30}
-              className={style.axisText}
-            >
-              {summ}
-            </text>
-          </g>
-        );
-      });
-
-      return columns;
-    };
-
-    const getOrgColumn = (serviceCost: OrganizationCost[], startXpos: number) => {
-      const YText = getColHeightFromStart(serviceCost[0].cost) - 10;
-      serviceCost.sort((a, b) => b.cost - a.cost);
-      let costPosSumm = endY;
-
-      const serviceCostByOtion = showZeroValue
-        ? serviceCost
-        : serviceCost.filter((sc) => sc.cost !== 0);
-
-      const cols = serviceCostByOtion.map((sc, i, arr) => {
-        const colHeight = getColHeightFromStart(sc.cost);
-        if (i !== 0) costPosSumm -= getColHeight(arr[i - 1].cost);
-
-        let colPoints: Point[] = [];
-        let textPoint = {x: startXpos, y: YText};
-        if( isNested ){
-          colPoints = [
-            {x: startXpos, y: endY},
-            {x: startXpos, y: colHeight},
-            {x: startXpos + columnWidth, y: colHeight},
-            {x: startXpos + columnWidth, y: endY},
-          ];
-          textPoint = {x: startXpos, y: YText};
-        } else {
-          colPoints = [
-            {x: startXpos, y: costPosSumm},
-            {x: startXpos, y: costPosSumm - getColHeight(sc.cost)},
-            {x: startXpos + columnWidth, y: costPosSumm - getColHeight(sc.cost)},
-            {x: startXpos + columnWidth, y: costPosSumm},
-          ];
-          textPoint = {x: startXpos + columnWidth, y: costPosSumm - getColHeight(sc.cost) + 10};
-        }
-        const colStyle = style[`column__${orgColorMap.get(parseInt(sc.orgId ?? '0'))}`];
-
-        return <Column points={colPoints} textPoint={textPoint} value={sc.cost} colStyle={colStyle} key={i}/>
-      });
-      return cols;
-    };
-    return getColumns(startXpos, monthGag);
-  };
-
-  const showAllOrgData = (className: string) => {
-    [...document.getElementsByClassName(className)].forEach((e) => {
-      e.classList.toggle(style.visible);
+    
+    const columnsInfo: ColumnInfo[] = serviseCostByMonth.map((oc, i) => {
+      const colStartXPos = startXpos + i * monthGap + i * columnWidth;
+      const maxCol = oc.services.sort((a, b) => b.cost - a.cost)[0].cost;
+      const summ = oc.services.reduce((a, c) => a + c.cost, 0);
+      const columnInfo = getOrgColumnParts(oc.services, colStartXPos);
+      const dateInfo:ColumnText = {textPoint: {x: colStartXPos + 5, y: endY + 20}, value: oc.date};
+      const sumInfo:ColumnText = {textPoint: {x: colStartXPos + 5, y: getColHeightFromStart(maxCol) - 30}, value: summ};
+      return {
+        columnParts: columnInfo,
+        columnDate: dateInfo,
+        columnSum: sumInfo,
+      }
     });
+
+      return columnsInfo;
   };
 
-  const getLegend = () => {
-    const axisXGap = 20;
+  const getOrgColumnParts:(serviceCost: OrganizationCost[], startXpos: number) => ColumnPart[] = (serviceCost: OrganizationCost[], startXpos: number) => {
+    const YText = getColHeightFromStart(serviceCost[0].cost) - 10;
+    serviceCost.sort((a, b) => b.cost - a.cost);
+    let costPosSumm = endY;
+    const serviceCostByOtion = showZeroValue
+      ? serviceCost
+      : serviceCost.filter((sc) => sc.cost !== 0);
+    const cols = serviceCostByOtion.map((sc, i, arr) => {
+      const colHeight = getColHeightFromStart(sc.cost);
+      if (i !== 0) costPosSumm -= getColHeight(arr[i - 1].cost);
+      let colPoints: Point[] = [];
+      let textPoint = {x: startXpos, y: YText};
+      if( isNested ){
+        colPoints = [
+          {x: startXpos, y: endY},
+          {x: startXpos, y: colHeight},
+          {x: startXpos + columnWidth, y: colHeight},
+          {x: startXpos + columnWidth, y: endY},
+        ];
+        textPoint = {x: startXpos, y: YText};
+      } else {
+        colPoints = [
+          {x: startXpos, y: costPosSumm},
+          {x: startXpos, y: costPosSumm - getColHeight(sc.cost)},
+          {x: startXpos + columnWidth, y: costPosSumm - getColHeight(sc.cost)},
+          {x: startXpos + columnWidth, y: costPosSumm},
+        ];
+        textPoint = {x: startXpos + columnWidth, y: costPosSumm - getColHeight(sc.cost) + 10};
+      }
+      const colStyle = style[`column__${orgColorMap.get(parseInt(sc.orgId ?? '0'))}`];
+      return {points: colPoints, textPoint:textPoint, value: sc.cost, colStyle:colStyle }
+    });
+    return cols;
+  };
+
+  const getLegendInfo = () => {
+  const axisXGap = 20;
     const axisYGap = 50;
     const textGap = 10;
     const fontSize = 14;
     const startXLegend = endX + axisXGap;
     const startYLegend = startY + axisYGap;
-    const legendOrg = orgs.map((o, i) => {
-      const y = startYLegend + i * fontSize + i * textGap;
-      return (
-        <text
-          x={startXLegend}
-          y={y}
-          className={`${style[`column__${orgColorMap.get(o.id)}`]}`}
-          key={i}
-          onMouseEnter={() => showAllOrgData(style[`column__${orgColorMap.get(o.id)}`])}
-          onMouseLeave={() => showAllOrgData(style[`column__${orgColorMap.get(o.id)}`])}
-        >
-          {o.name}
-        </text>
-      );
-    });
-    const y = startYLegend + legendOrg.length * fontSize + legendOrg.length * textGap;
-    legendOrg.push(
-      <text
-        x={startXLegend}
-        y={y}
-        className={`${style[`column__${orgColorMap.get(0)}`]}`}
-        key={orgs.length}
-        onMouseEnter={() => showAllOrgData(style[`column__${orgColorMap.get(0)}`])}
-        onMouseLeave={() => showAllOrgData(style[`column__${orgColorMap.get(0)}`])}
-      >
-        Без орги
-      </text>
+    const legendOrg: Legend[] = orgs.map((o, i) => ({
+        textPoint: {
+          x: startXLegend,
+          y: startYLegend + i * fontSize + i * textGap
+        },
+        value: o.name,
+        styleName: `column__${orgColorMap.get(o.id)}`
+      })
     );
-    return <g>{legendOrg.map((l) => l)}</g>;
+    const noOrg = {
+        textPoint: {
+          x: startXLegend,
+          y: startYLegend + legendOrg.length * fontSize + legendOrg.length * textGap
+        },
+        value: 'Без орги',
+        styleName: `column__${orgColorMap.get(0)}`
+      }
+    legendOrg.push(noOrg);
+
+    return legendOrg;
   };
 
+  const columnInfo = getColumnInfo();
+  const legendInfo = getLegendInfo();
+  const arrAxisLines = getAxis();
   return (
     <svg
       width={`${width}px`}
       height={`${height}px`}
-      // viewBox="-300 -300 600 600"
+      viewBox="0 0 1000 300"
+      // viewBox=`0 0 ${width} ${height}`
       xmlns="http://www.w3.org/2000/svg"
-      // xmlns:xlink="http://www.w3.org/1999/xlink"
     >
-      {getAxis()};{getColumn()};{getLegend()};
+      {<Axis axis={axis} arrAxisLines={arrAxisLines} />};
+      {columnInfo.map((info, i) => {
+        const {columnDate, columnParts, columnSum} = info;
+        return <g key={i}>
+          {columnParts.map((cpi, i) => <ColumnPart points={cpi.points} textPoint={cpi.textPoint} value={cpi.value} colStyle={cpi.colStyle} key={i}/>)}
+          <ColumnDate textPoint={columnDate.textPoint} value={columnDate.value} />
+          <ColumnSum textPoint={columnSum.textPoint} value={columnSum.value} />
+        </g>
+      })}
+      <g>
+        { legendInfo.map((l, i) => <LegendInfo legend={l} key={i} /> )}
+      </g>
     </svg>
   );
 };
