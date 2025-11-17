@@ -14,8 +14,7 @@ const softArticleApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body: JSON.stringify(newSoftArticle),
       }),
-      invalidatesTags: [{ type: 'SoftInfo', id: 'LIST' }],
-      // invalidatesTags: (_result, _error, arg) => [{ type: 'SoftInfo', id: arg.id }, { type: 'SoftArticle', id: 'LIST' }]
+      invalidatesTags: ['SoftArticle', { type: 'SoftInfo', id: 'LIST' }]
     }),
     updateSoftArticle: builder.mutation<number, SoftArticle>({
       query: (SoftArticle) => ({
@@ -23,18 +22,14 @@ const softArticleApi = apiSlice.injectEndpoints({
         method: 'PATCH',
         body: JSON.stringify(SoftArticle),
       }),
-      // invalidatesTags: ['Organization']
-      invalidatesTags: (_result, _error, arg) => [{ type: 'SoftArticle', id: arg.id }],
+      invalidatesTags: () => ['SoftArticle', { type: 'SoftInfo', id: 'LIST' }]
     }),
     deleteSoftArticle: builder.mutation<boolean, string>({
       query: (id) => ({
         url: `/removeSoftArticle/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [
-        { type: 'SoftArticle', id: 'LIST' },
-        { type: 'SoftInfo', id: 'LIST' },
-      ],
+      invalidatesTags: ['SoftArticle', { type: 'SoftInfo', id: 'LIST' }]
     }),
   }),
 });
