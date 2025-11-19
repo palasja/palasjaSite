@@ -18,7 +18,7 @@ const Header = () => {
     <header className={style.header}>
       <ContentContainer>
         <div className={style.inner} id='test'>
-          <p className={style.logo}>ИВАН <br/> ЯКУБЕНКО</p>
+          <p className={style.logo}> {t('menu.firstName')} <br/> {t('menu.lastName')}</p>
           <nav className={style.nav}>
             <NavLink className={style.link} to={'/'}
             >
@@ -32,9 +32,9 @@ const Header = () => {
 
               <div className={style.linksBlock}>
                 <div className={style.drop}>
-                    <p className={style.content}><a>Email: palasja@gmail.com</a></p>
-                    <p className={style.content}><a>GitHub: https://github.com/palasja</a></p>
-                    <p className={style.content}><a>Linked: https://www.linkedin.com/in/palasja</a></p>
+                  <a className={style.content} href='mailto:palasja@gmail.com'>Email: palasja@gmail.com</a>
+                  <a className={style.content} href='https://github.com/palasja'>GitHub: https://github.com/palasja</a>
+                  <a className={style.content} href='https://www.linkedin.com/in/palasja'>Linked: https://www.linkedin.com/in/palasja</a>
                 </div>
               </div>
             </div>

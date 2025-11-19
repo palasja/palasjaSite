@@ -23,7 +23,7 @@ const GetInfo = () => {
       </ul>
       <details>
         <summary>GetInfo</summary>
-        <pre>{Code}</pre>
+        <pre className={style.code}>{Code}</pre>
       </details>
     </>
   );

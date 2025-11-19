@@ -1,6 +1,8 @@
 {
   "translation": {
     "menu": {
+      "firstName": "Ivan",
+      "lastName": "Yakubenka",
       "home": "Home",
       "cw": "CW",
       "project": "Project",
