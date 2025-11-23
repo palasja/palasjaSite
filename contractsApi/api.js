@@ -38,6 +38,18 @@ const getToken = (payload, expires) => {
       expiresIn: expires,
     });
 }
+const newTokenToRes = (res) => {
+    const options = {
+      httpOnly: true,
+    };
+
+    const newAccessToken = getToken({ expireIn: Date.now() / 1000 + 5}, 5);
+    const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
+    res.cookie('accessToken', newAccessToken, options);
+    res.cookie('refreshToken', newRefreshToken, options);
+
+    res.cookie('expireDate', Date.now()  + 5 * 1000);
+}
  mysql.createConnection({
         user : process.env.MYSQL_ADMIN,
       password : process.env.MYSQL_ADMIN_PASSWORD,
@@ -74,15 +86,15 @@ router.post('/signIn', asyncHandler( async (req, res) => {
       login: userName,
       password: hash
     } );
+newTokenToRes(res);
+    // const options = {
+    //   httpOnly: true,
+    // };
 
-    const options = {
-      httpOnly: true,
-    };
-
-    const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-    const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
-    res.cookie('accessToken', newAccessToken, options);
-    res.cookie('refreshToken', newRefreshToken, options);
+    // const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
+    // const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
+    // res.cookie('accessToken', newAccessToken, options);
+    // res.cookie('refreshToken', newRefreshToken, options);
     res.sendStatus(200);
   }
 
@@ -100,14 +112,15 @@ router.post('/logIn', asyncHandler( async (req, res) => {
       } else {
       const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
       if(isPassCorrect && userName == admin.login){
-          const options = {
-            httpOnly: true,
-            path: '/'
-          };
-          const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-          const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
-          res.cookie('accessToken', newAccessToken, options);
-          res.cookie('refreshToken', newRefreshToken, options);
+          // const options = {
+          //   httpOnly: true,
+          //   path: '/'
+          // };
+          // const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
+          // const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
+          // res.cookie('accessToken', newAccessToken, options);
+          // res.cookie('refreshToken', newRefreshToken, options);
+          newTokenToRes(res);
           res.sendStatus(200);
         } else {
           res.sendStatus(403); 
@@ -131,15 +144,16 @@ const accessToken = req.cookies.accessToken;
             res.clearCookie("refreshToken");
              res.sendStatus(401);
              return;
-          } else{
-            const options = {
-              httpOnly: true,
-            };
-            const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-            const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
-            res.cookie('accessToken', newAccessToken, options);
-            res.cookie('refreshToken', newRefreshToken, options);
-            res.sendStatus(200);
+          } else {
+            newTokenToRes(res);
+            // const options = {
+            //   httpOnly: true,
+            // };
+            // const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
+            // const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
+            // res.cookie('accessToken', newAccessToken, options);
+            // res.cookie('refreshToken', newRefreshToken, options);
+            // res.sendStatus(200);
           }
         });
       } else {
@@ -168,20 +182,14 @@ router.use((req, res, next) => {
              res.sendStatus(401);
              return;
           } else{
-            const options = {
-              httpOnly: true,
-            };
-            const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-            const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
-            res.cookie('accessToken', newAccessToken, options);
-            res.cookie('refreshToken', newRefreshToken, options);
+            newTokenToRes(res);
             return next();
           }
         });
       } else {
           return next();
       }
-      });
+    });
   } else {
     return res.sendStatus(401);
   }

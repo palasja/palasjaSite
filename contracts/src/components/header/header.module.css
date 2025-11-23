@@ -1,0 +1,24 @@
+.header {
+  background-color: var(--color-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100px;
+}
+.content {
+  width: var(--width-content);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: var(--margin-content);
+}
+.logo {
+  width: 80px;
+}
+.text {
+  font-family: var(--font-head);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--color-white);
+}

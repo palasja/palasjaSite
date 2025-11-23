@@ -1,24 +1,39 @@
 import { Link } from 'react-router';
 import style from './header.module.css';
-import Countdown from 'react-countdown';
-import { useCookies } from 'react-cookie';
-import Logo from '../../helpers/logo';
-
+import logo from 'assets/logo.svg';
+import { useAppSelector } from '../../redux/hooks';
+import { getAuthSatus } from '../../redux/slices/authSlice';
+// <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
 const Header = () => {
-  const [cookies, setCookie] = useCookies(['expireDate', 'test']);
+  const stateAuth = useAppSelector(getAuthSatus);
+  // const [cookies] = useCookies(['expireDate']);
+  // console.log(cookies);
+  // const [d, setD] = useState(cookies.expireDate);
+
+  // useEffect(() => {
+  //   if(d !== cookies.expireDate) setD(cookies.expireDate);
+  //   console.log(d);
+  // }, [cookies.expireDate]);
   return (
-    <header className="noprint" data-testid="header">
-     
-      <nav>
-        <Link to={'/contract'}><Logo /></Link>
-        <Link to={'/contract'}>Договора</Link>
-        <Link to={'/act'}>Акты</Link>
-        <Link to={'/stats'}>Статистика</Link>
-        <Link to={'/softinfo'}>ПО</Link>
-        <Link to={'/logout'}>Выход</Link>
-      </nav>
-      <div data-testid="qwe">
-        <Countdown date={cookies.expireDate} />
+    <header className={`noprint ${style.header}`} data-testid="header">
+      <div className={style.content}>
+        {stateAuth === 'succeeded' ? (
+          <nav>
+            <Link to={'/contract'}>
+              <img className={style.logo} src={logo} />
+            </Link>
+            <Link to={'/contract'}>Договора</Link>
+            <Link to={'/act'}>Акты</Link>
+            <Link to={'/stats'}>Статистика</Link>
+            <Link to={'/softinfo'}>ПО</Link>
+            <Link to={'/logout'}>Выход</Link>
+          </nav>
+        ) : (
+          <>
+            <img className={style.logo} src={logo} />
+            <p className={style.text}>Система ведения договоров</p>
+          </>
+        )}
       </div>
     </header>
   );

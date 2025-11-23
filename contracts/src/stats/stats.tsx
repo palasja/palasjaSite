@@ -8,7 +8,7 @@ import {
 } from '../redux/slices/servicesRTKSlice';
 import { useEffect } from 'react';
 import { OrganizationCost, ServiceCost } from '../helpers/contractTypes';
-import SVGCan from './SVGCan';
+import SVGAxis from './SVGCan';
 
 const Stats = () => {
   const dispatch = useAppDispatch();
@@ -62,13 +62,16 @@ const Stats = () => {
       firstDay = new Date(firstDay.setMonth(firstDay.getMonth() + 1));
     }
 
-    return servicesByMonth;
+    return servicesByMonth.map((sm) => ({
+      colName: sm.date,
+      colParts: sm.services.map((s) => ({ value: s.cost, entityId: s.orgId })),
+    }));
   };
 
   return (
     <>
       {servicesCost && (
-        <SVGCan serviseCostByMonth={getOrganizationCost(servicesCost)} orgs={organizations} />
+        <SVGAxis columnInfo={getOrganizationCost(servicesCost)} entity={organizations} />
       )}
 
       <select onChange={(e) => chooseMonthHandler(e.target.value)} defaultValue={choosenMonth}>

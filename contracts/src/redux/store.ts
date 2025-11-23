@@ -29,6 +29,10 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
 
   return next(action);
 };
+
+export const test: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
+  return next(action);
+};
 export const store = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer: rootReducer,
@@ -37,7 +41,8 @@ export const store = (preloadedState?: Partial<RootState>) => {
       getDefaultMiddleware()
         .prepend(createListenerMiddleware().middleware)
         .concat(apiSlice.middleware)
-        .concat(rtkQueryErrorLogger),
+        .concat(rtkQueryErrorLogger)
+        .concat(test),
   });
 };
 // // Infer the type of `store`

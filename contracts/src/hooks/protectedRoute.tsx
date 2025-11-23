@@ -20,11 +20,10 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }, [stateAuth]);
   return (
     <>
-      <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      {/* <CookiesProvider defaultSetOptions={{ path: '/' }}>
         <Header />
-      </CookiesProvider>
+      </CookiesProvider> */}
       {children}
-      <Footer />
     </>
   );
 };
