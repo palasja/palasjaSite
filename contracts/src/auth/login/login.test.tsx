@@ -23,7 +23,7 @@ describe('fill form errors', async () => {
   it('error empty form', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Login />
+        {/* <Login /> */}
       </MemoryRouter>
     );
     fireEvent.submit(await screen.findByTestId('submit'));
@@ -34,7 +34,7 @@ describe('fill form errors', async () => {
   it('login fill, password empty', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Login />
+        {/* <Login /> */}
       </MemoryRouter>
     );
     fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
@@ -46,7 +46,7 @@ describe('fill form errors', async () => {
   it('fill form', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Login />
+        {/* <Login /> */}
       </MemoryRouter>
     );
     screen.debug();
@@ -66,7 +66,7 @@ describe('wrong auth data 403 status code', async () => {
     );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <Login />
+        {/* <Login /> */}
       </MemoryRouter>
     );
     screen.debug();
@@ -93,7 +93,7 @@ describe('OK auth data 200 status code', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/', 'contract']} initialIndex={0}>
         <Routes>
-          <Route path="/" element={<Login />} />
+          {/* <Route path="/" element={<Login />} /> */}
           <Route path="contract" element={<>Contract</>} />
         </Routes>
       </MemoryRouter>

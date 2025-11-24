@@ -2,10 +2,10 @@ import { Link } from 'react-router';
 import style from './header.module.css';
 import logo from 'assets/logo.svg';
 import { useAppSelector } from '../../redux/hooks';
-import { getAuthSatus } from '../../redux/slices/authSlice';
+import { getAuthSatus, getIsAuth } from '../../redux/slices/authSlice';
 // <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
 const Header = () => {
-  const stateAuth = useAppSelector(getAuthSatus);
+  const isAuth = useAppSelector(getIsAuth);
   // const [cookies] = useCookies(['expireDate']);
   // console.log(cookies);
   // const [d, setD] = useState(cookies.expireDate);
@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <header className={`noprint ${style.header}`} data-testid="header">
       <div className={style.content}>
-        {stateAuth === 'succeeded' ? (
+        {isAuth ? (
           <nav>
             <Link to={'/contract'}>
               <img className={style.logo} src={logo} />

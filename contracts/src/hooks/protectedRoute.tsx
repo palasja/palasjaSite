@@ -1,23 +1,30 @@
 import { useNavigate } from 'react-router';
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import Footer from '../components/footer';
 import Header from '../components/header';
-import { useEffect } from 'react';
-import { getAuthSatus } from '../redux/slices/authSlice';
-import { CookiesProvider } from 'react-cookie';
+import { useEffect, useState } from 'react';
+import { changeIsAuth, getAuthSatus, getIsAuth } from '../redux/slices/authSlice';
+import { CookiesProvider, useCookies } from 'react-cookie';
+import { CoockieWrapper } from '../helpers/CoockieWrapper';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
 };
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const Protected = ({ children }: ProtectedRouteProps) => {
+  const [cookies] = useCookies(['expireDate']);
+  // console.log(cookies);
+  // const [d, setD] = useState(cookies.expireDate);
   const navigate = useNavigate();
-  const stateAuth = useAppSelector(getAuthSatus);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    if (stateAuth === 'rejected') {
+    if (cookies.expireDate === '' || cookies.expireDate < Date.now()) {
+      dispatch(changeIsAuth(false));
       navigate('/');
+    } else {
+      dispatch(changeIsAuth(true));
     }
-  }, [stateAuth]);
+  }, []);
   return (
     <>
       {/* <CookiesProvider defaultSetOptions={{ path: '/' }}>
@@ -27,4 +34,31 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     </>
   );
 };
-//
+
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  return (
+    <CoockieWrapper>
+      <Protected>{children}</Protected>
+    </CoockieWrapper>
+  );
+};
+// export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+//   const [cookies] = useCookies(['expireDate']);
+//     console.log(cookies);
+//   const [d, setD] = useState(cookies.expireDate);
+//   const navigate = useNavigate();
+//   const isAuth = useAppSelector(getIsAuth);
+//   useEffect(() => {
+//     if (cookies.expireDate === '' || cookies.expireDate < Date.now()) {
+//       navigate('/');
+//     }
+//   }, []);
+//   return (
+//     <>
+//       {/* <CookiesProvider defaultSetOptions={{ path: '/' }}>
+//         <Header />
+//       </CookiesProvider> */}
+//       {children}
+//     </>
+//   );
+// };

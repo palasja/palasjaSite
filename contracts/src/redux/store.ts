@@ -8,7 +8,7 @@ import {
 } from '@reduxjs/toolkit';
 
 import { apiSlice } from './slices/apiSlice';
-import authReducer, { changeStatus } from '../redux/slices/authSlice';
+import authReducer, { changeIsAuth, changeStatus } from '../redux/slices/authSlice';
 import orgsReducer from '../redux/slices/orgsSlice';
 
 import servicesSlicer from '../redux/slices/servicesSlice';
@@ -23,7 +23,7 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
   if (isRejected(action)) {
     //@ts-ignore
     if (action.payload?.originalStatus === 401 || action.payload?.originalStatus === 403) {
-      api.dispatch(changeStatus());
+      api.dispatch(changeIsAuth(false));
     }
   }
 

@@ -8,6 +8,9 @@ import {
 } from '../../redux/slices/authRTKSlce';
 import { useEffect, useState } from 'react';
 import authImg from '/loginImg.png';
+import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
+import { changeIsAuth } from '../../redux/slices/authSlice';
 
 type FormValues = {
   login: string;
@@ -26,10 +29,15 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
   const [check] = useLazyCheckQuery();
   const [isCheked, setIsChecked] = useState(false);
   const [isError, setIsError] = useState(false);
+  const dispatch = useAppDispatch();
+
   const onSubmitLogin: SubmitHandler<FormValues> = async (data) => {
     try {
       const result = await login(data).unwrap();
-      if (result == 'OK') navigate('/contract');
+      if (result == 'OK') {
+        navigate('/contract');
+        dispatch(changeIsAuth(true));
+      }
     } catch {
       setIsError(true);
     }

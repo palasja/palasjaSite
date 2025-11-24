@@ -48,7 +48,7 @@ const newTokenToRes = (res) => {
     res.cookie('accessToken', newAccessToken, options);
     res.cookie('refreshToken', newRefreshToken, options);
 
-    res.cookie('expireDate', Date.now()  + 5 * 1000);
+    res.cookie('expireDate', Date.now()  + 5 * 1000, { expires: new Date(Date.now()+ 5000) });
 }
  mysql.createConnection({
         user : process.env.MYSQL_ADMIN,
@@ -87,14 +87,6 @@ router.post('/signIn', asyncHandler( async (req, res) => {
       password: hash
     } );
 newTokenToRes(res);
-    // const options = {
-    //   httpOnly: true,
-    // };
-
-    // const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-    // const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
-    // res.cookie('accessToken', newAccessToken, options);
-    // res.cookie('refreshToken', newRefreshToken, options);
     res.sendStatus(200);
   }
 
@@ -112,14 +104,6 @@ router.post('/logIn', asyncHandler( async (req, res) => {
       } else {
       const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
       if(isPassCorrect && userName == admin.login){
-          // const options = {
-          //   httpOnly: true,
-          //   path: '/'
-          // };
-          // const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-          // const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
-          // res.cookie('accessToken', newAccessToken, options);
-          // res.cookie('refreshToken', newRefreshToken, options);
           newTokenToRes(res);
           res.sendStatus(200);
         } else {
@@ -146,14 +130,6 @@ const accessToken = req.cookies.accessToken;
              return;
           } else {
             newTokenToRes(res);
-            // const options = {
-            //   httpOnly: true,
-            // };
-            // const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-            // const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
-            // res.cookie('accessToken', newAccessToken, options);
-            // res.cookie('refreshToken', newRefreshToken, options);
-            // res.sendStatus(200);
           }
         });
       } else {

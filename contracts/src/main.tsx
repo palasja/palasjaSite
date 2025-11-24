@@ -24,8 +24,8 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store()}>
       <Wrapper>
-        <Header />
         <BrowserRouter>
+          <Header />
           <Routes>
             <Route path="/" element={<Auth isSignin={false} />} />
             <Route path="login" element={<Auth isSignin={false} />} />
