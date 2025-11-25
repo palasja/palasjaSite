@@ -2,12 +2,10 @@
   background-color: var(--color-main);
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
   height: 100px;
 }
 .content {
-  width: var(--width-content);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,4 +19,27 @@
   font-size: 32px;
   font-weight: 500;
   color: var(--color-white);
+}
+.nav{
+  background-color: var(--color-white);
+  
+  padding: 5px 5px;
+  border-radius: 35px;
+  display: flex;
+  gap: 40px;
+}
+.link{
+  padding: 15px 30px;
+  border-radius: 35px;
+  color: var(--color-black);
+}
+.link:hover{
+  background-color: var(--color-btn_hover);
+  color: var(--color-white);
+}
+.logout{
+  background-color: var(--color-logo);
+  color: var(--color-white);
+  padding: 15px 30px;
+  border-radius: 35px;
 }

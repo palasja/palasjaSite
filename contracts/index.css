@@ -49,6 +49,10 @@ label {
   line-height: 1.1;
 }
 
+/* Reset a style*/
+a{
+  text-decoration: none;
+}
 /* Balance text wrapping on headings */
 h1,
 h2,
@@ -96,7 +100,8 @@ textarea:not([rows]) {
   --color-gray: #dbdede;
   --color-white: #ffffff;
   --color-green: #276a6f30;
-
+  --color-logo: #5BC3C8;
+  --color-black: #333333
   --font-head: 'Manrope', 'sans-serif';
   --width-content: 1440px;
 
@@ -122,4 +127,14 @@ body {
   color: #000;
   font-size: 16px;
   text-align: center;
+}
+
+.active{
+  background-color: var(--color-btn);
+  color: var(--color-white);
+}
+
+.active:hover{
+  background-color: var(--color-btn_hover);
+  color: var(--color-white);
 }

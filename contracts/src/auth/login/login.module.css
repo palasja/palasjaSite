@@ -5,7 +5,7 @@
   background-color: var(--color-main);
   border-radius: 15px;
   margin: 60px auto;
-  width: 45%;
+  max-width: 850px;
 }
 .imageBlock {
   display: flex;
@@ -63,7 +63,7 @@
   flex-direction: column;
   gap: 30px;
   font-family: 'Montserrat';
-  font-size: 30px;
+  font-size: 16x;
   align-items: center;
 }
 .inputField {

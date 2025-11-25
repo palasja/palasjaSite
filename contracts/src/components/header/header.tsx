@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import style from './header.module.css';
 import logo from 'assets/logo.svg';
 import { useAppSelector } from '../../redux/hooks';
@@ -17,20 +17,20 @@ const Header = () => {
   return (
     <header className={`noprint ${style.header}`} data-testid="header">
       <div className={style.content}>
+        <img className={style.logo} src={logo} />
         {isAuth ? (
-          <nav>
-            <Link to={'/contract'}>
-              <img className={style.logo} src={logo} />
-            </Link>
-            <Link to={'/contract'}>Договора</Link>
-            <Link to={'/act'}>Акты</Link>
-            <Link to={'/stats'}>Статистика</Link>
-            <Link to={'/softinfo'}>ПО</Link>
-            <Link to={'/logout'}>Выход</Link>
+          <>
+          <nav className={style.nav}>
+            <NavLink to={'/contract'} className={style.link}>Договора</NavLink>
+            <NavLink to={'/act'} className={style.link}>Акты</NavLink>
+            <NavLink to={'/stats'} className={style.link}>Статистика</NavLink>
+            <NavLink to={'/softinfo'} className={style.link}>ПО</NavLink>
           </nav>
+          <Link to={'/logout'} className={style.logout}>Выход</Link>
+          </>
         ) : (
           <>
-            <img className={style.logo} src={logo} />
+            
             <p className={style.text}>Система ведения договоров</p>
           </>
         )}
