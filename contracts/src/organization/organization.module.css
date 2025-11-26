@@ -1,0 +1,63 @@
+.orgContainer {
+  display: flex;
+  column-gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+  row-gap: 0;
+}
+
+.mainBtn {
+  color: var(--color-main);
+  width: 250px;
+  height: 50px;
+  border: 1px solid var(--color-main);
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.orgName {
+  width: 100%;
+}
+.orgActive {
+  background-color: var(--color-main);
+  color: var(--color-white);
+}
+
+.mainBtn:hover .orgActBtn {
+  display: flex;
+  background-color: var(--color-btn);
+  color: var(--color-white);
+}
+.mainBtn:hover ~ .subButtonContainer,
+.subButton:hover {
+  visibility: visible;
+  display: flex;
+}
+.mainBtn:hover .orgActBtn:hover {
+  background-color: var(--color-btn_hover);
+}
+.orgActBtnContainer {
+  width: 100%;
+  justify-content: space-around;
+  display: flex;
+  line-height: 15px;
+}
+.orgActBtn {
+  padding: 0 10px;
+  display: flex;
+}
+.subButtonContainer {
+  display: flex;
+  visibility: hidden;
+  justify-content: space-around;
+}
+.subButton {
+  background-color: var(--color-btn);
+  padding: 0 15px;
+}
+.subButton:hover {
+  background-color: var(--color-btn_hover);
+  cursor: pointer;
+}

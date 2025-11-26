@@ -21,22 +21,14 @@ afterAll(() => server.close());
 
 describe('fill form errors', async () => {
   it('error empty form', async () => {
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/']}>
-        {/* <Login /> */}
-      </MemoryRouter>
-    );
+    renderWithProviders(<MemoryRouter initialEntries={['/']}>{/* <Login /> */}</MemoryRouter>);
     fireEvent.submit(await screen.findByTestId('submit'));
     expect(await screen.findByText(/Логин должно быть заполнено/i)).toBeInTheDocument();
     expect(await screen.findByText(/Пароль должно быть заполнено/i)).toBeInTheDocument();
   });
 
   it('login fill, password empty', async () => {
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/']}>
-        {/* <Login /> */}
-      </MemoryRouter>
-    );
+    renderWithProviders(<MemoryRouter initialEntries={['/']}>{/* <Login /> */}</MemoryRouter>);
     fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
     fireEvent.submit(await screen.findByTestId('submit'));
     expect(screen.queryByText(/Логин должно быть заполнено/i)).not.toBeInTheDocument();
@@ -44,11 +36,7 @@ describe('fill form errors', async () => {
   });
 
   it('fill form', async () => {
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/']}>
-        {/* <Login /> */}
-      </MemoryRouter>
-    );
+    renderWithProviders(<MemoryRouter initialEntries={['/']}>{/* <Login /> */}</MemoryRouter>);
     screen.debug();
     fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
     fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });
@@ -64,11 +52,7 @@ describe('wrong auth data 403 status code', async () => {
         return new HttpResponse(null, { status: 403 });
       })
     );
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/']}>
-        {/* <Login /> */}
-      </MemoryRouter>
-    );
+    renderWithProviders(<MemoryRouter initialEntries={['/']}>{/* <Login /> */}</MemoryRouter>);
     screen.debug();
     fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
     fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });

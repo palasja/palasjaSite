@@ -20,24 +20,24 @@
   font-weight: 500;
   color: var(--color-white);
 }
-.nav{
+.nav {
   background-color: var(--color-white);
-  
+
   padding: 5px 5px;
   border-radius: 35px;
   display: flex;
   gap: 40px;
 }
-.link{
+.link {
   padding: 15px 30px;
   border-radius: 35px;
   color: var(--color-black);
 }
-.link:hover{
+.link:hover {
   background-color: var(--color-btn_hover);
   color: var(--color-white);
 }
-.logout{
+.logout {
   background-color: var(--color-logo);
   color: var(--color-white);
   padding: 15px 30px;

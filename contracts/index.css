@@ -50,7 +50,7 @@ label {
 }
 
 /* Reset a style*/
-a{
+a {
   text-decoration: none;
 }
 /* Balance text wrapping on headings */
@@ -100,9 +100,8 @@ textarea:not([rows]) {
   --color-gray: #dbdede;
   --color-white: #ffffff;
   --color-green: #276a6f30;
-  --color-logo: #5BC3C8;
-  --color-black: #333333
-  --font-head: 'Manrope', 'sans-serif';
+  --color-logo: #5bc3c8;
+  --color-black: #333333 --font-head: 'Manrope', 'sans-serif';
   --width-content: 1440px;
 
   --margin-content: 0 120px;
@@ -129,12 +128,12 @@ body {
   text-align: center;
 }
 
-.active{
+.active {
   background-color: var(--color-btn);
   color: var(--color-white);
 }
 
-.active:hover{
+.active:hover {
   background-color: var(--color-btn_hover);
   color: var(--color-white);
 }

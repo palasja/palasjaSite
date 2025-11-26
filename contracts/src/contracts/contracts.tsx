@@ -18,7 +18,7 @@ import Loading from '../components/loading';
 import { getURLByBase64File } from '../helpers/helper';
 import { skipToken } from '@reduxjs/toolkit/query';
 
-function Contracts() {
+const Contracts = () => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<number>(-1);
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -89,6 +89,6 @@ function Contracts() {
     </>
   );
   return isLoading ? <Loading /> : page;
-}
+};
 
 export default Contracts;

@@ -20,17 +20,26 @@ const Header = () => {
         <img className={style.logo} src={logo} />
         {isAuth ? (
           <>
-          <nav className={style.nav}>
-            <NavLink to={'/contract'} className={style.link}>Договора</NavLink>
-            <NavLink to={'/act'} className={style.link}>Акты</NavLink>
-            <NavLink to={'/stats'} className={style.link}>Статистика</NavLink>
-            <NavLink to={'/softinfo'} className={style.link}>ПО</NavLink>
-          </nav>
-          <Link to={'/logout'} className={style.logout}>Выход</Link>
+            <nav className={style.nav}>
+              <NavLink to={'/contract'} className={style.link}>
+                Договора
+              </NavLink>
+              <NavLink to={'/act'} className={style.link}>
+                Акты
+              </NavLink>
+              <NavLink to={'/stats'} className={style.link}>
+                Статистика
+              </NavLink>
+              <NavLink to={'/softinfo'} className={style.link}>
+                ПО
+              </NavLink>
+            </nav>
+            <Link to={'/logout'} className={style.logout}>
+              Выход
+            </Link>
           </>
         ) : (
           <>
-            
             <p className={style.text}>Система ведения договоров</p>
           </>
         )}

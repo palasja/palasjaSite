@@ -1,3 +1,4 @@
+import { createEntityAdapter } from '@reduxjs/toolkit';
 import { providesRTKTagList } from '../../helpers/helper';
 import { apiSlice, Organization } from './apiSlice';
 
@@ -6,6 +7,10 @@ const organizationApi = apiSlice.injectEndpoints({
     getOrganization: builder.query<Organization[], void>({
       query: () => '/getOrganizations',
       providesTags: (result) => providesRTKTagList(result, 'Organization'),
+      transformResponse: (response: Organization[]) => {
+        response.push({ id: 0, name: 'Без Организации' });
+        return response;
+      },
     }),
     addOrganization: builder.mutation<Organization, Organization>({
       query: (newOrg) => ({
