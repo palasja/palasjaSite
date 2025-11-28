@@ -1,9 +1,9 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Contract } from '../helpers/contractTypes';
-import { useAppSelector } from '../redux/hooks';
+import { Contract, OrgInfoAction } from '../helpers/contractTypes';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { toBase64, trimObjectProperty } from '../helpers/helper';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { getChosenOrganization } from '../redux/slices/orgsSlice';
+import { choseAct, getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import {
   useAddContractMutation,
@@ -12,10 +12,9 @@ import {
 
 type ChangingContractFormProps = {
   changingContract: Contract | undefined;
-  clearCallback: () => void;
 };
 
-const ContractForm = ({ changingContract, clearCallback }: ChangingContractFormProps) => {
+const ContractForm = ({ changingContract = undefined }: ChangingContractFormProps) => {
   const {
     register,
     handleSubmit,
@@ -23,16 +22,16 @@ const ContractForm = ({ changingContract, clearCallback }: ChangingContractFormP
     reset,
     formState: { errors },
   } = useForm<Contract>();
+  const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const [addContract] = useAddContractMutation();
   const [updateContract] = useUpdateContractMutation();
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const resetForm = () => {
-    clearCallback();
+    dispatch(choseAct('show'));
     reset({
       orgId: choosenOrg?.id.toString(),
     });
-    setIsUpdate(false);
   };
   const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
     data = trimObjectProperty(data);
@@ -56,17 +55,14 @@ const ContractForm = ({ changingContract, clearCallback }: ChangingContractFormP
   };
   useEffect(() => {
     if (changingContract) {
-      setIsUpdate(true);
       setValue('id', changingContract.id);
       setValue('number', changingContract.number);
       setValue('signDate', changingContract.signDate);
       setValue('startDate', changingContract.startDate);
       setValue('endDate', changingContract.endDate);
       setValue('scan', new File([], ''));
-    } else {
-      resetForm();
     }
-  }, [changingContract]);
+  }, []);
   return (
     <>
       {errors.number && <p>{errors.number.message}</p>}

@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Personal } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppSelector } from '../redux/hooks';
-import { getChosenOrganization } from '../redux/slices/orgsSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { choseAct, getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import {
@@ -12,12 +12,12 @@ import {
 
 type ChangingPersonalFormProps = {
   changingPersonal: Personal | undefined;
-  clearCallback: () => void;
 };
 
-const PersonalForm = ({ changingPersonal, clearCallback }: ChangingPersonalFormProps) => {
+const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProps) => {
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const choosenOrg = useAppSelector(getChosenOrganization);
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -39,15 +39,13 @@ const PersonalForm = ({ changingPersonal, clearCallback }: ChangingPersonalFormP
     resetForm();
   };
   const resetForm = () => {
-    clearCallback();
-    setIsUpdate(false);
+    dispatch(choseAct('show'));
     reset({
       orgId: choosenOrg?.id.toString(),
     });
   };
   useEffect(() => {
     if (changingPersonal) {
-      setIsUpdate(true);
       setValue('firstName', changingPersonal.firstName);
       setValue('middleName', changingPersonal.middleName);
       setValue('lastName', changingPersonal.lastName);
@@ -57,10 +55,8 @@ const PersonalForm = ({ changingPersonal, clearCallback }: ChangingPersonalFormP
       setValue('isHead', changingPersonal.isHead);
       setValue('positionName', changingPersonal.positionName);
       setValue('id', changingPersonal.id);
-    } else {
-      resetForm();
     }
-  }, [changingPersonal]);
+  }, []);
   return (
     <>
       {errors.lastName && <p>{errors.lastName.message}</p>}

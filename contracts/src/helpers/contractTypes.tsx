@@ -86,3 +86,6 @@ export type SoftInfo = {
   name: string;
   softArticle: ArticlesName[];
 };
+
+export type OrgInfo = 'org' | 'service' | 'contract' | 'personal' | null;
+export type OrgInfoAction = 'change' | 'add' | 'show' | null;
