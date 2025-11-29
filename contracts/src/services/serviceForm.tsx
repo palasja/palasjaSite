@@ -7,8 +7,8 @@ import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
-
-type ChangingServiceFormProps = { changingService: Service | undefined};
+import style from './services.module.css';
+type ChangingServiceFormProps = { changingService: Service | undefined };
 
 const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const {
@@ -23,7 +23,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const [updateService] = useUpdateServiceMutation();
   const dispatch = useAppDispatch();
   const isWithoutOrg = useAppSelector(getIsWithoutOrg);
-  
+
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
@@ -54,8 +54,17 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   }, []);
   return (
     <>
-      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
-        <p>{errors.orgId?.message}</p>
+      <form
+        onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
+        className={style.form}
+      >
+        <p>
+          <p className="error">{errors.name?.message}</p>
+          <p className="error">{errors.date?.message}</p>
+          <p className="error">{errors.user?.message}</p>
+          <p className="error">{errors.cost?.message}</p>
+          <p className="error">{errors.count?.message}</p>
+        </p>
         {/* No id field if wishout org */}
         {isWithoutOrg ? (
           <></>
@@ -66,65 +75,74 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
             {...register('orgId', { required: { value: true, message: 'Не выбрана организация' } })}
           />
         )}
-        <div>
-          {errors.name && <p>{errors.name?.message}</p>}
-          <label htmlFor="name">Услуга</label>
-          <input
-            {...register('name', {
-              required: { value: true, message: 'Имя услуги должно быть заполнено' },
-            })}
+        <div className={style.fieldsContainer}>
+          <div className={style.fieldContainer}>
+            <label htmlFor="name">Услуга</label>
+            <input
+              placeholder="Чистка ПК"
+              {...register('name', {
+                required: { value: true, message: 'Имя услуги должно быть заполнено' },
+              })}
+            />
+          </div>
+          <div className={style.fieldContainer}>
+            <label htmlFor="date">Дата</label>
+            <input
+              type="date"
+              placeholder="mm/dd/2025"
+              {...register('date', {
+                required: { value: true, message: 'Дата оказаиня долна быть заполнена' },
+              })}
+            />
+          </div>
+          <div className={style.fieldContainer}>
+            <label htmlFor="user">Пользоваль</label>
+            <input
+              placeholder="Субботин"
+              {...register('user', {
+                required: { value: true, message: 'Пользоваль долно быть заполнена' },
+              })}
+            />
+          </div>
+          <div className={style.fieldContainer}>
+            <label htmlFor="place">Место</label>
+            <input placeholder="ЖЭУ" {...register('place')} />
+          </div>
+          <div className={style.fieldContainer}>
+            <label htmlFor="cost">Стоимость</label>
+            <input
+              type="number"
+              placeholder="Стоимость за еденицу"
+              {...register('cost', {
+                min: { value: 1, message: 'Стоимость должна быть больше 0' },
+              })}
+            />
+          </div>
+          <div className={style.fieldContainer}>
+            <label htmlFor="count">Количество</label>
+            <input
+              type="number"
+              defaultValue={1}
+              placeholder="Количество"
+              {...register('count', {
+                min: { value: 1, message: 'Количество должна быть больше 0' },
+              })}
+            />
+          </div>
+        </div>
+
+        <div className={style.comentContainer}>
+          <label htmlFor="description">Описание</label>
+          <textarea
+            placeholder="Позвонили. Пришёл. Почистил."
+            {...register('description')}
+            className={style.comment}
           />
         </div>
-        <div>
-          <p>{errors.date?.message}</p>
-          <label htmlFor="date">Дата</label>
-          <input
-            type="date"
-            {...register('date', {
-              required: { value: true, message: 'Дата оказаиня долна быть заполнена' },
-            })}
-          />
+        <div className={style.buttons}>
+          <input type="submit" value={btnValue} />
+          <input type="button" onClick={() => resetForm()} value="Очистить" />
         </div>
-        <div>
-          <p>{errors.user?.message}</p>
-          <label htmlFor="user">Пользоваль</label>
-          <input
-            {...register('user', {
-              required: { value: true, message: 'Пользоваль долно быть заполнена' },
-            })}
-          />
-        </div>
-        <div>
-          <label htmlFor="place">Место</label>
-          <input {...register('place')} />
-        </div>
-        <div>
-          <p>{errors.cost?.message}</p>
-          <label htmlFor="cost">Стоимость</label>
-          <input
-            type="number"
-            {...register('cost', {
-              min: { value: 1, message: 'Стоимость должна быть больше 0' },
-            })}
-          />
-        </div>
-        <div>
-          <p>{errors.count?.message}</p>
-          <label htmlFor="count">Количество</label>
-          <input
-            type="number"
-            defaultValue={1}
-            {...register('count', {
-              min: { value: 1, message: 'Количество должна быть больше 0' },
-            })}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Комент</label>
-          <textarea {...register('description')} />
-        </div>
-        <input type="submit" value={btnValue} />
-        <input type="button" onClick={() => resetForm()} value="Очистить" />
       </form>
     </>
   );

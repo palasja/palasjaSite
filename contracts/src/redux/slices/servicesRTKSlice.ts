@@ -43,6 +43,22 @@ const ServiceApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Service', id: 'LIST' }],
     }),
+    toPaidService: builder.mutation<boolean, number[]>({
+      query: (idArr) => ({
+        url: `/servicesToPaid`,
+        method: 'PATCH',
+        body: JSON.stringify(idArr),
+      }),
+      invalidatesTags: [{ type: 'Service', id: 'LIST' }],
+    }),
+    toUnpaidService: builder.mutation<boolean, number[]>({
+      query: (idArr) => ({
+        url: `/servicesToUnpaid`,
+        method: 'PATCH',
+        body: JSON.stringify(idArr),
+      }),
+      invalidatesTags: [{ type: 'Service', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -54,4 +70,6 @@ export const {
   useUpdateServiceMutation,
   useDeleteServiceMutation,
   useLazyGetServicesCostQuery,
+  useToPaidServiceMutation,
+  useToUnpaidServiceMutation,
 } = ServiceApi;

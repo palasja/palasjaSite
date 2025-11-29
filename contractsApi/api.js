@@ -363,6 +363,22 @@ router.get('/getServicesCost',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
+router.patch('/servicesToPaid',  asyncHandler( async (req, res) => {
+  const servicesId = req.body;
+  let result = await Service.update(
+    {ispaid: true},
+    {where: {id: servicesId}}
+  );
+  res.status(200).json(result.length);
+}));
+router.patch('/servicesToUnpaid',  asyncHandler( async (req, res) => {
+  const servicesId = req.body;
+  let result = await Service.update(
+    {ispaid: false},
+    {where: {id: servicesId}}
+  );
+  res.status(200).json(result.length);
+}));
 router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   const startDate =req.params.startDate;
   const endDate = req.params.endDate;
@@ -419,9 +435,6 @@ router.get('/contractScan/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-
-
-
 
 router.get('/getSoftInfo',  asyncHandler( async (req, res) => {
   let result = await SoftInfo.findAll({

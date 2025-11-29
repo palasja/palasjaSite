@@ -17,6 +17,7 @@ import Loading from '../components/loading';
 import { useEffect, useState } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import OrganizationForm from '../organization/organizationForm';
+import PersonalTable from './personalTable';
 
 const Personals = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -30,15 +31,20 @@ const Personals = () => {
   } = useGetPersonalsByOrgIdQuery(choosenOrg?.id ?? skipToken);
 
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
-    useRemoveEntity<number>(-1);
+    useRemoveEntity<string>('');
   const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
 
   const changeHandler = (person: Personal) => {
+    console.log(person);
     setChangingPersonal(person);
     dispatch(choseAct('change'));
   };
   const addHandler = () => {
     dispatch(choseAct('add'));
+  };
+  const removeHandler = (id: string) => {
+    setRemoveId(id);
+    setIsShowRemoveModal(true);
   };
   const page = (
     <>
@@ -48,36 +54,12 @@ const Personals = () => {
       {action === 'change' && <PersonalForm changingPersonal={changingPersonal} />}
       {action === 'add' && <PersonalForm changingPersonal={undefined} />}
       {action === 'show' && (
-        <>
-          {personals.length == 0 ? (
-            <> Нет сотрудников</>
-          ) : (
-            <ul>
-              {personals.map((person, i) => {
-                return (
-                  <li key={person.id}>
-                    {`${person.firstName} ${person.middleName} ${person.lastName} - ${person.positionName}`}
-                    <button
-                      onClick={() => {
-                        setRemoveId(person.id);
-                        setIsShowRemoveModal(true);
-                      }}
-                    >
-                      Удалить
-                    </button>
-                    <button onClick={() => changeHandler(person)}>Изменить</button>
-                  </li>
-                );
-              })}
-              <li>{isFetching && <Loading />}</li>
-            </ul>
-          )}
-        </>
+        <PersonalTable data={personals} edit={changeHandler} remove={removeHandler} />
       )}
 
       {isShowRemoveModal && (
         <RemoveAgreePortal
-          remove={() => deletePersonal(removeId)}
+          remove={() => deletePersonal(parseInt(removeId, 10))}
           close={() => setIsShowRemoveModal(false)}
         />
       )}

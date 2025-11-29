@@ -23,9 +23,10 @@ import Loading from '../components/loading';
 import style from './organization.module.css';
 import { isWithoutOrg } from '../redux/slices/servicesSlice';
 import { OrgInfo, Organization as OrgType } from '../helpers/contractTypes';
+import PersonalTable from '../personal/personalTable';
 
 const Organization = () => {
-  console.log(123);
+  // console.log(123);
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const changingOrganization = useAppSelector(getChangingOrganization);

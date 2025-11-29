@@ -12,6 +12,7 @@ import {
 import Loading from '../components/loading';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
+import ServiceTable from './serviceTable';
 
 const Services = () => {
   const [isPaid, setIsPaid] = useState(false);
@@ -45,10 +46,16 @@ const Services = () => {
   };
   const addHandler = () => {
     dispatch(choseAct('add'));
-  };  
+  };
+  const removeHandler = (id: string) => {
+    setRemoveId(parseInt(id, 10));
+    setIsShowRemoveModal(true);
+  };
   const page = (
     <>
-      <h3>Услуги {choosenOrg && `( ${choosenOrg.name} )`} <span onClick={() => addHandler()}>+</span></h3>
+      <h3>
+        Услуги {choosenOrg && `( ${choosenOrg.name} )`} <span onClick={() => addHandler()}>+</span>
+      </h3>
       <label htmlFor="paid">Оплаченые</label>
       <input
         type="checkbox"
@@ -56,7 +63,7 @@ const Services = () => {
         onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
       />
       <div>
-        {isPaid && 
+        {isPaid && (
           <select
             onChange={(e) => dispatch(chooseMonth(e.target.value))}
             defaultValue={choosenMonth}
@@ -69,36 +76,17 @@ const Services = () => {
               );
             })}
           </select>
-        }
+        )}
         <br />
       </div>
       {action === 'change' && <ServiceForm changingService={changingService} />}
       {action === 'add' && <ServiceForm changingService={undefined} />}
-      {action === 'show' && (      
-        services?.length == 0 ? (
-        <></>
-      ) : (
-        <ul>
-          {services?.map((service) => {
-            return (
-              <li key={service.id}>
-                {`${service.name} ${service.date} ${service.count} ${service.cost}`}
-                <button
-                  onClick={() => {
-                    setRemoveId(service.id);
-                    setIsShowRemoveModal(true);
-                  }}
-                >
-                  Удалить
-                </button>
-                <button onClick={() => changeHandler(service)}>Изменить</button>
-              </li>
-            );
-          })}
-          <li>{isFetching && <Loading />}</li>
-        </ul>
-      ))}
-
+      {action === 'show' &&
+        (services?.length == 0 ? (
+          <h3>Нет услуг</h3>
+        ) : (
+          services && <ServiceTable data={services} edit={changeHandler} remove={removeHandler} />
+        ))}
 
       {isShowRemoveModal && (
         <RemoveAgreePortal

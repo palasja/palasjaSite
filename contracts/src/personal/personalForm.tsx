@@ -15,6 +15,7 @@ type ChangingPersonalFormProps = {
 };
 
 const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProps) => {
+  console.log(changingPersonal);
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Personal> = (data) => {
+    console.log(data);
     data = trimObjectProperty(data);
     updatePersonal(data);
     resetForm();

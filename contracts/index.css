@@ -137,3 +137,7 @@ body {
   background-color: var(--color-btn_hover);
   color: var(--color-white);
 }
+
+.error {
+  color: red;
+}

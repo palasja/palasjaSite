@@ -18,6 +18,7 @@ import Loading from '../components/loading';
 import { getURLByBase64File } from '../helpers/helper';
 import { skipToken } from '@reduxjs/toolkit/query';
 import PersonalForm from '../personal/personalForm';
+import ContractTable from './contractTable';
 
 const Contracts = () => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
@@ -42,6 +43,10 @@ const Contracts = () => {
   const addHandler = () => {
     dispatch(choseAct('add'));
   };
+  const removeHandler = (id: string) => {
+    setRemoveId(parseInt(id, 10));
+    setIsShowRemoveModal(true);
+  };
   const page = (
     <>
       <h3>
@@ -50,44 +55,7 @@ const Contracts = () => {
       {action === 'change' && <ContractForm changingContract={changingContract} />}
       {action === 'add' && <ContractForm changingContract={undefined} />}
       {action === 'show' && (
-        <>
-          {contracts.length == 0 ? (
-            <></>
-          ) : (
-            <ul>
-              {contracts?.map((con, i) => (
-                <li key={i}>
-                  {con.number}
-                  <button
-                    onClick={async () => {
-                      const fileName = `${choosenOrg?.name}_${choosenMonth}`;
-                      const result = await getContractScan({ orgId: con.id }).unwrap();
-                      const url = getURLByBase64File(result.scan, 'application/pdf');
-                      const link = document.createElement('a');
-                      link.href = url;
-                      link.download = fileName;
-                      link.click();
-                      // Cleanup
-                      URL.revokeObjectURL(url);
-                    }}
-                  >
-                    Scan
-                  </button>
-                  <button
-                    onClick={() => {
-                      setRemoveId(con.id);
-                      setIsShowRemoveModal(true);
-                    }}
-                  >
-                    Удалить
-                  </button>
-                  <button onClick={() => changeHandler(con)}>Изменить</button>
-                </li>
-              ))}
-              <li>{isFetching && <Loading />}</li>
-            </ul>
-          )}
-        </>
+        <ContractTable data={contracts} edit={changeHandler} remove={removeHandler} />
       )}
 
       {isShowRemoveModal && (
