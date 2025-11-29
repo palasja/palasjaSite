@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChoosenMonth, chooseMonth } from '../redux/slices/servicesSlice';
-import { getChosenOrganization } from '../redux/slices/orgsSlice';
+import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
 import {
@@ -18,6 +18,7 @@ const Services = () => {
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
+  const action = useAppSelector(getChosenchosenAction);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<number>(-1);
   const [loadServices, { data: services, isLoading, isFetching }] =
@@ -25,21 +26,29 @@ const Services = () => {
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
   useEffect(() => {
-    setChangingService(undefined);
-    if (choosenOrg === null) {
-      //Без организации всегда оплачено
-      loadServices({ orgId: null, month: choosenMonth, isPaid: true });
-    } else if (choosenOrg) {
+    // setChangingService(undefined);
+    // if (choosenOrg === null) {
+    //   //Без организации всегда оплачено
+    //   loadServices({ orgId: null, month: choosenMonth, isPaid: true });
+    // } else if (choosenOrg) {
+    if (choosenOrg !== null) {
       loadServices({ orgId: choosenOrg.id, month: choosenMonth, isPaid: isPaid });
     }
-  }, [choosenMonth, choosenOrg, isPaid]);
+  }, [choosenMonth, isPaid]);
 
   const handlerPaidService = (paid: boolean) => {
     setIsPaid(paid);
   };
+  const changeHandler = (service: Service) => {
+    setChangingService(service);
+    dispatch(choseAct('change'));
+  };
+  const addHandler = () => {
+    dispatch(choseAct('add'));
+  };  
   const page = (
     <>
-      <h3>Услуги {choosenOrg && `( ${choosenOrg.name} )`}</h3>
+      <h3>Услуги {choosenOrg && `( ${choosenOrg.name} )`} <span onClick={() => addHandler()}>+</span></h3>
       <label htmlFor="paid">Оплаченые</label>
       <input
         type="checkbox"
@@ -47,7 +56,7 @@ const Services = () => {
         onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
       />
       <div>
-        {isPaid && (
+        {isPaid && 
           <select
             onChange={(e) => dispatch(chooseMonth(e.target.value))}
             defaultValue={choosenMonth}
@@ -60,14 +69,13 @@ const Services = () => {
               );
             })}
           </select>
-        )}
+        }
         <br />
       </div>
-      <ServiceForm
-        changingService={changingService}
-        clearCallback={() => setChangingService(undefined)}
-      />
-      {services?.length == 0 ? (
+      {action === 'change' && <ServiceForm changingService={changingService} />}
+      {action === 'add' && <ServiceForm changingService={undefined} />}
+      {action === 'show' && (      
+        services?.length == 0 ? (
         <></>
       ) : (
         <ul>
@@ -83,13 +91,15 @@ const Services = () => {
                 >
                   Удалить
                 </button>
-                <button onClick={() => setChangingService(service)}>Изменить</button>
+                <button onClick={() => changeHandler(service)}>Изменить</button>
               </li>
             );
           })}
           <li>{isFetching && <Loading />}</li>
         </ul>
-      )}
+      ))}
+
+
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteService(removeId)}

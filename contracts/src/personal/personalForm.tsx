@@ -40,9 +40,6 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
   };
   const resetForm = () => {
     dispatch(choseAct('show'));
-    reset({
-      orgId: choosenOrg?.id.toString(),
-    });
   };
   useEffect(() => {
     if (changingPersonal) {

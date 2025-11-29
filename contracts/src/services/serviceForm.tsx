@@ -1,16 +1,16 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { useAppSelector } from '../redux/hooks';
-import { getChosenOrganization } from '../redux/slices/orgsSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { choseAct, getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
 
-type ChangingServiceFormProps = { changingService: Service | undefined; clearCallback: () => void };
+type ChangingServiceFormProps = { changingService: Service | undefined};
 
-const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProps) => {
+const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const {
     register,
     handleSubmit,
@@ -21,7 +21,9 @@ const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProp
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const [addService] = useAddServiceMutation();
   const [updateService] = useUpdateServiceMutation();
+  const dispatch = useAppDispatch();
   const isWithoutOrg = useAppSelector(getIsWithoutOrg);
+  
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
@@ -36,14 +38,10 @@ const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProp
   };
 
   const resetForm = () => {
-    clearCallback();
-    reset({ count: 1 });
-    if (choosenOrg) setValue('orgId', choosenOrg.id.toString());
-    setIsUpdate(false);
+    dispatch(choseAct('show'));
   };
   useEffect(() => {
     if (changingService) {
-      setIsUpdate(true);
       setValue('id', changingService.id);
       setValue('name', changingService.name);
       setValue('date', changingService.date);
@@ -52,10 +50,8 @@ const ServiceForm = ({ changingService, clearCallback }: ChangingServiceFormProp
       setValue('cost', changingService.cost);
       setValue('count', changingService.count);
       setValue('description', changingService.description);
-    } else {
-      resetForm();
     }
-  }, [changingService]);
+  }, []);
   return (
     <>
       <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
