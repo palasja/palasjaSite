@@ -9,13 +9,13 @@ import {
   useAddPersonalMutation,
   useUpdatePersonalMutation,
 } from '../redux/slices/personalRTKSlice';
+import formStyle from 'assets/form.module.css';
 
 type ChangingPersonalFormProps = {
   changingPersonal: Personal | undefined;
 };
 
 const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProps) => {
-  console.log(changingPersonal);
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const dispatch = useAppDispatch();
@@ -58,13 +58,16 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
   }, []);
   return (
     <>
+    <div className="error">
       {errors.lastName && <p>{errors.lastName.message}</p>}
       {errors.firstName && <p>{errors.firstName.message}</p>}
       {errors.middleName && <p>{errors.middleName.message}</p>}
       {errors.positionName && <p>{errors.positionName.message}</p>}
-      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+      </div>
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)} className={formStyle.form}>
         <input value={choosenOrg?.id} type="hidden" {...register('orgId', { required: true })} />
-        <div>
+        <div className={formStyle.fieldsContainer}>
+                  <div className={formStyle.fieldContainer}>
           <label htmlFor="fisrtName">Имя</label>
           <input
             {...register('firstName', {
@@ -72,7 +75,7 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
             })}
           />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="middleName">Отчество</label>
           <input
             {...register('middleName', {
@@ -80,7 +83,7 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
             })}
           />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="lastName">Фамилия</label>
           <input
             {...register('lastName', {
@@ -89,20 +92,20 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
           />
         </div>
 
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="firstNameR">Имя в Родительном</label>
           <input {...register('firstNameR')} />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="middleNameR">Отчество в Родительном</label>
           <input {...register('middleNameR')} />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="lastNameR">Фамилия в Родительном</label>
           <input {...register('lastNameR')} />
         </div>
 
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="positionName">Должность</label>
           <input
             {...register('positionName', {
@@ -110,19 +113,18 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
             })}
           />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="isHead">Руководитель организации</label>
           <input type={'checkbox'} {...register('isHead')} />
         </div>
-        <input type="submit" value={btnValue} />
+
+        </div>
+        <div className={formStyle.buttons}>
+          <input type="submit" value={btnValue} />
+          <input type="button" onClick={() => resetForm()} value="Очистить" />
+        </div>
       </form>
-      <button
-        onClick={() => {
-          resetForm();
-        }}
-      >
-        Очистить
-      </button>
+
     </>
   );
 };

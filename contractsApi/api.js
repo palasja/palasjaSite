@@ -298,16 +298,19 @@ router.patch('/updatePersonal',  asyncHandler( async (req, res) => {
     res.status(200).json(result);
 }));
 router.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
+  let orgId = req.params.id;
+  if(orgId == '0') orgId = null;
   let result = await Service.findAll({
       where: {
-        orgId: req.params.id,
+        orgId: orgId,
       },
     });
   res.status(200).json(result);
 }));
 router.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
-  const orgId = req.params.orgId === 'null' ? null : req.params.orgId;
+  let orgId = req.params.orgId;
+  if(orgId == '0') orgId = null;
   const firstWorkDayDate  = new Date(2025, month);
   const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
   
@@ -328,8 +331,8 @@ router.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, r
     res.status(200).json(result);
 }));
 router.get('/getServicesUnpaidByOrgId/:orgId', asyncHandler( async (req, res) => {
-  const orgId = req.params.orgId;
-  
+  let orgId = req.params.orgId;
+  if(orgId == '0') orgId = null;
   let result = await Service.findAll({
   where: {
     orgId: orgId,

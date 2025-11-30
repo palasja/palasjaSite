@@ -7,7 +7,8 @@ import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
-import style from './services.module.css';
+// import formStyle from './services.module.css';
+import formStyle from 'assets/form.module.css';
 type ChangingServiceFormProps = { changingService: Service | undefined };
 
 const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
@@ -56,15 +57,15 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
     <>
       <form
         onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
-        className={style.form}
+        className={formStyle.form}
       >
-        <p>
-          <p className="error">{errors.name?.message}</p>
-          <p className="error">{errors.date?.message}</p>
-          <p className="error">{errors.user?.message}</p>
-          <p className="error">{errors.cost?.message}</p>
-          <p className="error">{errors.count?.message}</p>
-        </p>
+        <div className="error">
+          <p>{errors.name?.message}</p>
+          <p>{errors.date?.message}</p>
+          <p>{errors.user?.message}</p>
+          <p>{errors.cost?.message}</p>
+          <p>{errors.count?.message}</p>
+        </div>
         {/* No id field if wishout org */}
         {isWithoutOrg ? (
           <></>
@@ -75,8 +76,8 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
             {...register('orgId', { required: { value: true, message: 'Не выбрана организация' } })}
           />
         )}
-        <div className={style.fieldsContainer}>
-          <div className={style.fieldContainer}>
+        <div className={formStyle.fieldsContainer}>
+          <div className={formStyle.fieldContainer}>
             <label htmlFor="name">Услуга</label>
             <input
               placeholder="Чистка ПК"
@@ -85,7 +86,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               })}
             />
           </div>
-          <div className={style.fieldContainer}>
+          <div className={formStyle.fieldContainer}>
             <label htmlFor="date">Дата</label>
             <input
               type="date"
@@ -95,7 +96,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               })}
             />
           </div>
-          <div className={style.fieldContainer}>
+          <div className={formStyle.fieldContainer}>
             <label htmlFor="user">Пользоваль</label>
             <input
               placeholder="Субботин"
@@ -104,11 +105,11 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               })}
             />
           </div>
-          <div className={style.fieldContainer}>
+          <div className={formStyle.fieldContainer}>
             <label htmlFor="place">Место</label>
             <input placeholder="ЖЭУ" {...register('place')} />
           </div>
-          <div className={style.fieldContainer}>
+          <div className={formStyle.fieldContainer}>
             <label htmlFor="cost">Стоимость</label>
             <input
               type="number"
@@ -118,7 +119,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               })}
             />
           </div>
-          <div className={style.fieldContainer}>
+          <div className={formStyle.fieldContainer}>
             <label htmlFor="count">Количество</label>
             <input
               type="number"
@@ -131,15 +132,15 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
           </div>
         </div>
 
-        <div className={style.comentContainer}>
+        <div className={formStyle.comentContainer}>
           <label htmlFor="description">Описание</label>
           <textarea
             placeholder="Позвонили. Пришёл. Почистил."
             {...register('description')}
-            className={style.comment}
+            className={formStyle.comment}
           />
         </div>
-        <div className={style.buttons}>
+        <div className={formStyle.buttons}>
           <input type="submit" value={btnValue} />
           <input type="button" onClick={() => resetForm()} value="Очистить" />
         </div>

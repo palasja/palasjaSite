@@ -46,6 +46,7 @@ const Organization = () => {
     dispatch(isWithoutOrg(false));
     dispatch(chooseOrg(org));
     dispatch(choseInfo('service'));
+    dispatch(choseAct('show'));
   };
   const infoHandler = (e: React.MouseEvent, info: OrgInfo) => {
     e.stopPropagation();
@@ -57,6 +58,10 @@ const Organization = () => {
     dispatch(choseInfo('org'));
     dispatch(choseAct('change'));
     dispatch(changingOrg(org));
+  };
+  const addHandler = () => {
+    dispatch(choseInfo('org'));
+    dispatch(choseAct('add'));
   };
   const removeHandler = (org: OrgType) => {
     setRemoveId(org.id);
@@ -75,7 +80,7 @@ const Organization = () => {
         </>
       ) : (
         <div className={style.orgContainer}>
-          <p>ADD_ORG</p>
+          <p onClick={() =>addHandler()}>ADD_ORG</p>
           {organizations.map((org) => (
             <div
               className={style.orgBtn}
@@ -114,7 +119,7 @@ const Organization = () => {
               </div>
             </div>
           ))}
-          {info === 'org' && action === 'change' && <OrganizationForm />}
+          {info === 'org' && (action === 'change' || action === 'add') && <OrganizationForm />}
         </div>
       )}
 

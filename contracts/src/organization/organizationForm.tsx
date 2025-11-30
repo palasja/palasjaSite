@@ -14,7 +14,7 @@ import {
   choseInfo,
   getChangingOrganization,
 } from '../redux/slices/orgsSlice';
-
+import formStyle from 'assets/form.module.css';
 const OrganizationForm = () => {
   const dispatch = useAppDispatch();
   const org = useAppSelector(getChangingOrganization);
@@ -62,14 +62,19 @@ const OrganizationForm = () => {
   }, [org]);
   return (
     <>
-      {errors.name && <p>{errors.name.message}</p>}
-      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+    <div className="error">
+      <p>{errors.name?.message}</p>
+    </div>
+      
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
+      className={formStyle.form}>
         {isUpdate ? (
           <input id="id" type="hidden" {...register('id', { required: true })} data-testid="id" />
         ) : (
           <></>
         )}
-        <div>
+      <div className={formStyle.fieldsContainer}>
+          <div className={formStyle.fieldContainer}>
           <label htmlFor="name">Наименование Организации</label>
           <input
             data-testid="name"
@@ -79,10 +84,12 @@ const OrganizationForm = () => {
             })}
           />
         </div>
-
-        <input type="submit" value={btnValue} data-testid="submit" />
+      </div>
+        <div className={formStyle.buttons}>
+          <input type="submit" data-testid="submit"  value={btnValue} />
+          <input type="button" onClick={() => resetForm()} value="Очистить" />
+        </div>
       </form>
-      <button onClick={() => resetForm()}>Очистить</button>
     </>
   );
 };

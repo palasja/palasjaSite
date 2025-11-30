@@ -141,3 +141,9 @@ body {
 .error {
   color: red;
 }
+
+@media print {
+  .noprint {
+    display: none !important;
+  }
+}

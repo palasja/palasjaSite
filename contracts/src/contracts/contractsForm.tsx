@@ -9,7 +9,7 @@ import {
   useAddContractMutation,
   useUpdateContractMutation,
 } from '../redux/slices/contractRTKSlice';
-
+import formStyle from 'assets/form.module.css';
 type ChangingContractFormProps = {
   changingContract: Contract | undefined;
 };
@@ -65,19 +65,23 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
   }, []);
   return (
     <>
-      {errors.number && <p>{errors.number.message}</p>}
-      {errors.endDate && <p>{errors.endDate.message}</p>}
-      {errors.signDate && <p>{errors.signDate.message}</p>}
-      {errors.startDate && <p>{errors.startDate.message}</p>}
-      {errors.scan && <p>{errors.scan.message}</p>}
-
-      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+    <div className="error">
+       <p>{errors.number?.message}</p>
+       <p>{errors.endDate?.message}</p>
+       <p>{errors.signDate?.message}</p>
+       <p>{errors.startDate?.message}</p>
+       <p>{errors.scan?.message}</p>
+    </div>
+      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
+      className={formStyle.form}
+      >
         <input
           value={choosenOrg!.id}
           type="hidden"
           {...register('orgId', { required: true, maxLength: 20 })}
         />
-        <div>
+        <div className={formStyle.fieldsContainer}>
+          <div className={formStyle.fieldContainer}>
           <label htmlFor="number">Номер</label>
           <input
             {...register('number', {
@@ -86,7 +90,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
             })}
           />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="signDate">Дата подписания</label>
           <input
             type="date"
@@ -95,7 +99,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
             })}
           />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="startDate">Начало договра</label>
           <input
             type="date"
@@ -104,7 +108,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
             })}
           />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <label htmlFor="endDate">Окончание договора</label>
           <input
             type="date"
@@ -113,12 +117,16 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
             })}
           />
         </div>
-        <div>
+        <div className={formStyle.fieldContainer}>
           <input type="file" {...register('scan')} />
         </div>
+        </div>
 
-        <input type="submit" value={btnValue} />
-        <button onClick={() => resetForm()}>Очистить</button>
+
+        <div className={formStyle.buttons}>
+          <input type="submit" value={btnValue} />
+          <input type="button" onClick={() => resetForm()} value="Очистить" />
+        </div>
       </form>
     </>
   );

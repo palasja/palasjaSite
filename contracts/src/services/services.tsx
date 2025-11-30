@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import style from './services.module.css';
+// import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChoosenMonth, chooseMonth } from '../redux/slices/servicesSlice';
 import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
@@ -35,7 +35,7 @@ const Services = () => {
     if (choosenOrg !== null) {
       loadServices({ orgId: choosenOrg.id, month: choosenMonth, isPaid: isPaid });
     }
-  }, [choosenMonth, isPaid]);
+  }, [choosenOrg, choosenMonth, isPaid]);
 
   const handlerPaidService = (paid: boolean) => {
     setIsPaid(paid);
