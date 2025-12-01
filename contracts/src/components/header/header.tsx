@@ -20,12 +20,9 @@ const Header = () => {
         <img className={style.logo} src={logo} />
         {isAuth ? (
           <>
-            <nav className={style.nav}>
+            <nav className={`noprint ${style.nav}`}>
               <NavLink to={'/contract'} className={style.link}>
                 Договора
-              </NavLink>
-              <NavLink to={'/act'} className={style.link}>
-                Акты
               </NavLink>
               <NavLink to={'/stats'} className={style.link}>
                 Статистика

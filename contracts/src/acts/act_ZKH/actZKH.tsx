@@ -14,6 +14,7 @@ import { getChoosenMonth } from '../../redux/slices/servicesSlice';
 
 import { Contract, Personal, Service } from '../../helpers/contractTypes';
 import PageWrapper from '../pageWrapper';
+import { useState } from 'react';
 
 type ServiceForTableType = Pick<Service, 'name' | 'cost' | 'count'>;
 type ActZKHProps = {
@@ -190,11 +191,17 @@ const ActZKH = ({ contract, personal, services, signDate }: ActZKHProps) => {
   const sign = personal[1];
   const itog = getServicesCostWithNDS(services);
   const groupedServices = groupServiseByCostAndName(services);
-
-  const COUNT_SERVICES_ON_BREAK_PAGE = 22;
+  const [breackPage, setBreakPage] = useState(22);
+  // const COUNT_SERVICES_ON_BREAK_PAGE = 22;
   const pageCount = Math.ceil(groupedServices.length / COUNT_FOR_ONE_PAGE);
   return (
     <>
+      <input
+        type="number"
+        value={breackPage}
+        onChange={(e) => setBreakPage(parseInt(e.target.value, 10))}
+        className="noprint"
+      ></input>
       {pageCount === 1 ? (
         <PageWrapper>
           <ActZKHHead head={head} sign={sign} signDate={signDate} />
@@ -205,11 +212,11 @@ const ActZKH = ({ contract, personal, services, signDate }: ActZKHProps) => {
         <>
           <PageWrapper>
             <ActZKHHead head={head} sign={sign} signDate={signDate} />
-            <ActZKHTable groupedServices={groupedServices.slice(0, COUNT_SERVICES_ON_BREAK_PAGE)} />
+            <ActZKHTable groupedServices={groupedServices.slice(0, breackPage)} />
           </PageWrapper>
           <PageWrapper>
             <ActZKHTable
-              groupedServices={groupedServices.slice(COUNT_SERVICES_ON_BREAK_PAGE)}
+              groupedServices={groupedServices.slice(breackPage)}
               itog={itog}
               choosenMonth={choosenMonth}
             />

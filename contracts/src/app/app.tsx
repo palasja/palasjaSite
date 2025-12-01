@@ -11,6 +11,7 @@ import {
 } from '../redux/slices/orgsSlice';
 import style from './app.module.css';
 import { getIsWithoutOrg, isWithoutOrg } from '../redux/slices/servicesSlice';
+import Act from '../acts/act';
 
 const App = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -27,6 +28,7 @@ const App = () => {
             {info == 'service' && <Services />}
             {info == 'contract' && <Contracts />}
             {info == 'personal' && <Personals />}
+            {info == 'act' && <Act />}
           </>
         )}
       </>

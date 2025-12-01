@@ -62,31 +62,33 @@ const OrganizationForm = () => {
   }, [org]);
   return (
     <>
-    <div className="error">
-      <p>{errors.name?.message}</p>
-    </div>
-      
-      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
-      className={formStyle.form}>
+      <div className="error">
+        <p>{errors.name?.message}</p>
+      </div>
+
+      <form
+        onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
+        className={formStyle.form}
+      >
         {isUpdate ? (
           <input id="id" type="hidden" {...register('id', { required: true })} data-testid="id" />
         ) : (
           <></>
         )}
-      <div className={formStyle.fieldsContainer}>
+        <div className={formStyle.fieldsContainer}>
           <div className={formStyle.fieldContainer}>
-          <label htmlFor="name">Наименование Организации</label>
-          <input
-            data-testid="name"
-            id="name"
-            {...register('name', {
-              required: { value: true, message: 'Наименование должно быть заполнено' },
-            })}
-          />
+            <label htmlFor="name">Наименование Организации</label>
+            <input
+              data-testid="name"
+              id="name"
+              {...register('name', {
+                required: { value: true, message: 'Наименование должно быть заполнено' },
+              })}
+            />
+          </div>
         </div>
-      </div>
         <div className={formStyle.buttons}>
-          <input type="submit" data-testid="submit"  value={btnValue} />
+          <input type="submit" data-testid="submit" value={btnValue} />
           <input type="button" onClick={() => resetForm()} value="Очистить" />
         </div>
       </form>

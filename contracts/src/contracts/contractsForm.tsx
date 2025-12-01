@@ -65,15 +65,16 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
   }, []);
   return (
     <>
-    <div className="error">
-       <p>{errors.number?.message}</p>
-       <p>{errors.endDate?.message}</p>
-       <p>{errors.signDate?.message}</p>
-       <p>{errors.startDate?.message}</p>
-       <p>{errors.scan?.message}</p>
-    </div>
-      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
-      className={formStyle.form}
+      <div className="error">
+        <p>{errors.number?.message}</p>
+        <p>{errors.endDate?.message}</p>
+        <p>{errors.signDate?.message}</p>
+        <p>{errors.startDate?.message}</p>
+        <p>{errors.scan?.message}</p>
+      </div>
+      <form
+        onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
+        className={formStyle.form}
       >
         <input
           value={choosenOrg!.id}
@@ -82,46 +83,45 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
         />
         <div className={formStyle.fieldsContainer}>
           <div className={formStyle.fieldContainer}>
-          <label htmlFor="number">Номер</label>
-          <input
-            {...register('number', {
-              required: { value: true, message: 'Номер долно быть заполнено' },
-              maxLength: { value: 20, message: 'Поле номер должно быть меньше 20' },
-            })}
-          />
+            <label htmlFor="number">Номер</label>
+            <input
+              {...register('number', {
+                required: { value: true, message: 'Номер долно быть заполнено' },
+                maxLength: { value: 20, message: 'Поле номер должно быть меньше 20' },
+              })}
+            />
+          </div>
+          <div className={formStyle.fieldContainer}>
+            <label htmlFor="signDate">Дата подписания</label>
+            <input
+              type="date"
+              {...register('signDate', {
+                required: { value: true, message: 'Дата подписания долна быть заполнена' },
+              })}
+            />
+          </div>
+          <div className={formStyle.fieldContainer}>
+            <label htmlFor="startDate">Начало договра</label>
+            <input
+              type="date"
+              {...register('startDate', {
+                required: { value: true, message: 'Начало договра долно быть заполнено' },
+              })}
+            />
+          </div>
+          <div className={formStyle.fieldContainer}>
+            <label htmlFor="endDate">Окончание договора</label>
+            <input
+              type="date"
+              {...register('endDate', {
+                required: { value: true, message: 'Окончание договора долно быть заполнено' },
+              })}
+            />
+          </div>
+          <div className={formStyle.fieldContainer}>
+            <input type="file" {...register('scan')} />
+          </div>
         </div>
-        <div className={formStyle.fieldContainer}>
-          <label htmlFor="signDate">Дата подписания</label>
-          <input
-            type="date"
-            {...register('signDate', {
-              required: { value: true, message: 'Дата подписания долна быть заполнена' },
-            })}
-          />
-        </div>
-        <div className={formStyle.fieldContainer}>
-          <label htmlFor="startDate">Начало договра</label>
-          <input
-            type="date"
-            {...register('startDate', {
-              required: { value: true, message: 'Начало договра долно быть заполнено' },
-            })}
-          />
-        </div>
-        <div className={formStyle.fieldContainer}>
-          <label htmlFor="endDate">Окончание договора</label>
-          <input
-            type="date"
-            {...register('endDate', {
-              required: { value: true, message: 'Окончание договора долно быть заполнено' },
-            })}
-          />
-        </div>
-        <div className={formStyle.fieldContainer}>
-          <input type="file" {...register('scan')} />
-        </div>
-        </div>
-
 
         <div className={formStyle.buttons}>
           <input type="submit" value={btnValue} />

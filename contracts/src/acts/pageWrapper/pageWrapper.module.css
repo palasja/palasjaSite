@@ -6,7 +6,7 @@ p {
   margin-top: 30px;
   width: 230mm;
   height: 313mm;
-  padding: 50px 20px;;
+  padding: 50px 20px;
   font-family: 'Times New Roman', Times, serif;
   font-size: 20px;
   line-height: 20px;
@@ -34,7 +34,8 @@ p {
     width: auto;
     height: auto;
     box-shadow: none;
-    padding: 10px;
+    margin-left: 10px;
+    margin-top: -40px;
   }
 
   .variable {

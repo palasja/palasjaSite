@@ -79,8 +79,8 @@ const Organization = () => {
           <h2>Список организаций не загружен или пуст</h2>
         </>
       ) : (
-        <div className={style.orgContainer}>
-          <p onClick={() =>addHandler()}>ADD_ORG</p>
+        <div className={`noprint ${style.orgContainer}`}>
+          <p onClick={() => addHandler()}>ADD_ORG</p>
           {organizations.map((org) => (
             <div
               className={style.orgBtn}
@@ -115,6 +115,9 @@ const Organization = () => {
                 </div>
                 <div className={style.subButton} onClick={(e) => infoHandler(e, 'personal')}>
                   P
+                </div>
+                <div className={style.subButton} onClick={(e) => infoHandler(e, 'act')}>
+                  A
                 </div>
               </div>
             </div>

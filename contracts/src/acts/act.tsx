@@ -23,11 +23,17 @@ import { useLazyGetServicesByOrgIdMonthQuery } from '../redux/slices/servicesRTK
 import { Personal, Service } from '../helpers/contractTypes';
 import Loading from '../components/loading';
 
+type AtcType = 'jkh' | 'pms' | null;
+const actNameType: {[key: string]: AtcType} = {
+  'ЖКХ': 'jkh',
+  'ПМС': 'pms',
+};
 const Act = () => {
+  const [actType, setActType] = useState<AtcType>(null);
   const dispatch = useAppDispatch();
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const { data: organizations = [], isFetching: oLoading } = useGetOrganizationQuery();
+  // const { data: organizations = [], isFetching: oLoading } = useGetOrganizationQuery();
   const [loadContract, { data: choosenContract, isFetching: cLoading }] =
     useLazyGetContractsByOrgIdMonthQuery();
   const [loadPersonal, { data: personal, isFetching: pLoading }] =
@@ -53,11 +59,12 @@ const Act = () => {
   const handlerPaidService = (paid: boolean) => {
     setIsPaid(paid);
   };
-  const handlerChooseOrganization = (id: string) => {
-    const organization = NotNullubleValue(organizations.find((o) => o.id === parseInt(id, 10)));
-    setPersonalByOrder([]);
-    dispatch(chooseOrg(organization));
-  };
+
+  // const handlerActType = (id: string) => {
+  //   const organization = NotNullubleValue(organizations.find((o) => o.id === parseInt(id, 10)));
+  //   setPersonalByOrder([]);
+  //   dispatch(chooseOrg(organization));
+  // };
 
   const getDateString = (date: number | string) => new Date(date);
   const [signDate, useSignDate] = useState(
@@ -82,7 +89,7 @@ const Act = () => {
     setPersonalByOrder(a);
   };
 
-  const getpersonOptions = () => {
+  const PersonOptions = () => {
     return (
       <>
         <option key={-1}>-</option>
@@ -98,32 +105,32 @@ const Act = () => {
     );
   };
 
-  const signerSelect = (count: number) => {
+  const SignerSelect = ({ count }: { count: number }) => {
     return (
       <div>
-        <br />
-        <label htmlFor="firstSignPerson">Руководитель</label>
-        <select
-          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-            chosePersonHandler(HEAD_ORG_NUM_IN_ARR, e.target.value)
-          }
-          defaultValue={personalByOrder[0] !== undefined ? personalByOrder[0].id : ''}
-          data-testid="headOrg"
-          name="headOrg"
-        >
-          {getpersonOptions()}
-        </select>
-        <br />
+        <div className={style.signField}>
+          <label htmlFor="firstSignPerson">Руководитель</label>
+          <select
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+              chosePersonHandler(HEAD_ORG_NUM_IN_ARR, e.target.value)
+            }
+            defaultValue={personalByOrder[0] !== undefined ? personalByOrder[0].id : ''}
+            data-testid="headOrg"
+            name="headOrg"
+          >
+            <PersonOptions />
+          </select>
+        </div>
         {[...new Array(count)].map((e, i) => {
           return (
-            <div key={i}>
+            <div key={i} className={style.signField}>
               <label htmlFor={`sign${i + 1}`}>Подпись {i + 1}</label>
               <select
                 onChange={(e) => chosePersonHandler(i + 1, e.target.value)}
                 defaultValue={personalByOrder[i + 1] !== undefined ? personalByOrder[i + 1].id : ''}
                 data-testid={`sign${i + 1}`}
               >
-                {getpersonOptions()}
+                <PersonOptions />
               </select>
             </div>
           );
@@ -131,40 +138,67 @@ const Act = () => {
       </div>
     );
   };
+  const PMSCostInfo = ({ services }: { services: Service[] }) => {
+    return (
+      <article className={style.costInfo}>
+        <p>Заработано = {getServicesCost(services)}</p>
+        <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
+        <p>
+          К получению после вычета НДС ={' '}
+          {circleCost(
+            getServicesCostWithNDS_47(services) -
+              getServicesCost(services) *
+                ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)
+          )}
+        </p>
+      </article>
+    );
+  };
+  const JKHCostInfo = ({ services }: { services: Service[] }) => {
+    return (
+      <article className={style.costInfo}>
+        <p>Заработано = {getServicesCost(services)}</p>
+        <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>
+        <p>
+          К получению после вычета НДС
+          {circleCost(
+            getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)
+          )}
+        </p>
+      </article>
+    );
+  };
   type ZKHInfoType = { services: Service[] };
   const ZKHInfo = ({ services }: ZKHInfoType) => {
     return (
       <>
-        <section className="noprint">
-          <article>
-            <p>Заработано = {getServicesCost(services)}</p>
-            <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>
-            <p>
-              К получению после вычета НДС
-              {circleCost(
-                getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)
-              )}
-            </p>
-          </article>
-          <label htmlFor="signDate">Дата подписания (Первый рабочий день нового месяца)</label>
-          <input
-            type="date"
-            name="signDate"
-            value={signDate.toLocaleString('sv-SE').slice(0, 10)}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              changeDateHandler(e.target.value);
-            }}
-          />
-          {signerSelect(1)}
+        <section className={`noprint ${style.infoContainer}`}>
+          <div>
+            <div className={style.dataSign}>
+              <label htmlFor="signDate">Дата подписания (Первый рабочий день нового месяца)</label>
+              <input
+                type="date"
+                name="signDate"
+                value={signDate.toLocaleString('sv-SE').slice(0, 10)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  changeDateHandler(e.target.value);
+                }}
+              />
+            </div>
+            <SignerSelect count={1} />
+          </div>
+          <JKHCostInfo services={services} />
         </section>
 
         {choosenContract ? (
-          <ActZKH
-            contract={choosenContract}
-            personal={personalByOrder}
-            services={services}
-            signDate={signDate}
-          />
+          <>
+            <ActZKH
+              contract={choosenContract}
+              personal={personalByOrder}
+              services={services}
+              signDate={signDate}
+            />
+          </>
         ) : (
           <h3>Нет договора на {MONTH_R[parseInt(choosenMonth)]}</h3>
         )}
@@ -176,21 +210,9 @@ const Act = () => {
   const PMSInfo = ({ services }: PMSInfoType) => {
     return (
       <>
-        <section className="noprint">
-          {signerSelect(2)}
-
-          <article>
-            <p>Заработано = {getServicesCost(services)}</p>
-            <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
-            <p>
-              К получению после вычета НДС ={' '}
-              {circleCost(
-                getServicesCostWithNDS_47(services) -
-                  getServicesCost(services) *
-                    ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)
-              )}
-            </p>
-          </article>
+        <section className={`noprint ${style.infoContainer}`}>
+          <SignerSelect count={2} />
+          <PMSCostInfo services={services} />
         </section>
 
         <div className={style.page}>
@@ -202,57 +224,62 @@ const Act = () => {
     );
   };
 
-  return oLoading || cLoading || pLoading || sLoading ? (
+  return cLoading || pLoading || sLoading ? (
     <Loading />
   ) : (
     <>
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
-        {isPaid && (
+        <div className={style.actType}>
+          {isPaid && (
+            <select
+              onChange={(e) => handlerChooseMonth(e.target.value)}
+              defaultValue={choosenMonth}
+              data-testid="monthSelect"
+            >
+              {MONTH_R.map((e, i) => {
+                return (
+                  <option value={i} key={i}>
+                    {e}
+                  </option>
+                );
+              })}
+            </select>
+          )}
           <select
-            onChange={(e) => handlerChooseMonth(e.target.value)}
-            defaultValue={choosenMonth}
-            data-testid="monthSelect"
+            
+            onChange={(e) =>
+              setActType(
+                e.target.id === undefined ? null : (actNameType[e.target.value])
+              )
+            }
+            data-testid="orgSelect"
           >
-            {MONTH_R.map((e, i) => {
-              return (
-                <option value={i} key={i}>
-                  {e}
-                </option>
-              );
-            })}
+            <option key={-1}>-</option>
+            <option id={'jkh'}>ЖКХ</option>
+            <option id={'pms'}>ПМС</option>
           </select>
-        )}
-        <select
-          onChange={(e) => handlerChooseOrganization(e.target.value)}
-          defaultValue={choosenOrg?.id}
-          data-testid="orgSelect"
-        >
-          <option key={-1}>-</option>
-          {organizations.map((org) => {
-            return (
-              <option value={org.id} key={org.id}>
-                {org.name}
-              </option>
-            );
-          })}
-        </select>
-        <label htmlFor="paid" className="noprint">
-          Оплаченые
-        </label>
-        <input
-          type="checkbox"
-          name="paid"
-          checked={isPaid}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
-        />
+          <div>
+            <label htmlFor="paid"> Оплачено</label>
+            <input
+              type="checkbox"
+              name="paid"
+              checked={isPaid}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
+            />
+          </div>
+        </div>
       </div>
       <>
-        {choosenOrg?.name === 'ЖКХ' && services !== undefined && personal !== undefined ? (
+        {actType == 'jkh' && services !== undefined && personal !== undefined && (
+          <ZKHInfo services={services} />
+        )}
+        {actType == 'pms' && services && personal && <PMSInfo services={services} />}
+        {/* {choosenOrg?.name === 'ЖКХ' && services !== undefined && personal !== undefined ? (
           <ZKHInfo services={services} />
         ) : (
           services && personal && <PMSInfo services={services} />
-        )}
+        )} */}
       </>
     </>
   );
