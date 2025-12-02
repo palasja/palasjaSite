@@ -231,7 +231,6 @@ const Act = () => {
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
         <div className={style.actType}>
-          {isPaid && (
             <select
               onChange={(e) => handlerChooseMonth(e.target.value)}
               defaultValue={choosenMonth}
@@ -245,7 +244,6 @@ const Act = () => {
                 );
               })}
             </select>
-          )}
           <select
             
             onChange={(e) =>
