@@ -201,7 +201,6 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
 
     const columnsInfo: ColumnInfo[] = serviseCostByMonth.map((oc, i) => {
       const colStartXPos = startXpos + i * monthGap + i * columnWidth;
-      const maxCol = oc.colParts.sort((a, b) => b.value - a.value)[0].value;
       const summ = oc.colParts.reduce((a, c) => a + c.value, 0);
       const columnInfo = getOrgColumnParts(oc.colParts, colStartXPos);
       const dateInfo: ColumnText = {
@@ -209,7 +208,7 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
         value: oc.colName,
       };
       const sumInfo: ColumnText = {
-        textPoint: { x: colStartXPos + 5, y: getColHeightFromStart(maxCol) - 30 },
+        textPoint: { x: colStartXPos + 5, y: getColHeightFromStart(summ) - 20 },
         value: summ,
       };
       return {
@@ -273,17 +272,6 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
       value: o.name,
       styleName: `column__${orgColorMap.get(o.id)}`,
     }));
-    const noOrg = {
-      textPoint: {
-        x: startXLegend,
-        y: startYLegend + legendOrg.length * fontSize + legendOrg.length * textGap,
-      },
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<< not here, should come in arg
-      value: 'Без орги',
-      styleName: `column__${orgColorMap.get(0)}`,
-    };
-    legendOrg.push(noOrg);
-
     return legendOrg;
   };
 

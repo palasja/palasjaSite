@@ -125,7 +125,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
 
         <div className={formStyle.buttons}>
           <input type="submit" value={btnValue} />
-          <input type="button" onClick={() => resetForm()} value="Очистить" />
+          <input type="button" onClick={() => resetForm()} value="Очистить"></input>
         </div>
       </form>
     </>

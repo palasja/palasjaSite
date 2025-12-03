@@ -19,6 +19,7 @@ import { getURLByBase64File } from '../helpers/helper';
 import { skipToken } from '@reduxjs/toolkit/query';
 import PersonalForm from '../personal/personalForm';
 import ContractTable from './contractTable';
+import { AddIcon } from '../components/icons/icons';
 
 const Contracts = () => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
@@ -49,9 +50,11 @@ const Contracts = () => {
   };
   const page = (
     <>
-      <h3>
-        Договора ( {choosenOrg?.name} )<span onClick={() => addHandler()}>+</span>
-      </h3>
+      <div className={style.nameContainer}>
+        <AddIcon onClick={addHandler} />
+        <p>Договора ( {choosenOrg?.name} )</p>
+      </div>
+
       {action === 'change' && <ContractForm changingContract={changingContract} />}
       {action === 'add' && <ContractForm changingContract={undefined} />}
       {action === 'show' && (

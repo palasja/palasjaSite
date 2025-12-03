@@ -1,10 +1,14 @@
 .axis {
   fill: none;
-  stroke: #000000ff;
+  stroke: #1d2829;
 }
 .axisLine:hover,
 .axisLine:hover + .axisText {
   stroke: #fce57e;
+  color: #2a9d8f;
+}
+.axisText {
+  stroke: #2a9d8f;
 }
 
 .axisSubText {
@@ -14,7 +18,7 @@
 
 .axisSubLine:hover,
 .axisSubLine:hover + .axisSubText {
-  stroke: rgb(65, 0, 245);
+  stroke: #4cc9f0;
   visibility: visible;
 }
 .column {
@@ -80,14 +84,14 @@
   opacity: 1 !important;
 }
 :root {
-  --color_0: #00c3ff;
-  --color_1: #f70505;
-  --color_2: #f7f705;
-  --color_3: #06ec66;
-  --color_4: #05f7d7;
-  --color_5: #0531f7;
-  --color_6: #9806ec;
-  --color_7: #f705eb;
-  --color_8: #f70562;
-  --color_9: #ecc206;
+  --color_0: #276a6f;
+  --color_1: #ff002b;
+  --color_2: #ffc300;
+  --color_3: #3a0ca3;
+  --color_4: #fb8500;
+  --color_5: #00d166;
+  --color_6: #f72585;
+  --color_7: #4cc9f0;
+  --color_8: #7209b7;
+  --color_9: #adb5bd;
 }

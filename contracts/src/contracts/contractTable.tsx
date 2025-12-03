@@ -11,6 +11,7 @@ import { useLazyGetContractsScanQuery } from '../redux/slices/contractRTKSlice';
 import { useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { getChoosenMonth } from '../redux/slices/servicesSlice';
+import { DownloadIcon, EditIcon, RemoveIcon } from '../components/icons/icons';
 
 const ContractTable = ({
   data,
@@ -66,7 +67,7 @@ const ContractTable = ({
                 URL.revokeObjectURL(url);
               }}
             >
-              Scan
+              <DownloadIcon />
             </button>
           );
         },
@@ -81,16 +82,16 @@ const ContractTable = ({
     enableRowActions: true,
     positionActionsColumn: 'last',
     renderRowActions: ({ row }) => (
-      <Box>
+      <Box width={150}>
         <IconButton
           onClick={() => {
             edit(data.find((p) => p.id === row.original.id) as Contract);
           }}
         >
-          *{/* <EditIcon /> */}
+          <EditIcon />
         </IconButton>
         <IconButton onClick={() => remove(row.original.id.toString())}>
-          -{/* <DeleteIcon /> */}
+          <RemoveIcon />
         </IconButton>
       </Box>
     ),

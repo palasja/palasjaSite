@@ -1,56 +1,13 @@
-/* .form {
-  padding: 20px 100px;
-  margin: 20px;
-  border: 1px solid var(--color-main);
-  color: var(--color-main);
-  font-size: 20px;
+.nameContainer {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 50px;
+  margin-bottom: 40px;
+  font-size: 24px;
 }
-
-input {
-  border: 1px solid var(--color-main);
-  width: 400px;
-  height: 40px;
-  margin-left: 10px;
-  padding: 10px;
-}
-input::placeholder,
-textarea::placeholder {
-  color: var(--color-gray);
-}
-
-.fieldsContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 40px;
-  row-gap: 20px;
-}
-
-.fieldContainer {
+.payBtn {
   display: flex;
-  justify-content: space-between;
+  gap: 50px;
+  margin-left: 50px;
 }
-.comentContainer {
-  margin: 20px 0;
-  width: 60%;
-}
-.comment {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--color-main);
-}
-.buttons {
-  display: flex;
-}
-
-@media screen and (max-width: 1400px) and (min-width: 768px) {
-  .fieldsContainer {
-    display: grid;
-    grid-template-columns: 1fr;
-    column-gap: 40px;
-    row-gap: 20px;
-  }
-} */

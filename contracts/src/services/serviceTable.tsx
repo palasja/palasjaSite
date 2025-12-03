@@ -10,6 +10,8 @@ import {
   useToPaidServiceMutation,
   useToUnpaidServiceMutation,
 } from '../redux/slices/servicesRTKSlice';
+import { EditIcon, PayIcon, RemoveIcon, UnpayIcon } from '../components/icons/icons';
+import style from './services.module.css';
 
 const ServiceTable = ({
   data,
@@ -78,34 +80,32 @@ const ServiceTable = ({
     enableRowActions: true,
     positionActionsColumn: 'last',
     renderRowActions: ({ row }) => (
-      <Box>
+      <Box width={150}>
         <IconButton
           onClick={() => {
             edit(data.find((p) => p.id === row.original.id) as Service);
           }}
         >
-          *{/* <EditIcon /> */}
+          <EditIcon />
         </IconButton>
         <IconButton onClick={() => remove(row.original.id.toString())}>
-          -{/* <DeleteIcon /> */}
+          <RemoveIcon />
         </IconButton>
       </Box>
     ),
     enableRowSelection: true,
     renderTopToolbarCustomActions: ({ table }) => (
-      <>
-        <Button
+      <div className={style.payBtn}>
+        <PayIcon
           onClick={() => {
-            const rowSelection = table.getState().rowSelection; //read state
+            // const rowSelection = table.getState().rowSelection; //read state
             const selectedRows = table.getSelectedRowModel().rows; //or read entire rows
             const idArr = selectedRows.map((h) => h.original.id);
             console.log(idArr);
             toPaidServices(idArr);
           }}
-        >
-          Оплачено
-        </Button>
-        <Button
+        />
+        <UnpayIcon
           onClick={() => {
             // const rowSelection = table.getState().rowSelection; //read state
             const selectedRows = table.getSelectedRowModel().rows; //or read entire rows
@@ -113,10 +113,8 @@ const ServiceTable = ({
             console.log(idArr);
             toUnpaidServices(idArr);
           }}
-        >
-          Не Оплачено
-        </Button>
-      </>
+        />
+      </div>
     ),
     enablePagination: false,
     enableBottomToolbar: false, //hide the bottom toolbar as well if you want

@@ -31,8 +31,7 @@
   background-color: var(--color-btn);
   color: var(--color-white);
 }
-.mainBtn:hover ~ .subButtonContainer,
-.subButton:hover {
+.mainBtn:hover ~ .subButtonContainer {
   visibility: visible;
   display: flex;
 }
@@ -57,8 +56,11 @@
 .subButton {
   background-color: var(--color-btn);
   padding: 0 15px;
+  flex-grow: 1;
 }
 .subButton:hover {
+  visibility: visible;
+  display: flex;
   background-color: var(--color-btn_hover);
   cursor: pointer;
 }

@@ -13,6 +13,8 @@ import Loading from '../components/loading';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import ServiceTable from './serviceTable';
+import { AddIcon } from '../components/icons/icons';
+import style from './services.module.css';
 
 const Services = () => {
   const [isPaid, setIsPaid] = useState(false);
@@ -27,11 +29,6 @@ const Services = () => {
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
   useEffect(() => {
-    // setChangingService(undefined);
-    // if (choosenOrg === null) {
-    //   //Без организации всегда оплачено
-    //   loadServices({ orgId: null, month: choosenMonth, isPaid: true });
-    // } else if (choosenOrg) {
     if (choosenOrg !== null) {
       loadServices({ orgId: choosenOrg.id, month: choosenMonth, isPaid: isPaid });
     }
@@ -53,9 +50,11 @@ const Services = () => {
   };
   const page = (
     <>
-      <h3>
-        Услуги {choosenOrg && `( ${choosenOrg.name} )`} <span onClick={() => addHandler()}>+</span>
-      </h3>
+      <div className={style.nameContainer}>
+        <AddIcon onClick={addHandler} />
+        <p>Услуги {choosenOrg && `( ${choosenOrg.name} )`}</p>
+      </div>
+
       <label htmlFor="paid">Оплаченые</label>
       <input
         type="checkbox"

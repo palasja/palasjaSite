@@ -23,10 +23,17 @@ import Loading from '../components/loading';
 import style from './organization.module.css';
 import { isWithoutOrg } from '../redux/slices/servicesSlice';
 import { OrgInfo, Organization as OrgType } from '../helpers/contractTypes';
-import PersonalTable from '../personal/personalTable';
+import {
+  ActIcon,
+  AddOrgIcon,
+  ContractIcon,
+  EditIcon,
+  PersonalIcon,
+  RemoveIcon,
+  ServicesIcon,
+} from '../components/icons/icons';
 
 const Organization = () => {
-  // console.log(123);
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const changingOrganization = useAppSelector(getChangingOrganization);
@@ -71,16 +78,15 @@ const Organization = () => {
   };
   const page = (
     <>
-      {/* <h3>Организации</h3>
-      <h4>{errors}</h4>
-      <OrganizationForm /> */}
       {organizations.length == 0 ? (
         <>
           <h2>Список организаций не загружен или пуст</h2>
         </>
       ) : (
         <div className={`noprint ${style.orgContainer}`}>
-          <p onClick={() => addHandler()}>ADD_ORG</p>
+          <p onClick={() => addHandler()}>
+            <AddOrgIcon />
+          </p>
           {organizations.map((org) => (
             <div
               className={style.orgBtn}
@@ -93,11 +99,11 @@ const Organization = () => {
                 {org.id !== 0 ? (
                   <>
                     <div className={style.orgActBtn} onClick={() => removeHandler(org)}>
-                      -
+                      <RemoveIcon />
                     </div>
                     <div className={style.orgName}>{org.name}</div>
                     <div className={style.orgActBtn} onClick={(e) => changeHandler(e, org)}>
-                      *
+                      <EditIcon />
                     </div>
                   </>
                 ) : (
@@ -106,20 +112,22 @@ const Organization = () => {
                   </>
                 )}
               </div>
-              <div className={style.subButtonContainer}>
-                <div className={style.subButton} onClick={(e) => infoHandler(e, 'service')}>
-                  S
+              {org.id !== 0 && (
+                <div className={style.subButtonContainer}>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'service')}>
+                    <ServicesIcon />
+                  </div>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'contract')}>
+                    <ContractIcon />
+                  </div>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'personal')}>
+                    <PersonalIcon />
+                  </div>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'act')}>
+                    <ActIcon />
+                  </div>
                 </div>
-                <div className={style.subButton} onClick={(e) => infoHandler(e, 'contract')}>
-                  C
-                </div>
-                <div className={style.subButton} onClick={(e) => infoHandler(e, 'personal')}>
-                  P
-                </div>
-                <div className={style.subButton} onClick={(e) => infoHandler(e, 'act')}>
-                  A
-                </div>
-              </div>
+              )}
             </div>
           ))}
           {info === 'org' && (action === 'change' || action === 'add') && <OrganizationForm />}

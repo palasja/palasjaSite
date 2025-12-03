@@ -6,6 +6,7 @@ import {
 } from 'material-react-table';
 import { Personal } from '../helpers/contractTypes';
 import { Box, IconButton, MenuItem } from '@mui/material';
+import { EditIcon, RemoveIcon } from '../components/icons/icons';
 
 const PersonalTable = ({
   data,
@@ -49,16 +50,16 @@ const PersonalTable = ({
     enableRowActions: true,
     positionActionsColumn: 'last',
     renderRowActions: ({ row }) => (
-      <Box>
+      <Box width={150}>
         <IconButton
           onClick={() => {
             edit(data.find((p) => p.id === row.original.id) as Personal);
           }}
         >
-          *{/* <EditIcon /> */}
+          <EditIcon />
         </IconButton>
         <IconButton onClick={() => remove(row.original.id.toString())}>
-          -{/* <DeleteIcon /> */}
+          <RemoveIcon />
         </IconButton>
       </Box>
     ),

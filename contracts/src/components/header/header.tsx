@@ -3,6 +3,7 @@ import style from './header.module.css';
 import logo from 'assets/logo.svg';
 import { useAppSelector } from '../../redux/hooks';
 import { getAuthSatus, getIsAuth } from '../../redux/slices/authSlice';
+import { ContractIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';
 // <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
 const Header = () => {
   const isAuth = useAppSelector(getIsAuth);
@@ -22,17 +23,17 @@ const Header = () => {
           <>
             <nav className={`noprint ${style.nav}`}>
               <NavLink to={'/contract'} className={style.link}>
-                Договора
+                <ContractIcon /> Договора
               </NavLink>
               <NavLink to={'/stats'} className={style.link}>
-                Статистика
+                <StatIcon /> Статистика
               </NavLink>
               <NavLink to={'/softinfo'} className={style.link}>
-                ПО
+                <SoftIcon /> ПО
               </NavLink>
             </nav>
             <Link to={'/logout'} className={style.logout}>
-              Выход
+              <LogoutIcon />
             </Link>
           </>
         ) : (

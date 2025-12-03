@@ -18,6 +18,8 @@ import { useEffect, useState } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import OrganizationForm from '../organization/organizationForm';
 import PersonalTable from './personalTable';
+import { AddIcon } from '../components/icons/icons';
+import style from './personal.module.css';
 
 const Personals = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -48,9 +50,11 @@ const Personals = () => {
   };
   const page = (
     <>
-      <h3>
-        Personal ( {choosenOrg?.name} ) <span onClick={() => addHandler()}>+</span>
-      </h3>
+      <div className={style.nameContainer}>
+        <AddIcon onClick={addHandler} />
+        <p>Personal ( {choosenOrg?.name} )</p>
+      </div>
+
       {action === 'change' && <PersonalForm changingPersonal={changingPersonal} />}
       {action === 'add' && <PersonalForm changingPersonal={undefined} />}
       {action === 'show' && (

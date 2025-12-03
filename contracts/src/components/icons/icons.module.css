@@ -1,0 +1,24 @@
+.common {
+  color: var(--color-main);
+  font-size: 30px !important;
+}
+.common:hover {
+  cursor: pointer;
+}
+.addOrg {
+  width: 45px !important;
+  height: 45px !important;
+}
+.addOrg:hover,
+.add:hover,
+.pay:hover {
+  color: var(--color-btn_hover);
+}
+.addContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mainIcon:hover {
+  color: inherit !important;
+}

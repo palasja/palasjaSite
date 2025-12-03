@@ -24,9 +24,9 @@ import { Personal, Service } from '../helpers/contractTypes';
 import Loading from '../components/loading';
 
 type AtcType = 'jkh' | 'pms' | null;
-const actNameType: {[key: string]: AtcType} = {
-  'ЖКХ': 'jkh',
-  'ПМС': 'pms',
+const actNameType: { [key: string]: AtcType } = {
+  ЖКХ: 'jkh',
+  ПМС: 'pms',
 };
 const Act = () => {
   const [actType, setActType] = useState<AtcType>(null);
@@ -231,25 +231,22 @@ const Act = () => {
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
         <div className={style.actType}>
-            <select
-              onChange={(e) => handlerChooseMonth(e.target.value)}
-              defaultValue={choosenMonth}
-              data-testid="monthSelect"
-            >
-              {MONTH_R.map((e, i) => {
-                return (
-                  <option value={i} key={i}>
-                    {e}
-                  </option>
-                );
-              })}
-            </select>
           <select
-            
+            onChange={(e) => handlerChooseMonth(e.target.value)}
+            defaultValue={choosenMonth}
+            data-testid="monthSelect"
+          >
+            {MONTH_R.map((e, i) => {
+              return (
+                <option value={i} key={i}>
+                  {e}
+                </option>
+              );
+            })}
+          </select>
+          <select
             onChange={(e) =>
-              setActType(
-                e.target.id === undefined ? null : (actNameType[e.target.value])
-              )
+              setActType(e.target.id === undefined ? null : actNameType[e.target.value])
             }
             data-testid="orgSelect"
           >
