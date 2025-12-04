@@ -55,10 +55,11 @@ const Organization = () => {
     dispatch(choseInfo('service'));
     dispatch(choseAct('show'));
   };
-  const infoHandler = (e: React.MouseEvent, info: OrgInfo) => {
+  const infoHandler = (e: React.MouseEvent, info: OrgInfo, org: OrgType) => {
     e.stopPropagation();
     dispatch(choseInfo(info));
     dispatch(choseAct('show'));
+    dispatch(chooseOrg(org));
   };
   const changeHandler = (e: React.MouseEvent, org: OrgType) => {
     e.stopPropagation();
@@ -114,16 +115,16 @@ const Organization = () => {
               </div>
               {org.id !== 0 && (
                 <div className={style.subButtonContainer}>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'service')}>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'service', org)}>
                     <ServicesIcon />
                   </div>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'contract')}>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'contract', org)}>
                     <ContractIcon />
                   </div>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'personal')}>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'personal', org)}>
                     <PersonalIcon />
                   </div>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'act')}>
+                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'act', org)}>
                     <ActIcon />
                   </div>
                 </div>
