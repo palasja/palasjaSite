@@ -12,6 +12,8 @@ import {
 } from '../redux/slices/servicesRTKSlice';
 import { EditIcon, PayIcon, RemoveIcon, UnpayIcon } from '../components/icons/icons';
 import style from './services.module.css';
+import { default as CreditScoreIconMaterial } from '@mui/icons-material/CreditScore';
+import { default as CreditCardOffIconMaterial } from '@mui/icons-material/CreditCardOff';
 
 const ServiceTable = ({
   data,
@@ -67,7 +69,7 @@ const ServiceTable = ({
         header: 'Оплачено',
         size: 100,
         Cell: ({ row }) => {
-          return row.original.ispaid ? <>YES</> : <>NOU</>;
+          return row.original.ispaid ? <CreditScoreIconMaterial /> : <CreditCardOffIconMaterial />;
         },
       },
     ],

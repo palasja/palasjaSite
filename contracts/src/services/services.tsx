@@ -28,6 +28,7 @@ const Services = () => {
     useLazyGetServicesByOrgIdMonthQuery();
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
+  
   useEffect(() => {
     if (choosenOrg !== null) {
       loadServices({ orgId: choosenOrg.id, month: choosenMonth, isPaid: isPaid });
