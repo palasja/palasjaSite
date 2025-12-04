@@ -53,6 +53,9 @@
   visibility: hidden;
   justify-content: space-around;
 }
+.subButtonContainer:hover {
+  visibility: visible;
+}
 .subButton {
   background-color: var(--color-btn);
   padding: 0 15px;
