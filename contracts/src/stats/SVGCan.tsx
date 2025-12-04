@@ -86,7 +86,7 @@ const ColumnDate = ({ textPoint, value }: ColumnText) => {
 const Axis = ({ axis, arrAxisLines }: { axis: string; arrAxisLines: AxisLines }) => {
   return (
     <g className={style.axis}>
-      <path d={axis} />
+      <path d={axis} className={style.axisMain} />
       {arrAxisLines.map((al, i) => {
         const { subLines, mainLine } = al;
         return (
@@ -127,7 +127,7 @@ const getColumnMap = (entity: Entity[]) => {
 const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
   const scale = 2;
   const width = 1400;
-  const height = 350;
+  const height = 550;
   const startX = 40;
   const startY = 10;
   const endX = 1000;
@@ -217,7 +217,6 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
         columnSum: sumInfo,
       };
     });
-
     return columnsInfo;
   };
 

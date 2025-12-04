@@ -2,6 +2,11 @@
   fill: none;
   stroke: #1d2829;
 }
+.axisMain {
+  fill: none;
+  stroke: #1d2829;
+  stroke-width: 3px;
+}
 .axisLine:hover,
 .axisLine:hover + .axisText {
   stroke: #fce57e;
