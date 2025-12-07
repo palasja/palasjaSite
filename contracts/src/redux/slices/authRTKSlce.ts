@@ -54,5 +54,5 @@ export const {
   useLazyLogoutQuery,
   useLazyCheckQuery,
   useLogoutQuery,
-  useCheckQuery,
+  // useCheckQuery,
 } = authApi;

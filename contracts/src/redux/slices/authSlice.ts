@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../redux/store';
 import { FetchStatus } from '../../helpers/contractTypes';
-
+import { redirect } from 'react-router';
 interface AuthState {
   authErrorMessage: string | null;
   status: FetchStatus;
@@ -22,6 +22,9 @@ const authSlice = createSlice({
     },
     changeIsAuth(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload;
+      // if(!action.payload){
+      //   redirect("/");
+      // }
     },
   },
 });

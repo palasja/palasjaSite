@@ -28,11 +28,14 @@ const Services = () => {
     useLazyGetServicesByOrgIdMonthQuery();
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
-  
+
   useEffect(() => {
-    
     if (choosenOrg !== null) {
-      loadServices({ orgId: choosenOrg.id, month: choosenMonth, isPaid: choosenOrg.id == 0 ? true : isPaid });
+      loadServices({
+        orgId: choosenOrg.id,
+        month: choosenMonth,
+        isPaid: choosenOrg.id == 0 ? true : isPaid,
+      });
     }
   }, [choosenOrg, choosenMonth, isPaid]);
 
@@ -58,12 +61,14 @@ const Services = () => {
       </div>
 
       <label htmlFor="paid">Оплаченые</label>
-      {choosenOrg?.id != 0 && <input
-        type="checkbox"
-        name="paid"
-        defaultChecked={isPaid}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
-      />}
+      {choosenOrg?.id != 0 && (
+        <input
+          type="checkbox"
+          name="paid"
+          defaultChecked={isPaid}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
+        />
+      )}
       <div>
         {isPaid && (
           <select

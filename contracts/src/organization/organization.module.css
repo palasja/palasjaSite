@@ -46,7 +46,7 @@
 }
 .orgActBtn {
   padding: 0 10px;
-  display: flex;
+  display: none;
 }
 .subButtonContainer {
   display: flex;

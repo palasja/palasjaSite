@@ -281,7 +281,7 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
     <svg
       width={`${width}px`}
       height={`${height}px`}
-      viewBox="0 0 1000 300"
+      viewBox={`0 0 ${width} 300`}
       // viewBox=`0 0 ${width} ${height}`
       xmlns="http://www.w3.org/2000/svg"
     >

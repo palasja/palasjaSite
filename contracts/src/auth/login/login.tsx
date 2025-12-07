@@ -35,8 +35,8 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
     try {
       const result = await login(data).unwrap();
       if (result == 'OK') {
-        navigate('/contract');
         dispatch(changeIsAuth(true));
+        navigate('/contract');
       }
     } catch {
       setIsError(true);
@@ -50,7 +50,10 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
     const checkAuth = async () => {
       try {
         const result = await check().unwrap();
-        if (result == 'OK') navigate('/contract');
+        if (result == 'OK') {
+          dispatch(changeIsAuth(true));
+          navigate('/contract');
+        }
       } catch {
         setIsChecked(true);
       }

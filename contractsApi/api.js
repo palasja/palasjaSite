@@ -117,7 +117,7 @@ router.post('/logIn', asyncHandler( async (req, res) => {
 
 }));
 router.post('/checkAuth', asyncHandler( async (req, res) => {
-const accessToken = req.cookies.accessToken;
+  const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
   if(accessToken){
     jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
@@ -126,10 +126,10 @@ const accessToken = req.cookies.accessToken;
           if (err) {
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");
-             res.sendStatus(401);
-             return;
+            res.sendStatus(401);
           } else {
             newTokenToRes(res);
+            res.sendStatus(200);
           }
         });
       } else {
@@ -137,7 +137,7 @@ const accessToken = req.cookies.accessToken;
       }
       });
   } else {
-    return res.sendStatus(401);
+    res.sendStatus(401);
   }
 }));
 router.get('/logout', function  (req, res) {

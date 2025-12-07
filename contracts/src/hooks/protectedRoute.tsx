@@ -1,10 +1,7 @@
 import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import Footer from '../components/footer';
-import Header from '../components/header';
-import { useEffect, useState } from 'react';
-import { changeIsAuth, getAuthSatus, getIsAuth } from '../redux/slices/authSlice';
-import { CookiesProvider, useCookies } from 'react-cookie';
+import { useAppSelector } from '../redux/hooks';
+import { useEffect } from 'react';
+import { getAuthSatus, getIsAuth } from '../redux/slices/authSlice';
 import { CoockieWrapper } from '../helpers/CoockieWrapper';
 
 type ProtectedRouteProps = {
@@ -12,47 +9,31 @@ type ProtectedRouteProps = {
 };
 
 const Protected = ({ children }: ProtectedRouteProps) => {
-  const [cookies] = useCookies(['expireDate']);
-  // console.log(cookies);
-  // const [d, setD] = useState(cookies.expireDate);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const isAuth = useAppSelector(getIsAuth);
   useEffect(() => {
-    if (cookies.expireDate === '' || cookies.expireDate < Date.now()) {
-      dispatch(changeIsAuth(false));
+    if (!isAuth) {
       navigate('/');
-    } else {
-      dispatch(changeIsAuth(true));
     }
-  }, []);
-  return (
-    <>
-      {/* <CookiesProvider defaultSetOptions={{ path: '/' }}>
-        <Header />
-      </CookiesProvider> */}
-      {children}
-    </>
-  );
+  }, [isAuth]);
+  return <>{children}</>;
 };
-
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  return (
-    <CoockieWrapper>
-      <Protected>{children}</Protected>
-    </CoockieWrapper>
-  );
-};
-// export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+// const Protected = ({ children }: ProtectedRouteProps) => {
 //   const [cookies] = useCookies(['expireDate']);
-//     console.log(cookies);
-//   const [d, setD] = useState(cookies.expireDate);
+//   // console.log(cookies);
+//   // const [d, setD] = useState(cookies.expireDate);
 //   const navigate = useNavigate();
-//   const isAuth = useAppSelector(getIsAuth);
+//   const dispatch = useAppDispatch();
+//   console.log(11);
 //   useEffect(() => {
+//     console.log(cookies);
 //     if (cookies.expireDate === '' || cookies.expireDate < Date.now()) {
+//       dispatch(changeIsAuth(false));
 //       navigate('/');
+//     } else {
+//       dispatch(changeIsAuth(true));
 //     }
-//   }, []);
+//   }, [children]);
 //   return (
 //     <>
 //       {/* <CookiesProvider defaultSetOptions={{ path: '/' }}>
@@ -62,3 +43,11 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 //     </>
 //   );
 // };
+
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  return (
+    <CoockieWrapper>
+      <Protected>{children}</Protected>
+    </CoockieWrapper>
+  );
+};

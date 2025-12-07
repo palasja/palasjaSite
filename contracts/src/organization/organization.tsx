@@ -32,6 +32,7 @@ import {
   RemoveIcon,
   ServicesIcon,
 } from '../components/icons/icons';
+import { changeIsAuth } from '../redux/slices/authSlice';
 
 const Organization = () => {
   const dispatch = useAppDispatch();
@@ -47,6 +48,8 @@ const Organization = () => {
   const { data: organizations = [], isLoading, isFetching } = useGetOrganizationQuery();
   const noOrgClickHandler = () => {
     dispatch(isWithoutOrg(true));
+    dispatch(choseInfo('service'));
+    dispatch(choseAct('show'));
     dispatch(chooseOrg(organizations[organizations.length - 1]));
   };
   const orgClickHandler = (org: OrgType) => {

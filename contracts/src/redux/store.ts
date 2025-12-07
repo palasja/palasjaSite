@@ -2,6 +2,7 @@ import {
   combineReducers,
   configureStore,
   createListenerMiddleware,
+  isFulfilled,
   isRejected,
   Middleware,
   MiddlewareAPI,
@@ -25,6 +26,8 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
     if (action.payload?.originalStatus === 401 || action.payload?.originalStatus === 403) {
       api.dispatch(changeIsAuth(false));
     }
+  } else if (isFulfilled(action)) {
+    api.dispatch(changeIsAuth(true));
   }
 
   return next(action);

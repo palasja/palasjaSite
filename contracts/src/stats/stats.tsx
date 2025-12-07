@@ -33,17 +33,16 @@ const Stats = () => {
     const dateArr = services.map((s) => new Date(s.date).getTime());
     const minDate = new Date(Math.min(...dateArr));
     let maxDate = new Date(Math.max(...dateArr));
+    console.log(services[services.length - 1]);
     maxDate = new Date(maxDate.setMonth(maxDate.getMonth()));
 
     let firstDay = new Date(`${minDate.getFullYear()}-${minDate.getMonth() + 1}`);
     const servicesByMonth = [];
-    while (firstDay < maxDate) {
-      const lastDay = new Date(
-        new Date(`${firstDay.getFullYear()}-${firstDay.getMonth() + 2}`).getTime() - 1000
-      );
-      const serviceByMonth = services.filter(
-        (s) => new Date(s.date) >= firstDay && new Date(s.date) <= lastDay
-      );
+    while (firstDay <= maxDate) {
+      let lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0, 23, 59, 59);
+      const serviceByMonth = services.filter((s) => {
+        return new Date(s.date) >= firstDay && new Date(s.date) <= lastDay;
+      });
 
       const organisationsCost: OrganizationCost[] = organizations.map((o) => {
         const arr = serviceByMonth.filter((s) => s.orgId == o.id.toString());
