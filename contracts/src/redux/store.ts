@@ -3,31 +3,42 @@ import {
   configureStore,
   createListenerMiddleware,
   isFulfilled,
+  isPending,
   isRejected,
   Middleware,
   MiddlewareAPI,
 } from '@reduxjs/toolkit';
 
 import { apiSlice } from './slices/apiSlice';
-import authReducer, { changeIsAuth, changeStatus } from '../redux/slices/authSlice';
+import authReducer, {
+  changeIsAuth,
+  changeIsLoading,
+  changeStatus,
+} from '../redux/slices/authSlice';
 import orgsReducer from '../redux/slices/orgsSlice';
-
 import servicesSlicer from '../redux/slices/servicesSlice';
+import softSlicer from '../redux/slices/softSlice';
+
 const rootReducer = combineReducers({
   auth: authReducer,
   orgs: orgsReducer,
   services: servicesSlicer,
+  soft: softSlicer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
 export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
   if (isRejected(action)) {
+    api.dispatch(changeIsLoading(false));
     //@ts-ignore
     if (action.payload?.originalStatus === 401 || action.payload?.originalStatus === 403) {
       api.dispatch(changeIsAuth(false));
     }
   } else if (isFulfilled(action)) {
     api.dispatch(changeIsAuth(true));
+    api.dispatch(changeIsLoading(false));
+  } else if (isPending(action)) {
+    api.dispatch(changeIsLoading(true));
   }
 
   return next(action);

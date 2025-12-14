@@ -43,12 +43,10 @@ const newTokenToRes = (res) => {
       httpOnly: true,
     };
 
-    const newAccessToken = getToken({ expireIn: Date.now() / 1000 + 5}, 5);
+    const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
     const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
     res.cookie('accessToken', newAccessToken, options);
     res.cookie('refreshToken', newRefreshToken, options);
-
-    res.cookie('expireDate', Date.now()  + 5 * 1000, { expires: new Date(Date.now()+ 5000) });
 }
  mysql.createConnection({
         user : process.env.MYSQL_ADMIN,

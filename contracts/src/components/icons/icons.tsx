@@ -14,21 +14,25 @@ import { default as LeaderboardIconMaterial } from '@mui/icons-material/Leaderbo
 import { default as AppsIconMaterial } from '@mui/icons-material/Apps';
 
 type IconProp = { onClick?: () => void };
-export const RemoveIcon = () => <RemoveIconMaterial className={style.common} />;
-export const EditIcon = () => <EditIconMaterial className={style.common} />;
+export const RemoveIcon = () => (
+  <RemoveIconMaterial className={`${style.common} ${style.changeColor}`} />
+);
+export const EditIcon = () => (
+  <EditIconMaterial className={`${style.common} ${style.changeColor}`} />
+);
 export const AddIcon = ({ onClick }: IconProp) => (
   <span className={style.addContainer} onClick={onClick}>
-    <AddBoxIconMaterial className={`${style.common} ${style.add}`} />
+    <AddBoxIconMaterial className={`${style.common} ${style.changeColor}`} />
   </span>
 );
 export const AddOrgIcon = () => (
-  <AddBoxIconMaterial className={`${style.common} ${style.addOrg}`} />
+  <AddBoxIconMaterial className={`${style.common} ${style.changeColor}`} />
 );
 export const PayIcon = ({ onClick }: IconProp) => (
-  <CreditScoreIconMaterial onClick={onClick} className={`${style.common} ${style.pay}`} />
+  <CreditScoreIconMaterial onClick={onClick} className={`${style.common} ${style.changeColor}`} />
 );
 export const UnpayIcon = ({ onClick }: IconProp) => (
-  <CreditCardOffIconMaterial onClick={onClick} className={`${style.common} ${style.pay}`} />
+  <CreditCardOffIconMaterial onClick={onClick} className={`${style.common} ${style.changeColor}`} />
 );
 export const ServicesIcon = () => <BuildIconMateria className={style.common} />;
 export const PersonalIcon = () => <GroupsIconMaterial className={style.common} />;

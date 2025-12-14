@@ -4,7 +4,8 @@ import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import { useAddSoftInfoMutation, useUpdateSoftInfoMutation } from '../redux/slices/softInfoRTK';
-
+import { AddIcon } from '../components/icons/icons';
+import formStyle from 'assets/form.module.css';
 type ChangingSoftInfoFormProps = { softInfo: SoftInfo | undefined; clearCallback: () => void };
 
 const SoftPromptForm = ({ softInfo, clearCallback }: ChangingSoftInfoFormProps) => {
@@ -55,7 +56,10 @@ const SoftPromptForm = ({ softInfo, clearCallback }: ChangingSoftInfoFormProps) 
   return (
     <>
       {errors.name && <p>{errors.name.message}</p>}
-      <form onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}>
+      <form
+        onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
+        className={formStyle.form}
+      >
         {isUpdate ? (
           <input id="id" type="hidden" {...register('id', { required: true })} data-testid="id" />
         ) : (
@@ -68,12 +72,22 @@ const SoftPromptForm = ({ softInfo, clearCallback }: ChangingSoftInfoFormProps) 
             id="name"
             {...register('name', {
               required: { value: true, message: 'Наименование должно быть заполнено' },
+              maxLength: { value: 40, message: 'Наименование должно быть меньше 40 символов' },
             })}
           />
         </div>
-        <input type="submit" value={btnValue} data-testid="submit" />
+        <div className={formStyle.buttons}>
+          <input type="submit" value={btnValue} data-testid="submit" />
+          <input
+            type="button"
+            onClick={() => {
+              resetForm();
+              clearCallback();
+            }}
+            value={'Очистить'}
+          />
+        </div>
       </form>
-      <button onClick={() => resetForm()}>Очистить</button>
     </>
   );
 };

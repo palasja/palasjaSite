@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import {
   ArticlesName,
   SoftArticle,
@@ -17,18 +17,25 @@ import {
 import { useGetSoftArticleLinksQuery } from '../redux/slices/softInfoArticleLinkRTK';
 import SoftInfoArticleForm from './softPromptArticleForm';
 import { skipToken } from '@reduxjs/toolkit/query';
+import { AddIcon, EditIcon, RemoveIcon } from '../components/icons/icons';
+import style from './softPrompt.module.css';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { choseAct, getChosenchosenAction } from '../redux/slices/orgsSlice';
 
-type ArtileAction = 'show' | 'change' | 'new';
-type SoftInfoArticleProps = {
-  articleId: string | undefined;
-  action: ArtileAction;
-  softId: string | undefined;
-  callback: (articleId: string) => void;
-};
+import {
+  changeSoft,
+  changeActionArticle,
+  choseArticleId,
+  choseSoftId,
+  getActionArticle,
+  getArticleId,
+  getChangingSoft,
+  getSoftId,
+} from '../redux/slices/softSlice';
 
 const ImageContainer = ({ img }: { img: string }) => {
   return (
-    <div area-soft-info="">
+    <div area-soft-info="" className={style.imageCont}>
       <img src={img}></img>
     </div>
   );
@@ -38,22 +45,14 @@ const TextField = ({ text }: { text: string | undefined }) => {
   return <div>{text ? text : ''}</div>;
 };
 
-const SoftInfoArticle = ({
-  articleId,
-  action,
-  softId,
-  callback = () => {},
-}: SoftInfoArticleProps) => {
-  const {
-    data: article,
-    isLoading,
-    isFetching,
-    isSuccess,
-  } = useGetSoftArticleQuery(articleId ?? skipToken);
+const SoftInfoArticle = () => {
+  const dispatch = useAppDispatch();
+  const articleId = useAppSelector(getArticleId);
+  const action = useAppSelector(getActionArticle);
+  const softId = useAppSelector(getSoftId);
+  const { data: article, isSuccess } = useGetSoftArticleQuery(articleId ?? skipToken);
   const {
     data: links,
-    isLoading: isLoadingLinks,
-    isFetching: isFetchingLinks,
     isSuccess: isSuccessLinks,
   } = useGetSoftArticleLinksQuery(articleId ?? skipToken);
   return (
@@ -63,8 +62,10 @@ const SoftInfoArticle = ({
           changingSoftArticle={undefined}
           changingSoftLinks={undefined}
           softInfoId={softId}
-          // clearCallback={() => setActionArticle(undefined)}
-          clearCallback={callback}
+          clearCallback={() => {
+            dispatch(choseArticleId(articleId));
+            dispatch(changeActionArticle('show'));
+          }}
         />
       )}
 
@@ -76,8 +77,10 @@ const SoftInfoArticle = ({
               changingSoftArticle={article}
               changingSoftLinks={links}
               softInfoId={article.softInfoId}
-              // clearCallback={() => setActionArticle('show')}
-              clearCallback={callback}
+              clearCallback={() => {
+                dispatch(choseArticleId(articleId));
+                dispatch(changeActionArticle('show'));
+              }}
             />
           )}
         </>
@@ -96,7 +99,7 @@ const Info = ({
   const imagePrefRegExp = new RegExp(SOFT_INFO_IMAGE_PREFIX);
   return (
     <>
-      <h3>{article?.name}</h3>
+      <h3 className={style.infoHead}>{article?.name}</h3>
       {links && <SoftInfoArticleLink links={links} />}
       <section>
         {article?.info.split(SOFT_INFO_SPLITER_IMAGE).map((s) => {
@@ -110,11 +113,11 @@ const Info = ({
 const SoftInfoArticleLink = ({ links }: { links: SoftArticleLink[] }) => {
   return (
     <>
-      <aside>
+      <aside className={style.link}>
         {links &&
           links.map((a, i) => {
             return (
-              <a href={a.url} key={i}>
+              <a href={a.url} key={i} target="_blank">
                 {a.name}
               </a>
             );
@@ -123,121 +126,157 @@ const SoftInfoArticleLink = ({ links }: { links: SoftArticleLink[] }) => {
     </>
   );
 };
-
-const SoftPrompt = () => {
-  const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
-  const softInfo = softinfoExample;
-  const [changingSoft, setChangingSoft] = useState<SoftInfoType>();
-  const [choosenArticleId, setChoosenArticleId] = useState<string | undefined>();
-  const [actionArticle, setActionArticle] = useState<ArtileAction>();
-  const [chosenSoftId, setChosenSoftId] = useState<string>();
-  const showHandler = (id: string) => {
-    setChoosenArticleId(id);
-    setActionArticle('show');
-  };
+const ArticleRow = ({ article }: { article: ArticlesName }) => {
+  const dispatch = useAppDispatch();
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
-    useRemoveEntity<number>(-1);
-  const [deleteSoftInfo] = useDeleteSoftInfoMutation();
-  const [deleteArticleInfo] = useDeleteSoftArticleMutation();
-  const changeHandler = async (id: string, e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    useRemoveEntity<string>('');
+  const choosenArticleId = useAppSelector(getArticleId);
+  const showHandler = (id: string) => {
+    dispatch(choseArticleId(id));
+    dispatch(changeActionArticle('show'));
+  };
+  const changeHandler = async (id: string, e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
     e.preventDefault();
-    setActionArticle('change');
-    setChoosenArticleId(id);
+    dispatch(changeActionArticle('change'));
+    dispatch(choseArticleId(id));
   };
-  const newHandler = (softId: string) => {
-    setChosenSoftId(softId);
-    setActionArticle('new');
-  };
+  const [deleteArticleInfo] = useDeleteSoftArticleMutation();
+  return (
+    <div
+      onClick={() => showHandler(article.id)}
+      key={article.id}
+      className={style.articleNameContainer}
+    >
+      <span className={style.articleName}>{article.name}</span>
+      <span onClick={(e) => changeHandler(article.id, e)}>
+        <EditIcon />
+      </span>
+      <span
+        onClick={(e) => {
+          e.stopPropagation();
+          setRemoveId(article.id);
+          setIsShowRemoveModal(true);
+        }}
+      >
+        <RemoveIcon />
+      </span>
 
-  const ArticleRow = ({ article }: { article: ArticlesName }) => {
-    const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
-      useRemoveEntity<string>('');
-    return (
-      <li onClick={() => showHandler(article.id)} key={article.id}>
-        {article.name}
-        <input type="button" onClick={(e) => changeHandler(article.id, e)} value="Change" />
-        <input
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setRemoveId(article.id);
-            setIsShowRemoveModal(true);
+      {isShowRemoveModal && (
+        <RemoveAgreePortal
+          remove={() => {
+            deleteArticleInfo(removeId);
+
+            if (choosenArticleId === removeId) dispatch(changeActionArticle('show'));
+            dispatch(choseArticleId(undefined));
           }}
-          value="Delete"
+          close={() => setIsShowRemoveModal(false)}
         />
+      )}
+    </div>
+  );
+};
 
-        {isShowRemoveModal && (
-          <RemoveAgreePortal
-            remove={() => {
-              deleteArticleInfo(removeId);
-              setChoosenArticleId(undefined);
-              if (choosenArticleId === removeId) setActionArticle(undefined);
-            }}
-            close={() => setIsShowRemoveModal(false)}
-          />
-        )}
-      </li>
-    );
+const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
+  const [deleteSoftInfo] = useDeleteSoftInfoMutation();
+  const dispatch = useAppDispatch();
+  const chosenSoftId = useAppSelector(getSoftId);
+  const newHandler = (softId: string) => {
+    dispatch(choseSoftId(softId));
+    dispatch(changeActionArticle('new'));
   };
 
-  const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
-    return (
+  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
+    useRemoveEntity<number>(-1);
+  return (
+    <>
       <div key={soft.id}>
-        <li>
-          {soft.name}
-          <input type="button" onClick={() => newHandler(soft.id)} value="Новая заметка" />
-          <input
-            type="button"
+        <div className={`${style.sofinfoName}`}>
+          <p>{soft.name}</p>
+          <AddIcon onClick={() => newHandler(soft.id)} />
+          <span
             onClick={() => {
               setRemoveId(parseInt(soft.id));
               setIsShowRemoveModal(true);
             }}
-            value="Delete"
-          />
-        </li>
-        <ul>
+          >
+            <RemoveIcon />
+          </span>
+          <span
+            onClick={() => {
+              dispatch(changeSoft(soft));
+              dispatch(choseAct('change'));
+            }}
+          >
+            <EditIcon />
+          </span>
+        </div>
+        <div className={style.articleNames}>
           {soft.softArticle.map((an) => (
             <ArticleRow article={an} key={an.id} />
           ))}
-        </ul>
+        </div>
       </div>
-    );
-  };
-
-  return (
-    <>
-      <h2>Информация по программам </h2>
-      <SoftPromptForm softInfo={changingSoft} clearCallback={() => setChangingSoft(undefined)} />
-      <aside>
-        <ul>
-          {softInfo.map((soft, i) => {
-            return <SoftInfo soft={soft} />;
-          })}
-        </ul>
-      </aside>
-
-      {actionArticle && (
-        <SoftInfoArticle
-          articleId={choosenArticleId}
-          action={actionArticle}
-          softId={chosenSoftId}
-          callback={(articleId: string) => {
-            setChoosenArticleId(articleId);
-            setActionArticle('show');
-          }}
-        />
-      )}
 
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => {
             deleteSoftInfo(removeId);
-            setChosenSoftId(undefined);
-            if (chosenSoftId === removeId.toString()) setActionArticle(undefined);
+            dispatch(changeSoft(undefined));
+            if (chosenSoftId === removeId.toString()) {
+              dispatch(changeSoft(undefined));
+              dispatch(changeActionArticle('show'));
+            }
           }}
           close={() => setIsShowRemoveModal(false)}
         />
+      )}
+    </>
+  );
+};
+
+const SoftPrompt = () => {
+  const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
+  const softInfo = softinfoExample;
+
+  const softAction = useAppSelector(getChosenchosenAction);
+  const changingSoft = useAppSelector(getChangingSoft);
+  const dispatch = useAppDispatch();
+  const actionArticle = useAppSelector(getActionArticle);
+
+  useEffect(() => {
+    dispatch(choseAct('show'));
+  }, []);
+
+  const clearHandler = () => {
+    dispatch(changeSoft(undefined));
+    dispatch(changeActionArticle('show'));
+  };
+  return (
+    <>
+      <div className={style.head}>
+        <AddIcon
+          onClick={() => {
+            dispatch(choseAct('add'));
+          }}
+        />
+        <p>Информация по программам </p>
+      </div>
+      {softAction == 'show' && (
+        <main className={style.main}>
+          <aside className={style.softMenu}>
+            {softInfo.map((soft, i) => {
+              return <SoftInfo soft={soft} />;
+            })}
+          </aside>
+          <section>{actionArticle && <SoftInfoArticle />}</section>
+        </main>
+      )}
+      {softAction == 'change' && (
+        <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
+      )}
+      {softAction == 'add' && (
+        <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
       )}
     </>
   );

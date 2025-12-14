@@ -34,34 +34,6 @@ const App = () => {
       </>
     </>
   );
-  // const appContent = (
-  //   <>
-  //     <button onClick={() => noOrgHandler()} data-testid="withoutOrg">
-  //       Услуги без организации
-  //     </button>
-  //     <button onClick={() => dispatch(isWithoutOrg(false))} data-testid="includeOrg">
-  //       Oрганизации
-  //     </button>
-  //     {isNoOrg ? (
-  //       <>
-  //         <Services />
-  //       </>
-  //     ) : (
-  //       <>
-  //         <Organization />
-  //         {orgId == undefined ? (
-  //           <h2>Выберите организацию</h2>
-  //         ) : (
-  //           <>
-  //             <Services />
-  //             <Contracts />
-  //             <Personals />
-  //           </>
-  //         )}
-  //       </>
-  //     )}
-  //   </>
-  // );
 
   return appContent;
 };

@@ -30,12 +30,16 @@ const Services = () => {
   const [changingService, setChangingService] = useState<Service | undefined>();
 
   useEffect(() => {
+    console.log(services);
     if (choosenOrg !== null) {
-      loadServices({
-        orgId: choosenOrg.id,
-        month: choosenMonth,
-        isPaid: choosenOrg.id == 0 ? true : isPaid,
-      });
+      loadServices(
+        {
+          orgId: choosenOrg.id,
+          month: choosenMonth,
+          isPaid: choosenOrg.id == 0 ? true : isPaid,
+        },
+        true
+      );
     }
   }, [choosenOrg, choosenMonth, isPaid]);
 
@@ -103,7 +107,7 @@ const Services = () => {
       )}
     </>
   );
-  return isLoading ? <Loading /> : page;
+  return page;
 };
 
 export default Services;

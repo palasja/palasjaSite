@@ -88,4 +88,6 @@ export type SoftInfo = {
 };
 
 export type OrgInfo = 'org' | 'service' | 'contract' | 'personal' | 'act' | null;
+export type Software = 'info' | 'article' | null;
 export type OrgInfoAction = 'change' | 'add' | 'show' | null;
+export type ArtileAction = 'show' | 'change' | 'new';

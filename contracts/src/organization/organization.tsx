@@ -147,7 +147,7 @@ const Organization = () => {
     </>
   );
 
-  return isLoading ? <Loading /> : page;
+  return page;
 };
 
 export default Organization;

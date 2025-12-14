@@ -21,6 +21,7 @@ import {
   useDeleteSoftArticleLinkMutation,
   useUpdateSoftArticleLinkMutation,
 } from '../redux/slices/softInfoArticleLinkRTK';
+import { AddIcon, RemoveIcon } from '../components/icons/icons';
 
 type ChangingSoftArticleFormProps = {
   changingSoftArticle: SoftArticleType | undefined;
@@ -45,11 +46,11 @@ const ImageContainer = ({
   removeCallback: () => void;
 }) => {
   return (
-    <div area-soft-info="" onClick={setActive}>
-      <div className={style.closeBtn} onClick={removeCallback}>
-        X
-      </div>
+    <div area-soft-info="" onClick={setActive} className={style.imageCont}>
       <img id={id} src={img}></img>
+      <div className={style.closeBtn} onClick={removeCallback}>
+        <RemoveIcon />
+      </div>
     </div>
   );
 };
@@ -299,9 +300,9 @@ const SoftInfoArticleForm = ({
             })}
             className={errors?.softLinks?.[index]?.url ? 'error' : ''}
           />
-          <button type="button" onClick={() => remove(index)}>
-            Удалить
-          </button>
+          <span onClick={() => remove(index)} className={style.removeIconCont}>
+            <RemoveIcon />
+          </span>
         </section>
       </div>
     );
@@ -317,13 +318,17 @@ const SoftInfoArticleForm = ({
               required: true,
             })}
           />
-          <h3>Ссылки</h3>
+          <div className={style.addLink}>
+            <AddIcon onClick={() => append({ id: '0', name: '', url: '', softArticleId: '' })} />
+            <p>Ссылки </p>
+          </div>
+          {/* <h3>Ссылки</h3>
           <button
             type="button"
             onClick={() => append({ id: '0', name: '', url: '', softArticleId: '' })}
           >
             Добавить ссылку
-          </button>
+          </button> */}
           {fields.map((field, index) => {
             return <LinkRow id={field.id} index={index} />;
           })}

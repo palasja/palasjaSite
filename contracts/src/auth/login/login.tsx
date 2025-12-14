@@ -9,8 +9,8 @@ import {
 import { useEffect, useState } from 'react';
 import authImg from '/loginImg.png';
 import { useDispatch } from 'react-redux';
-import { useAppDispatch } from '../../redux/hooks';
-import { changeIsAuth } from '../../redux/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { changeIsAuth, changeIsCheked, getIsChecked } from '../../redux/slices/authSlice';
 
 type FormValues = {
   login: string;
@@ -27,7 +27,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
   const [login] = useLazyLoginQuery();
   const [signin] = useLazySigninQuery();
   const [check] = useLazyCheckQuery();
-  const [isCheked, setIsChecked] = useState(false);
+  const isCheked = useAppSelector(getIsChecked);
   const [isError, setIsError] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -48,17 +48,15 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
   };
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const result = await check().unwrap();
-        if (result == 'OK') {
-          dispatch(changeIsAuth(true));
-          navigate('/contract');
-        }
-      } catch {
-        setIsChecked(true);
+      dispatch(changeIsCheked(true));
+      const result = await check().unwrap();
+      if (result == 'OK') {
+        dispatch(changeIsAuth(true));
+
+        navigate('/contract');
       }
     };
-    checkAuth();
+    if (!isCheked) checkAuth();
   }, []);
   return (
     isCheked && (

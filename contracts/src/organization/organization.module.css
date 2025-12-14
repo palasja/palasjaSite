@@ -57,7 +57,7 @@
   visibility: visible;
 }
 .subButton {
-  background-color: var(--color-btn);
+  background-color: var(--color-white);
   padding: 0 15px;
   flex-grow: 1;
 }

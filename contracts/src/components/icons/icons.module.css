@@ -9,9 +9,7 @@
   width: 45px !important;
   height: 45px !important;
 }
-.addOrg:hover,
-.add:hover,
-.pay:hover {
+.changeColor:hover {
   color: var(--color-btn_hover);
 }
 .addContainer {

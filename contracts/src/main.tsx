@@ -15,16 +15,25 @@ import Logout from './auth/logout';
 import SoftPrompt from './softPrompt';
 import Footer from './components/footer';
 import Header from './components/header';
+import Loading from './components/loading';
+import { useAppSelector } from './redux/hooks';
+import { getIsLoading } from './redux/slices/authSlice';
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return <div className={style.wrapper}>{children}</div>;
 };
 
+const Loader = () => {
+  const isApiLoading = useAppSelector(getIsLoading);
+
+  return isApiLoading && <Loading />;
+};
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store()}>
       <Wrapper>
         <BrowserRouter>
+          <Loader />
           <Header />
           <div className={style.content}>
             <Routes>

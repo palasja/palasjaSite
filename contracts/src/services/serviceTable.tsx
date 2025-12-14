@@ -57,17 +57,17 @@ const ServiceTable = ({
       {
         accessorKey: 'count',
         header: 'Кол-во',
-        size: 100,
+        size: 50,
       },
       {
         accessorKey: 'description',
         header: 'Детали',
-        size: 300,
+        size: 350,
       },
       {
         accessorKey: 'ispaid',
         header: 'Оплачено',
-        size: 100,
+        size: 50,
         Cell: ({ row }) => {
           return row.original.ispaid ? <CreditScoreIconMaterial /> : <CreditCardOffIconMaterial />;
         },
@@ -82,7 +82,7 @@ const ServiceTable = ({
     enableRowActions: true,
     positionActionsColumn: 'last',
     renderRowActions: ({ row }) => (
-      <Box width={150}>
+      <Box width={100}>
         <IconButton
           onClick={() => {
             edit(data.find((p) => p.id === row.original.id) as Service);

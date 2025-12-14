@@ -33,7 +33,6 @@ const Stats = () => {
     const dateArr = services.map((s) => new Date(s.date).getTime());
     const minDate = new Date(Math.min(...dateArr));
     let maxDate = new Date(Math.max(...dateArr));
-    console.log(services[services.length - 1]);
     maxDate = new Date(maxDate.setMonth(maxDate.getMonth()));
 
     let firstDay = new Date(`${minDate.getFullYear()}-${minDate.getMonth() + 1}`);
@@ -73,7 +72,7 @@ const Stats = () => {
         <SVGAxis columnInfo={getOrganizationCost(servicesCost)} entity={organizations} />
       )}
 
-      <select onChange={(e) => chooseMonthHandler(e.target.value)} defaultValue={choosenMonth}>
+      {/* <select onChange={(e) => chooseMonthHandler(e.target.value)} defaultValue={choosenMonth}>
         {MONTH_R.map((e, i) => {
           return (
             <option value={i} key={i}>
@@ -95,7 +94,7 @@ const Stats = () => {
           })}
           <p>Без организаций - {getServicesCost(services.filter((s) => s.orgId === null))}</p>
         </>
-      )}
+      )} */}
     </>
   );
 };
