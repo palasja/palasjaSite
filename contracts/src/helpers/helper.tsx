@@ -84,7 +84,20 @@ export const getServicesCost = <T extends { cost: number; count: number }>(servi
   // services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;
 };
-
+export const getServicesCostByMonth = <T extends { time: number }>(
+  services: T[],
+  monthPayment: number
+) => {
+  const WORKDAY_IN_MONTH = 20;
+  const HOUR_IN_WORKDAY = 8;
+  const MIN_IN_HOUR = 60;
+  const dayCost = monthPayment / WORKDAY_IN_MONTH;
+  const hourCost = dayCost / HOUR_IN_WORKDAY;
+  const minuteCost = hourCost / MIN_IN_HOUR;
+  const workTimeInMonth = services.reduce((result, s) => result + s.time, 0);
+  const result = workTimeInMonth * minuteCost;
+  return Math.ceil(result * 100) / 100;
+};
 export const currencyOption: ConvertOptions = {
   currency: {
     currencyNameCases: ['белорусский рубль', 'белорусских рубля', 'белорусских рублей'], // [1 рубль, 2-4 рубля, 5-9 рублей]

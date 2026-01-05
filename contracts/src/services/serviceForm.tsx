@@ -50,6 +50,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
       setValue('place', changingService.place);
       setValue('cost', changingService.cost);
       setValue('count', changingService.count);
+      setValue('time', changingService.time);
       setValue('description', changingService.description);
     }
   }, []);
@@ -127,6 +128,17 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               placeholder="Количество"
               {...register('count', {
                 min: { value: 1, message: 'Количество должна быть больше 0' },
+              })}
+            />
+          </div>
+          <div className={formStyle.fieldContainer}>
+            <label htmlFor="time">Время</label>
+            <input
+              type="number"
+              defaultValue={0}
+              placeholder="Время"
+              {...register('time', {
+                min: { value: 0, message: 'Время не может быть отрицательным' },
               })}
             />
           </div>

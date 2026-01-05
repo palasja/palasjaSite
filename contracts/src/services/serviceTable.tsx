@@ -31,13 +31,13 @@ const ServiceTable = ({
     () => [
       {
         accessorKey: 'name',
-        header: 'Наименование',
-        size: 200,
+        header: 'Услуга',
+        size: 100,
       },
       {
         accessorKey: 'date',
         header: 'Дата услуги',
-        size: 100,
+        size: 50,
       },
       {
         accessorKey: 'user',
@@ -57,12 +57,17 @@ const ServiceTable = ({
       {
         accessorKey: 'count',
         header: 'Кол-во',
+        size: 40,
+      },
+      {
+        accessorKey: 'time',
+        header: 'Время',
         size: 50,
       },
       {
         accessorKey: 'description',
         header: 'Детали',
-        size: 350,
+        size: 250,
       },
       {
         accessorKey: 'ispaid',

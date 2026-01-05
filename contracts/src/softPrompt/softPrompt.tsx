@@ -51,10 +51,9 @@ const SoftInfoArticle = () => {
   const action = useAppSelector(getActionArticle);
   const softId = useAppSelector(getSoftId);
   const { data: article, isSuccess } = useGetSoftArticleQuery(articleId ?? skipToken);
-  const {
-    data: links,
-    isSuccess: isSuccessLinks,
-  } = useGetSoftArticleLinksQuery(articleId ?? skipToken);
+  const { data: links, isSuccess: isSuccessLinks } = useGetSoftArticleLinksQuery(
+    articleId ?? skipToken
+  );
   return (
     <>
       {action === 'new' && softId && (

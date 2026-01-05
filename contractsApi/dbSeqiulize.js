@@ -108,6 +108,10 @@ let sequelize = new Sequelize(
           type: DataTypes.FLOAT,
           allowNull: false
         },
+        time:{
+          type: DataTypes.INTEGER,
+          defaultValue: 0
+        },
         count: {
           type: DataTypes.INTEGER,
           allowNull: false,

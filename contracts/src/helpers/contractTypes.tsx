@@ -31,6 +31,7 @@ export type Service = {
   user: string;
   place: string;
   cost: number;
+  time: number;
   count: number;
   orgId?: string;
   description: string;

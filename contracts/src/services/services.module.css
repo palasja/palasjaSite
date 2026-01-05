@@ -11,3 +11,16 @@
   gap: 50px;
   margin-left: 50px;
 }
+.infoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.costInfo {
+  text-align: center;
+}
+.cost {
+  color: var(--color-main);
+  font-size: 20px;
+  font-weight: 500;
+}

@@ -9,12 +9,13 @@ import {
   useDeleteServiceMutation,
   useLazyGetServicesByOrgIdMonthQuery,
 } from '../redux/slices/servicesRTKSlice';
-import Loading from '../components/loading';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import ServiceTable from './serviceTable';
 import { AddIcon } from '../components/icons/icons';
 import style from './services.module.css';
+import { getServicesCost, getServicesCostByMonth } from '../helpers/helper';
+import { WISHPAYMENT_IN_MOOONTH } from '../helpers/constants';
 
 const Services = () => {
   const [isPaid, setIsPaid] = useState(false);
@@ -63,16 +64,32 @@ const Services = () => {
         <AddIcon onClick={addHandler} />
         <p>Услуги {choosenOrg && `( ${choosenOrg.name} )`}</p>
       </div>
+      <div className={style.infoContainer}>
+        <label htmlFor="paid">Оплаченые</label>
+        {choosenOrg?.id != 0 && (
+          <input
+            type="checkbox"
+            name="paid"
+            defaultChecked={isPaid}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
+          />
+        )}
+        <div className={style.costInfo}>
+          <p>
+            {' '}
+            Стоимость работ:{' '}
+            <span className={style.cost}>{services ? getServicesCost(services) : 0}</span>
+          </p>
+          <p>
+            {' '}
+            Стоимость по времени (3к/мес):{' '}
+            <span className={style.cost}>
+              {services ? getServicesCostByMonth(services, WISHPAYMENT_IN_MOOONTH) : 0}
+            </span>
+          </p>
+        </div>
+      </div>
 
-      <label htmlFor="paid">Оплаченые</label>
-      {choosenOrg?.id != 0 && (
-        <input
-          type="checkbox"
-          name="paid"
-          defaultChecked={isPaid}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handlerPaidService(e.target.checked)}
-        />
-      )}
       <div>
         {isPaid && (
           <select
