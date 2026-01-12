@@ -49,7 +49,7 @@ describe('pages count', () => {
       orgId: '',
     } as Contract;
     renderWithProviders(
-      <ActZKH contract={contract} personal={personals} services={services} signDate={date} />,
+      <ActZKH contract={contract} personal={personals} services={services} signDate={date} startDate={date} endDate={date}/>,
       {
         preloadedState: {
           services: {
@@ -107,7 +107,7 @@ describe('pages count', () => {
       orgId: '',
     } as Contract;
     renderWithProviders(
-      <ActZKH contract={contract} personal={personals} services={services} signDate={date} />,
+      <ActZKH contract={contract} personal={personals} services={services} signDate={date} startDate={date} endDate={date}/>,
       {
         preloadedState: {
           services: {
