@@ -22,6 +22,8 @@ type ActZKHProps = {
   personal: Personal[];
   services: Service[];
   signDate: Date;
+  startDate: Date;
+  endDate: Date;
 };
 type ActZKHHeadProps = {
   head?: Personal;
@@ -36,6 +38,8 @@ type ActZKTableProps = {
   groupedServices: ServiceForTableType[];
   itog?: number;
   choosenMonth?: string;
+  startDate: Date;
+  endDate: Date;
 };
 const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] => {
   const grouped = Object.groupBy(services, (s) => s.name + s.cost);
@@ -74,7 +78,7 @@ const ActZKHHead = ({ head, sign, signDate }: ActZKHHeadProps) => {
         <p>
           _______________<span className={style.variable}>{getShortName(head)}</span>
         </p>
-        <p>«___»___________2025</p>
+        <p>«___»___________{signDate.getFullYear()}</p>
       </div>
       <div className={style.act}>
         <p>АКТ</p>
@@ -127,7 +131,7 @@ const ActZKHFooter = ({ sign, contract }: ActZKFooterProps) => {
     </>
   );
 };
-const ActZKHTable = ({ groupedServices, itog, choosenMonth }: ActZKTableProps) => {
+const ActZKHTable = ({ groupedServices, itog, choosenMonth, startDate, endDate }: ActZKTableProps) => {
   return (
     <>
       <table className={style.actTtable}>
@@ -172,11 +176,11 @@ const ActZKHTable = ({ groupedServices, itog, choosenMonth }: ActZKTableProps) =
           <p>
             в полном объеме с{' '}
             <span className={style.variable}>
-              {new Date(2025, Number(choosenMonth)).toLocaleDateString('ru-RU')}
+              {startDate.toLocaleDateString('ru-RU')}
             </span>{' '}
             по{' '}
             <span className={style.variable}>
-              {new Date(2025, Number(choosenMonth) + 1, 0).toLocaleDateString('ru-RU')}
+              {endDate.toLocaleDateString('ru-RU')}
             </span>{' '}
             согласно заключенного договора подряда.
           </p>
@@ -185,7 +189,7 @@ const ActZKHTable = ({ groupedServices, itog, choosenMonth }: ActZKTableProps) =
     </>
   );
 };
-const ActZKH = ({ contract, personal, services, signDate }: ActZKHProps) => {
+const ActZKH = ({ contract, personal, services, signDate, startDate, endDate }: ActZKHProps) => {
   const choosenMonth = useAppSelector(getChoosenMonth);
   const head = personal[0];
   const sign = personal[1];
@@ -205,20 +209,21 @@ const ActZKH = ({ contract, personal, services, signDate }: ActZKHProps) => {
       {pageCount === 1 ? (
         <PageWrapper>
           <ActZKHHead head={head} sign={sign} signDate={signDate} />
-          <ActZKHTable groupedServices={groupedServices} itog={itog} choosenMonth={choosenMonth} />
+          <ActZKHTable groupedServices={groupedServices} itog={itog} choosenMonth={choosenMonth} startDate={startDate} endDate={endDate}/>
           <ActZKHFooter contract={contract} sign={sign} />
         </PageWrapper>
       ) : (
         <>
           <PageWrapper>
             <ActZKHHead head={head} sign={sign} signDate={signDate} />
-            <ActZKHTable groupedServices={groupedServices.slice(0, breackPage)} />
+            <ActZKHTable groupedServices={groupedServices.slice(0, breackPage)} startDate={startDate} endDate={endDate}/>
           </PageWrapper>
           <PageWrapper>
             <ActZKHTable
               groupedServices={groupedServices.slice(breackPage)}
               itog={itog}
               choosenMonth={choosenMonth}
+              startDate={startDate} endDate={endDate}
             />
             <ActZKHFooter contract={contract} sign={sign} />
           </PageWrapper>

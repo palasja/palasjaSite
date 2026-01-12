@@ -10,7 +10,6 @@ import { useAppSelector } from '../../redux/hooks';
 import { getChoosenMonth } from '../../redux/slices/servicesSlice';
 import PageWrapper from '../pageWrapper';
 import { Contract, Personal, Service } from '../../helpers/contractTypes';
-const REPRESENTOR_POSITION = 'бухгалтер';
 type ActPMSProps = {
   contract: Contract;
   personal: Personal[];

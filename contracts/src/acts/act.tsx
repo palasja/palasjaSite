@@ -15,8 +15,7 @@ import ActPMS from './act_PMS';
 import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { chooseMonth, getChoosenMonth } from '../redux/slices/servicesSlice';
-import { chooseOrg, getChosenOrganization } from '../redux/slices/orgsSlice';
-import { useGetOrganizationQuery } from '../redux/slices/organizationRTKSlice';
+import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useLazyGetContractsByOrgIdMonthQuery } from '../redux/slices/contractRTKSlice';
 import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
 import { useLazyGetServicesByOrgIdMonthQuery } from '../redux/slices/servicesRTKSlice';
@@ -70,10 +69,23 @@ const Act = () => {
   const [signDate, useSignDate] = useState(
     getDateString(new Date().setDate(new Date().getDate() + 1))
   );
-
-  const changeDateHandler = (date: string) => {
+  const [startDate, useStartDate] = useState(
+    new Date(new Date().getFullYear(), Number(choosenMonth))
+  );
+  const [endDate, useEndDate] = useState(
+    new Date(new Date().getFullYear(), Number(choosenMonth) + 1, 0)
+  );
+  const changeSignDateHandler = (date: string) => {
     const newDate = getDateString(date);
     useSignDate(newDate);
+  };
+  const changeStartDateHandler = (date: string) => {
+    const newDate = getDateString(date);
+    useStartDate(newDate);
+  };
+  const changeEndDateHandler = (date: string) => {
+    const newDate = getDateString(date);
+    useEndDate(newDate);
   };
 
   const findPerson = (id: string) => {
@@ -181,7 +193,29 @@ const Act = () => {
                 name="signDate"
                 value={signDate.toLocaleString('sv-SE').slice(0, 10)}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  changeDateHandler(e.target.value);
+                  changeSignDateHandler(e.target.value);
+                }}
+              />
+            </div>
+            <div className={style.dataSign}>
+              <label htmlFor="startDate">Дата начала</label>
+              <input
+                type="date"
+                name="startDate"
+                value={startDate.toLocaleString('sv-SE').slice(0, 10)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  changeStartDateHandler(e.target.value);
+                }}
+              />
+            </div>
+            <div className={style.dataSign}>
+              <label htmlFor="endDate">Дата окончания</label>
+              <input
+                type="date"
+                name="endDate"
+                value={endDate.toLocaleString('sv-SE').slice(0, 10)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  changeEndDateHandler(e.target.value);
                 }}
               />
             </div>
@@ -197,6 +231,8 @@ const Act = () => {
               personal={personalByOrder}
               services={services}
               signDate={signDate}
+              startDate={startDate}
+              endDate={endDate}
             />
           </>
         ) : (

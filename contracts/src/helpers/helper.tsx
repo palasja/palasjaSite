@@ -76,7 +76,7 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
   } else {
     itogSummNDS = (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
   }
-  return itogSummNDS;
+  return circleCost(itogSummNDS);
 };
 
 export const getServicesCost = <T extends { cost: number; count: number }>(services: T[]) => {

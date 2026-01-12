@@ -48,8 +48,8 @@ const newTokenToRes = (res) => {
     res.cookie('accessToken', newAccessToken, options);
     res.cookie('refreshToken', newRefreshToken, options);
 }
- mysql.createConnection({
-        user : process.env.MYSQL_ADMIN,
+mysql.createConnection({
+      user : process.env.MYSQL_ADMIN,
       password : process.env.MYSQL_ADMIN_PASSWORD,
         // user     : "palasja",
         // password : "wania-0806"
