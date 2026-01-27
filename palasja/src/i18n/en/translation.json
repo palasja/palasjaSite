@@ -63,7 +63,7 @@
           "desc": "This project was done as 'turnkey'. By the beginning of development, I had written several pet projects that worked locally and wanted to write a full-fledged site for hosting. A friend offer me to write a site and I got down to work with pleasure. /n The designer made a layout in Figma. Initially, the Faunadb service was used to store data, and hosting was planned on Netlify. However, when everything was in the final stage, it turned out that according to the law, sites selling or advertising goods and services must be hosted on hostings within the country. /n So the database was rewritten for MySQL and the site was hosted using CPanel."
         },
         "contracts": {
-          "desc": "Now I have several contracts for servicing programs and peripheral equipment of organizations. To account for the services provided and to keep records of settlement transactions, the Contracts project was written."
+          "desc": "Starting from 2025 I servicing programs and peripheral equipment of organizations. The project Contracts was written to account services provided, to form documents for payments and to keep statistics."
         },
         "payroll": {
           "desc": "At the end of the Advanced C# course, I had to write an exam project. I wrote a project of accounting for organizations that have signed a contract with IVCMinfina for the maintenance of software and PCs and servers. The project included a list of organizations, contracts and contact persons. /n During the first years of my work at IVCMinfin, the payroll were sent by mail and there were only a few lines, everything was readable and understandable. But over time, they became more and more complicated and began to be sent in the form of an Excel document. /n In order to simplify the control of payments according to the contracts, as well as the general reading and understanding of payments and deductions, the project has added the ability to download payroll and view payments in a convenient way. Later, authentication was added for restrict access to information of payments."
@@ -113,6 +113,9 @@
       },
       "gusmary": {
         "desc": "The site consists of a user version and an administrator version. /n The user version contains advertising blocks, information, and a section for checking free time for appointment. To raise the search results, the user version was rewritten to SSR. /n The administrator version allows you to add and edit data, in the demo version these functions are not available. Web tokens were used for authorization in the admin panel, in the demo version there is no authorization. /n The site was deployed on a hosting with the CPanel hosting control panel. /n The project is written in React and uses the following functional packages:"
+      },
+      "contracts": {
+        "desc": "The API is written using Express webserver, MySQL database and sequelize ORM. /n Statistics are displayed in a custom chart. The data in the table is formed in material-react-table. The site is deployed using on a host with the CPanel hosting control panel using git workflow./n The project is written in React and uses functional packages:"
       }
     }
   }

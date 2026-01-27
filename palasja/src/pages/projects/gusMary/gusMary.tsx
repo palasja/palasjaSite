@@ -9,8 +9,7 @@ const GusMary = () => {
   const { t } = useTranslation();
   return (
     <>
-      <ProjectName projName='GusMaryHair'/>
-      <a href='http://gusmary.palasja.site/'>GusMaryHair</a>
+      <ProjectName projName='GusMaryHair' link='http://gusmary.palasja.site/'/>
       {splitLineGetParagragh(t('proj.gusmary.desc'))}
       <ul>
         <li>vite</li>

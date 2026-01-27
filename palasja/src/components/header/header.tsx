@@ -18,7 +18,9 @@ const Header = () => {
     <header className={style.header}>
       <ContentContainer>
         <div className={style.inner} id='test'>
-          <p className={style.logo}> {t('menu.firstName')} <br/> {t('menu.lastName')}</p>
+          <NavLink className={style.logo} to={'/'}
+            >{t('menu.firstName')} <br/> {t('menu.lastName')}</NavLink>
+          {/* <a className={style.logo}> </a> */}
           <nav className={style.nav}>
             <NavLink className={style.link} to={'/'}
             >
@@ -39,14 +41,6 @@ const Header = () => {
               </div>
             </div>
           </nav>
-          
-          {/* <div className={style.nav}>
-          <select className={style.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-            <option value="ru">ru</option>
-            <option value="en">en</option>
-            <option value="by">by</option>
-          </select>
-        </div> */}
           <LangSelect />
         </div>
       </ContentContainer>

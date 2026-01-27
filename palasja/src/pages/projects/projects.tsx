@@ -2,14 +2,14 @@ import { Link, useLocation } from 'react-router';
 import { Outlet } from 'react-router';
 import style from './projects.module.css';
 import srvScanCode from './srcScan/code_en';
-import { t } from 'i18next';
 import { splitLineGetParagragh } from '../../helpers/heper';
 import { ContentContainer } from '../../components/containers/contentContainer';
+import { useTranslation } from 'react-i18next';
 
 const Projects = () => {
   const srvScanReg = new RegExp(/SrvScan/i);
   const projectsReg = new RegExp(/projects$/i);
-
+  const { t } = useTranslation();
   const location = useLocation();
 
   return (
