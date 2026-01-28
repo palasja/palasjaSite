@@ -131,7 +131,13 @@ const ActZKHFooter = ({ sign, contract }: ActZKFooterProps) => {
     </>
   );
 };
-const ActZKHTable = ({ groupedServices, itog, choosenMonth, startDate, endDate }: ActZKTableProps) => {
+const ActZKHTable = ({
+  groupedServices,
+  itog,
+  choosenMonth,
+  startDate,
+  endDate,
+}: ActZKTableProps) => {
   return (
     <>
       <table className={style.actTtable}>
@@ -175,14 +181,9 @@ const ActZKHTable = ({ groupedServices, itog, choosenMonth, startDate, endDate }
           </p>
           <p>
             в полном объеме с{' '}
-            <span className={style.variable}>
-              {startDate.toLocaleDateString('ru-RU')}
-            </span>{' '}
-            по{' '}
-            <span className={style.variable}>
-              {endDate.toLocaleDateString('ru-RU')}
-            </span>{' '}
-            согласно заключенного договора подряда.
+            <span className={style.variable}>{startDate.toLocaleDateString('ru-RU')}</span> по{' '}
+            <span className={style.variable}>{endDate.toLocaleDateString('ru-RU')}</span> согласно
+            заключенного договора подряда.
           </p>
         </div>
       )}
@@ -209,21 +210,32 @@ const ActZKH = ({ contract, personal, services, signDate, startDate, endDate }: 
       {pageCount === 1 ? (
         <PageWrapper>
           <ActZKHHead head={head} sign={sign} signDate={signDate} />
-          <ActZKHTable groupedServices={groupedServices} itog={itog} choosenMonth={choosenMonth} startDate={startDate} endDate={endDate}/>
+          <ActZKHTable
+            groupedServices={groupedServices}
+            itog={itog}
+            choosenMonth={choosenMonth}
+            startDate={startDate}
+            endDate={endDate}
+          />
           <ActZKHFooter contract={contract} sign={sign} />
         </PageWrapper>
       ) : (
         <>
           <PageWrapper>
             <ActZKHHead head={head} sign={sign} signDate={signDate} />
-            <ActZKHTable groupedServices={groupedServices.slice(0, breackPage)} startDate={startDate} endDate={endDate}/>
+            <ActZKHTable
+              groupedServices={groupedServices.slice(0, breackPage)}
+              startDate={startDate}
+              endDate={endDate}
+            />
           </PageWrapper>
           <PageWrapper>
             <ActZKHTable
               groupedServices={groupedServices.slice(breackPage)}
               itog={itog}
               choosenMonth={choosenMonth}
-              startDate={startDate} endDate={endDate}
+              startDate={startDate}
+              endDate={endDate}
             />
             <ActZKHFooter contract={contract} sign={sign} />
           </PageWrapper>

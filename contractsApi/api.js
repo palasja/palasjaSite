@@ -210,11 +210,12 @@ router.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-router.get('/getContractByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
+router.get('/getContractByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
+  const year = Number(req.params.year);
   const orgId = req.params.orgId;
-  const firstWorkDayDate  = new Date(2025, month);
-  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
+  const firstWorkDayDate  = new Date(year, month);
+  const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
   let result = await Contracts.findOne({
         attributes: {
@@ -305,12 +306,13 @@ router.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
-router.get('/getServicesByOrgIdMonth/:orgId/:month', asyncHandler( async (req, res) => {
+router.get('/getServicesByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
+  const year = Number(req.params.year);
   let orgId = req.params.orgId;
   if(orgId == '0') orgId = null;
-  const firstWorkDayDate  = new Date(2025, month);
-  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
+  const firstWorkDayDate  = new Date(year, month);
+  const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
    let result = await Service.findAll({
   where: {
@@ -339,10 +341,11 @@ router.get('/getServicesUnpaidByOrgId/:orgId', asyncHandler( async (req, res) =>
   });
     res.status(200).json(result);
 }));
-router.get('/getServicesByMonth/:month', asyncHandler( async (req, res) => {
+router.get('/getServicesByMonth/:month/:year', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
-  const firstWorkDayDate  = new Date(2025, month);
-  const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
+  const year = Number(req.params.year);
+  const firstWorkDayDate  = new Date(year, month);
+  const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
    let result = await Service.findAll({
   where: {
@@ -384,24 +387,6 @@ router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   const startDate =req.params.startDate;
   const endDate = req.params.endDate;
   res.status(200).json({startDate, endDate});
-  // const orgId = req.params.orgId;
-  // const firstWorkDayDate  = new Date(2025, month);
-  // const lastWorkDayDate = new Date(2025, month+1, 0, 23, 59 );
-  
-  //  let result = await Service.findAll({
-  // where: {
-  //   orgId: orgId,
-  //     [Op.and]:[
-  //       {date: {
-  //         [Op.gte]: firstWorkDayDate
-  //       }},
-  //       {date: {
-  //         [Op.lte]: lastWorkDayDate
-  //       }}
-  //     ]
-  //   },
-  // });
-  //   res.status(200).json(result);
 }));
 router.put('/addService',  asyncHandler( async (req, res) => {
   let result = await Service.create(req.body);

@@ -1,6 +1,6 @@
 import { getServicesCost, MONTH_R } from '../helpers/helper';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { chooseMonth, getChoosenMonth } from '../redux/slices/servicesSlice';
+import { chooseMonth, getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import { useGetOrganizationQuery } from '../redux/slices/organizationRTKSlice';
 import {
   useLazyGetServicesCostQuery,
@@ -13,6 +13,7 @@ import SVGAxis from './SVGCan';
 const Stats = () => {
   const dispatch = useAppDispatch();
   const choosenMonth = useAppSelector(getChoosenMonth);
+  const choosenYear = useAppSelector(getChoosenYear);
   const [loadServices, { data: services, isLoading: isGetLoading }] =
     useLazyGetServicesByMonthQuery();
   const { data: organizations = [] } = useGetOrganizationQuery();
@@ -24,7 +25,7 @@ const Stats = () => {
 
   useEffect(() => {
     if (choosenMonth) {
-      loadServices(choosenMonth);
+      loadServices({month: choosenMonth, year: choosenYear});
       loadServicesCost();
     }
   }, [choosenMonth]);

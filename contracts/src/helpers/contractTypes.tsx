@@ -57,7 +57,13 @@ export type FetchStatus = 'idle' | 'pending' | 'succeeded' | 'rejected';
 export type OrgMonthPayment = {
   orgId: number | null;
   month: string;
+  year: string;
   isPaid?: boolean;
+};
+
+export type MonthYear = {
+  month: string;
+  year: string;
 };
 
 export type ContractScan = {

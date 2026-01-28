@@ -1,25 +1,19 @@
-import { useEffect, useState } from 'react';
 import style from './contracts.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import ContractForm from './contractsForm';
-import { getChoosenMonth } from '../redux/slices/servicesSlice';
 import {
   useGetContractsByOrgQuery,
-  useAddContractMutation,
   useDeleteContractMutation,
-  useUpdateContractMutation,
-  useLazyGetContractsScanQuery,
 } from '../redux/slices/contractRTKSlice';
 import { Contract } from '../helpers/contractTypes';
 import Loading from '../components/loading';
-import { getURLByBase64File } from '../helpers/helper';
 import { skipToken } from '@reduxjs/toolkit/query';
-import PersonalForm from '../personal/personalForm';
 import ContractTable from './contractTable';
 import { AddIcon } from '../components/icons/icons';
+import { useState } from 'react';
 
 const Contracts = () => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
@@ -27,9 +21,7 @@ const Contracts = () => {
   const dispatch = useAppDispatch();
   const action = useAppSelector(getChosenchosenAction);
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const choosenMonth = useAppSelector(getChoosenMonth);
   const [delContract] = useDeleteContractMutation();
-  const [getContractScan] = useLazyGetContractsScanQuery();
   const {
     data: contracts = [],
     isLoading,

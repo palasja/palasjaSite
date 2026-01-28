@@ -108,7 +108,6 @@ const ServiceTable = ({
             // const rowSelection = table.getState().rowSelection; //read state
             const selectedRows = table.getSelectedRowModel().rows; //or read entire rows
             const idArr = selectedRows.map((h) => h.original.id);
-            console.log(idArr);
             toPaidServices(idArr);
           }}
         />
@@ -117,7 +116,6 @@ const ServiceTable = ({
             // const rowSelection = table.getState().rowSelection; //read state
             const selectedRows = table.getSelectedRowModel().rows; //or read entire rows
             const idArr = selectedRows.map((h) => h.original.id);
-            console.log(idArr);
             toUnpaidServices(idArr);
           }}
         />

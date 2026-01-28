@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 // import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { getChoosenMonth, chooseMonth } from '../redux/slices/servicesSlice';
+import { getChoosenMonth, chooseMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
 import {
   useDeleteServiceMutation,
-  useLazyGetServicesByOrgIdMonthQuery,
+  useLazyGetServicesByOrgIdMonthYearQuery,
 } from '../redux/slices/servicesRTKSlice';
 import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
@@ -16,33 +16,35 @@ import { AddIcon } from '../components/icons/icons';
 import style from './services.module.css';
 import { getServicesCost, getServicesCostByMonth } from '../helpers/helper';
 import { WISHPAYMENT_IN_MOOONTH } from '../helpers/constants';
+import SelectMonthYear from '../components/selectMonthYear';
 
 const Services = () => {
   const [isPaid, setIsPaid] = useState(false);
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const choosenMonth = useAppSelector(getChoosenMonth);
+  const choosenYear = useAppSelector(getChoosenYear);
   const action = useAppSelector(getChosenchosenAction);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<number>(-1);
   const [loadServices, { data: services, isLoading, isFetching }] =
-    useLazyGetServicesByOrgIdMonthQuery();
+    useLazyGetServicesByOrgIdMonthYearQuery();
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
 
   useEffect(() => {
-    console.log(services);
     if (choosenOrg !== null) {
       loadServices(
         {
           orgId: choosenOrg.id,
           month: choosenMonth,
+          year: choosenYear,
           isPaid: choosenOrg.id == 0 ? true : isPaid,
         },
         true
       );
     }
-  }, [choosenOrg, choosenMonth, isPaid]);
+  }, [choosenOrg, choosenMonth, choosenYear, isPaid]);
 
   const handlerPaidService = (paid: boolean) => {
     setIsPaid(paid);
@@ -91,20 +93,7 @@ const Services = () => {
       </div>
 
       <div>
-        {isPaid && (
-          <select
-            onChange={(e) => dispatch(chooseMonth(e.target.value))}
-            defaultValue={choosenMonth}
-          >
-            {[...new Array(12)].map((_e, i) => {
-              return (
-                <option value={i} key={i}>
-                  {i + 1}
-                </option>
-              );
-            })}
-          </select>
-        )}
+        {isPaid && <SelectMonthYear />}
         <br />
       </div>
       {action === 'change' && <ServiceForm changingService={changingService} />}

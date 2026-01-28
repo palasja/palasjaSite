@@ -1,17 +1,23 @@
-import { Organization, OrgMonthPayment, Service, ServiceCost } from '../../helpers/contractTypes';
+import {
+  MonthYear,
+  Organization,
+  OrgMonthPayment,
+  Service,
+  ServiceCost,
+} from '../../helpers/contractTypes';
 import { providesRTKTagList } from '../../helpers/helper';
 import { apiSlice } from './apiSlice';
 
 const ServiceApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getServicesByMonth: builder.query<Service[], string>({
-      query: (month) => `getServicesByMonth/${month}`,
+    getServicesByMonth: builder.query<Service[], MonthYear>({
+      query: ({ month, year }) => `getServicesByMonth/${month}/${year}`,
       providesTags: (result) => providesRTKTagList(result, 'Service'),
     }),
-    getServicesByOrgIdMonth: builder.query<Service[], OrgMonthPayment>({
-      query: ({ orgId, month, isPaid = false }) => {
+    getServicesByOrgIdMonthYear: builder.query<Service[], OrgMonthPayment>({
+      query: ({ orgId, month, year, isPaid = false }) => {
         return isPaid
-          ? `getServicesByOrgIdMonth/${orgId}/${month}`
+          ? `getServicesByOrgIdMonth/${orgId}/${month}/${year}`
           : `getServicesUnpaidByOrgId/${orgId}`;
       },
       providesTags: (result) => providesRTKTagList(result, 'Service'),
@@ -63,9 +69,9 @@ const ServiceApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetServicesByOrgIdMonthQuery,
+  useGetServicesByOrgIdMonthYearQuery,
   useLazyGetServicesByMonthQuery,
-  useLazyGetServicesByOrgIdMonthQuery,
+  useLazyGetServicesByOrgIdMonthYearQuery,
   useAddServiceMutation,
   useUpdateServiceMutation,
   useDeleteServiceMutation,

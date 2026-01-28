@@ -8,8 +8,8 @@ const contractApi = apiSlice.injectEndpoints({
       query: (orgId) => `/getContractsByOrg/${orgId}`,
       providesTags: (result) => providesRTKTagList(result, 'Contract'),
     }),
-    getContractsByOrgIdMonth: builder.query<Contract, OrgMonthPayment>({
-      query: ({ orgId, month }) => `getContractByOrgIdMonth/${orgId}/${month}`,
+    getContractsByOrgIdMonthYear: builder.query<Contract, OrgMonthPayment>({
+      query: ({ orgId, month, year }) => `getContractByOrgIdMonth/${orgId}/${month}/${year}`,
     }),
     getContractsScan: builder.query<{ scan: string }, ContractScan>({
       query: ({ orgId }) => `/contractScan/${orgId}`,
@@ -42,7 +42,7 @@ const contractApi = apiSlice.injectEndpoints({
 
 export const {
   useGetContractsByOrgQuery,
-  useLazyGetContractsByOrgIdMonthQuery,
+  useLazyGetContractsByOrgIdMonthYearQuery,
   useAddContractMutation,
   useDeleteContractMutation,
   useUpdateContractMutation,

@@ -14,13 +14,14 @@ import ActZKH from './act_ZKH';
 import ActPMS from './act_PMS';
 import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { chooseMonth, getChoosenMonth } from '../redux/slices/servicesSlice';
+import { chooseMonth, getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
-import { useLazyGetContractsByOrgIdMonthQuery } from '../redux/slices/contractRTKSlice';
+import { useLazyGetContractsByOrgIdMonthYearQuery } from '../redux/slices/contractRTKSlice';
 import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
-import { useLazyGetServicesByOrgIdMonthQuery } from '../redux/slices/servicesRTKSlice';
+import { useLazyGetServicesByOrgIdMonthYearQuery } from '../redux/slices/servicesRTKSlice';
 import { Personal, Service } from '../helpers/contractTypes';
 import Loading from '../components/loading';
+import SelectMonthYear from '../components/selectMonthYear';
 
 type AtcType = 'jkh' | 'pms' | null;
 const actNameType: { [key: string]: AtcType } = {
@@ -32,13 +33,14 @@ const Act = () => {
   const dispatch = useAppDispatch();
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenOrg = useAppSelector(getChosenOrganization);
+  const choosenYear = useAppSelector(getChoosenYear);
   // const { data: organizations = [], isFetching: oLoading } = useGetOrganizationQuery();
   const [loadContract, { data: choosenContract, isFetching: cLoading }] =
-    useLazyGetContractsByOrgIdMonthQuery();
+    useLazyGetContractsByOrgIdMonthYearQuery();
   const [loadPersonal, { data: personal, isFetching: pLoading }] =
     useLazyGetPersonalsByOrgIdQuery();
   const [loadServices, { data: services, isFetching: sLoading }] =
-    useLazyGetServicesByOrgIdMonthQuery();
+    useLazyGetServicesByOrgIdMonthYearQuery();
   const [personalByOrder, setPersonalByOrder] = useState<Personal[]>([]);
   const HEAD_ORG_NUM_IN_ARR = 0;
   const [isPaid, setIsPaid] = useState(false);
@@ -46,11 +48,16 @@ const Act = () => {
   useEffect(() => {
     if (choosenOrg) {
       const orgId = choosenOrg?.id;
-      loadServices({ orgId: choosenOrg?.id, month: choosenMonth, isPaid: isPaid });
+      loadServices({
+        orgId: choosenOrg?.id,
+        month: choosenMonth,
+        year: choosenYear,
+        isPaid: isPaid,
+      });
       loadPersonal(orgId);
-      loadContract({ orgId: orgId, month: choosenMonth });
+      loadContract({ orgId: orgId, month: choosenMonth, year: choosenYear });
     }
-  }, [choosenMonth, choosenOrg, isPaid]);
+  }, [choosenMonth, choosenOrg, choosenYear, isPaid]);
 
   const handlerChooseMonth = (month: string) => {
     dispatch(chooseMonth(month));
@@ -267,19 +274,7 @@ const Act = () => {
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
         <div className={style.actType}>
-          <select
-            onChange={(e) => handlerChooseMonth(e.target.value)}
-            defaultValue={choosenMonth}
-            data-testid="monthSelect"
-          >
-            {MONTH_R.map((e, i) => {
-              return (
-                <option value={i} key={i}>
-                  {e}
-                </option>
-              );
-            })}
-          </select>
+          <SelectMonthYear />
           <select
             onChange={(e) =>
               setActType(e.target.id === undefined ? null : actNameType[e.target.value])

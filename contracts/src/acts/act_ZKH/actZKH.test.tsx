@@ -49,11 +49,19 @@ describe('pages count', () => {
       orgId: '',
     } as Contract;
     renderWithProviders(
-      <ActZKH contract={contract} personal={personals} services={services} signDate={date} startDate={date} endDate={date}/>,
+      <ActZKH
+        contract={contract}
+        personal={personals}
+        services={services}
+        signDate={date}
+        startDate={date}
+        endDate={date}
+      />,
       {
         preloadedState: {
           services: {
             choosenMonth: '1',
+            choosenYear: '2025',
             isWithoutOrg: false,
           },
         },
@@ -107,11 +115,19 @@ describe('pages count', () => {
       orgId: '',
     } as Contract;
     renderWithProviders(
-      <ActZKH contract={contract} personal={personals} services={services} signDate={date} startDate={date} endDate={date}/>,
+      <ActZKH
+        contract={contract}
+        personal={personals}
+        services={services}
+        signDate={date}
+        startDate={date}
+        endDate={date}
+      />,
       {
         preloadedState: {
           services: {
             choosenMonth: '1',
+            choosenYear: '2025',
             isWithoutOrg: false,
           },
         },
