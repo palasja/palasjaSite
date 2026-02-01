@@ -2,7 +2,7 @@ import style from './loading.module.css';
 
 const Loading = () => {
   return (
-    <div className={style.loading}>
+    <div className={style.loading} data-testid='loading'>
       <svg viewBox="-20 -20 100 80">
         <path
           d="M 0 0 L 15 40 "

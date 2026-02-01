@@ -1,179 +1,150 @@
-// import { renderWithProviders } from '../auth/renderWithProviders';
-// import Organization from './organization';
-// import OrganizationForm from './organizationForm';
-// import { store as setupStore } from '../redux/store';
-// import { changingOrg } from '../redux/slices/orgsSlice';
-// import { act, fireEvent, screen } from '@testing-library/react';
-// import * as slice from '../redux/slices/orgsSlice';
-// import { delay, http, HttpResponse } from 'msw';
-// import { setupServer } from 'msw/node';
+import { renderWithProviders } from '../auth/renderWithProviders';
+import Organization from './organization';
+import OrganizationForm from './organizationForm';
+import { store as setupStore } from '../redux/store';
+import { changingOrg } from '../redux/slices/orgsSlice';
+import { act, fireEvent, screen } from '@testing-library/react';
+import * as slice from '../redux/slices/orgsSlice';
+import { delay, http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+import fetchPolyfill, { Request as RequestPolyfill } from 'node-fetch';
 
-// export const handlers = [];
-// const env = import.meta.env;
-// const server = setupServer(...handlers);
+Object.defineProperty(global, 'fetch', {
+  // MSW will overwrite this to intercept requests
+  writable: true,
+  value: fetchPolyfill,
+});
 
-// // Enable API mocking before tests.
-// beforeAll(() => server.listen());
+Object.defineProperty(global, 'Request', {
+  writable: false,
+  value: RequestPolyfill,
+});
 
-// // Reset any runtime request handlers we may add during the tests.
-// afterEach(() => server.resetHandlers());
+export const handlers = [];
+const env = import.meta.env;
+const server = setupServer(...handlers);
 
-// // Disable API mocking after the tests are done.
-// afterAll(() => server.close());
+// Enable API mocking before tests.
+beforeAll(() => server.listen());
 
-// describe('organization form', () => {
-//   it('error when name is empty', async () => {
-//     renderWithProviders(<OrganizationForm />);
+// Reset any runtime request handlers we may add during the tests.
+afterEach(() => server.resetHandlers());
 
-//     expect(screen.getByTestId('submit')).toBeInTheDocument();
-//     act(() => {
-//       fireEvent.click(screen.getByTestId('submit'));
-//     });
-//     expect(screen.queryByTestId('id')).not.toBeInTheDocument();
-//     expect(await screen.findByText(/Наименование должно быть заполнено/i)).toBeInTheDocument();
-//   });
+// Disable API mocking after the tests are done.
+afterAll(() => server.close());
 
-//   it('name in form if change ogranization', () => {
-//     const store = setupStore();
-//     store.dispatch(changingOrg({ id: 0, name: 'testOrg' }));
+describe('organization form', () => {
+  it('error when name is empty', async () => {
+    renderWithProviders(<OrganizationForm />);
 
-//     renderWithProviders(<OrganizationForm />, { store });
-//     expect(screen.queryByTestId('id')).toBeInTheDocument();
-//     expect(screen.getByDisplayValue('testOrg')).toBeInTheDocument();
-//   });
-// });
+    expect(screen.getByTestId('submit')).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(screen.getByTestId('submit'));
+    });
+    expect(screen.queryByTestId('id')).not.toBeInTheDocument();
+    expect(await screen.findByText(/Наименование должно быть заполнено/i)).toBeInTheDocument();
+  });
 
-// describe('dispatch organization ', () => {
-//   it('call change organisation', async () => {
-//     const spyChangingOrg = vi.spyOn(slice, 'changingOrg');
+  it('name in form if change ogranization', () => {
+    const store = setupStore();
+    store.dispatch(changingOrg({ id: 0, name: 'testOrg' }));
 
-//     server.use(
-//       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
-//         return new HttpResponse(JSON.stringify([{ id: 1, name: 'testOrg' }]), { status: 200 });
-//       })
-//     );
+    renderWithProviders(<OrganizationForm />, { store });
+    expect(screen.queryByTestId('id')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('testOrg')).toBeInTheDocument();
+  });
+});
 
-//     renderWithProviders(<Organization />, {
-//       preloadedState: {
-//         orgs: {
-//           chosenOrg: null,
-//           changingOrg: null,
-//           error: null,
-//           status: 'idle',
-//         },
-//       },
-//     });
-//     await delay(100);
-//     act(() => {
-//       fireEvent.click(screen.getAllByText('Переименовать')[0]);
-//     });
-//     expect(await screen.findByDisplayValue('testOrg')).toBeInTheDocument();
-//     expect(spyChangingOrg).toBeCalled();
-//   });
+describe('dispatch organization ', () => {
+  it('call change organisation', async () => {
+    const spyChangingOrg = vi.spyOn(slice, 'changingOrg');
 
-//   it('approve modal window on delete organisation', async () => {
-//     server.use(
-//       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
-//         return new HttpResponse(JSON.stringify([{ id: 1, name: 'testOrg' }]), { status: 200 });
-//       })
-//     );
+    server.use(
+      http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
+        return new HttpResponse(JSON.stringify([{ id: 1, name: 'testOrg' }]), { status: 200 });
+      })
+    );
 
-//     renderWithProviders(<Organization />, {
-//       preloadedState: {
-//         orgs: {
-//           chosenOrg: null,
-//           changingOrg: null,
-//           error: null,
-//           status: 'idle',
-//         },
-//       },
-//     });
-//     await delay(100);
-//     act(() => {
-//       fireEvent.click(screen.getAllByText('Удалить')[0]);
-//     });
-//     expect(screen.getByText('Вы действительно хотитет удалить')).toBeInTheDocument();
-//   });
-// });
+    renderWithProviders(<Organization />, {
+      preloadedState: {
+        orgs: {
+            chosenOrg: null,
+            changingOrg: null,
+            error: null,
+            status: 'idle',
+            chosenInfo: null,
+            chosenAction: null
+        },
+      },
+    });
+    await delay(100);
+    act(() => {
+      fireEvent.click(screen.getByTestId('rename'));
+    });
+    expect(await screen.findByDisplayValue('testOrg')).toBeInTheDocument();
+    expect(spyChangingOrg).toBeCalled();
+  });
 
-// describe('show organisation', () => {
-//   it('without organisation', async () => {
-//     renderWithProviders(<Organization />);
+  it('approve modal window on delete organisation', async () => {
+    server.use(
+      http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
+        return new HttpResponse(JSON.stringify([{ id: 1, name: 'testOrg' }]), { status: 200 });
+      })
+    );
 
-//     expect(screen.queryByRole('list')).not.toBeInTheDocument();
-//     expect(await screen.findByText('Список организаций не загружен')).toBeInTheDocument();
-//   });
+    renderWithProviders(<Organization />, {
+      preloadedState: {
+        orgs: {
+            chosenOrg: null,
+            changingOrg: null,
+            error: null,
+            status: 'idle',
+            chosenInfo: null,
+            chosenAction: null
+        },
+      },
+    });
+    await delay(100);
+    act(() => {
+      fireEvent.click(screen.getByTestId('delete'));
+    });
+    expect(screen.getByText('Вы действительно хотитет удалить')).toBeInTheDocument();
+  });
+});
 
-//   it('two organisations', async () => {
-//     server.use(
-//       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
-//         return new HttpResponse(
-//           JSON.stringify([
-//             { id: 1, name: 'testOrg' },
-//             { id: 2, name: 'testOrg1' },
-//           ]),
-//           { status: 200 }
-//         );
-//       })
-//     );
+describe('show organisation', () => {
+  it('without organisation', async () => {
+    renderWithProviders(<Organization />);
 
-//     renderWithProviders(<Organization />, {
-//       preloadedState: {
-//         orgs: {
-//           chosenOrg: null,
-//           changingOrg: null,
-//           error: null,
-//           status: 'idle',
-//         },
-//       },
-//     });
-//     expect(await screen.findAllByRole('listitem')).toHaveLength(2);
-//   });
-// });
+    expect(screen.queryByRole('list')).not.toBeInTheDocument();
+    expect(await screen.findByText(/Список организаций не загружен или пуст/i)).toBeInTheDocument();
+  });
 
-// // import * as loading from './../components/loading/loading';
-// describe('loading message', () => {
-//   it('show loading message', () => {
-//     // vi.spyOn(loading, 'method').mockImplementation(() => {})
-//     server.use(
-//       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
-//         return new HttpResponse(JSON.stringify([{ id: 1, name: 'testOrg' }]), { status: 200 });
-//       })
-//     );
+  it('two organisations', async () => {
+    server.use(
+      http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
+        return new HttpResponse(
+          JSON.stringify([
+            { id: 1, name: 'testOrg' },
+            { id: 2, name: 'testOrg1' },
+          ]),
+          { status: 200 }
+        );
+      })
+    );
 
-//     renderWithProviders(<Organization />, {
-//       preloadedState: {
-//         orgs: {
-//           chosenOrg: null,
-//           changingOrg: null,
-//           error: null,
-//           status: 'idle',
-//         },
-//       },
-//     });
-
-//     expect(screen.getByText('Loading...')).toBeInTheDocument();
-//   });
-
-//   it('no loading message', async () => {
-//     // vi.spyOn(loading, 'method').mockImplementation(() => {})
-//     server.use(
-//       http.get(`${env.VITE_API_SERVER_URL_DEV}/getOrganizations`, () => {
-//         return new HttpResponse(JSON.stringify([{ id: 1, name: 'testOrg' }]), { status: 200 });
-//       })
-//     );
-
-//     renderWithProviders(<Organization />, {
-//       preloadedState: {
-//         orgs: {
-//           chosenOrg: null,
-//           changingOrg: null,
-//           error: null,
-//           status: 'idle',
-//         },
-//       },
-//     });
-//     await delay(100);
-//     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
-//   });
-// });
+    renderWithProviders(<Organization />, {
+      preloadedState: {
+        orgs: {
+            chosenOrg: null,
+            changingOrg: null,
+            error: null,
+            status: 'idle',
+            chosenInfo: null,
+            chosenAction: null
+        },
+      },
+    });
+    expect(await screen.findAllByTestId('orgBtn')).toHaveLength(3);
+  });
+});

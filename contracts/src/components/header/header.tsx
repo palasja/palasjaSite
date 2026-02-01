@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router';
 import style from './header.module.css';
-import logo from 'assets/logo.svg';
+import logo from '../../assets/logo.svg';
 import { useAppSelector } from '../../redux/hooks';
 import { getAuthSatus, getIsAuth } from '../../redux/slices/authSlice';
 import { ContractIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';

@@ -16,10 +16,7 @@ import OrganizationForm from './organizationForm';
 import {
   useGetOrganizationQuery,
   useDeleteOrganizationMutation,
-  useUpdateOrganizationMutation,
-  useAddOrganizationMutation,
 } from '../redux/slices/organizationRTKSlice';
-import Loading from '../components/loading';
 import style from './organization.module.css';
 import { isWithoutOrg } from '../redux/slices/servicesSlice';
 import { OrgInfo, Organization as OrgType } from '../helpers/contractTypes';
@@ -32,13 +29,11 @@ import {
   RemoveIcon,
   ServicesIcon,
 } from '../components/icons/icons';
-import { changeIsAuth } from '../redux/slices/authSlice';
 
 const Organization = () => {
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const changingOrganization = useAppSelector(getChangingOrganization);
-  const errors = useAppSelector(getOrganisationError);
   const info = useAppSelector(getChosenInfo);
   const action = useAppSelector(getChosenchosenAction);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
@@ -96,17 +91,18 @@ const Organization = () => {
               className={style.orgBtn}
               key={org.id}
               onClick={() => (org.id !== 0 ? orgClickHandler(org) : noOrgClickHandler())}
+              data-testid='orgBtn'
             >
               <div
                 className={`${style.mainBtn} ${org.id === choosenOrg?.id ? style.orgActive : ''}`}
               >
                 {org.id !== 0 ? (
                   <>
-                    <div className={style.orgActBtn} onClick={() => removeHandler(org)}>
+                    <div className={style.orgActBtn} onClick={() => removeHandler(org)} data-testid='delete'>
                       <RemoveIcon />
                     </div>
                     <div className={style.orgName}>{org.name}</div>
-                    <div className={style.orgActBtn} onClick={(e) => changeHandler(e, org)}>
+                    <div className={style.orgActBtn} onClick={(e) => changeHandler(e, org)} data-testid='rename'>
                       <EditIcon />
                     </div>
                   </>

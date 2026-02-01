@@ -9,12 +9,11 @@ import {
 } from '../redux/slices/organizationRTKSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
-  changingOrg,
   choseAct,
   choseInfo,
   getChangingOrganization,
 } from '../redux/slices/orgsSlice';
-import formStyle from 'assets/form.module.css';
+import formStyle from '../assets/form.module.css';
 const OrganizationForm = () => {
   const dispatch = useAppDispatch();
   const org = useAppSelector(getChangingOrganization);

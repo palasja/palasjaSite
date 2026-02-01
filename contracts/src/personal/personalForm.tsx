@@ -9,7 +9,7 @@ import {
   useAddPersonalMutation,
   useUpdatePersonalMutation,
 } from '../redux/slices/personalRTKSlice';
-import formStyle from 'assets/form.module.css';
+import formStyle from '../assets/form.module.css';
 
 type ChangingPersonalFormProps = {
   changingPersonal: Personal | undefined;

@@ -3,6 +3,18 @@ import { setupServer } from 'msw/node';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { renderWithProviders } from '../renderWithProviders';
 import { MemoryRouter, Route, Routes } from 'react-router';
+import fetchPolyfill, { Request as RequestPolyfill } from 'node-fetch';
+
+Object.defineProperty(global, 'fetch', {
+  // MSW will overwrite this to intercept requests
+  writable: true,
+  value: fetchPolyfill,
+});
+
+Object.defineProperty(global, 'Request', {
+  writable: false,
+  value: RequestPolyfill,
+});
 import Login from '.';
 const env = import.meta.env;
 
@@ -21,6 +33,11 @@ afterAll(() => server.close());
 
 describe('fill form errors', async () => {
   it('error empty form', async () => {
+    server.use(
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
+        return new HttpResponse(null, { status: 200});
+      })
+    );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <Login isSignin={false} />
@@ -32,6 +49,11 @@ describe('fill form errors', async () => {
   });
 
   it('login fill, password empty', async () => {
+    server.use(
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
+        return new HttpResponse(null, { status: 200});
+      })
+    );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <Login isSignin={false} />
@@ -44,6 +66,11 @@ describe('fill form errors', async () => {
   });
 
   it('fill form', async () => {
+    server.use(
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
+        return new HttpResponse(null, { status: 200});
+      })
+    );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <Login isSignin={false} />
@@ -61,14 +88,17 @@ describe('wrong auth data 403 status code', async () => {
     server.use(
       http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
         return new HttpResponse(null, { status: 403 });
+      }),
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
+        return new HttpResponse(null, { status: 200});
       })
+      
     );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <Login isSignin={false} />
       </MemoryRouter>
     );
-    screen.debug();
     fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
     fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });
     fireEvent.submit(await screen.findByTestId('submit'));
@@ -76,32 +106,31 @@ describe('wrong auth data 403 status code', async () => {
   });
 });
 
-// describe('OK auth data 200 status code', async () => {
-//   it('success authorisation', async () => {
-//     server.use(
-//       // http.post(`${API_SERVER}/logIn`, (_req, _res, _ctx) => {
-//       //   return new HttpResponse(null, {status: 200})
-//       // }),
-//       http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
-//         return new HttpResponse('OK', { status: 200 });
-//       }),
-//       http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
-//         return new HttpResponse(null, { status: 403 });
-//       })
-//     );
-//     renderWithProviders(
-//       <MemoryRouter initialEntries={['/', 'contract']} initialIndex={0}>
-//         <Routes>
-//           <Route path="/" element={<Login isSignin={false} />} />
-//           <Route path="contract" element={<>Contract</>} />
-//         </Routes>
-//       </MemoryRouter>
-//     );
+describe('OK auth data 200 status code', async () => {
+  it('success authorisation', async () => {
+    server.use(
+      // http.post(`${API_SERVER}/logIn`, (_req, _res, _ctx) => {
+      //   return new HttpResponse(null, {status: 200})
+      // }),
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
+        return new HttpResponse('OK', { status: 200 });
+      }),
+      http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
+        return new HttpResponse(null, { status: 200 });
+      })
+    );
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/', 'contract']} initialIndex={0}>
+        <Routes>
+          <Route path="/" element={<Login isSignin={false} />} />
+          <Route path="contract" element={<>Contract</>} />
+        </Routes>
+      </MemoryRouter>
+    );
 
-//     fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
-//     fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });
-//     fireEvent.submit(await screen.findByTestId('submit'));
-//     screen.debug();
-//     expect(await screen.findByText(/Contract/i)).toBeInTheDocument();
-//   });
-// });
+    fireEvent.change(await screen.findByTestId('login'), { target: { value: 'qwe' } });
+    fireEvent.change(await screen.findByTestId('pass'), { target: { value: 'qwe' } });
+    fireEvent.submit(await screen.findByTestId('submit'));
+    expect(await screen.findByText(/Contract/i)).toBeInTheDocument();
+  });
+});

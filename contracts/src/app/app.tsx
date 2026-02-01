@@ -2,15 +2,12 @@ import Contracts from '../contracts';
 import Personals from '../personal';
 import Services from '../services';
 import Organization from '../organization';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../redux/hooks';
 import {
-  chooseOrg,
   getChosenInfo,
   getChosenOrganization,
-  getOrganisationSatus,
 } from '../redux/slices/orgsSlice';
 import style from './app.module.css';
-import { getIsWithoutOrg, isWithoutOrg } from '../redux/slices/servicesSlice';
 import Act from '../acts/act';
 
 const App = () => {

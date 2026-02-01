@@ -9,7 +9,7 @@ import {
   useAddContractMutation,
   useUpdateContractMutation,
 } from '../redux/slices/contractRTKSlice';
-import formStyle from 'assets/form.module.css';
+import formStyle from '../assets/form.module.css';
 type ChangingContractFormProps = {
   changingContract: Contract | undefined;
 };

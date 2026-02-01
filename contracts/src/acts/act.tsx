@@ -7,7 +7,6 @@ import {
   getServicesCostWithNDS_47,
   getShortName,
   MONTH_R,
-  NotNullubleValue,
 } from '../helpers/helper';
 import style from './act.module.css';
 import ActZKH from './act_ZKH';
@@ -59,18 +58,9 @@ const Act = () => {
     }
   }, [choosenMonth, choosenOrg, choosenYear, isPaid]);
 
-  const handlerChooseMonth = (month: string) => {
-    dispatch(chooseMonth(month));
-  };
   const handlerPaidService = (paid: boolean) => {
     setIsPaid(paid);
   };
-
-  // const handlerActType = (id: string) => {
-  //   const organization = NotNullubleValue(organizations.find((o) => o.id === parseInt(id, 10)));
-  //   setPersonalByOrder([]);
-  //   dispatch(chooseOrg(organization));
-  // };
 
   const getDateString = (date: number | string) => new Date(date);
   const [signDate, useSignDate] = useState(
@@ -301,11 +291,6 @@ const Act = () => {
           <ZKHInfo services={services} />
         )}
         {actType == 'pms' && services && personal && <PMSInfo services={services} />}
-        {/* {choosenOrg?.name === 'ЖКХ' && services !== undefined && personal !== undefined ? (
-          <ZKHInfo services={services} />
-        ) : (
-          services && personal && <PMSInfo services={services} />
-        )} */}
       </>
     </>
   );

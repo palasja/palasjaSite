@@ -8,7 +8,7 @@ import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
 // import formStyle from './services.module.css';
-import formStyle from 'assets/form.module.css';
+import formStyle from '../assets/form.module.css';
 type ChangingServiceFormProps = { changingService: Service | undefined };
 
 const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
