@@ -35,9 +35,9 @@ const Header = () => {
               <div className={style.linksBlock}>
                 <div className={style.drop}>
                   <a className={style.content} href='mailto:palasja@gmail.com'>Email: palasja@gmail.com</a>
-                  <a className={style.content} href='https://github.com/palasja'>GitHub: https://github.com/palasja</a>
-                  <a className={style.content} href='https://www.linkedin.com/in/palasja'>Linked: https://www.linkedin.com/in/palasja</a>
-                  <a className={style.content} href='https://teams.live.com/l/invite/FEAPMIldGUGRHGoagI?v=g1'>Teams: palasja</a>
+                  <a className={style.content} target="_blank" href='https://github.com/palasja'>GitHub: https://github.com/palasja</a>
+                  <a className={style.content} target="_blank" href='https://www.linkedin.com/in/palasja'>Linked: https://www.linkedin.com/in/palasja</a>
+                  <a className={style.content} target="_blank" href='https://teams.live.com/l/invite/FEAPMIldGUGRHGoagI?v=g1'>Teams: palasja</a>
                 </div>
               </div>
             </div>
