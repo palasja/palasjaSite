@@ -13,12 +13,8 @@ const SelectMonthYear = () => {
   const dispatch = useAppDispatch();
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenYear = useAppSelector(getChoosenYear);
-  // const choosenOrg = useAppSelector(getChosenOrganization);
   const handlerChooseMonth = (month: string) => {
     dispatch(chooseMonth(month));
-    // if (choosenOrg) {
-    //   dispatch(chooseMonth(month));
-    // }
   };
   const handlerChooseYear = (year: string) => {
     dispatch(chooseYear(year));

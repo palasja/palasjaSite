@@ -13,17 +13,20 @@ import { default as DownloadIconMaterial } from '@mui/icons-material/Download';
 import { default as LeaderboardIconMaterial } from '@mui/icons-material/Leaderboard';
 import { default as AppsIconMaterial } from '@mui/icons-material/Apps';
 
-type IconProp = { onClick?: () => void };
+type IconProp = { onClick?: () => void, testid?: string };
 export const RemoveIcon = () => (
   <RemoveIconMaterial className={`${style.common} ${style.changeColor}`} />
 );
 export const EditIcon = () => (
   <EditIconMaterial className={`${style.common} ${style.changeColor}`} />
 );
-export const AddIcon = ({ onClick }: IconProp) => (
-  <span className={style.addContainer} onClick={onClick}>
-    <AddBoxIconMaterial className={`${style.common} ${style.changeColor}`} />
-  </span>
+export const AddIcon = ({ onClick, testid }: IconProp) => (
+  <button  className={style.addButton} onClick={onClick} data-testid={testid}>
+    <span className={style.addContainer}>
+      <AddBoxIconMaterial className={`${style.common} ${style.changeColor}`} />
+    </span>
+  </button>
+
 );
 export const AddOrgIcon = () => (
   <AddBoxIconMaterial className={`${style.common} ${style.changeColor}`} />

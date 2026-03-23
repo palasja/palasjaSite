@@ -2,7 +2,7 @@ import style from './404.module.css';
 const Error404 = () => {
   return (
     <>
-      <h1>Page not found</h1>
+      <h1>Страница не найдена</h1>
     </>
   );
 };

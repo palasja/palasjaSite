@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Service } from '../../helpers/contractTypes';
-
 import { RootState } from '../../redux/store';
 
 interface ServicesState {

@@ -109,9 +109,6 @@ describe('wrong auth data 403 status code', async () => {
 describe('OK auth data 200 status code', async () => {
   it('success authorisation', async () => {
     server.use(
-      // http.post(`${API_SERVER}/logIn`, (_req, _res, _ctx) => {
-      //   return new HttpResponse(null, {status: 200})
-      // }),
       http.post(`${env.VITE_API_SERVER_URL_DEV}/logIn`, () => {
         return new HttpResponse('OK', { status: 200 });
       }),

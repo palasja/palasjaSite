@@ -12,6 +12,11 @@
 .changeColor:hover {
   color: var(--color-btn_hover);
 }
+.addButton{
+  padding: 0;
+    border: 0;
+    background: none;
+}
 .addContainer {
   display: flex;
   align-items: center;

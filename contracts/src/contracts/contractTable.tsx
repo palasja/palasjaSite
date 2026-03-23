@@ -87,6 +87,7 @@ const ContractTable = ({
           onClick={() => {
             edit(data.find((p) => p.id === row.original.id) as Contract);
           }}
+          data-testid="changeContract"
         >
           <EditIcon />
         </IconButton>

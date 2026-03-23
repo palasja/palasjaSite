@@ -75,6 +75,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
       <form
         onSubmit={handleSubmit(isUpdate ? onSubmitUpdate : onSubmitCreate)}
         className={formStyle.form}
+        data-testid="contractForm"
       >
         <input
           value={choosenOrg!.id}
