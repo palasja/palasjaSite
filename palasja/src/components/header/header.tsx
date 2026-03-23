@@ -37,6 +37,7 @@ const Header = () => {
                   <a className={style.content} href='mailto:palasja@gmail.com'>Email: palasja@gmail.com</a>
                   <a className={style.content} href='https://github.com/palasja'>GitHub: https://github.com/palasja</a>
                   <a className={style.content} href='https://www.linkedin.com/in/palasja'>Linked: https://www.linkedin.com/in/palasja</a>
+                  <a className={style.content} href='https://teams.live.com/l/invite/FEAPMIldGUGRHGoagI?v=g1'>Teams: palasja@outlook.com</a>
                 </div>
               </div>
             </div>
