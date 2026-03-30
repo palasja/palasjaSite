@@ -1,18 +1,24 @@
-import { StrictMode } from 'react';
+import { StrictMode, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import style from './main.module.css';
 
-import App from './app/app';
+const App = lazy(() => import('./app/app'));
+const Act = lazy(() => import('./acts/act'));
+const Stats = lazy(() => import('./stats'));
+const SoftPrompt = lazy(() => import('./softPrompt'));
+
+// import App from './app/app';
+// import Act from './acts/act';
+// import Stats from './stats';
+// import SoftPrompt from './softPrompt';
+
 import Auth from './auth/login';
 import { ProtectedRoute } from './hooks/protectedRoute';
 import Error404 from './404';
-import Act from './acts/act';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
-import Stats from './stats';
 import Logout from './auth/logout';
-import SoftPrompt from './softPrompt';
 import Footer from './components/footer';
 import Header from './components/header';
 import Loading from './components/loading';
