@@ -8,11 +8,6 @@ const Act = lazy(() => import('./acts/act'));
 const Stats = lazy(() => import('./stats'));
 const SoftPrompt = lazy(() => import('./softPrompt'));
 
-// import App from './app/app';
-// import Act from './acts/act';
-// import Stats from './stats';
-// import SoftPrompt from './softPrompt';
-
 import Auth from './auth/login';
 import { ProtectedRoute } from './hooks/protectedRoute';
 import Error404 from './404';
@@ -24,6 +19,9 @@ import Header from './components/header';
 import Loading from './components/loading';
 import { useAppSelector } from './redux/hooks';
 import { getIsLoading } from './redux/slices/authSlice';
+import Services from './services';
+import Contracts from './contracts';
+import Personals from './personal';
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return <div className={style.wrapper}>{children}</div>;
@@ -47,14 +45,30 @@ createRoot(document.getElementById('root')!).render(
               <Route path="login" element={<Auth isSignin={false} />} />
               <Route path="signin" element={<Auth isSignin={true} />} />
               <Route path="logout" element={<Logout />} />
-              <Route
-                path="contract"
+              {/* <Route
+                path="org"
                 element={
                   <ProtectedRoute>
                     <App />
                   </ProtectedRoute>
                 }
-              />
+              >
+              </Route> */}
+              <Route
+                path="org"
+              >
+              {/* <ProtectedRoute> */}
+                <Route index element={<App />} />
+                  <Route element={<App />}>
+                    <Route path=":orgID/servise" element={<Services />} />
+                    <Route path=":orgID/contracts" element={<Contracts />} />
+                    <Route path=":orgID/personals" element={<Personals />} />
+                    <Route path=":orgID/act" element={<Act />} />
+                  </Route>
+              {/* </ProtectedRoute> */}
+
+                {/* <Route path="settings" element={<Services />} /> */}
+              </Route>
               <Route
                 path="act"
                 element={

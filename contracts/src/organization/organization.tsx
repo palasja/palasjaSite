@@ -29,6 +29,7 @@ import {
   RemoveIcon,
   ServicesIcon,
 } from '../components/icons/icons';
+import { NavLink } from 'react-router';
 
 const Organization = () => {
   const dispatch = useAppDispatch();
@@ -114,10 +115,22 @@ const Organization = () => {
               </div>
               {org.id !== 0 && (
                 <div className={style.subButtonContainer}>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'service', org)}>
+                  <NavLink className={style.subButton} to={`/org/${org.id}/servise`}>
                     <ServicesIcon />
-                  </div>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'contract', org)}>
+                  </NavLink>
+                  <NavLink className={style.subButton} to={`/org/${org.id}/contracts`}>
+                    <ContractIcon />
+                  </NavLink>
+                  <NavLink className={style.subButton} to={`/org/${org.id}/personals`}>
+                    <PersonalIcon />
+                  </NavLink>
+                  <NavLink className={style.subButton} to={`/org/${org.id}/act`}>
+                    <ActIcon />
+                  </NavLink>
+                  {/* <div className={style.subButton} onClick={(e) => infoHandler(e, 'service', org)}>
+                    <ServicesIcon />
+                  </div> */}
+                  {/* <div className={style.subButton} onClick={(e) => infoHandler(e, 'contract', org)}>
                     <ContractIcon />
                   </div>
                   <div className={style.subButton} onClick={(e) => infoHandler(e, 'personal', org)}>
@@ -125,7 +138,7 @@ const Organization = () => {
                   </div>
                   <div className={style.subButton} onClick={(e) => infoHandler(e, 'act', org)}>
                     <ActIcon />
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>

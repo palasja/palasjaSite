@@ -17,7 +17,7 @@ const initialState: OrganizationState = {
   changingOrg: null,
   error: null,
   chosenInfo: null,
-  chosenAction: null,
+  chosenAction: 'show',
   status: 'idle',
 };
 

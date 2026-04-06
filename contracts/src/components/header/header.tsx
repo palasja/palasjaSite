@@ -22,8 +22,8 @@ const Header = () => {
         {isAuth ? (
           <>
             <nav className={`noprint ${style.nav}`}>
-              <NavLink to={'/contract'} className={style.link}>
-                <ContractIcon /> Договора
+              <NavLink to={'/org'} className={style.link}>
+                <ContractIcon /> Организации
               </NavLink>
               <NavLink to={'/stats'} className={style.link}>
                 <StatIcon /> Статистика
