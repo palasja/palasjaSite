@@ -43,7 +43,7 @@ const Contracts = () => {
   const page = (
     <>
       <div className={style.nameContainer}>
-        <AddIcon onClick={addHandler} testid='addContract'/>
+        <AddIcon onClick={addHandler} testid="addContract" />
         <p>Договора ( {choosenOrg?.name} )</p>
       </div>
 

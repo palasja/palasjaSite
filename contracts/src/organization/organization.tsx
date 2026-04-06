@@ -92,18 +92,26 @@ const Organization = () => {
               className={style.orgBtn}
               key={org.id}
               onClick={() => (org.id !== 0 ? orgClickHandler(org) : noOrgClickHandler())}
-              data-testid='orgBtn'
+              data-testid="orgBtn"
             >
               <div
                 className={`${style.mainBtn} ${org.id === choosenOrg?.id ? style.orgActive : ''}`}
               >
                 {org.id !== 0 ? (
                   <>
-                    <div className={style.orgActBtn} onClick={() => removeHandler(org)} data-testid='delete'>
+                    <div
+                      className={style.orgActBtn}
+                      onClick={() => removeHandler(org)}
+                      data-testid="delete"
+                    >
                       <RemoveIcon />
                     </div>
                     <div className={style.orgName}>{org.name}</div>
-                    <div className={style.orgActBtn} onClick={(e) => changeHandler(e, org)} data-testid='rename'>
+                    <div
+                      className={style.orgActBtn}
+                      onClick={(e) => changeHandler(e, org)}
+                      data-testid="rename"
+                    >
                       <EditIcon />
                     </div>
                   </>
@@ -127,18 +135,6 @@ const Organization = () => {
                   <NavLink className={style.subButton} to={`/org/${org.id}/act`}>
                     <ActIcon />
                   </NavLink>
-                  {/* <div className={style.subButton} onClick={(e) => infoHandler(e, 'service', org)}>
-                    <ServicesIcon />
-                  </div> */}
-                  {/* <div className={style.subButton} onClick={(e) => infoHandler(e, 'contract', org)}>
-                    <ContractIcon />
-                  </div>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'personal', org)}>
-                    <PersonalIcon />
-                  </div>
-                  <div className={style.subButton} onClick={(e) => infoHandler(e, 'act', org)}>
-                    <ActIcon />
-                  </div> */}
                 </div>
               )}
             </div>

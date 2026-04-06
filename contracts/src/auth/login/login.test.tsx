@@ -35,7 +35,7 @@ describe('fill form errors', async () => {
   it('error empty form', async () => {
     server.use(
       http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
-        return new HttpResponse(null, { status: 200});
+        return new HttpResponse(null, { status: 200 });
       })
     );
     renderWithProviders(
@@ -51,7 +51,7 @@ describe('fill form errors', async () => {
   it('login fill, password empty', async () => {
     server.use(
       http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
-        return new HttpResponse(null, { status: 200});
+        return new HttpResponse(null, { status: 200 });
       })
     );
     renderWithProviders(
@@ -68,7 +68,7 @@ describe('fill form errors', async () => {
   it('fill form', async () => {
     server.use(
       http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
-        return new HttpResponse(null, { status: 200});
+        return new HttpResponse(null, { status: 200 });
       })
     );
     renderWithProviders(
@@ -90,9 +90,8 @@ describe('wrong auth data 403 status code', async () => {
         return new HttpResponse(null, { status: 403 });
       }),
       http.post(`${env.VITE_API_SERVER_URL_DEV}/checkAuth`, () => {
-        return new HttpResponse(null, { status: 200});
+        return new HttpResponse(null, { status: 200 });
       })
-      
     );
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>

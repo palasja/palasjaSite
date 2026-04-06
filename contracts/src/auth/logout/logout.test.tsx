@@ -18,33 +18,33 @@ afterEach(() => server.resetHandlers());
 // Disable API mocking after the tests are done.
 afterAll(() => server.close());
 
-describe("check logout", () => {
-    it("redirect after logout", async () => {
-        
+describe('check logout', () => {
+  it('redirect after logout', async () => {
     server.use(
       http.post(`${env.VITE_API_SERVER_URL_DEV}/logout`, () => {
-        return new HttpResponse("OK", { status: 200});
+        return new HttpResponse('OK', { status: 200 });
       })
     );
     renderWithProviders(
-      <MemoryRouter initialEntries={['logout','/']}>
+      <MemoryRouter initialEntries={['logout', '/']}>
         <Routes>
           <Route path="/" element={<>Login</>} />
           <Route path="logout" element={<Logout />} />
         </Routes>
-      </MemoryRouter>, {
+      </MemoryRouter>,
+      {
         preloadedState: {
-            auth:{
-                authErrorMessage: null,
-                status: 'idle',
-                isAuth: true,
-                isLoading: false,
-                isCheked: false
-            }
-        }
+          auth: {
+            authErrorMessage: null,
+            status: 'idle',
+            isAuth: true,
+            isLoading: false,
+            isCheked: false,
+          },
+        },
       }
     );
 
-    expect(await screen.findByText("Login")).toBeInTheDocument();
-    })
-})
+    expect(await screen.findByText('Login')).toBeInTheDocument();
+  });
+});

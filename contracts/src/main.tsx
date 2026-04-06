@@ -54,18 +54,16 @@ createRoot(document.getElementById('root')!).render(
                 }
               >
               </Route> */}
-              <Route
-                path="org"
-              >
-              {/* <ProtectedRoute> */}
+              <Route path="org">
+                {/* <ProtectedRoute> */}
                 <Route index element={<App />} />
-                  <Route element={<App />}>
-                    <Route path=":orgID/servise" element={<Services />} />
-                    <Route path=":orgID/contracts" element={<Contracts />} />
-                    <Route path=":orgID/personals" element={<Personals />} />
-                    <Route path=":orgID/act" element={<Act />} />
-                  </Route>
-              {/* </ProtectedRoute> */}
+                <Route element={<App />}>
+                  <Route path=":orgID/servise" element={<Services />} />
+                  <Route path=":orgID/contracts" element={<Contracts />} />
+                  <Route path=":orgID/personals" element={<Personals />} />
+                  <Route path=":orgID/act" element={<Act />} />
+                </Route>
+                {/* </ProtectedRoute> */}
 
                 {/* <Route path="settings" element={<Services />} /> */}
               </Route>

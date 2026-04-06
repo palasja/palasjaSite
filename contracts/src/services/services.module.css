@@ -24,3 +24,9 @@
   font-size: 20px;
   font-weight: 500;
 }
+.description {
+  max-height: 68px;
+}
+.description:hover {
+  max-height: inherit;
+}

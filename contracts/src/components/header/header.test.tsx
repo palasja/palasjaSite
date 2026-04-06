@@ -6,22 +6,23 @@ import { renderWithProviders } from '../../auth/renderWithProviders';
 import { delay } from 'msw';
 
 beforeEach(() => {
-   renderWithProviders(
-      <MemoryRouter initialEntries={['/contract']}>
-        <Header />
-      </MemoryRouter>, {
-        preloadedState:{
-          auth:{
-            authErrorMessage: null,
-            status: 'idle',
-            isAuth: true,
-            isLoading: false,
-            isCheked: false
-          }
-        }
-      }
+  renderWithProviders(
+    <MemoryRouter initialEntries={['/contract']}>
+      <Header />
+    </MemoryRouter>,
+    {
+      preloadedState: {
+        auth: {
+          authErrorMessage: null,
+          status: 'idle',
+          isAuth: true,
+          isLoading: false,
+          isCheked: false,
+        },
+      },
+    }
   );
-}); 
+});
 
 describe('header no print', () => {
   it('header has no print class', () => {
@@ -31,7 +32,7 @@ describe('header no print', () => {
 
 describe('header has all links', () => {
   it('header has 4 link', async () => {
-    await delay(100)
+    await delay(100);
     expect(screen.queryAllByRole('link').length).toBe(4);
   });
   it('header has correct links', () => {

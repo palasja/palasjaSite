@@ -8,11 +8,7 @@ import {
   useUpdateOrganizationMutation,
 } from '../redux/slices/organizationRTKSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import {
-  choseAct,
-  choseInfo,
-  getChangingOrganization,
-} from '../redux/slices/orgsSlice';
+import { choseAct, choseInfo, getChangingOrganization } from '../redux/slices/orgsSlice';
 import formStyle from '../assets/form.module.css';
 const OrganizationForm = () => {
   const dispatch = useAppDispatch();

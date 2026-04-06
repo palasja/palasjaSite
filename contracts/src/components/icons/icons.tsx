@@ -13,7 +13,7 @@ import { default as DownloadIconMaterial } from '@mui/icons-material/Download';
 import { default as LeaderboardIconMaterial } from '@mui/icons-material/Leaderboard';
 import { default as AppsIconMaterial } from '@mui/icons-material/Apps';
 
-type IconProp = { onClick?: () => void, testid?: string };
+type IconProp = { onClick?: () => void; testid?: string };
 export const RemoveIcon = () => (
   <RemoveIconMaterial className={`${style.common} ${style.changeColor}`} />
 );
@@ -21,12 +21,11 @@ export const EditIcon = () => (
   <EditIconMaterial className={`${style.common} ${style.changeColor}`} />
 );
 export const AddIcon = ({ onClick, testid }: IconProp) => (
-  <button  className={style.addButton} onClick={onClick} data-testid={testid}>
+  <button className={style.addButton} onClick={onClick} data-testid={testid}>
     <span className={style.addContainer}>
       <AddBoxIconMaterial className={`${style.common} ${style.changeColor}`} />
     </span>
   </button>
-
 );
 export const AddOrgIcon = () => (
   <AddBoxIconMaterial className={`${style.common} ${style.changeColor}`} />
@@ -45,9 +44,9 @@ export const LogoutIcon = () => (
 );
 export const DownloadIcon = () => <DownloadIconMaterial className={style.common} />;
 export const StatIcon = () => (
-  <LeaderboardIconMaterial className={`${style.common} ${style.mainIcon}`} />
+  <LeaderboardIconMaterial className={`${style.common}`} />
 );
-export const SoftIcon = () => <AppsIconMaterial className={`${style.common} ${style.mainIcon}`} />;
+export const SoftIcon = () => <AppsIconMaterial className={`${style.common}`} />;
 export const ContractIcon = () => (
-  <ContentPasteIconMaterial className={`${style.common} ${style.mainIcon}`} />
+  <ContentPasteIconMaterial className={`${style.common}`} />
 );

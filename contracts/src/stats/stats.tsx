@@ -25,7 +25,7 @@ const Stats = () => {
 
   useEffect(() => {
     if (choosenMonth) {
-      loadServices({month: choosenMonth, year: choosenYear});
+      loadServices({ month: choosenMonth, year: choosenYear });
       loadServicesCost();
     }
   }, [choosenMonth]);
@@ -39,7 +39,7 @@ const Stats = () => {
     let firstDay = new Date(`${minDate.getFullYear()}-${minDate.getMonth() + 1}`);
     const servicesByMonth = [];
     while (firstDay <= maxDate) {
-      let lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0, 23, 59, 59);
+      const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0, 23, 59, 59);
       const serviceByMonth = services.filter((s) => {
         return new Date(s.date) >= firstDay && new Date(s.date) <= lastDay;
       });

@@ -11,17 +11,16 @@
 }
 .changeColor:hover {
   color: var(--color-btn_hover);
+  fill: var(--color-main);
 }
-.addButton{
+.addButton {
   padding: 0;
-    border: 0;
-    background: none;
+  border: 0;
+  background: none;
 }
 .addContainer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.mainIcon:hover {
-  color: inherit !important;
-}
+

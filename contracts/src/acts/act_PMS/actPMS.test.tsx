@@ -63,17 +63,17 @@ describe('act PMS', () => {
     renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} />, {
       preloadedState: {
         orgs: {
-            chosenOrg: { id: 1, name: 'testOrg' },
-            changingOrg: null,
-            error: null,
-            status: 'idle',
-            chosenInfo: null,
-            chosenAction: null
+          chosenOrg: { id: 1, name: 'testOrg' },
+          changingOrg: null,
+          error: null,
+          status: 'idle',
+          chosenInfo: null,
+          chosenAction: null,
         },
         services: {
-            choosenMonth: '1',
-            isWithoutOrg: false,
-            choosenYear: ''
+          choosenMonth: '1',
+          isWithoutOrg: false,
+          choosenYear: '',
         },
       },
     });
@@ -137,17 +137,17 @@ describe('act PMS', () => {
     renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} />, {
       preloadedState: {
         orgs: {
-            chosenOrg: { id: 1, name: 'testOrg' },
-            changingOrg: null,
-            error: null,
-            status: 'idle',
-            chosenInfo: null,
-            chosenAction: null
+          chosenOrg: { id: 1, name: 'testOrg' },
+          changingOrg: null,
+          error: null,
+          status: 'idle',
+          chosenInfo: null,
+          chosenAction: null,
         },
         services: {
-            choosenMonth: '1',
-            isWithoutOrg: false,
-            choosenYear: ''
+          choosenMonth: '1',
+          isWithoutOrg: false,
+          choosenYear: '',
         },
       },
     });

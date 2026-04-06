@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
+  createMRTColumnHelper,
   MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
-import { Personal, Service } from '../helpers/contractTypes';
-import { Box, Button, IconButton, MenuItem } from '@mui/material';
+import { Service } from '../helpers/contractTypes';
+import { Box, IconButton } from '@mui/material';
 import {
   useToPaidServiceMutation,
   useToUnpaidServiceMutation,
@@ -64,10 +65,14 @@ const ServiceTable = ({
         header: 'Время',
         size: 50,
       },
+
       {
         accessorKey: 'description',
         header: 'Детали',
         size: 250,
+        Cell: ({ cell }) => {
+          return <div className={style.description}>{cell.getValue<string>()}</div>;
+        },
       },
       {
         accessorKey: 'ispaid',

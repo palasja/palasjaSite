@@ -68,12 +68,12 @@ describe('dispatch organization ', () => {
     renderWithProviders(<Organization />, {
       preloadedState: {
         orgs: {
-            chosenOrg: null,
-            changingOrg: null,
-            error: null,
-            status: 'idle',
-            chosenInfo: null,
-            chosenAction: null
+          chosenOrg: null,
+          changingOrg: null,
+          error: null,
+          status: 'idle',
+          chosenInfo: null,
+          chosenAction: null,
         },
       },
     });
@@ -95,12 +95,12 @@ describe('dispatch organization ', () => {
     renderWithProviders(<Organization />, {
       preloadedState: {
         orgs: {
-            chosenOrg: null,
-            changingOrg: null,
-            error: null,
-            status: 'idle',
-            chosenInfo: null,
-            chosenAction: null
+          chosenOrg: null,
+          changingOrg: null,
+          error: null,
+          status: 'idle',
+          chosenInfo: null,
+          chosenAction: null,
         },
       },
     });
@@ -136,12 +136,12 @@ describe('show organisation', () => {
     renderWithProviders(<Organization />, {
       preloadedState: {
         orgs: {
-            chosenOrg: null,
-            changingOrg: null,
-            error: null,
-            status: 'idle',
-            chosenInfo: null,
-            chosenAction: null
+          chosenOrg: null,
+          changingOrg: null,
+          error: null,
+          status: 'idle',
+          chosenInfo: null,
+          chosenAction: null,
         },
       },
     });
