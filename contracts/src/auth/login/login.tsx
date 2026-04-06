@@ -36,7 +36,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
       const result = await login(data).unwrap();
       if (result == 'OK') {
         dispatch(changeIsAuth(true));
-        navigate('/contract');
+        navigate('/org');
       }
     } catch {
       setIsError(true);
@@ -44,7 +44,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
   };
   const onSubmitSignin: SubmitHandler<FormValues> = async (data) => {
     const result = await signin(data).unwrap();
-    if (result == 'OK') navigate('/contract');
+    if (result == 'OK') navigate('/org');
   };
   useEffect(() => {
     const checkAuth = async () => {
@@ -53,7 +53,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
       if (result == 'OK') {
         dispatch(changeIsAuth(true));
 
-        navigate('/contract');
+        navigate('/org');
       }
     };
     if (!isCheked) checkAuth();
