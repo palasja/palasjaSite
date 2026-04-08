@@ -43,10 +43,6 @@ export const LogoutIcon = () => (
   <MeetingRoomIconMaterial className={`${style.common} ${style.logout}`} />
 );
 export const DownloadIcon = () => <DownloadIconMaterial className={style.common} />;
-export const StatIcon = () => (
-  <LeaderboardIconMaterial className={`${style.common}`} />
-);
+export const StatIcon = () => <LeaderboardIconMaterial className={`${style.common}`} />;
 export const SoftIcon = () => <AppsIconMaterial className={`${style.common}`} />;
-export const ContractIcon = () => (
-  <ContentPasteIconMaterial className={`${style.common}`} />
-);
+export const ContractIcon = () => <ContentPasteIconMaterial className={`${style.common}`} />;

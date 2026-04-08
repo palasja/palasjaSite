@@ -265,7 +265,7 @@ const SoftPrompt = () => {
         <main className={style.main}>
           <aside className={style.softMenu}>
             {softInfo.map((soft, i) => {
-              return <SoftInfo soft={soft} />;
+              return <SoftInfo soft={soft} key={i} />;
             })}
           </aside>
           <section>{actionArticle && <SoftInfoArticle />}</section>

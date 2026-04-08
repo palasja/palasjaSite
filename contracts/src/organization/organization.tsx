@@ -3,7 +3,6 @@ import {
   chooseOrg,
   changingOrg,
   choseInfo,
-  getOrganisationError,
   getChangingOrganization,
   getChosenOrganization,
   getChosenInfo,

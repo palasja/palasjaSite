@@ -8,7 +8,6 @@ import {
 } from '../../redux/slices/authRTKSlce';
 import { useEffect, useState } from 'react';
 import authImg from '/loginImg.png';
-import { useDispatch } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { changeIsAuth, changeIsCheked, getIsChecked } from '../../redux/slices/authSlice';
 

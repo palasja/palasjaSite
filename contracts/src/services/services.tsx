@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 // import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { getChoosenMonth, chooseMonth, getChoosenYear } from '../redux/slices/servicesSlice';
+import { getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
