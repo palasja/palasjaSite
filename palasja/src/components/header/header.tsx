@@ -18,9 +18,9 @@ const Header = () => {
     <header className={style.header}>
       <ContentContainer>
         <div className={style.inner} id='test'>
-          <NavLink className={style.logo} to={'/'}
-            >{t('menu.firstName')} <br/> {t('menu.lastName')}</NavLink>
-          {/* <a className={style.logo}> </a> */}
+          <NavLink className={style.logo} to={'/'}>
+            {t('menu.firstName')} <br/> {t('menu.lastName')}
+          </NavLink>
           <nav className={style.nav}>
             <NavLink className={style.link} to={'/'}
             >

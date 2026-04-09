@@ -1,41 +1,60 @@
 import { ContentWrapper } from '../../../../components/containers/contentContainer';
-// import style from './home.module.css';
-import { useTranslation } from 'react-i18next';
-import MS2778 from 'assets/sertificates/MS2778.png';
-import softline from 'assets/sertificates/softline_25022021.png';
-import rss from 'assets/sertificates/RSSshool_20092022.png';
-import MS6419B from 'assets/sertificates/MS-6419B.png';
+import MS2778 from 'assets/certificates/MS2778.png';
+import softline from 'assets/certificates/softline_25022021.png';
+import softline2 from 'assets/certificates/softline_12062014.png';
+import rss from 'assets/certificates/RSSshool_20092022.png';
+import MS6419B from 'assets/certificates/MS-6419B.png';
+import AWS_Fundamentals from 'assets/certificates/AWS_Fundamentals.png';
+import techFundamentals from 'assets/certificates/tech_fundamentals.png';
+
 import style from './certificates.module.css';
+import { Carousel } from 'nuka-carousel';
 
 const Certificates = () => {
-  const { t } = useTranslation();
 
   return (
     <ContentWrapper>
       <div className={style.certificates}>
-        <h4 className={style.head}>{t('home.cw.certificates')}</h4>
-          <div className={style.inner}>
-            <figure className={style.figura}>
-              <img className={style.img} src={rss}></img>
-              <figcaption className={style.text}>THE RS SCHOOL - JAVASCRIPT/FRONT-END 2022Q1</figcaption>
-            </figure>
-            <figure className={style.figura}>
-              <img className={style.img} src={MS2778}></img>
-              <figcaption className={style.text}>
-                MS2778 - Quiring and modifying data in Microsoft SQL Server 2008 with transact-SQL
-              </figcaption>
-            </figure>
-            <figure className={style.figura}>
-              <img className={style.img} src={softline}></img>
-              <figcaption className={style.text}>Softline - Advanced C#/.Net</figcaption>
-            </figure>
-            <figure className={style.figura}>
-              <img className={style.img} src={MS6419B}></img>
-              <figcaption className={style.text}>
-                MS-6419B - Configuring, managing and Maintaining windows server 2008-based servers
-              </figcaption>
-            </figure>
-          </div>
+        <Carousel showDots autoplay={true} autoplayInterval={5000} >
+          <figure className={style.figura} >
+            <img className={style.img} src={rss} alt='THE RS SCHOOL - JAVASCRIPT/FRONT-END 2022Q1'></img>
+            <figcaption className={style.text}>THE RS SCHOOL - JAVASCRIPT/FRONT-END 2022Q1</figcaption>
+          </figure>
+          <figure className={style.figura}>
+            <img className={style.img} src={MS2778} alt='Quiring and modifying data in Microsoft SQL Server 2008 with transact-SQL'></img>
+            <figcaption className={style.text}>
+              MS2778 - Quiring and modifying data in Microsoft SQL Server 2008 with transact-SQL
+            </figcaption>
+          </figure>
+          <figure className={style.figura}>
+            <img className={style.img} src={softline} alt='Advanced C#/.Net'></img>
+            <figcaption className={style.text}>Softline - Advanced C#/.Net</figcaption>
+          </figure>
+          <figure className={style.figura}>
+            <img className={style.img} src={MS6419B} alt='Configuring, managing and Maintaining windows server 2008-based servers'></img>
+            <figcaption className={style.text}>
+              MS-6419B - Configuring, managing and Maintaining windows server 2008-based servers
+            </figcaption>
+          </figure>
+          <figure className={style.figura}>
+            <img className={style.img} src={softline2} alt='Создание запросов MS SQL 2008 с испошьзованием языка Transact-SQL'></img>
+            <figcaption className={style.text}>
+              MS2778 - Создание запросов MS SQL 2008 с испошьзованием языка Transact-SQL
+            </figcaption>
+          </figure>
+          <figure className={style.figura}>
+            <img className={style.img} src={AWS_Fundamentals} alt='AWS Fundamentals'></img>
+            <figcaption className={style.text}>
+              THE RS SCHOOL - AWS Fundamentals
+            </figcaption>
+          </figure>
+          <figure className={style.figura}>
+            <img className={style.img} src={techFundamentals} alt='Tech Fundamentals'></img>
+            <figcaption className={style.text}>
+              Tech Fundamentals
+            </figcaption>
+          </figure>
+        </Carousel>
       </div>
     </ContentWrapper>
   );

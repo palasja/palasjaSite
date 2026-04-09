@@ -20,18 +20,13 @@
 }
 
 .figura {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.figura:nth-child(odd) {
-  align-items: flex-start; /* левый столбец */
-}
-
-.figura:nth-child(even) {
-  align-items: flex-end; /* правый столбец */
+    min-width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    margin: 0;
 }
 
 .img {
@@ -63,13 +58,6 @@
   align-items: center;
 }
 
-.figura:nth-child(odd) {
-  align-items: flex-start;
-}
-
-.figura:nth-child(even) {
-  align-items: flex-start;
-}
 .text{
   text-align: center;
 }
