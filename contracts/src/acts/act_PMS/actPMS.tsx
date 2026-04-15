@@ -58,10 +58,11 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
             мелиоративное унитарное предприятие «Наровлянское ПМС», именуемое в дальнейшем
             «Заказчик», в лице директора{' '}
             <span className={style.variable}>
-              {head?.lastNameR} {head?.firstNameR} {head?.middleNameR}{' '}
+              {head?.lastNameR} {head?.firstNameR} {head?.middleNameR}
+              {', '}
             </span>
-            , действующего на основании Устава, с одной стороны и гражданин Якубенко Иван
-            Александрович, паспорт НВ 2955507, выданный 20.06.2016 г. Наровлянским РОВД, проживающий
+            действующего на основании Устава, с одной стороны и гражданин Якубенко Иван
+            Александрович, паспорт НВ 2955507, выданный 20.06.2016г. Наровлянским РОВД, проживающий
             по адресу: Гомельская область, г. Наровля, ул. Мелиоративная, 43/1, именуемый в
             дальнейшем «Исполнитель», составили настоящий акт о том, что в соответствии с договором
             № <span className={style.variable}>{contract.number}</span> от{' '}
@@ -70,9 +71,10 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
             </span>{' '}
             года Исполнителем выполнены следующие работы (оказаны услуги):
           </p>
-          <p>
+          <AtcTable />
+          {/* <p>
             - <span className={style.variable}>{services.map((s) => s.name).join(', ')}</span>.
-          </p>
+          </p> */}
           <p>
             Работы принял представитель Заказчика –{' '}
             <span className={style.variable}>{representor?.firstName}</span>{' '}
@@ -92,6 +94,47 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
       </>
     );
   };
+
+  const AtcTable = () => {
+    let user = new Set<string>();
+    services.forEach((s) => user.add(s.user));
+    return (
+      <table className={style.pmsTable}>
+        <thead>
+          <tr>
+            <th>Должность</th>
+            <th>Наименование услуги</th>
+            <th>Подпись</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from(user).map((u) => {
+            let serviceByUser = services.filter((s) => s.user == u).map((us) => us.name);
+            return (
+              <>
+                {serviceByUser.map((s, i) =>
+                  i == 0 ? (
+                    <tr>
+                      <td className={style.cell} rowSpan={serviceByUser.length}>
+                        {u}
+                      </td>
+                      <td>{s}</td>
+                      <td rowSpan={serviceByUser.length}></td>
+                    </tr>
+                  ) : (
+                    <tr>
+                      <td>{s}</td>
+                    </tr>
+                  )
+                )}
+              </>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  };
+
   const ActPMSFooter = () => {
     return (
       <>

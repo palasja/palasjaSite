@@ -25,7 +25,6 @@ import Header from './components/header';
 import { useAppSelector } from './redux/hooks';
 import { getIsLoading } from './redux/slices/authSlice';
 
-
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return <div className={style.wrapper}>{children}</div>;
 };

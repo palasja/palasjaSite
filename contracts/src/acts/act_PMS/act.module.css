@@ -3,10 +3,10 @@ p {
 }
 .page {
   width: 210mm;
-  height: 297mm;
   font-family: 'Times New Roman', Times, serif;
   font-size: 20px;
   line-height: 20px;
+  padding: 0 15px;
 }
 .datePlace {
   display: flex;
@@ -41,6 +41,16 @@ p {
 }
 .variable {
   color: darkturquoise;
+}
+.pmsTable th,
+.pmsTable td {
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+.pmsTable {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
 }
 @media print {
   .variable {
