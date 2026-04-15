@@ -6,6 +6,7 @@ import rss from 'assets/certificates/RSSshool_20092022.png';
 import MS6419B from 'assets/certificates/MS-6419B.png';
 import AWS_Fundamentals from 'assets/certificates/AWS_Fundamentals.png';
 import techFundamentals from 'assets/certificates/tech_fundamentals.png';
+import AWSTraningCertification from 'assets/certificates/AWS_Traning_Certification.png';
 
 import style from './certificates.module.css';
 import { Carousel } from 'nuka-carousel';
@@ -52,6 +53,12 @@ const Certificates = () => {
             <img className={style.img} src={techFundamentals} alt='Tech Fundamentals'></img>
             <figcaption className={style.text}>
               Tech Fundamentals
+            </figcaption>
+          </figure>
+                    <figure className={style.figura}>
+            <img className={style.img} src={AWSTraningCertification} alt='AWS Training & Certification'></img>
+            <figcaption className={style.text}>
+              AWS Training & Certification
             </figcaption>
           </figure>
         </Carousel>
