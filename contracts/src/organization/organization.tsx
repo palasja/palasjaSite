@@ -53,12 +53,12 @@ const Organization = () => {
     dispatch(choseInfo('service'));
     dispatch(choseAct('show'));
   };
-  const infoHandler = (e: React.MouseEvent, info: OrgInfo, org: OrgType) => {
-    e.stopPropagation();
-    dispatch(choseInfo(info));
-    dispatch(choseAct('show'));
-    dispatch(chooseOrg(org));
-  };
+  // const infoHandler = (e: React.MouseEvent, info: OrgInfo, org: OrgType) => {
+  //   e.stopPropagation();
+  //   dispatch(choseInfo(info));
+  //   dispatch(choseAct('show'));
+  //   dispatch(chooseOrg(org));
+  // };
   const changeHandler = (e: React.MouseEvent, org: OrgType) => {
     e.stopPropagation();
     dispatch(choseInfo('org'));
@@ -75,6 +75,7 @@ const Organization = () => {
     dispatch(chooseOrg(null));
     if (changingOrganization?.name === org.name) dispatch(changingOrg(null));
   };
+
   const page = (
     <>
       {organizations.length == 0 ? (

@@ -139,21 +139,26 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
     return (
       <>
         <div className={style.sidesInfo}>
-          <div>
-            <p>ЗАКАЗЧИК:</p>
-            <p>Государственное предприятие «Наровлянское ПМС»</p>
-            <p>247802, Гомельская область,</p>
-            <p>г. Наровля, ул. Спивака, 1 Б</p>
-            <p>р/с BY97AKBB30120332510123300000</p>
-            <p>BIC AKBBBY21317 </p>
-            <p>г. Минск, проспект Дзержинского, 18</p>
-            <p>УНП 400517900 ОКПО 290364733</p>
-            <p className={style.sidesInfo_sign}>
-              Директор ___________ <span className={style.variable}>{getShortName(head)}</span>
-            </p>
-            <p>м.п.</p>
+          <div className={style.sidesInfo_block}>
+            <div>
+              <p>ЗАКАЗЧИК:</p>
+              <p>Государственное предприятие «Наровлянское ПМС»</p>
+              <p>247802, Гомельская область,</p>
+              <p>г. Наровля, ул. Спивака, 1 Б</p>
+              <p>р/с BY97AKBB30120332510123300000</p>
+              <p>BIC AKBBBY21317 </p>
+              <p>г. Минск, проспект Дзержинского, 18</p>
+              <p>УНП 400517900 ОКПО 290364733</p>
+            </div>
+            <div>
+              <p className={style.sidesInfo_sign}>
+                Директор <span className={style.underscore}></span>{' '}
+                <span className={`${style.variable} ${style.shortName}`}>{getShortName(head)}</span>
+              </p>
+              <p className={style.stamp}>м.п.</p>
+            </div>
           </div>
-          <div>
+          <div className={style.sidesInfo_block}>
             <p>ИСПОЛНИТЕЛЬ:</p>
             <p>Якубенко Иван Александрович</p>
             <p>Дата рождения 08.06.1991 г.</p>
@@ -161,8 +166,11 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
             <p>Наровлянским РОВД </p>
             <p>Адрес: Гомельская обл., г. Наровля, ул. Мелиоративная, 43/1</p>
             <p>Страховой номер 3080691Н001РВ9</p>
-            <p>Идентификационный № 3080691Н001РВ9</p>
-            <p className={style.sidesInfo_sign}>Гражданин_____________ И.А. Якубенко </p>
+            <p>Идентификационный номер 3080691Н001РВ9</p>
+            <p className={style.sidesInfo_sign}>
+              Гражданин<span className={style.underscore}></span>{' '}
+              <span className={style.shortName}>И.А. Якубенко</span>{' '}
+            </p>
           </div>
         </div>
         <div className={style.signs}>
