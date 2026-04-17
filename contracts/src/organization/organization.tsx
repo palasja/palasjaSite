@@ -53,12 +53,6 @@ const Organization = () => {
     dispatch(choseInfo('service'));
     dispatch(choseAct('show'));
   };
-  // const infoHandler = (e: React.MouseEvent, info: OrgInfo, org: OrgType) => {
-  //   e.stopPropagation();
-  //   dispatch(choseInfo(info));
-  //   dispatch(choseAct('show'));
-  //   dispatch(chooseOrg(org));
-  // };
   const changeHandler = (e: React.MouseEvent, org: OrgType) => {
     e.stopPropagation();
     dispatch(choseInfo('org'));

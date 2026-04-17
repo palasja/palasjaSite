@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
-  circleCost,
+  roundedCost,
   getIdNum,
   getServicesCost,
   getServicesCostWithNDS,
@@ -11,7 +11,7 @@ import {
 import style from './act.module.css';
 import ActZKH from './act_ZKH';
 import ActPMS from './act_PMS';
-import { NDS_VICHET, PENSIA, NDS } from '../helpers/constants';
+import { NDS_VICHET, PENSIA_NDS, NDS } from '../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { chooseMonth, getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
@@ -155,10 +155,10 @@ const Act = () => {
         <p>Стоимость с НДС = {getServicesCostWithNDS_47(services)}</p>
         <p>
           К получению после вычета НДС ={' '}
-          {circleCost(
+          {roundedCost(
             getServicesCostWithNDS_47(services) -
               getServicesCost(services) *
-                ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA : NDS) / 100)
+                ((getServicesCostWithNDS_47(services) < NDS_VICHET ? PENSIA_NDS : NDS) / 100)
           )}
         </p>
       </article>
@@ -171,7 +171,7 @@ const Act = () => {
         <p>Стоимость с НДС = {getServicesCostWithNDS(services)}</p>
         <p>
           К получению после вычета НДС
-          {circleCost(
+          {roundedCost(
             getServicesCostWithNDS(services) - getServicesCostWithNDS(services) * (NDS / 100)
           )}
         </p>

@@ -1,4 +1,4 @@
-import { NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA } from './constants';
+import { DOHOD, NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA_NDS } from './constants';
 import { Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File | Blob): Promise<string> =>
@@ -46,20 +46,28 @@ export const getShortName = (person: Personal | undefined): string => {
     : `${person.firstName[0]}. ${person.middleName[0]}. ${person.lastName}`;
 };
 
-export const circleCost = (cost: number) => {
+export const roundedCost = (cost: number) => {
   return Math.trunc(cost * 100) / 100;
 };
 
 export const getServicesCostWithNDS = (services: Service[]) => {
   const itogSumm = getServicesCost(services);
   const itogWithNDS = Math.trunc((itogSumm + itogSumm * (NDS / 100)) * 100) / 100;
-  return circleCost(itogWithNDS);
+  return roundedCost(itogWithNDS);
 };
 
 /**
  * Согласно закона 47 о налогоывых вычетов
- * если ЗП меньше 192р то вычитается только 1% в пенсионный фонд
+ * 1% в пенсионный фонд считается из ЗП до всех вычетов
+ * 
+ * 2025 год
+ *  * если ЗП меньше 192р то вычитается только 1% в пенсионный фонд
  * если ЗП меньше 1164 то вычитается 192 и берётся налог от этой суммы (13% подоходный + 1% пенсионный)
+ * если ЗП больше то берётся налог от всей суммы (13% подоходный + 1% пенсионный)
+ * 
+ * 2026 год
+ * если ЗП меньше 216р то вычитается только 1% в пенсионный фонд
+ * если ЗП меньше 1308 то вычитается 216 и берётся налог от этой суммы (13% подоходный + 1% пенсионный)
  * если ЗП больше то берётся налог от всей суммы (13% подоходный + 1% пенсионный)
  * @param services - list of services
  * @returns cost with NDS
@@ -68,15 +76,17 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
   const itogSumm = getServicesCost(services);
   let itogSummNDS = 0;
   if (itogSumm < NDS_VICHET) {
-    itogSummNDS = itogSumm + itogSumm * (PENSIA / 100);
+    itogSummNDS = itogSumm + itogSumm * (PENSIA_NDS / 100);
   } else if (itogSumm < NDS_VICHET_LIMIT) {
-    const summWithouVichet = itogSumm - NDS_VICHET;
-    const summNDS = (summWithouVichet * 100 + summWithouVichet * (NDS / 100) * 100) / 100;
+    const pensia_nds = itogSummNDS * (PENSIA_NDS / 100);
+    const summAfterVichet = itogSumm - NDS_VICHET;
+    const podohod = summAfterVichet * (DOHOD / 100);
+    const summNDS = (summAfterVichet * 100 + podohod * 100 + pensia_nds * 100) / 100;
     itogSummNDS = summNDS + NDS_VICHET;
   } else {
     itogSummNDS = (itogSumm * 100 + itogSumm * (NDS / 100) * 100) / 100;
   }
-  return circleCost(itogSummNDS);
+  return roundedCost(itogSummNDS);
 };
 
 export const getServicesCost = <T extends { cost: number; count: number }>(services: T[]) => {
