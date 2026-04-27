@@ -28,9 +28,11 @@ import {
   RemoveIcon,
   ServicesIcon,
 } from '../components/icons/icons';
-import { NavLink } from 'react-router';
+import { Link, NavLink, useParams } from 'react-router';
+import { useEffect } from 'react';
 
 const Organization = () => {
+  let params = useParams();
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const changingOrganization = useAppSelector(getChangingOrganization);
@@ -70,6 +72,10 @@ const Organization = () => {
     if (changingOrganization?.name === org.name) dispatch(changingOrg(null));
   };
 
+  useEffect(() => {
+    const org = organizations.find(o => o.id === Number.parseInt(params.orgID as string)) as OrgType;
+    dispatch(chooseOrg(org));
+  })
   const page = (
     <>
       {organizations.length == 0 ? (
@@ -89,7 +95,7 @@ const Organization = () => {
               data-testid="orgBtn"
             >
               <div
-                className={`${style.mainBtn} ${org.id === choosenOrg?.id ? style.orgActive : ''}`}
+                className={`${style.mainBtn} ${org.id === Number.parseInt(params.orgID as string) ? style.orgActive : ''}`}
               >
                 {org.id !== 0 ? (
                   <>
@@ -100,7 +106,10 @@ const Organization = () => {
                     >
                       <RemoveIcon />
                     </div>
-                    <div className={style.orgName}>{org.name}</div>
+                  <Link  to={`/org/${org.id}/servise`} className={style.orgName}>
+                    {org.name}
+                  </Link>
+                  {/* <div className={style.orgName}>{org.name}</div> */}
                     <div
                       className={style.orgActBtn}
                       onClick={(e) => changeHandler(e, org)}
@@ -111,7 +120,10 @@ const Organization = () => {
                   </>
                 ) : (
                   <>
-                    <div className={style.orgName}>{org.name}</div>
+                  <Link className={style.orgName} to={`/org/${org.id}/servise`}>
+                    {org.name}
+                  </Link>
+
                   </>
                 )}
               </div>

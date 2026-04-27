@@ -43,7 +43,6 @@ const Services = () => {
         },
         true
       );
-      console.log(services);
     }
   }, [choosenOrg, choosenMonth, choosenYear, isPaid]);
 
