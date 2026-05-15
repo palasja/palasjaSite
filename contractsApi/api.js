@@ -38,13 +38,18 @@ const getToken = (payload, expires) => {
       expiresIn: expires,
     });
 }
-const newTokenToRes = (res) => {
+const getLoginFromToken = (req) => {
+  const accessToken = req.cookies.accessToken;
+  var decoded = jwt.verify(accessToken, `${SECRET}`);
+  return decoded.login;
+}
+const newTokenToRes = (res, login) => {
     const options = {
       httpOnly: true,
     };
 
-    const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day}, expire.day);
-    const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter}, expire.quarter);
+    const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day, login: login}, expire.day);
+    const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter, login: login}, expire.quarter);
     res.cookie('accessToken', newAccessToken, options);
     res.cookie('refreshToken', newRefreshToken, options);
 }
@@ -84,7 +89,7 @@ router.post('/signIn', asyncHandler( async (req, res) => {
       login: userName,
       password: hash
     } );
-newTokenToRes(res);
+  newTokenToRes(res, userName);
     res.sendStatus(200);
   }
 
@@ -102,7 +107,7 @@ router.post('/logIn', asyncHandler( async (req, res) => {
       } else {
       const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
       if(isPassCorrect && userName == admin.login){
-          newTokenToRes(res);
+          newTokenToRes(res, userName);
           res.sendStatus(200);
         } else {
           res.sendStatus(403); 
@@ -112,8 +117,8 @@ router.post('/logIn', asyncHandler( async (req, res) => {
       res.sendStatus(200);
     }
   });
-
 }));
+
 router.post('/checkAuth', asyncHandler( async (req, res) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
@@ -126,7 +131,7 @@ router.post('/checkAuth', asyncHandler( async (req, res) => {
             res.clearCookie("refreshToken");
             res.sendStatus(401);
           } else {
-            newTokenToRes(res);
+            newTokenToRes(res, decoded.login);
             res.sendStatus(200);
           }
         });
@@ -156,7 +161,7 @@ router.use((req, res, next) => {
              res.sendStatus(401);
              return;
           } else{
-            newTokenToRes(res);
+            newTokenToRes(res, decoded.login);
             return next();
           }
         });
@@ -389,9 +394,12 @@ router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
   res.status(200).json({startDate, endDate});
 }));
 router.put('/addService',  asyncHandler( async (req, res) => {
-  let result = await Service.create(req.body);
+  let result = await Service.create(req.body, {
+    login: getLoginFromToken(req),
+  });
   res.status(200).json(result);
-}));
+})
+);
 router.delete('/removeService/:id',  asyncHandler( async (req, res) => {
   let result = await Service.destroy({
       where: {
@@ -405,9 +413,11 @@ router.patch('/updateService',  asyncHandler( async (req, res) => {
     let result = await Service.update(
         service,
         {
-            where: {
-                id: service.id,
-            },
+          where: {
+              id: service.id,
+          },
+          individualHooks: true,
+          login: getLoginFromToken(req),
         },
     );
     res.status(200).json(result);
@@ -468,6 +478,28 @@ router.get('/getSoftArticle/:id',  asyncHandler( async (req, res) => {
   res.status(200).json(result);
 }));
 router.put('/addSoftArticle',  asyncHandler( async (req, res) => {
+  jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+    if(err){
+      const userName = req.body.login;
+      const userPass = req.body.password;
+
+      if(admin == null) {
+        res.sendStatus(403); 
+      } else {
+      const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
+      if(isPassCorrect && userName == admin.login){
+          newTokenToRes(res, decoded.login);
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(403); 
+        }
+      }
+    } else {
+      res.sendStatus(200);
+    }
+  });
+
+
   let result = await SoftArticle.create({
     name: req.body.name,
     info: req.body.info,
