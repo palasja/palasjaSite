@@ -1,6 +1,6 @@
 import style from './contracts.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
+import { chosenAction, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import ContractForm from './contractsForm';
@@ -31,10 +31,10 @@ const Contracts = () => {
   const [changingContract, setChangingContract] = useState<Contract | undefined>();
   const changeHandler = (con: Contract) => {
     setChangingContract(con);
-    dispatch(choseAct('change'));
+    dispatch(chosenAction('change'));
   };
   const addHandler = () => {
-    dispatch(choseAct('add'));
+    dispatch(chosenAction('add'));
   };
   const removeHandler = (id: string) => {
     setRemoveId(parseInt(id, 10));

@@ -28,7 +28,7 @@ const SoftPromptForm = ({ softInfo, clearCallback }: ChangingSoftInfoFormProps) 
     data = trimObjectProperty(data);
     try {
       await addSoftInfo(data).unwrap();
-      resetForm();
+      clearCallback();
     } catch (err) {
       console.error('Failed to save the Name: ', err);
     }
@@ -37,7 +37,7 @@ const SoftPromptForm = ({ softInfo, clearCallback }: ChangingSoftInfoFormProps) 
     data = trimObjectProperty(data);
     try {
       await updateSoftInfo(data).unwrap();
-      resetForm();
+      clearCallback();
     } catch (err) {
       console.error('Failed to save the Name: ', err);
     }
@@ -84,7 +84,7 @@ const SoftPromptForm = ({ softInfo, clearCallback }: ChangingSoftInfoFormProps) 
               resetForm();
               clearCallback();
             }}
-            value={'Очистить'}
+            value={'Отмена'}
           />
         </div>
       </form>

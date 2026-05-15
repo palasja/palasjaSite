@@ -6,14 +6,14 @@
   gap: 40px;
 }
 .sofinfoName {
-  display: flex;
-  align-items: center;
+  text-align: left;
 }
 .main {
   display: grid;
   grid-template-columns: 1fr 3fr;
 }
 .softMenu {
+  margin-right: 40px;
 }
 .articleNames {
   display: flex;
@@ -41,6 +41,10 @@
   display: flex;
   justify-content: center;
   margin: 20px 0;
+}
+.textFieldInfo{
+  white-space: pre-wrap;
+  text-align: left;
 }
 .infoHead {
   margin: 20px 0;

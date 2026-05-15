@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
-  choseAct,
+  chosenAction,
   getChosenchosenAction,
   getChosenInfo,
   getChosenOrganization,
@@ -39,10 +39,10 @@ const Personals = () => {
   const changeHandler = (person: Personal) => {
     console.log(person);
     setChangingPersonal(person);
-    dispatch(choseAct('change'));
+    dispatch(chosenAction('change'));
   };
   const addHandler = () => {
-    dispatch(choseAct('add'));
+    dispatch(chosenAction('add'));
   };
   const removeHandler = (id: string) => {
     setRemoveId(id);

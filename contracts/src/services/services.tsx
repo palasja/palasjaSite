@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 // import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
-import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
+import { chosenAction, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
 import {
@@ -53,10 +53,10 @@ const Services = () => {
   };
   const changeHandler = (service: Service) => {
     setChangingService(service);
-    dispatch(choseAct('change'));
+    dispatch(chosenAction('change'));
   };
   const addHandler = () => {
-    dispatch(choseAct('add'));
+    dispatch(chosenAction('add'));
   };
   const removeHandler = (id: string) => {
     setRemoveId(parseInt(id, 10));

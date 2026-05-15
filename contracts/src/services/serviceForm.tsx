@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { choseAct, getChosenOrganization } from '../redux/slices/orgsSlice';
+import { chosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
@@ -39,7 +39,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   };
 
   const resetForm = () => {
-    dispatch(choseAct('show'));
+    dispatch(chosenAction('show'));
   };
   useEffect(() => {
     if (changingService) {

@@ -7,7 +7,7 @@ import {
   getChosenOrganization,
   getChosenInfo,
   getChosenchosenAction,
-  choseAct,
+  chosenAction,
 } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
@@ -46,24 +46,24 @@ const Organization = () => {
   const noOrgClickHandler = () => {
     dispatch(isWithoutOrg(true));
     dispatch(choseInfo('service'));
-    dispatch(choseAct('show'));
+    dispatch(chosenAction('show'));
     dispatch(chooseOrg(organizations[organizations.length - 1]));
   };
   const orgClickHandler = (org: OrgType) => {
     dispatch(isWithoutOrg(false));
     dispatch(chooseOrg(org));
     dispatch(choseInfo('service'));
-    dispatch(choseAct('show'));
+    dispatch(chosenAction('show'));
   };
   const changeHandler = (e: React.MouseEvent, org: OrgType) => {
     e.stopPropagation();
     dispatch(choseInfo('org'));
-    dispatch(choseAct('change'));
+    dispatch(chosenAction('change'));
     dispatch(changingOrg(org));
   };
   const addHandler = () => {
     dispatch(choseInfo('org'));
-    dispatch(choseAct('add'));
+    dispatch(chosenAction('add'));
   };
   const removeHandler = (org: OrgType) => {
     setRemoveId(org.id);

@@ -20,7 +20,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { AddIcon, EditIcon, RemoveIcon } from '../components/icons/icons';
 import style from './softPrompt.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { choseAct, getChosenchosenAction } from '../redux/slices/orgsSlice';
+
 
 import {
   changeSoft,
@@ -42,7 +42,7 @@ const ImageContainer = ({ img }: { img: string }) => {
 };
 
 const TextField = ({ text }: { text: string | undefined }) => {
-  return <div>{text ? text : ''}</div>;
+  return <div className={style.textFieldInfo}>{text ? text : ''}</div>;
 };
 
 const SoftInfoArticle = () => {
@@ -211,7 +211,7 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
           <span
             onClick={() => {
               dispatch(changeSoft(soft));
-              dispatch(choseAct('change'));
+              dispatch(changeActionArticle('change'));
             }}
           >
             <EditIcon />
@@ -245,13 +245,13 @@ const SoftPrompt = () => {
   const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
   const softInfo = softinfoExample;
 
-  const softAction = useAppSelector(getChosenchosenAction);
+  const softAction = useAppSelector(getActionArticle);
   const changingSoft = useAppSelector(getChangingSoft);
   const dispatch = useAppDispatch();
   const actionArticle = useAppSelector(getActionArticle);
 
   useEffect(() => {
-    dispatch(choseAct('show'));
+    dispatch(changeActionArticle('show'));
   }, []);
 
   const clearHandler = () => {
@@ -263,7 +263,7 @@ const SoftPrompt = () => {
       <div className={style.head}>
         <AddIcon
           onClick={() => {
-            dispatch(choseAct('add'));
+            dispatch(changeActionArticle('new'));
           }}
         />
         <p>Информация по программам </p>
@@ -281,7 +281,7 @@ const SoftPrompt = () => {
       {softAction == 'change' && (
         <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
       )}
-      {softAction == 'add' && (
+      {softAction == 'new' && (
         <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
       )}
     </>

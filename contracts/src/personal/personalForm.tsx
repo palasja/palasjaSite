@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Personal } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { choseAct, getChosenOrganization } from '../redux/slices/orgsSlice';
+import { chosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import {
@@ -41,7 +41,7 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
     resetForm();
   };
   const resetForm = () => {
-    dispatch(choseAct('show'));
+    dispatch(chosenAction('show'));
   };
   useEffect(() => {
     if (changingPersonal) {
