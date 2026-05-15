@@ -22,6 +22,8 @@ import {
   useUpdateSoftArticleLinkMutation,
 } from '../redux/slices/softInfoArticleLinkRTK';
 import { AddIcon, RemoveIcon } from '../components/icons/icons';
+import { useAppDispatch } from '../redux/hooks';
+import { choseArticleId } from '../redux/slices/softSlice';
 
 type ChangingSoftArticleFormProps = {
   changingSoftArticle: SoftArticleType | undefined;
@@ -96,6 +98,7 @@ const SoftInfoArticleForm = ({
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
 
   const onSubmitCreate: SubmitHandler<SoftInfoForm> = async (data) => {
+    
     const newArticle: SoftArticle = {
       id: '',
       name: data.name,
@@ -117,6 +120,7 @@ const SoftInfoArticleForm = ({
       links.forEach((l) => (l.softArticleId = newArticleId));
       addSoftArticleLinks(links);
     }
+    console.log(newArticleId);
     resetForm(newArticleId);
   };
 
@@ -149,8 +153,8 @@ const SoftInfoArticleForm = ({
 
       if (removedLinksId && removedLinksId.length !== 0)
         removedLinksId.forEach((id) => deleteSoftArticleLinks(id));
-    }
-    resetForm(data.id);
+      }
+      resetForm(data.id);
   };
 
   const resetForm = (articleId: string) => {

@@ -6,6 +6,7 @@ import { RootState } from '../store';
 interface SoftState {
   changingSoft: SoftInfo | undefined;
   actionArticle: ArtileAction;
+  actionSoft: ArtileAction;
   chosenSoftId: string | undefined;
   choosenArticleId: string | undefined;
 }
@@ -13,6 +14,7 @@ interface SoftState {
 const initialState: SoftState = {
   changingSoft: undefined,
   actionArticle: 'show',
+  actionSoft: 'show',
   chosenSoftId: undefined,
   choosenArticleId: undefined,
 };
@@ -23,6 +25,9 @@ const softSlice = createSlice({
   reducers: {
     changeSoft(state, action: PayloadAction<SoftInfo | undefined>) {
       state.changingSoft = action.payload;
+    },
+    changeActionSoft(state, action: PayloadAction<ArtileAction>) {
+      state.actionSoft = action.payload;
     },
     changeActionArticle(state, action: PayloadAction<ArtileAction>) {
       state.actionArticle = action.payload;
@@ -38,8 +43,9 @@ const softSlice = createSlice({
 
 export default softSlice.reducer;
 
-export const { changeSoft, changeActionArticle, choseSoftId, choseArticleId } = softSlice.actions;
+export const { changeSoft, changeActionArticle, choseSoftId, choseArticleId, changeActionSoft } = softSlice.actions;
 export const getChangingSoft = (state: RootState) => state.soft.changingSoft;
 export const getActionArticle = (state: RootState) => state.soft.actionArticle;
+export const getActionSoft = (state: RootState) => state.soft.actionSoft;
 export const getSoftId = (state: RootState) => state.soft.chosenSoftId;
 export const getArticleId = (state: RootState) => state.soft.choosenArticleId;

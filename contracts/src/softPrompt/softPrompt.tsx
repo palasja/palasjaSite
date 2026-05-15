@@ -31,7 +31,16 @@ import {
   getArticleId,
   getChangingSoft,
   getSoftId,
+  getActionSoft,
+  changeActionSoft,
 } from '../redux/slices/softSlice';
+
+  const toTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
 
 const ImageContainer = ({ img }: { img: string }) => {
   return (
@@ -54,6 +63,7 @@ const SoftInfoArticle = () => {
   const { data: links, isSuccess: isSuccessLinks } = useGetSoftArticleLinksQuery(
     articleId ?? skipToken
   );
+  //add rerender after remove choosen article
   return (
     <>
       {action === 'new' && softId && (
@@ -61,8 +71,8 @@ const SoftInfoArticle = () => {
           changingSoftArticle={undefined}
           changingSoftLinks={undefined}
           softInfoId={softId}
-          clearCallback={() => {
-            dispatch(choseArticleId(articleId));
+          clearCallback={(articleIdFromForm) => {
+            dispatch(choseArticleId(articleIdFromForm));
             dispatch(changeActionArticle('show'));
           }}
         />
@@ -76,8 +86,8 @@ const SoftInfoArticle = () => {
               changingSoftArticle={article}
               changingSoftLinks={links}
               softInfoId={article.softInfoId}
-              clearCallback={() => {
-                dispatch(choseArticleId(articleId));
+              clearCallback={(articleIdFromForm) => {
+                dispatch(choseArticleId(articleIdFromForm));
                 dispatch(changeActionArticle('show'));
               }}
             />
@@ -130,12 +140,7 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<string>('');
   const choosenArticleId = useAppSelector(getArticleId);
-  const toTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }
+
   const showHandler = (id: string) => {
     dispatch(choseArticleId(id));
     dispatch(changeActionArticle('show'));
@@ -173,8 +178,11 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
           remove={() => {
             deleteArticleInfo(removeId);
 
-            if (choosenArticleId === removeId) dispatch(changeActionArticle('show'));
-            dispatch(choseArticleId(undefined));
+            if (choosenArticleId === removeId){
+              dispatch(choseArticleId(undefined));  
+              dispatch(changeActionArticle('show'));
+            } 
+            
           }}
           close={() => setIsShowRemoveModal(false)}
         />
@@ -190,6 +198,7 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
   const newHandler = (softId: string) => {
     dispatch(choseSoftId(softId));
     dispatch(changeActionArticle('new'));
+    toTop();
   };
 
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
@@ -211,7 +220,7 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
           <span
             onClick={() => {
               dispatch(changeSoft(soft));
-              dispatch(changeActionArticle('change'));
+              dispatch(changeActionSoft('change'));
             }}
           >
             <EditIcon />
@@ -242,33 +251,33 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
 };
 
 const SoftPrompt = () => {
-  const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
+  const { data: softinfoExample = [] } = useGetSoftInfoQuery();
   const softInfo = softinfoExample;
 
-  const softAction = useAppSelector(getActionArticle);
+  const actionSoft = useAppSelector(getActionSoft);
   const changingSoft = useAppSelector(getChangingSoft);
   const dispatch = useAppDispatch();
   const actionArticle = useAppSelector(getActionArticle);
 
   useEffect(() => {
-    dispatch(changeActionArticle('show'));
+    dispatch(changeActionSoft('show'));
   }, []);
 
   const clearHandler = () => {
     dispatch(changeSoft(undefined));
-    dispatch(changeActionArticle('show'));
+    dispatch(changeActionSoft('show'));
   };
   return (
     <>
       <div className={style.head}>
         <AddIcon
           onClick={() => {
-            dispatch(changeActionArticle('new'));
+            dispatch(changeActionSoft('new'));
           }}
         />
         <p>Информация по программам </p>
       </div>
-      {softAction == 'show' && (
+      {actionSoft == 'show' && (
         <main className={style.main}>
           <aside className={style.softMenu}>
             {softInfo.map((soft, i) => {
@@ -278,10 +287,10 @@ const SoftPrompt = () => {
           <section>{actionArticle && <SoftInfoArticle />}</section>
         </main>
       )}
-      {softAction == 'change' && (
+      {actionSoft == 'change' && (
         <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
       )}
-      {softAction == 'new' && (
+      {actionSoft == 'new' && (
         <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
       )}
     </>
