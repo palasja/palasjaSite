@@ -15,19 +15,34 @@ import { EditIcon, PayIcon, RemoveIcon, UnpayIcon } from '../components/icons/ic
 import style from './services.module.css';
 import { default as CreditScoreIconMaterial } from '@mui/icons-material/CreditScore';
 import { default as CreditCardOffIconMaterial } from '@mui/icons-material/CreditCardOff';
-
+import { useAppDispatch } from '../redux/hooks';
+import {
+  fullDesc
+} from '../redux/slices/servicesSlice';
 const ServiceTable = ({
   data,
   edit,
   remove,
+  showDetail
 }: {
   data: Service[];
   edit: (service: Service) => void;
   remove: (id: string) => void;
+  showDetail: () => void
 }) => {
   //should be memoized or stable
   const [toPaidServices] = useToPaidServiceMutation();
   const [toUnpaidServices] = useToUnpaidServiceMutation();
+  const dispatch = useAppDispatch();
+  const getShortDescription = (desc: string): string => {
+    return desc.length < 75 ? desc : `${desc.substring(0, 90)} ...`;
+  }
+
+  const showFullDetails = (desc: string) => {
+    dispatch(fullDesc(desc));
+    showDetail();
+  }
+
   const columns = useMemo<MRT_ColumnDef<Service>[]>(
     () => [
       {
@@ -71,7 +86,7 @@ const ServiceTable = ({
         header: 'Детали',
         size: 250,
         Cell: ({ cell }) => {
-          return <div className={style.description}>{cell.getValue<string>()}</div>;
+          return <div className={style.description} onClick={() => showFullDetails(cell.getValue<string>())}>{getShortDescription(cell.getValue<string>())} </div>;
         },
       },
       {

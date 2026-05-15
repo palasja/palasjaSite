@@ -9,7 +9,7 @@ import {
   useDeleteServiceMutation,
   useLazyGetServicesByOrgIdMonthYearQuery,
 } from '../redux/slices/servicesRTKSlice';
-import RemoveAgreePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import ServiceTable from './serviceTable';
 import { AddIcon } from '../components/icons/icons';
@@ -17,6 +17,7 @@ import style from './services.module.css';
 import { getServicesCost, getServicesCostByMonth } from '../helpers/helper';
 import { WISHPAYMENT_IN_MOOONTH } from '../helpers/constants';
 import SelectMonthYear from '../components/selectMonthYear';
+import DetailPortal from '../components/modal/details/detailModal';
 
 const Services = () => {
   const [isPaid, setIsPaid] = useState(false);
@@ -31,6 +32,7 @@ const Services = () => {
     useLazyGetServicesByOrgIdMonthYearQuery();
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
+  const [isShowDetailModal, setIsShowDetailModal] = useState(false);
 
   useEffect(() => {
     if (choosenOrg !== null) {
@@ -102,13 +104,19 @@ const Services = () => {
         (services?.length == 0 ? (
           <h3>Нет услуг</h3>
         ) : (
-          services && <ServiceTable data={services} edit={changeHandler} remove={removeHandler} />
+          services && <ServiceTable data={services} edit={changeHandler} remove={removeHandler} showDetail={() => setIsShowDetailModal(true)} />
         ))}
 
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteService(removeId)}
           close={() => setIsShowRemoveModal(false)}
+        />
+      )}
+
+      {isShowDetailModal && (
+        <DetailPortal
+          close={() => setIsShowDetailModal(false)}
         />
       )}
     </>

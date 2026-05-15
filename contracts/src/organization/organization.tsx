@@ -9,7 +9,7 @@ import {
   getChosenchosenAction,
   choseAct,
 } from '../redux/slices/orgsSlice';
-import RemoveAgreePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import OrganizationForm from './organizationForm';
 import {
@@ -18,7 +18,7 @@ import {
 } from '../redux/slices/organizationRTKSlice';
 import style from './organization.module.css';
 import { isWithoutOrg } from '../redux/slices/servicesSlice';
-import { OrgInfo, Organization as OrgType } from '../helpers/contractTypes';
+import { Organization as OrgType } from '../helpers/contractTypes';
 import {
   ActIcon,
   AddOrgIcon,

@@ -5,7 +5,7 @@ import {
   getChosenInfo,
   getChosenOrganization,
 } from '../redux/slices/orgsSlice';
-import RemoveAgreePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import PersonalForm from './personalForm';
 import { Personal } from '../helpers/contractTypes';

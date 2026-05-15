@@ -9,7 +9,7 @@ import { SOFT_INFO_IMAGE_PREFIX, SOFT_INFO_SPLITER_IMAGE } from '../helpers/cons
 import SoftPromptForm from './softPromptForm';
 import { useDeleteSoftInfoMutation, useGetSoftInfoQuery } from '../redux/slices/softInfoRTK';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
-import RemoveAgreePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import {
   useDeleteSoftArticleMutation,
   useGetSoftArticleQuery,
