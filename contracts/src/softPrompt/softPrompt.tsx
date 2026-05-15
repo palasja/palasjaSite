@@ -130,6 +130,12 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<string>('');
   const choosenArticleId = useAppSelector(getArticleId);
+  const toTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
   const showHandler = (id: string) => {
     dispatch(choseArticleId(id));
     dispatch(changeActionArticle('show'));
@@ -139,6 +145,7 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
     e.preventDefault();
     dispatch(changeActionArticle('change'));
     dispatch(choseArticleId(id));
+    toTop();
   };
   const [deleteArticleInfo] = useDeleteSoftArticleMutation();
   return (
@@ -147,7 +154,7 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
       key={article.id}
       className={style.articleNameContainer}
     >
-      <span className={style.articleName}>{article.name}</span>
+      <span onClick={toTop} className={style.articleName}>{article.name}</span>
       <span onClick={(e) => changeHandler(article.id, e)}>
         <EditIcon />
       </span>
