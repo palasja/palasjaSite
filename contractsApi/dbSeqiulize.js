@@ -294,6 +294,10 @@ let sequelize = new Sequelize(
            
         },
       },
+      {
+            freezeTableName: true,
+            timestamps: false,
+        }
     );      
       SoftArticle.hasMany(SoftArticleLinks, {as: "softLinks", onDelete: 'cascade'});
     SoftArticleLinks.belongsTo(SoftArticle, {
