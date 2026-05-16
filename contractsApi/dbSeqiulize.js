@@ -327,4 +327,4 @@ let sequelize = new Sequelize(
     });
     
 
-export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo, SoftArticle, SoftArticleLinks}
+export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange}

@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const saltRounds = 10;
 
 var {Sequelize, Op, where} = require('sequelize');
-const {sequelize, Organization, Contracts, Personal, Service, Users, SoftInfo, SoftArticle, SoftArticleLinks} = require('./dbSeqiulize');
+const {sequelize, Organization, Contracts, Personal, Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange} = require('./dbSeqiulize');
 const SECRET = '23sadf6rucvbnvza-sd[pqw,';
 
 var app = express();
@@ -421,6 +421,16 @@ router.patch('/updateService',  asyncHandler( async (req, res) => {
         },
     );
     res.status(200).json(result);
+}));
+router.get('/serviceCostChangeById/:id',  asyncHandler( async (req, res) => {
+  let result = await ServiceCostChange.findAll({
+      where: {
+        serviceId: req.params.id,
+      }, order: [
+        ['date', 'DESC'],
+      ]
+    });
+  res.status(200).json(result);
 }));
 router.get('/contractScan/:id',  asyncHandler( async (req, res) => {
   let result = await Contracts.findOne({

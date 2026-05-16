@@ -18,6 +18,8 @@ import { getServicesCost, getServicesCostByMonth } from '../helpers/helper';
 import { WISHPAYMENT_IN_MOOONTH } from '../helpers/constants';
 import SelectMonthYear from '../components/selectMonthYear';
 import DetailPortal from '../components/modal/details/detailModal';
+import Description from '../components/modal/content/costChange/description';
+import CostChange from '../components/modal/content/description/costChange';
 
 const Services = () => {
   const [isPaid, setIsPaid] = useState(false);
@@ -32,8 +34,8 @@ const Services = () => {
     useLazyGetServicesByOrgIdMonthYearQuery();
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
-  const [isShowDetailModal, setIsShowDetailModal] = useState(false);
-
+  const [isShowDescriptionModal, setIsShowDescriptionModal] = useState(false);
+  const [isShowCostChangeModal, setIsShowCostChangeModal] = useState(false);
   useEffect(() => {
     if (choosenOrg !== null) {
       loadServices(
@@ -104,7 +106,7 @@ const Services = () => {
         (services?.length == 0 ? (
           <h3>Нет услуг</h3>
         ) : (
-          services && <ServiceTable data={services} edit={changeHandler} remove={removeHandler} showDetail={() => setIsShowDetailModal(true)} />
+          services && <ServiceTable data={services} edit={changeHandler} remove={removeHandler} showDetail={() => setIsShowDescriptionModal(true)} showServiceCost={() => setIsShowCostChangeModal(true)}/>
         ))}
 
       {isShowRemoveModal && (
@@ -114,9 +116,18 @@ const Services = () => {
         />
       )}
 
-      {isShowDetailModal && (
-        <DetailPortal
-          close={() => setIsShowDetailModal(false)}
+      {isShowDescriptionModal && (
+        <DetailPortal children={<Description close={(e: React.MouseEvent<HTMLElement>) => {
+            e.stopPropagation();
+            setIsShowDescriptionModal(false);
+          }}/>}
+        />
+      )}
+      {isShowCostChangeModal && (
+        <DetailPortal children={<CostChange close={(e: React.MouseEvent<HTMLElement>) => {
+            e.stopPropagation();
+            setIsShowCostChangeModal(false);
+          }}/>}
         />
       )}
     </>

@@ -4,6 +4,7 @@ import {
   OrgMonthPayment,
   Service,
   ServiceCost,
+  ServiceCostChange,
 } from '../../helpers/contractTypes';
 import { providesRTKTagList } from '../../helpers/helper';
 import { apiSlice } from './apiSlice';
@@ -65,6 +66,10 @@ const ServiceApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Service', id: 'LIST' }],
     }),
+    getServiceCostChangeById: builder.query<ServiceCostChange[], number>({
+      query: ( id ) => `/serviceCostChangeById/${id}`,
+      providesTags: (result) => providesRTKTagList(result, 'ServiceCostChange'),
+    }),
   }),
 });
 
@@ -78,4 +83,5 @@ export const {
   useLazyGetServicesCostQuery,
   useToPaidServiceMutation,
   useToUnpaidServiceMutation,
+  useLazyGetServiceCostChangeByIdQuery
 } = ServiceApi;

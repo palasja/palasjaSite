@@ -38,6 +38,14 @@ export type Service = {
   ispaid: boolean;
 };
 
+export type ServiceCostChange = {
+  id: number;
+  date: Date;
+  user: string;
+  newCost: number;
+  serviceId: number;
+};
+
 export type ServiceCost = Pick<Service, 'id' | 'cost' | 'count' | 'orgId' | 'date'>;
 
 export type CreateService = Omit<Service, 'id'>;
