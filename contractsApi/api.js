@@ -95,8 +95,13 @@ router.post('/signIn', asyncHandler( async (req, res) => {
 
   }));
 router.post('/logIn', asyncHandler( async (req, res) => {
+  const admin = await Users.findOne({
+    where: {
+      login: req.body.login,
+    },
+  });
   const accessToken = req.cookies.accessToken;
-  const admin = await Users.findOne( );
+
   jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
     if(err){
       const userName = req.body.login;
