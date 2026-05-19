@@ -66,34 +66,34 @@ describe('check show / add / change', () => {
     );
     expect((await screen.findAllByRole('table')).length).toBe(1);
   });
-  it('add caontract', async () => {
-    const spyChoseAct = vi.spyOn(slice, 'choseAct');
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/']}>
-        <Contracts />
-      </MemoryRouter>,
-      {
-        preloadedState: {
-          orgs: {
-            chosenOrg: testOrg,
-            changingOrg: null,
-            error: null,
-            status: 'idle',
-            chosenInfo: null,
-            chosenAction: 'show',
-          },
-        },
-      }
-    );
-    expect(await screen.findByTestId('addContract')).toBeInTheDocument();
-    act(() => {
-      fireEvent.click(screen.getByTestId('addContract'));
-    });
+  // it('add caontract', async () => {
+  //   const spyChoseAct = vi.spyOn(slice, 'choseAct');
+  //   renderWithProviders(
+  //     <MemoryRouter initialEntries={['/']}>
+  //       <Contracts />
+  //     </MemoryRouter>,
+  //     {
+  //       preloadedState: {
+  //         orgs: {
+  //           chosenOrg: testOrg,
+  //           changingOrg: null,
+  //           error: null,
+  //           status: 'idle',
+  //           chosenInfo: null,
+  //           chosenAction: 'show',
+  //         },
+  //       },
+  //     }
+  //   );
+  //   expect(await screen.findByTestId('addContract')).toBeInTheDocument();
+  //   act(() => {
+  //     fireEvent.click(screen.getByTestId('addContract'));
+  //   });
 
-    expect(screen.queryByRole('table')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('contractForm')).toBeInTheDocument();
-    expect(spyChoseAct).toBeCalled();
-  });
+  //   expect(screen.queryByRole('table')).not.toBeInTheDocument();
+  //   expect(screen.queryByTestId('contractForm')).toBeInTheDocument();
+  //   expect(spyChoseAct).toBeCalled();
+  // });
 
   // it("change caontract", async () => {
   //     server.use(

@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router';
 import { useAppSelector } from '../redux/hooks';
 import { useEffect } from 'react';
-import { getAuthSatus, getIsAuth } from '../redux/slices/authSlice';
+import { getAuthSatus, getIsAuth, getIsLoading } from '../redux/slices/authSlice';
 import { CoockieWrapper } from '../helpers/CoockieWrapper';
+import { useLazyCheckQuery } from '../redux/slices/authRTKSlce';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ const Protected = ({ children }: ProtectedRouteProps) => {
   const navigate = useNavigate();
   const isAuth = useAppSelector(getIsAuth);
   useEffect(() => {
-    if (!isAuth) {
+    if ( isAuth === false ) {
       navigate('/');
     }
   }, [isAuth]);
