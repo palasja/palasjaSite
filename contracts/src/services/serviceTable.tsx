@@ -49,10 +49,9 @@ const ServiceTable = ({
     showDetail();
   }
   const showCostChange = async (srviceId: number) => {
-    showServiceCost();
     const result = await getServiceChangeCost(srviceId).unwrap();
     dispatch(serviceCosChange(result));
-    
+    showServiceCost();
   }
   const columns = useMemo<MRT_ColumnDef<Service>[]>(
     () => [
