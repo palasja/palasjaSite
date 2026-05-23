@@ -89,6 +89,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
               <input
                 data-testid="pass"
                 placeholder="Пароль"
+                type="password"
                 className={style.inputField}
                 {...register('password', {
                   required: { value: true, message: 'Пароль должно быть заполнено' },
