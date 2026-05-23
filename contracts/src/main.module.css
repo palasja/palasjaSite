@@ -1,5 +1,7 @@
 .wrapper {
   flex: 1 0 auto;
+   background: #cccccc url("/src/assets/ksenya_face.jpg") no-repeat fixed center / cover;
+   background-size: 70%;
 }
 
 .content {
