@@ -2,7 +2,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 // import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
-import { chosenAction, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
+import {
+  chosenAction,
+  getChosenchosenAction,
+  getChosenOrganization,
+} from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
 import {
@@ -86,13 +90,14 @@ const Services = () => {
         )}
         <div className={style.costInfo}>
           <p>
-            Стоимость работ: 
-            <span className={style.cost} onClick={() => setIsShowUserCostModal(true)}>{services ? getServicesCost(services) : 0}</span>
+            Стоимость работ:
+            <span className={style.cost} onClick={() => setIsShowUserCostModal(true)}>
+              {services ? getServicesCost(services) : 0}
+            </span>
           </p>
 
-
           <p>
-            Стоимость по времени (3к/мес): 
+            Стоимость по времени (3к/мес):
             <span className={style.cost}>
               {services ? getServicesCostByMonth(services, WISHPAYMENT_IN_MOOONTH) : 0}
             </span>
@@ -110,7 +115,15 @@ const Services = () => {
         (services?.length == 0 ? (
           <h3>Нет услуг</h3>
         ) : (
-          services && <ServiceTable data={services} edit={changeHandler} remove={removeHandler} showDetail={() => setIsShowDescriptionModal(true)} showServiceCost={() => setIsShowCostChangeModal(true)}/>
+          services && (
+            <ServiceTable
+              data={services}
+              edit={changeHandler}
+              remove={removeHandler}
+              showDetail={() => setIsShowDescriptionModal(true)}
+              showServiceCost={() => setIsShowCostChangeModal(true)}
+            />
+          )
         ))}
 
       {isShowRemoveModal && (
@@ -121,24 +134,41 @@ const Services = () => {
       )}
 
       {isShowDescriptionModal && (
-        <DetailPortal children={<Description close={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            setIsShowDescriptionModal(false);
-          }}/>}
+        <DetailPortal
+          children={
+            <Description
+              close={(e: React.MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                setIsShowDescriptionModal(false);
+              }}
+            />
+          }
         />
       )}
       {isShowCostChangeModal && (
-        <DetailPortal children={<CostChange close={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            setIsShowCostChangeModal(false);
-          }}/>}
+        <DetailPortal
+          children={
+            <CostChange
+              close={(e: React.MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                setIsShowCostChangeModal(false);
+              }}
+            />
+          }
         />
       )}
       {isShowUserCostModal && services && (
-        <DetailPortal children={<UserCost services={services} isPaid={isPaid}  close={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            setIsShowUserCostModal(false);
-          }}/>}
+        <DetailPortal
+          children={
+            <UserCost
+              services={services}
+              isPaid={isPaid}
+              close={(e: React.MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                setIsShowUserCostModal(false);
+              }}
+            />
+          }
         />
       )}
     </>

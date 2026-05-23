@@ -98,7 +98,6 @@ const SoftInfoArticleForm = ({
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
 
   const onSubmitCreate: SubmitHandler<SoftInfoForm> = async (data) => {
-    
     const newArticle: SoftArticle = {
       id: '',
       name: data.name,
@@ -153,8 +152,8 @@ const SoftInfoArticleForm = ({
 
       if (removedLinksId && removedLinksId.length !== 0)
         removedLinksId.forEach((id) => deleteSoftArticleLinks(id));
-      }
-      resetForm(data.id);
+    }
+    resetForm(data.id);
   };
 
   const resetForm = (articleId: string) => {

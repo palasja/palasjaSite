@@ -21,7 +21,6 @@ import { AddIcon, EditIcon, RemoveIcon } from '../components/icons/icons';
 import style from './softPrompt.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
-
 import {
   changeSoft,
   changeActionArticle,
@@ -35,12 +34,12 @@ import {
   changeActionSoft,
 } from '../redux/slices/softSlice';
 
-  const toTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }
+const toTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
 
 const ImageContainer = ({ img }: { img: string }) => {
   return (
@@ -159,7 +158,9 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
       key={article.id}
       className={style.articleNameContainer}
     >
-      <span onClick={toTop} className={style.articleName}>{article.name}</span>
+      <span onClick={toTop} className={style.articleName}>
+        {article.name}
+      </span>
       <span onClick={(e) => changeHandler(article.id, e)}>
         <EditIcon />
       </span>
@@ -178,11 +179,10 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
           remove={() => {
             deleteArticleInfo(removeId);
 
-            if (choosenArticleId === removeId){
-              dispatch(choseArticleId(undefined));  
+            if (choosenArticleId === removeId) {
+              dispatch(choseArticleId(undefined));
               dispatch(changeActionArticle('show'));
-            } 
-            
+            }
           }}
           close={() => setIsShowRemoveModal(false)}
         />

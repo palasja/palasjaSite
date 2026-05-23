@@ -37,7 +37,7 @@ export type Service = {
   description: string;
   ispaid: boolean;
 };
-export type ConstCount = Pick<Service, 'cost' | 'count'>
+export type ConstCount = Pick<Service, 'cost' | 'count'>;
 
 export type ServiceCostChange = {
   id: number;

@@ -15,7 +15,7 @@ const initialState: ServicesState = {
   choosenYear: new Date().getFullYear().toString(),
   isWithoutOrg: false,
   fullDesc: '',
-  serviceCostChange: []
+  serviceCostChange: [],
 };
 
 const servicesSlicer = createSlice({
@@ -40,7 +40,8 @@ const servicesSlicer = createSlice({
   },
 });
 
-export const { chooseMonth, chooseYear, isWithoutOrg, fullDesc, serviceCosChange} = servicesSlicer.actions;
+export const { chooseMonth, chooseYear, isWithoutOrg, fullDesc, serviceCosChange } =
+  servicesSlicer.actions;
 export default servicesSlicer.reducer;
 export const getChoosenMonth = (state: RootState) => state.services.choosenMonth;
 export const getChoosenYear = (state: RootState) => state.services.choosenYear;

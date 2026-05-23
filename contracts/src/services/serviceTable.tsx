@@ -16,12 +16,8 @@ import style from './services.module.css';
 import { default as CreditScoreIconMaterial } from '@mui/icons-material/CreditScore';
 import { default as CreditCardOffIconMaterial } from '@mui/icons-material/CreditCardOff';
 import { useAppDispatch } from '../redux/hooks';
-import {
-  fullDesc,
-  serviceCosChange
-} from '../redux/slices/servicesSlice';
-import {useLazyGetServiceCostChangeByIdQuery } from '../redux/slices/servicesRTKSlice';
-
+import { fullDesc, serviceCosChange } from '../redux/slices/servicesSlice';
+import { useLazyGetServiceCostChangeByIdQuery } from '../redux/slices/servicesRTKSlice';
 
 const ServiceTable = ({
   data,
@@ -34,7 +30,7 @@ const ServiceTable = ({
   edit: (service: Service) => void;
   remove: (id: string) => void;
   showDetail: () => void;
-  showServiceCost: () => void
+  showServiceCost: () => void;
 }) => {
   //should be memoized or stable
   const [toPaidServices] = useToPaidServiceMutation();
@@ -42,17 +38,17 @@ const ServiceTable = ({
   const dispatch = useAppDispatch();
   const getShortDescription = (desc: string): string => {
     return desc.length < 75 ? desc : `${desc.substring(0, 90)} ...`;
-  }
+  };
   const [getServiceChangeCost] = useLazyGetServiceCostChangeByIdQuery();
   const showFullDetails = (desc: string) => {
     dispatch(fullDesc(desc));
     showDetail();
-  }
+  };
   const showCostChange = async (srviceId: number) => {
     const result = await getServiceChangeCost(srviceId).unwrap();
     dispatch(serviceCosChange(result));
     showServiceCost();
-  }
+  };
   const columns = useMemo<MRT_ColumnDef<Service>[]>(
     () => [
       {
@@ -80,7 +76,9 @@ const ServiceTable = ({
         header: 'Стоимость',
         size: 50,
         Cell: ({ cell, row }) => {
-          return <div onClick={() => showCostChange(row.original.id)}>{cell.getValue<string>()} </div>;
+          return (
+            <div onClick={() => showCostChange(row.original.id)}>{cell.getValue<string>()} </div>
+          );
         },
       },
       {
@@ -99,7 +97,14 @@ const ServiceTable = ({
         header: 'Детали',
         size: 250,
         Cell: ({ cell }) => {
-          return <div className={style.description} onClick={() => showFullDetails(cell.getValue<string>())}>{getShortDescription(cell.getValue<string>().toString())} </div>;
+          return (
+            <div
+              className={style.description}
+              onClick={() => showFullDetails(cell.getValue<string>())}
+            >
+              {getShortDescription(cell.getValue<string>().toString())}{' '}
+            </div>
+          );
         },
       },
       {
@@ -156,18 +161,17 @@ const ServiceTable = ({
     ),
     enablePagination: false,
     enableBottomToolbar: false, //hide the bottom toolbar as well if you want
-    initialState:{
+    initialState: {
       sorting: [
         {
           id: 'date',
-          desc: true
-        }
-      ]
-    }
+          desc: true,
+        },
+      ],
+    },
   });
 
   return <MaterialReactTable table={table} />;
 };
 
-
-export default ServiceTable
+export default ServiceTable;

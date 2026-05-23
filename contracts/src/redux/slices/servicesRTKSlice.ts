@@ -68,7 +68,10 @@ const ServiceApi = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: 'Service', id: 'LIST' }],
     }),
     getServiceCostChangeById: builder.query<ServiceCostChange[], number>({
-      query: ( id ) => {console.log(321); return `/serviceCostChangeById/${id}`},
+      query: (id) => {
+        console.log(321);
+        return `/serviceCostChangeById/${id}`;
+      },
       providesTags: (result) => providesRTKTagList(result, 'Service'),
     }),
     getServiceCostChangeByOrgIdMonthYear: builder.query<ServiceCostChange[], OrgMonthPayment>({
@@ -93,5 +96,5 @@ export const {
   useLazyGetServicesCostQuery,
   useToPaidServiceMutation,
   useToUnpaidServiceMutation,
-  useLazyGetServiceCostChangeByIdQuery
+  useLazyGetServiceCostChangeByIdQuery,
 } = ServiceApi;

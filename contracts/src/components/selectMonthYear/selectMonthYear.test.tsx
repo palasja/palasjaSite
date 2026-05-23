@@ -11,7 +11,7 @@ describe('month value', () => {
           choosenYear: '2025',
           isWithoutOrg: false,
           fullDesc: '',
-          serviceCostChange: []
+          serviceCostChange: [],
         },
       },
     });

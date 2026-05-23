@@ -73,9 +73,11 @@ const Organization = () => {
   };
 
   useEffect(() => {
-    const org = organizations.find(o => o.id === Number.parseInt(params.orgID as string)) as OrgType;
+    const org = organizations.find(
+      (o) => o.id === Number.parseInt(params.orgID as string)
+    ) as OrgType;
     dispatch(chooseOrg(org));
-  })
+  });
   const page = (
     <>
       {organizations.length == 0 ? (
@@ -106,10 +108,10 @@ const Organization = () => {
                     >
                       <RemoveIcon />
                     </div>
-                  <Link  to={`/org/${org.id}/servise`} className={style.orgName}>
-                    {org.name}
-                  </Link>
-                  {/* <div className={style.orgName}>{org.name}</div> */}
+                    <Link to={`/org/${org.id}/servise`} className={style.orgName}>
+                      {org.name}
+                    </Link>
+                    {/* <div className={style.orgName}>{org.name}</div> */}
                     <div
                       className={style.orgActBtn}
                       onClick={(e) => changeHandler(e, org)}
@@ -120,10 +122,9 @@ const Organization = () => {
                   </>
                 ) : (
                   <>
-                  <Link className={style.orgName} to={`/org/${org.id}/servise`}>
-                    {org.name}
-                  </Link>
-
+                    <Link className={style.orgName} to={`/org/${org.id}/servise`}>
+                      {org.name}
+                    </Link>
                   </>
                 )}
               </div>

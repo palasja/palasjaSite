@@ -43,7 +43,8 @@ const softSlice = createSlice({
 
 export default softSlice.reducer;
 
-export const { changeSoft, changeActionArticle, choseSoftId, choseArticleId, changeActionSoft } = softSlice.actions;
+export const { changeSoft, changeActionArticle, choseSoftId, choseArticleId, changeActionSoft } =
+  softSlice.actions;
 export const getChangingSoft = (state: RootState) => state.soft.changingSoft;
 export const getActionArticle = (state: RootState) => state.soft.actionArticle;
 export const getActionSoft = (state: RootState) => state.soft.actionSoft;
