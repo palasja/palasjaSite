@@ -437,6 +437,55 @@ router.get('/serviceCostChangeById/:id',  asyncHandler( async (req, res) => {
     });
   res.status(200).json(result);
 }));
+
+router.get('/getServicesCostChangeByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (req, res) => {
+  const month = Number(req.params.month);
+  const year = Number(req.params.year);
+  let orgId = req.params.orgId;
+  if(orgId == '0') orgId = null;
+  const firstWorkDayDate  = new Date(year, month);
+  const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
+  
+   let result = await ServiceCostChange.findAll({
+    include: [{
+      model: Service,
+      as: 'service',
+      attributes:['id', 'date', 'isPaid', 'orgId'],
+      where: {
+        orgId: orgId,
+        ispaid: true,
+          [Op.and]:[
+            {date: {
+              [Op.gte]: firstWorkDayDate
+            }},
+            {date: {
+              [Op.lte]: lastWorkDayDate
+            }}
+          ]
+        },
+      }],
+
+    });
+    res.status(200).json(result);
+}));
+router.get('/getServicesCostChangeUnpaidByOrgId/:orgId', asyncHandler( async (req, res) => {
+  let orgId = req.params.orgId;
+  if(orgId == '0') orgId = null;
+  let result = await ServiceCostChange.findAll({
+    include: [{
+      model: Service,
+      as: 'service',
+      attributes:[],
+        where: {
+          orgId: orgId,
+          ispaid: false
+        },
+    }],
+
+    });
+    res.status(200).json(result);
+}));
+
 router.get('/contractScan/:id',  asyncHandler( async (req, res) => {
   let result = await Contracts.findOne({
       attributes: ['scan'],

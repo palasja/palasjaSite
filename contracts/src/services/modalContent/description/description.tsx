@@ -1,7 +1,8 @@
 import { createPortal } from "react-dom";
-import { useAppSelector } from "../../../../redux/hooks";
-import { getFullDesc } from "../../../../redux/slices/servicesSlice";
+
 import style from './description.module.css';
+import { getFullDesc } from "../../../redux/slices/servicesSlice";
+import { useAppSelector } from "../../../redux/hooks";
 
 type RemoveModalType = {
   close: (e: React.MouseEvent<HTMLElement>) => void;

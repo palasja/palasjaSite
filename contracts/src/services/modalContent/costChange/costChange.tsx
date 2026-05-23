@@ -1,8 +1,8 @@
 import { createPortal } from "react-dom";
-import { useAppSelector } from "../../../../redux/hooks";
-import { getFullDesc, getServiceCostChange } from "../../../../redux/slices/servicesSlice";
+import { useAppSelector } from "../../../redux/hooks";
+import { getFullDesc, getServiceCostChange } from "../../../redux/slices/servicesSlice";
 import style from './costChange.module.css';
-import { ServiceCostChange } from "../../../../helpers/contractTypes";
+import { ServiceCostChange } from "../../../helpers/contractTypes";
 
 type RemoveModalType = {
   close: (e: React.MouseEvent<HTMLElement>) => void;

@@ -23,7 +23,9 @@
   color: var(--color-main);
   font-size: 20px;
   font-weight: 500;
+  cursor: pointer;
 }
+
 .description {
   max-height: 68px;
 }
