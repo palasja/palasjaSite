@@ -122,7 +122,7 @@ let sequelize = new Sequelize(
           allowNull: false,
         },
         description: {
-          type: DataTypes.STRING(2048)
+          type: DataTypes.STRING(8196)
         },
         orgId:{
           type: Sequelize.INTEGER,
