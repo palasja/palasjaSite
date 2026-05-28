@@ -133,37 +133,37 @@ let sequelize = new Sequelize(
         timestamps: false,
         modelName: 'service',
         sequelize, 
-        hooks:{
-          afterCreate: async (service, options) => {
-            try {
-              // Access another model to write data
-              await ServiceCostChange.create({
-                date: Date.now(),
-                user: options.login,
-                newCost: service.cost,
-                serviceId: service.id,
-              });
-            } catch (error) {
-              console.error('Failed to add service detail to ServiceCostChange:', error);
-            }
-          }, 
-          afterUpdate: async (service, options) => {
-            if(service.cost !== service._previousDataValues.cost){
-              try {
-                // Access another model to write data
-                await ServiceCostChange.create({
-                  date: Date.now(),
-                  user: options.login,
-                  newCost: service.cost,
-                  serviceId: service.id,
-                });
-              } catch (error) {
-                console.error('Failed to add service detail to ServiceCostChange:', error);
-              }
-            }
+        // hooks:{
+        //   afterCreate: async (service, options) => {
+        //     try {
+        //       // Access another model to write data
+        //       await ServiceCostChange.create({
+        //         date: Date.now(),
+        //         user: options.login,
+        //         newCost: service.cost,
+        //         serviceId: service.id,
+        //       });
+        //     } catch (error) {
+        //       console.error('Failed to add service detail to ServiceCostChange:', error);
+        //     }
+        //   }, 
+        //   afterUpdate: async (service, options) => {
+        //     if(service.cost !== service._previousDataValues.cost){
+        //       try {
+        //         // Access another model to write data
+        //         await ServiceCostChange.create({
+        //           date: Date.now(),
+        //           user: options.login,
+        //           newCost: service.cost,
+        //           serviceId: service.id,
+        //         });
+        //       } catch (error) {
+        //         console.error('Failed to add service detail to ServiceCostChange:', error);
+        //       }
+        //     }
             
-          }, 
-        }
+        //   }, 
+        // }
         });
     Organization.hasMany(Service, {as: "service"});
     Service.belongsTo(Organization, {
