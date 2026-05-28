@@ -393,11 +393,6 @@ router.patch('/servicesToUnpaid',  asyncHandler( async (req, res) => {
   );
   res.status(200).json(result.length);
 }));
-router.get('/test/:startDate&:endDate', asyncHandler( async (req, res) => {
-  const startDate =req.params.startDate;
-  const endDate = req.params.endDate;
-  res.status(200).json({startDate, endDate});
-}));
 router.put('/addService',  asyncHandler( async (req, res) => {
   let result = await Service.create(req.body, {
     login: getLoginFromToken(req),
