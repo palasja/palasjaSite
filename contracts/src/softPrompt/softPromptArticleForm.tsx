@@ -22,8 +22,6 @@ import {
   useUpdateSoftArticleLinkMutation,
 } from '../redux/slices/softInfoArticleLinkRTK';
 import { AddIcon, RemoveIcon } from '../components/icons/icons';
-import { useAppDispatch } from '../redux/hooks';
-import { choseArticleId } from '../redux/slices/softSlice';
 
 type ChangingSoftArticleFormProps = {
   changingSoftArticle: SoftArticleType | undefined;
@@ -119,7 +117,6 @@ const SoftInfoArticleForm = ({
       links.forEach((l) => (l.softArticleId = newArticleId));
       addSoftArticleLinks(links);
     }
-    console.log(newArticleId);
     resetForm(newArticleId);
   };
 

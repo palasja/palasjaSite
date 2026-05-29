@@ -30,8 +30,6 @@ import {
   getArticleId,
   getChangingSoft,
   getSoftId,
-  getActionSoft,
-  changeActionSoft,
 } from '../redux/slices/softSlice';
 
 const toTop = () => {
@@ -62,7 +60,6 @@ const SoftInfoArticle = () => {
   const { data: links, isSuccess: isSuccessLinks } = useGetSoftArticleLinksQuery(
     articleId ?? skipToken
   );
-  //add rerender after remove choosen article
   return (
     <>
       {action === 'new' && softId && (
@@ -70,8 +67,8 @@ const SoftInfoArticle = () => {
           changingSoftArticle={undefined}
           changingSoftLinks={undefined}
           softInfoId={softId}
-          clearCallback={(articleIdFromForm) => {
-            dispatch(choseArticleId(articleIdFromForm));
+          clearCallback={() => {
+            dispatch(choseArticleId(articleId));
             dispatch(changeActionArticle('show'));
           }}
         />
@@ -85,8 +82,8 @@ const SoftInfoArticle = () => {
               changingSoftArticle={article}
               changingSoftLinks={links}
               softInfoId={article.softInfoId}
-              clearCallback={(articleIdFromForm) => {
-                dispatch(choseArticleId(articleIdFromForm));
+              clearCallback={() => {
+                dispatch(choseArticleId(articleId));
                 dispatch(changeActionArticle('show'));
               }}
             />
@@ -139,7 +136,12 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<string>('');
   const choosenArticleId = useAppSelector(getArticleId);
-
+  const toTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
   const showHandler = (id: string) => {
     dispatch(choseArticleId(id));
     dispatch(changeActionArticle('show'));
@@ -198,7 +200,6 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
   const newHandler = (softId: string) => {
     dispatch(choseSoftId(softId));
     dispatch(changeActionArticle('new'));
-    toTop();
   };
 
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
@@ -220,7 +221,7 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
           <span
             onClick={() => {
               dispatch(changeSoft(soft));
-              dispatch(changeActionSoft('change'));
+              dispatch(changeActionArticle('change'));
             }}
           >
             <EditIcon />
@@ -251,33 +252,33 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
 };
 
 const SoftPrompt = () => {
-  const { data: softinfoExample = [] } = useGetSoftInfoQuery();
+  const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
   const softInfo = softinfoExample;
 
-  const actionSoft = useAppSelector(getActionSoft);
+  const softAction = useAppSelector(getActionArticle);
   const changingSoft = useAppSelector(getChangingSoft);
   const dispatch = useAppDispatch();
   const actionArticle = useAppSelector(getActionArticle);
 
   useEffect(() => {
-    dispatch(changeActionSoft('show'));
+    dispatch(changeActionArticle('show'));
   }, []);
 
   const clearHandler = () => {
     dispatch(changeSoft(undefined));
-    dispatch(changeActionSoft('show'));
+    dispatch(changeActionArticle('show'));
   };
   return (
     <>
       <div className={style.head}>
         <AddIcon
           onClick={() => {
-            dispatch(changeActionSoft('new'));
+            dispatch(changeActionArticle('new'));
           }}
         />
         <p>Информация по программам </p>
       </div>
-      {actionSoft == 'show' && (
+      {softAction == 'show' && (
         <main className={style.main}>
           <aside className={style.softMenu}>
             {softInfo.map((soft, i) => {
@@ -287,10 +288,10 @@ const SoftPrompt = () => {
           <section>{actionArticle && <SoftInfoArticle />}</section>
         </main>
       )}
-      {actionSoft == 'change' && (
+      {softAction == 'change' && (
         <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
       )}
-      {actionSoft == 'new' && (
+      {softAction == 'new' && (
         <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
       )}
     </>
