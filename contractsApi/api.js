@@ -429,7 +429,8 @@ router.patch('/updateService',  asyncHandler( async (req, res) => {
         // 2. Return a more descriptive response for development
         res.status(500).json({ 
           message: "Internal Server Error", 
-          details: error.message // Hide this in production for security!
+          details: error.message, // Hide this in production for security!
+          error: JSON.stringify(error)
         });
     }
 }));
