@@ -409,19 +409,31 @@ router.delete('/removeService/:id',  asyncHandler( async (req, res) => {
   res.status(200).json({isRemove: result});
 }));
 router.patch('/updateService',  asyncHandler( async (req, res) => {
-    const service = req.body;
-    let result = await Service.update(
-        service,
-        {
-          where: {
-              id: service.id,
+    try{
+      const service = req.body;
+      let result = await Service.update(
+          service,
+          {
+            where: {
+                id: service.id,
+            },
+            individualHooks: true,
+            login: getLoginFromToken(req),
           },
-          individualHooks: true,
-          login: getLoginFromToken(req),
-        },
-    );
-    res.status(200).json(result);
+      );
+      res.status(200).json(result);
+    } catch (error){
+        // 1. Log for you to see in the terminal
+        console.error("SEQUELIZE ERROR:", error); 
+        
+        // 2. Return a more descriptive response for development
+        res.status(500).json({ 
+          message: "Internal Server Error", 
+          details: error.message // Hide this in production for security!
+        });
+    }
 }));
+
 router.get('/serviceCostChangeById/:id',  asyncHandler( async (req, res) => {
   let result = await ServiceCostChange.findAll({
       where: {
