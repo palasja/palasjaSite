@@ -324,21 +324,21 @@ router.get('/getServicesByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (
   const firstWorkDayDate  = new Date(year, month);
   const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
-   let result = await Service.findAll({
-  where: {
-    orgId: orgId,
-    ispaid: true,
-      [Op.and]:[
-        {date: {
-          [Op.gte]: firstWorkDayDate
-        }},
-        {date: {
-          [Op.lte]: lastWorkDayDate
-        }}
-      ]
+  let result = await Service.findAll({
+    where: {
+      orgId: orgId,
+      ispaid: true,
+        [Op.and]:[
+          {date: {
+            [Op.gte]: firstWorkDayDate
+          }},
+          {date: {
+            [Op.lte]: lastWorkDayDate
+          }}
+        ]
     },
   });
-    res.status(200).json(result);
+  res.status(200).json(result);
 }));
 router.get('/getServicesUnpaidByOrgId/:orgId', asyncHandler( async (req, res) => {
   let orgId = req.params.orgId;
@@ -357,19 +357,19 @@ router.get('/getServicesByMonth/:month/:year', asyncHandler( async (req, res) =>
   const firstWorkDayDate  = new Date(year, month);
   const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
-   let result = await Service.findAll({
-  where: {
-      [Op.and]:[
-        {date: {
-          [Op.gte]: firstWorkDayDate
-        }},
-        {date: {
-          [Op.lte]: lastWorkDayDate
-        }}
-      ]
+  let result = await Service.findAll({
+    where: {
+        [Op.and]:[
+          {date: {
+            [Op.gte]: firstWorkDayDate
+          }},
+          {date: {
+            [Op.lte]: lastWorkDayDate
+          }}
+        ]
     },
   });
-    res.status(200).json(result);
+  res.status(200).json(result);
 }));
 router.get('/getServicesCost',  asyncHandler( async (req, res) => {
   let result = await Service.findAll({
