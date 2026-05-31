@@ -63,8 +63,6 @@ describe('pages count', () => {
             choosenMonth: '1',
             choosenYear: '2025',
             isWithoutOrg: false,
-            fullDesc: '',
-            serviceCostChange: [],
           },
         },
       }
@@ -131,8 +129,6 @@ describe('pages count', () => {
             choosenMonth: '1',
             choosenYear: '2025',
             isWithoutOrg: false,
-            fullDesc: '',
-            serviceCostChange: [],
           },
         },
       }

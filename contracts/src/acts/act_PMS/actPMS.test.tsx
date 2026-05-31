@@ -74,8 +74,6 @@ describe('act PMS', () => {
           choosenMonth: '1',
           isWithoutOrg: false,
           choosenYear: '',
-          fullDesc: '',
-          serviceCostChange: [],
         },
       },
     });
@@ -150,8 +148,6 @@ describe('act PMS', () => {
           choosenMonth: '1',
           isWithoutOrg: false,
           choosenYear: '',
-          fullDesc: '',
-          serviceCostChange: [],
         },
       },
     });

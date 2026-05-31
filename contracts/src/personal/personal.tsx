@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
-  chosenAction,
+  choseAct,
   getChosenchosenAction,
   getChosenInfo,
   getChosenOrganization,
 } from '../redux/slices/orgsSlice';
-import RemoveAgreePortal from '../components/modal/remove/removeModal';
+import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import PersonalForm from './personalForm';
 import { Personal } from '../helpers/contractTypes';
@@ -39,10 +39,10 @@ const Personals = () => {
   const changeHandler = (person: Personal) => {
     console.log(person);
     setChangingPersonal(person);
-    dispatch(chosenAction('change'));
+    dispatch(choseAct('change'));
   };
   const addHandler = () => {
-    dispatch(chosenAction('add'));
+    dispatch(choseAct('add'));
   };
   const removeHandler = (id: string) => {
     setRemoveId(id);

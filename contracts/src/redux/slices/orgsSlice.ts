@@ -34,7 +34,7 @@ const orgsSlice = createSlice({
     choseInfo(state, action: PayloadAction<OrgInfo>) {
       state.chosenInfo = action.payload;
     },
-    chosenAction(state, action: PayloadAction<OrgInfoAction>) {
+    choseAct(state, action: PayloadAction<OrgInfoAction>) {
       state.chosenAction = action.payload;
     },
   },
@@ -42,7 +42,7 @@ const orgsSlice = createSlice({
 
 export default orgsSlice.reducer;
 
-export const { chooseOrg, changingOrg, choseInfo, chosenAction } = orgsSlice.actions;
+export const { chooseOrg, changingOrg, choseInfo, choseAct } = orgsSlice.actions;
 export const getChosenOrganization = (state: RootState) => state.orgs.chosenOrg;
 export const getChangingOrganization = (state: RootState) => state.orgs.changingOrg;
 export const getOrganisationError = (state: RootState) => state.orgs.error;

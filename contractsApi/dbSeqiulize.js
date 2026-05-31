@@ -16,8 +16,7 @@ let sequelize = new Sequelize(
               min: 0,
             }
           }
-        );
- 
+        );``
     const Organization = sequelize.define("organization", 
     {
       id: {
@@ -122,80 +121,20 @@ let sequelize = new Sequelize(
           allowNull: false,
         },
         description: {
-          type: DataTypes.STRING(8196)
+          type: DataTypes.STRING(2048)
         },
         orgId:{
           type: Sequelize.INTEGER,
         },
       },
       {
-        freezeTableName: true,
-        timestamps: false,
-        modelName: 'service',
-        sequelize, 
-        hooks:{
-          afterCreate: async (service, options) => {
-            try {
-              // Access another model to write data
-              await ServiceCostChange.create({
-                date: Date.now(),
-                user: options.login,
-                newCost: service.cost,
-                serviceId: service.id,
-              });
-            } catch (error) {
-              console.error('Failed to add service detail to ServiceCostChange:', error);
-            }
-          }, 
-          afterUpdate: async (service, options) => {
-            if(service.cost !== service._previousDataValues.cost){
-              try {
-                // Access another model to write data
-                await ServiceCostChange.create({
-                  date: Date.now(),
-                  user: options.login,
-                  newCost: service.cost,
-                  serviceId: service.id,
-                });
-              } catch (error) {
-                console.error('Failed to add service detail to ServiceCostChange:', error);
-              }
-            }
-            
-          }, 
-        }
+            freezeTableName: true,
+            timestamps: false,
         });
     Organization.hasMany(Service, {as: "service"});
     Service.belongsTo(Organization, {
       foreignKey: "orgId",
       as: "serviceOrg",
-      onDelete: 'CASCADE',
-    });
-
-      const ServiceCostChange = sequelize.define("serviceCostChange", {
-        id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        date: {
-          type: DataTypes.DATE,
-          allowNull: false
-        },
-        user: {
-          type: DataTypes.STRING,
-          allowNull: false
-        },
-        newCost: {
-          type: DataTypes.STRING,
-        }
-      },
-      {
-            freezeTableName: true,
-            timestamps: false,
-        });
-    Service.hasMany(ServiceCostChange, {as: "serviceCostChange"});
-    ServiceCostChange.belongsTo(Service, {
       onDelete: 'CASCADE',
     });
     const Contracts = sequelize.define("contracts", {
@@ -297,8 +236,7 @@ let sequelize = new Sequelize(
       {
             freezeTableName: true,
             timestamps: false,
-        }
-    );      
+        });      
       SoftArticle.hasMany(SoftArticleLinks, {as: "softLinks", onDelete: 'cascade'});
     SoftArticleLinks.belongsTo(SoftArticle, {
       foreignKey: "softArticleId",
@@ -331,4 +269,4 @@ let sequelize = new Sequelize(
     });
     
 
-export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange}
+export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo, SoftArticle, SoftArticleLinks}

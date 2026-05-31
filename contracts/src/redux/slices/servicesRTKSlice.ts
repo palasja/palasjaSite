@@ -4,7 +4,6 @@ import {
   OrgMonthPayment,
   Service,
   ServiceCost,
-  ServiceCostChange,
 } from '../../helpers/contractTypes';
 import { providesRTKTagList } from '../../helpers/helper';
 import { apiSlice } from './apiSlice';
@@ -41,8 +40,7 @@ const ServiceApi = apiSlice.injectEndpoints({
         method: 'PATCH',
         body: JSON.stringify(service),
       }),
-      invalidatesTags: [{ type: 'Service', id: 'LIST' }],
-      // invalidatesTags: (result, error, arg) => [{ type: 'Service', id: arg.id }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Service', id: arg.id }],
     }),
     deleteService: builder.mutation<boolean, number>({
       query: (id) => ({
@@ -67,27 +65,11 @@ const ServiceApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Service', id: 'LIST' }],
     }),
-    getServiceCostChangeById: builder.query<ServiceCostChange[], number>({
-      query: (id) => {
-        console.log(321);
-        return `/serviceCostChangeById/${id}`;
-      },
-      providesTags: (result) => providesRTKTagList(result, 'Service'),
-    }),
-    getServiceCostChangeByOrgIdMonthYear: builder.query<ServiceCostChange[], OrgMonthPayment>({
-      query: ({ orgId, month, year, isPaid = false }) => {
-        return isPaid
-          ? `getServicesCostChangeByOrgIdMonth/${orgId}/${month}/${year}`
-          : `getServicesCostChangeUnpaidByOrgId/${orgId}`;
-      },
-      providesTags: (result) => providesRTKTagList(result, 'Service'),
-    }),
   }),
 });
 
 export const {
   useGetServicesByOrgIdMonthYearQuery,
-  useLazyGetServiceCostChangeByOrgIdMonthYearQuery,
   useLazyGetServicesByMonthQuery,
   useLazyGetServicesByOrgIdMonthYearQuery,
   useAddServiceMutation,
@@ -96,5 +78,4 @@ export const {
   useLazyGetServicesCostQuery,
   useToPaidServiceMutation,
   useToUnpaidServiceMutation,
-  useLazyGetServiceCostChangeByIdQuery,
 } = ServiceApi;

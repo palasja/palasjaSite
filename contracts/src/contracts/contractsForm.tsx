@@ -3,7 +3,7 @@ import { Contract, OrgInfoAction } from '../helpers/contractTypes';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { toBase64, trimObjectProperty } from '../helpers/helper';
 import { useIsUpdate } from '../hooks/useIsUpdate';
-import { chosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
+import { choseAct, getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useEffect } from 'react';
 import {
   useAddContractMutation,
@@ -28,7 +28,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
   const [updateContract] = useUpdateContractMutation();
   const { btnValue, isUpdate, setIsUpdate } = useIsUpdate();
   const resetForm = () => {
-    dispatch(chosenAction('show'));
+    dispatch(choseAct('show'));
     reset({
       orgId: choosenOrg?.id.toString(),
     });

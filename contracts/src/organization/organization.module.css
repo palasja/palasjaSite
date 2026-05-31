@@ -20,7 +20,6 @@
 
 .orgName {
   width: 100%;
-  color: inherit;
 }
 .orgActive {
   background-color: var(--color-main);

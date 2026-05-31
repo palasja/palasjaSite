@@ -2,14 +2,13 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Service } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { chosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { choseAct, getChosenOrganization } from '../redux/slices/orgsSlice';
+import { useEffect } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
 // import formStyle from './services.module.css';
 import formStyle from '../assets/form.module.css';
-import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
 type ChangingServiceFormProps = { changingService: Service | undefined };
 
 const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
@@ -25,8 +24,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const [updateService] = useUpdateServiceMutation();
   const dispatch = useAppDispatch();
   const isWithoutOrg = useAppSelector(getIsWithoutOrg);
-  const [loadPersonal, { data: personal }] = useLazyGetPersonalsByOrgIdQuery();
-  const [isUserFromList, setIsUserFromlist] = useState(false);
+
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
@@ -41,7 +39,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   };
 
   const resetForm = () => {
-    dispatch(chosenAction('show'));
+    dispatch(choseAct('show'));
   };
   useEffect(() => {
     if (changingService) {
@@ -56,11 +54,6 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
       setValue('description', changingService.description);
     }
   }, []);
-  useEffect(() => {
-    if (isUserFromList && choosenOrg !== undefined && choosenOrg !== null) {
-      loadPersonal(choosenOrg.id, true);
-    }
-  }, [isUserFromList]);
   return (
     <>
       <form
@@ -107,28 +100,11 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
           <div className={formStyle.fieldContainer}>
             <label htmlFor="user">Пользоваль</label>
             <input
-              className={formStyle.userListCheckbox}
-              type="checkbox"
-              name="paid"
-              defaultChecked={isUserFromList}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setIsUserFromlist(e.target.checked)}
+              placeholder="Субботин"
+              {...register('user', {
+                required: { value: true, message: 'Пользоваль долно быть заполнена' },
+              })}
             />
-            {isUserFromList ? (
-              <select {...register('user')}>
-                {personal?.map((p) => (
-                  <option key={p.id} value={p.positionName}>
-                    {p.positionName}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <input
-                placeholder="Субботин"
-                {...register('user', {
-                  required: { value: true, message: 'Пользоваль долно быть заполнена' },
-                })}
-              />
-            )}
           </div>
           <div className={formStyle.fieldContainer}>
             <label htmlFor="place">Место</label>

@@ -5,14 +5,14 @@ import { redirect } from 'react-router';
 interface AuthState {
   authErrorMessage: string | null;
   status: FetchStatus;
-  isAuth: boolean | undefined;
+  isAuth: boolean;
   isLoading: boolean;
   isCheked: boolean;
 }
 const initialState: AuthState = {
   authErrorMessage: null,
   status: 'idle',
-  isAuth: undefined,
+  isAuth: false,
   isLoading: false,
   isCheked: false,
 };

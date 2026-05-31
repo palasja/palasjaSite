@@ -8,7 +8,7 @@ import {
   useUpdateOrganizationMutation,
 } from '../redux/slices/organizationRTKSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { chosenAction, choseInfo, getChangingOrganization } from '../redux/slices/orgsSlice';
+import { choseAct, choseInfo, getChangingOrganization } from '../redux/slices/orgsSlice';
 import formStyle from '../assets/form.module.css';
 const OrganizationForm = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +28,7 @@ const OrganizationForm = () => {
     setIsUpdate(false);
     reset();
     dispatch(choseInfo('service'));
-    dispatch(chosenAction('show'));
+    dispatch(choseAct('show'));
   };
   const onSubmitCreate: SubmitHandler<Org> = async (data) => {
     data = trimObjectProperty(data);

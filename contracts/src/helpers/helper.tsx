@@ -1,5 +1,5 @@
 import { DOHOD, NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA_NDS } from './constants';
-import { ConstCount, CostByUser, Personal, Service, ServiceCostChange } from './contractTypes';
+import { Personal, Service } from './contractTypes';
 
 export const toBase64 = (file: File | Blob): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -59,12 +59,12 @@ export const getServicesCostWithNDS = (services: Service[]) => {
 /**
  * Согласно закона 47 о налогоывых вычетов
  * 1% в пенсионный фонд считается из ЗП до всех вычетов
- *
+ * 
  * 2025 год
  *  * если ЗП меньше 192р то вычитается только 1% в пенсионный фонд
  * если ЗП меньше 1164 то вычитается 192 и берётся налог от этой суммы (13% подоходный + 1% пенсионный)
  * если ЗП больше то берётся налог от всей суммы (13% подоходный + 1% пенсионный)
- *
+ * 
  * 2026 год
  * если ЗП меньше 216р то вычитается только 1% в пенсионный фонд
  * если ЗП меньше 1308 то вычитается 216 и берётся налог от этой суммы (13% подоходный + 1% пенсионный)
@@ -89,7 +89,7 @@ export const getServicesCostWithNDS_47 = (services: Service[]) => {
   return roundedCost(itogSummNDS);
 };
 
-export const getServicesCost = <T extends ConstCount>(services: T[]): number => {
+export const getServicesCost = <T extends { cost: number; count: number }>(services: T[]) => {
   const itogSumm = services.reduce((result, s) => result + s.count * s.cost, 0);
   // services.forEach((s) => (itogSumm += s.count * s.cost));
   return itogSumm;
@@ -108,7 +108,6 @@ export const getServicesCostByMonth = <T extends { time: number }>(
   const result = workTimeInMonth * minuteCost;
   return Math.ceil(result * 100) / 100;
 };
-
 export const currencyOption: ConvertOptions = {
   currency: {
     currencyNameCases: ['белорусский рубль', 'белорусских рубля', 'белорусских рублей'], // [1 рубль, 2-4 рубля, 5-9 рублей]
@@ -160,39 +159,6 @@ export const trimObjectProperty: <T extends object>(obj: T) => T = (obj) => {
   });
 
   return obj;
-};
-
-export const getCostByUser = (
-  servicesCostChange: ServiceCostChange[],
-  services: Service[]
-): CostByUser[] => {
-  let users = new Set<string>();
-
-  //choose all unic services and users
-  servicesCostChange.forEach((s) => {
-    users.add(s.user);
-  });
-  let costByUser = [...users].map((u) => {
-    // получить стоимость по каждому пользователю. Если пользователь менял стоимость, то учитывается она, если не менял то учитывается последния стоимасть.
-    let actualCostByUser: ConstCount[] = services.map((serviceFull) => {
-      let allById = servicesCostChange.filter((s) => s.serviceId === serviceFull.id);
-      let costByCurUser = allById.filter((s) => s.user === u);
-
-      if (costByCurUser.length !== 0) {
-        let serviceByCurUser = costByCurUser.reduce((prev, current) =>
-          prev && new Date(prev.date).getTime() > new Date(current.date).getTime() ? prev : current
-        );
-        return { cost: serviceByCurUser.newCost, count: serviceFull.count };
-      } else {
-        return { cost: serviceFull.cost, count: serviceFull.count };
-      }
-    });
-
-    const cost = getServicesCost(actualCostByUser);
-    return { user: u, cost: cost };
-  });
-
-  return costByUser;
 };
 
 export const providesRTKTagList = <R extends { id: string | number }[], T extends string>(
