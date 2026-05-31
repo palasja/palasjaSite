@@ -9,7 +9,7 @@ import { SOFT_INFO_IMAGE_PREFIX, SOFT_INFO_SPLITER_IMAGE } from '../helpers/cons
 import SoftPromptForm from './softPromptForm';
 import { useDeleteSoftInfoMutation, useGetSoftInfoQuery } from '../redux/slices/softInfoRTK';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
-import RemoveAgreePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import {
   useDeleteSoftArticleMutation,
   useGetSoftArticleQuery,
@@ -20,7 +20,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { AddIcon, EditIcon, RemoveIcon } from '../components/icons/icons';
 import style from './softPrompt.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { choseAct, getChosenchosenAction } from '../redux/slices/orgsSlice';
 
 import {
   changeSoft,
@@ -33,6 +32,13 @@ import {
   getSoftId,
 } from '../redux/slices/softSlice';
 
+const toTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
+
 const ImageContainer = ({ img }: { img: string }) => {
   return (
     <div area-soft-info="" className={style.imageCont}>
@@ -42,7 +48,7 @@ const ImageContainer = ({ img }: { img: string }) => {
 };
 
 const TextField = ({ text }: { text: string | undefined }) => {
-  return <div>{text ? text : ''}</div>;
+  return <div className={style.textFieldInfo}>{text ? text : ''}</div>;
 };
 
 const SoftInfoArticle = () => {
@@ -130,6 +136,12 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<string>('');
   const choosenArticleId = useAppSelector(getArticleId);
+  const toTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
   const showHandler = (id: string) => {
     dispatch(choseArticleId(id));
     dispatch(changeActionArticle('show'));
@@ -139,6 +151,7 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
     e.preventDefault();
     dispatch(changeActionArticle('change'));
     dispatch(choseArticleId(id));
+    toTop();
   };
   const [deleteArticleInfo] = useDeleteSoftArticleMutation();
   return (
@@ -147,7 +160,9 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
       key={article.id}
       className={style.articleNameContainer}
     >
-      <span className={style.articleName}>{article.name}</span>
+      <span onClick={toTop} className={style.articleName}>
+        {article.name}
+      </span>
       <span onClick={(e) => changeHandler(article.id, e)}>
         <EditIcon />
       </span>
@@ -166,8 +181,10 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
           remove={() => {
             deleteArticleInfo(removeId);
 
-            if (choosenArticleId === removeId) dispatch(changeActionArticle('show'));
-            dispatch(choseArticleId(undefined));
+            if (choosenArticleId === removeId) {
+              dispatch(choseArticleId(undefined));
+              dispatch(changeActionArticle('show'));
+            }
           }}
           close={() => setIsShowRemoveModal(false)}
         />
@@ -204,7 +221,7 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
           <span
             onClick={() => {
               dispatch(changeSoft(soft));
-              dispatch(choseAct('change'));
+              dispatch(changeActionArticle('change'));
             }}
           >
             <EditIcon />
@@ -238,13 +255,13 @@ const SoftPrompt = () => {
   const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
   const softInfo = softinfoExample;
 
-  const softAction = useAppSelector(getChosenchosenAction);
+  const softAction = useAppSelector(getActionArticle);
   const changingSoft = useAppSelector(getChangingSoft);
   const dispatch = useAppDispatch();
   const actionArticle = useAppSelector(getActionArticle);
 
   useEffect(() => {
-    dispatch(choseAct('show'));
+    dispatch(changeActionArticle('show'));
   }, []);
 
   const clearHandler = () => {
@@ -256,7 +273,7 @@ const SoftPrompt = () => {
       <div className={style.head}>
         <AddIcon
           onClick={() => {
-            dispatch(choseAct('add'));
+            dispatch(changeActionArticle('new'));
           }}
         />
         <p>Информация по программам </p>
@@ -274,7 +291,7 @@ const SoftPrompt = () => {
       {softAction == 'change' && (
         <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
       )}
-      {softAction == 'add' && (
+      {softAction == 'new' && (
         <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
       )}
     </>

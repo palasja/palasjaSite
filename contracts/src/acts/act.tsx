@@ -47,7 +47,6 @@ const Act = () => {
   useEffect(() => {
     if (choosenOrg) {
       const orgId = choosenOrg?.id;
-      console.log(choosenOrg?.id);
       loadServices({
         orgId: choosenOrg?.id,
         month: choosenMonth,

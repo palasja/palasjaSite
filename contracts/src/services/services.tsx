@@ -2,21 +2,30 @@ import { ChangeEvent, useEffect, useState } from 'react';
 // import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
-import { choseAct, getChosenchosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
+import {
+  chosenAction,
+  getChosenchosenAction,
+  getChosenOrganization,
+} from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
 import {
   useDeleteServiceMutation,
+  useLazyGetServiceCostChangeByOrgIdMonthYearQuery,
   useLazyGetServicesByOrgIdMonthYearQuery,
 } from '../redux/slices/servicesRTKSlice';
-import RemoveAgreePortal from '../components/modal/removeModal';
+import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import ServiceTable from './serviceTable';
 import { AddIcon } from '../components/icons/icons';
 import style from './services.module.css';
-import { getServicesCost, getServicesCostByMonth } from '../helpers/helper';
+import { getCostByUser, getServicesCost, getServicesCostByMonth } from '../helpers/helper';
 import { WISHPAYMENT_IN_MOOONTH } from '../helpers/constants';
 import SelectMonthYear from '../components/selectMonthYear';
+import DetailPortal from '../components/modal/details/detailModal';
+import CostChange from './modalContent/costChange/costChange';
+import Description from './modalContent/description/description';
+import UserCost from './modalContent/userCost/userCost';
 
 const Services = () => {
   const [isPaid, setIsPaid] = useState(false);
@@ -29,9 +38,12 @@ const Services = () => {
     useRemoveEntity<number>(-1);
   const [loadServices, { data: services, isLoading, isFetching }] =
     useLazyGetServicesByOrgIdMonthYearQuery();
+
   const [deleteService] = useDeleteServiceMutation();
   const [changingService, setChangingService] = useState<Service | undefined>();
-
+  const [isShowDescriptionModal, setIsShowDescriptionModal] = useState(false);
+  const [isShowCostChangeModal, setIsShowCostChangeModal] = useState(false);
+  const [isShowUserCostModal, setIsShowUserCostModal] = useState(false);
   useEffect(() => {
     if (choosenOrg !== null) {
       loadServices(
@@ -43,7 +55,6 @@ const Services = () => {
         },
         true
       );
-      console.log(services);
     }
   }, [choosenOrg, choosenMonth, choosenYear, isPaid]);
 
@@ -52,10 +63,10 @@ const Services = () => {
   };
   const changeHandler = (service: Service) => {
     setChangingService(service);
-    dispatch(choseAct('change'));
+    dispatch(chosenAction('change'));
   };
   const addHandler = () => {
-    dispatch(choseAct('add'));
+    dispatch(chosenAction('add'));
   };
   const removeHandler = (id: string) => {
     setRemoveId(parseInt(id, 10));
@@ -79,13 +90,14 @@ const Services = () => {
         )}
         <div className={style.costInfo}>
           <p>
-            {' '}
-            Стоимость работ:{' '}
-            <span className={style.cost}>{services ? getServicesCost(services) : 0}</span>
+            Стоимость работ:
+            <span className={style.cost} onClick={() => setIsShowUserCostModal(true)}>
+              {services ? getServicesCost(services) : 0}
+            </span>
           </p>
+
           <p>
-            {' '}
-            Стоимость по времени (3к/мес):{' '}
+            Стоимость по времени (3к/мес):
             <span className={style.cost}>
               {services ? getServicesCostByMonth(services, WISHPAYMENT_IN_MOOONTH) : 0}
             </span>
@@ -103,13 +115,60 @@ const Services = () => {
         (services?.length == 0 ? (
           <h3>Нет услуг</h3>
         ) : (
-          services && <ServiceTable data={services} edit={changeHandler} remove={removeHandler} />
+          services && (
+            <ServiceTable
+              data={services}
+              edit={changeHandler}
+              remove={removeHandler}
+              showDetail={() => setIsShowDescriptionModal(true)}
+              showServiceCost={() => setIsShowCostChangeModal(true)}
+            />
+          )
         ))}
 
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteService(removeId)}
           close={() => setIsShowRemoveModal(false)}
+        />
+      )}
+
+      {isShowDescriptionModal && (
+        <DetailPortal
+          children={
+            <Description
+              close={(e: React.MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                setIsShowDescriptionModal(false);
+              }}
+            />
+          }
+        />
+      )}
+      {isShowCostChangeModal && (
+        <DetailPortal
+          children={
+            <CostChange
+              close={(e: React.MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                setIsShowCostChangeModal(false);
+              }}
+            />
+          }
+        />
+      )}
+      {isShowUserCostModal && services && (
+        <DetailPortal
+          children={
+            <UserCost
+              services={services}
+              isPaid={isPaid}
+              close={(e: React.MouseEvent<HTMLElement>) => {
+                e.stopPropagation();
+                setIsShowUserCostModal(false);
+              }}
+            />
+          }
         />
       )}
     </>

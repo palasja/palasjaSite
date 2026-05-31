@@ -89,6 +89,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
               <input
                 data-testid="pass"
                 placeholder="Пароль"
+                type="password"
                 className={style.inputField}
                 {...register('password', {
                   required: { value: true, message: 'Пароль должно быть заполнено' },
@@ -102,7 +103,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
                   value={isSignin ? 'Отправить' : 'Войти'}
                   data-testid="submit"
                 />
-                {isSignin ? (
+                {/* {isSignin ? (
                   <Link to={'/login'} className={style.link}>
                     Войти
                   </Link>
@@ -110,7 +111,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
                   <Link to={'/signIn'} className={style.link}>
                     Зарегистрироваться
                   </Link>
-                )}
+                )} */}
               </div>
             </form>
           </div>

@@ -37,6 +37,15 @@ export type Service = {
   description: string;
   ispaid: boolean;
 };
+export type ConstCount = Pick<Service, 'cost' | 'count'>;
+
+export type ServiceCostChange = {
+  id: number;
+  date: Date;
+  user: string;
+  newCost: number;
+  serviceId: number;
+};
 
 export type ServiceCost = Pick<Service, 'id' | 'cost' | 'count' | 'orgId' | 'date'>;
 
@@ -92,6 +101,11 @@ export type SoftInfo = {
   id: string;
   name: string;
   softArticle: ArticlesName[];
+};
+
+export type CostByUser = {
+  user: string;
+  cost: number;
 };
 
 export type OrgInfo = 'org' | 'service' | 'contract' | 'personal' | 'act' | null;
