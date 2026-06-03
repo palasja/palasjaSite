@@ -323,7 +323,7 @@ let sequelize = new Sequelize(
             freezeTableName: true,
             timestamps: false,
         });
-      SoftInfo.hasMany(SoftArticle, {as: "softArticle", onDelete: 'cascade'});
+      SoftInfo.hasMany(SoftArticle, {as: "softArticle"});
     SoftArticle.belongsTo(SoftInfo, {
       foreignKey: "softInfoId",
       as: "softInfo",
