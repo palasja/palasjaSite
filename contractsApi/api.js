@@ -550,29 +550,7 @@ router.get('/getSoftArticle/:id',  asyncHandler( async (req, res) => {
   res.status(200).json(result);
 }));
 router.put('/addSoftArticle',  asyncHandler( async (req, res) => {
-  jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
-    if(err){
-      const userName = req.body.login;
-      const userPass = req.body.password;
-
-      if(admin == null) {
-        res.sendStatus(403); 
-      } else {
-      const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
-      if(isPassCorrect && userName == admin.login){
-          newTokenToRes(res, decoded.login);
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(403); 
-        }
-      }
-    } else {
-      res.sendStatus(200);
-    }
-  });
-
-
-  let result = await SoftArticle.create({
+ let result = await SoftArticle.create({
     name: req.body.name,
     info: req.body.info,
     softInfoId: req.body.softInfoId,

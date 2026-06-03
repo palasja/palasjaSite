@@ -5,8 +5,13 @@
   font-size: 20px;
   gap: 40px;
 }
-.sofinfoName {
-  text-align: left;
+.softNameContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.softName{
+  margin: 0;
 }
 .main {
   display: grid;
