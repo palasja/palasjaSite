@@ -25,14 +25,12 @@ import Header from './components/header';
 import { useAppSelector } from './redux/hooks';
 import { getIsLoading } from './redux/slices/authSlice';
 
-
-
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
-  const test = () =>{
+  const test = () => {
     const apearPercent = 10;
-    const a = Math.floor(Math.random() * (100 + 1)) < apearPercent ? style.ksenyaFace :'';
+    const a = Math.floor(Math.random() * (100 + 1)) < apearPercent ? style.ksenyaFace : '';
     return a;
-  }
+  };
 
   return <div className={`${style.wrapper} ${test()}`}>{children}</div>;
 };

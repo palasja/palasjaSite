@@ -143,7 +143,7 @@ const ArticleRow = ({ article }: { article: ArticlesName }) => {
       top: 0,
       behavior: 'smooth',
     });
-  }
+  };
   const showHandler = (id: string) => {
     dispatch(choseArticleId(id));
     dispatch(changeActionArticle('show'));
@@ -204,8 +204,8 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
     dispatch(changeActionArticle('new'));
   };
   const removeHandler = (softId: string) => {
-      setRemoveId(parseInt(soft.id));
-      setIsShowRemoveModal(true);
+    setRemoveId(parseInt(soft.id));
+    setIsShowRemoveModal(true);
   };
   const changeHandler = () => {
     dispatch(changeSoft(soft));
@@ -220,10 +220,10 @@ const SoftInfo = ({ soft }: { soft: SoftInfoType }) => {
           <AddIcon onClick={() => newArticleHandler(soft.id)} />
           <p className={style.softName}>{soft.name}</p>
 
-          <span onClick={() => removeHandler(soft.id)} >
+          <span onClick={() => removeHandler(soft.id)}>
             <RemoveIcon />
           </span>
-          <span onClick={() => changeHandler()} >
+          <span onClick={() => changeHandler()}>
             <EditIcon />
           </span>
         </div>
@@ -255,7 +255,6 @@ const SoftPrompt = () => {
   const { data: softinfoExample = [], isLoading, isFetching } = useGetSoftInfoQuery();
   const softInfo = softinfoExample;
 
-
   const dispatch = useAppDispatch();
   const actionSoft = useAppSelector(getActionSoft);
 
@@ -282,44 +281,24 @@ const SoftPrompt = () => {
         />
         <p>Информация по программам </p>
       </div>
-        <main className={style.main}>
-          <aside className={style.softMenu}>
-            {softInfo.map((soft, i) => {
-              return <SoftInfo soft={soft} key={i} />;
-            })}
-          </aside>
-          <section>
-            {actionSoft == 'show' && <SoftInfoArticle />}
-                       {actionSoft == 'change' && (
-        <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
-      )}
-      {actionSoft == 'new' && (
-        <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
-      )}
-            </section>
-
-        </main>
+      <main className={style.main}>
+        <aside className={style.softMenu}>
+          {softInfo.map((soft, i) => {
+            return <SoftInfo soft={soft} key={i} />;
+          })}
+        </aside>
+        <section>
+          {actionSoft == 'show' && <SoftInfoArticle />}
+          {actionSoft == 'change' && (
+            <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
+          )}
+          {actionSoft == 'new' && (
+            <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
+          )}
+        </section>
+      </main>
     </>
   );
 };
 
-const SoftPromptContent = () => {
-  const softAction = useAppSelector(getActionSoft);
-  const changingSoft = useAppSelector(getChangingSoft);
-  const dispatch = useAppDispatch();
-  const clearHandler = () => {
-    dispatch(changeSoft(undefined));
-    dispatch(changeActionSoft('show'));
-  };
-  return (
-    <>
-      {softAction == 'change' && (
-        <SoftPromptForm softInfo={changingSoft} clearCallback={() => clearHandler()} />
-      )}
-      {softAction == 'new' && (
-        <SoftPromptForm softInfo={undefined} clearCallback={() => clearHandler()} />
-      )}
-    </>
-  )
-}
 export default SoftPrompt;
