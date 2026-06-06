@@ -268,9 +268,7 @@ const SoftPrompt = () => {
     dispatch(changeSoft(undefined));
     dispatch(changeActionSoft('show'));
   };
-  useEffect(() => {
-    console.log(actionSoft == 'new');
-  }, [actionSoft]);
+
   return (
     <>
       <div className={style.head}>
