@@ -10,6 +10,7 @@ import style from './app.module.css';
 import Act from '../acts/act';
 import { useEffect } from 'react';
 import { useGetOrganizationQuery } from '../redux/slices/organizationRTKSlice';
+import { ProtectedRoute } from '../hooks/protectedRoute';
 
 const App = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -46,4 +47,7 @@ const App = () => {
   return appContent;
 };
 
-export default App;
+const ProtectedApp = () => {
+  return <ProtectedRoute><App /></ProtectedRoute>
+}
+export default ProtectedApp

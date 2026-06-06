@@ -13,7 +13,7 @@ const Protected = ({ children }: ProtectedRouteProps) => {
   const navigate = useNavigate();
   const isAuth = useAppSelector(getIsAuth);
   useEffect(() => {
-    if (isAuth === false) {
+    if (isAuth === undefined || isAuth === false ) {
       navigate('/');
     }
   }, [isAuth]);

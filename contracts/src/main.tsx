@@ -26,13 +26,13 @@ import { useAppSelector } from './redux/hooks';
 import { getIsLoading } from './redux/slices/authSlice';
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
-  const test = () => {
+  const showKseniaFace = () => {
     const apearPercent = 10;
     const a = Math.floor(Math.random() * (100 + 1)) < apearPercent ? style.ksenyaFace : '';
     return a;
   };
 
-  return <div className={`${style.wrapper} ${test()}`}>{children}</div>;
+  return <div className={`${style.wrapper} ${showKseniaFace()}`}>{children}</div>;
 };
 
 const Loader = () => {
@@ -53,39 +53,23 @@ createRoot(document.getElementById('root')!).render(
               <Route path="signin" element={<Auth isSignin={true} />} />
               <Route path="logout" element={<Logout />} />
               <Route path="org">
-                <Route index element={<App />} />
+                <Route index element={<App /> } />
                 <Route element={<App />}>
                   <Route
                     path=":orgID/servise"
-                    element={
-                      <ProtectedRoute>
-                        <Services />
-                      </ProtectedRoute>
-                    }
+                    element={<Services /> }
                   />
                   <Route
                     path=":orgID/contracts"
-                    element={
-                      <ProtectedRoute>
-                        <Contracts />
-                      </ProtectedRoute>
-                    }
+                    element={<Contracts /> }
                   />
                   <Route
                     path=":orgID/personals"
-                    element={
-                      <ProtectedRoute>
-                        <Personals />
-                      </ProtectedRoute>
-                    }
+                    element={<Personals /> }
                   />
                   <Route
                     path=":orgID/act"
-                    element={
-                      <ProtectedRoute>
-                        <Act />
-                      </ProtectedRoute>
-                    }
+                    element={<Act /> }
                   />
                 </Route>
               </Route>
