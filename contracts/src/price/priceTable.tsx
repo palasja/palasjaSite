@@ -51,14 +51,6 @@ const PriceTable = ({
     enableRowSelection: true,
     enablePagination: false,
     enableBottomToolbar: false, //hide the bottom toolbar as well if you want
-    initialState: {
-      sorting: [
-        {
-          id: 'date',
-          desc: true,
-        },
-      ],
-    },
   });
   return <MaterialReactTable table={table} />;
 };

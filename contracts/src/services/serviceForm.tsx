@@ -3,12 +3,13 @@ import { Service } from '../helpers/contractTypes';
 import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { chosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { trimObjectProperty } from '../helpers/helper';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { NotNullubleValue, trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
 import formStyle from '../assets/form.module.css';
 import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
+import { useLazyGetPriceQuery } from '../redux/slices/priceRTKSlice';
 type ChangingServiceFormProps = { changingService: Service | undefined };
 
 const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
@@ -25,7 +26,9 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const dispatch = useAppDispatch();
   const isWithoutOrg = useAppSelector(getIsWithoutOrg);
   const [loadPersonal, { data: personal }] = useLazyGetPersonalsByOrgIdQuery();
+  const [loadPriceList, { data: priceList }] = useLazyGetPriceQuery();
   const [isUserFromList, setIsUserFromlist] = useState(false);
+  const [isServiseFromPriceList, setServiseFromPriceList] = useState(false);
   const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
@@ -38,7 +41,10 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
     updateService(data);
     resetForm();
   };
-
+  const setCostFromPriceList = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const price = priceList?.find(p => p.serviceName === e.target.value);
+    if(price) setValue('cost', price.cost);
+  }
   const resetForm = () => {
     dispatch(chosenAction('show'));
   };
@@ -60,6 +66,12 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
       loadPersonal(choosenOrg.id, true);
     }
   }, [isUserFromList]);
+
+  useEffect(() => {
+    if (isServiseFromPriceList) {
+      loadPriceList();
+    }
+  }, [isServiseFromPriceList]);
   return (
     <>
       <form
@@ -85,13 +97,30 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
         )}
         <div className={formStyle.fieldsContainer}>
           <div className={formStyle.fieldContainer}>
-            <label htmlFor="name">Услуга</label>
+            <label htmlFor="user">Услуга</label>
+            <input
+              className={formStyle.userListCheckbox}
+              type="checkbox"
+              name="paid"
+              defaultChecked={isServiseFromPriceList}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setServiseFromPriceList(e.target.checked)}
+            />
+            {isServiseFromPriceList ? (
+              <select {...register('name', {onChange: setCostFromPriceList})}>
+                {priceList?.map((p) => (
+                  <option key={p.id} value={p.serviceName} >
+                    {p.serviceName}
+                  </option>
+                ))}
+              </select>
+            ) : (
             <input
               placeholder="Чистка ПК"
               {...register('name', {
                 required: { value: true, message: 'Имя услуги должно быть заполнено' },
               })}
             />
+            )}
           </div>
           <div className={formStyle.fieldContainer}>
             <label htmlFor="date">Дата</label>

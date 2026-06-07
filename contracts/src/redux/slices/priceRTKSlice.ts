@@ -14,7 +14,7 @@ const priceAPI = apiSlice.injectEndpoints({
         method: 'PUT',
         body: JSON.stringify(price),
       }),
-      invalidatesTags: [{ type: 'Price', id: 'List' }],
+      invalidatesTags: [{ type: 'Price', id: 'LIST' }],
     }),
     updatePrice: builder.mutation<number, Price>({
       query: (price) => ({
@@ -36,6 +36,7 @@ const priceAPI = apiSlice.injectEndpoints({
 
 export const {
   useGetPriceQuery,
+  useLazyGetPriceQuery,
   useAddPriceMutation,
   useUpdatePriceMutation,
   useDeletePriceMutation,
