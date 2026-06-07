@@ -23,7 +23,7 @@ const PersonalApi = apiSlice.injectEndpoints({
         body: JSON.stringify(person),
       }),
       // invalidatesTags: ['Personal']
-      invalidatesTags: (result, error, arg) => [{ type: 'Personal', id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Personal', id: arg.id }],
     }),
     deletePersonal: builder.mutation<boolean, number>({
       query: (id) => ({

@@ -48,6 +48,10 @@ const App = () => {
 };
 
 const ProtectedApp = () => {
-  return <ProtectedRoute><App /></ProtectedRoute>
-}
-export default ProtectedApp
+  return (
+    <ProtectedRoute>
+      <App />
+    </ProtectedRoute>
+  );
+};
+export default ProtectedApp;

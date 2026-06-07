@@ -1,4 +1,4 @@
-import {Sequelize, DataTypes, STRING}  from 'sequelize';
+import {Sequelize, DataTypes, STRING, INTEGER}  from 'sequelize';
 import 'dotenv/config';
 let sequelize = new Sequelize(
     process.env.MYSQL_DATABASE,
@@ -299,7 +299,7 @@ let sequelize = new Sequelize(
             timestamps: false,
         }
     );      
-      SoftArticle.hasMany(SoftArticleLinks, {as: "softLinks", onDelete: 'cascade'});
+    SoftArticle.hasMany(SoftArticleLinks, {as: "softLinks", onDelete: 'cascade'});
     SoftArticleLinks.belongsTo(SoftArticle, {
       foreignKey: "softArticleId",
       as: "softArticleLinks",
@@ -322,13 +322,32 @@ let sequelize = new Sequelize(
       {
             freezeTableName: true,
             timestamps: false,
-        });
-      SoftInfo.hasMany(SoftArticle, {as: "softArticle"});
+    });
+    SoftInfo.hasMany(SoftArticle, {as: "softArticle"});
     SoftArticle.belongsTo(SoftInfo, {
       foreignKey: "softInfoId",
       as: "softInfo",
       onDelete: 'CASCADE',
     });
     
+    const Price = sequelize.define('price', {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          allowNull: false,
+          autoIncrement: true
+        },
+        serviceName: {
+          type: DataTypes.STRING,
+          allowNull: false
+        }, 
+        cost:{
+          type: DataTypes.INTEGER,
+          allowNull: false
+        }}, 
+      {
+            freezeTableName: true,
+            timestamps: false,
+        })
 
-export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange}
+export {sequelize, Organization, Personal, Contracts,Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange, Price}

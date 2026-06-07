@@ -7,7 +7,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
 import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
-// import formStyle from './services.module.css';
 import formStyle from '../assets/form.module.css';
 import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
 type ChangingServiceFormProps = { changingService: Service | undefined };

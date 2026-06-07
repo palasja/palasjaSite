@@ -11,7 +11,6 @@ import ServiceForm from './serviceForm';
 import { Service } from '../helpers/contractTypes';
 import {
   useDeleteServiceMutation,
-  useLazyGetServiceCostChangeByOrgIdMonthYearQuery,
   useLazyGetServicesByOrgIdMonthYearQuery,
 } from '../redux/slices/servicesRTKSlice';
 import RemoveAgreePortal from '../components/modal/remove/removeModal';

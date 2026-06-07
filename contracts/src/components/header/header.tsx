@@ -3,8 +3,10 @@ import style from './header.module.css';
 import logo from '../../assets/logo.svg';
 import { useAppSelector } from '../../redux/hooks';
 import { getAuthSatus, getIsAuth } from '../../redux/slices/authSlice';
-import { ContractIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';
+import { ContractIcon, ListIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
+
 const Header = () => {
   const isAuth = useAppSelector(getIsAuth);
   // const [cookies] = useCookies(['expireDate']);
@@ -30,6 +32,9 @@ const Header = () => {
               </NavLink>
               <NavLink to={'/softinfo'} className={style.link}>
                 <SoftIcon /> ПО
+              </NavLink>
+              <NavLink to={'/price'} className={style.link}>
+                <ListIcon /> Прайс
               </NavLink>
             </nav>
             <Link to={'/logout'} className={style.logout}>

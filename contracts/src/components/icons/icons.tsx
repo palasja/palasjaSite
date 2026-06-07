@@ -12,7 +12,7 @@ import { default as MeetingRoomIconMaterial } from '@mui/icons-material/MeetingR
 import { default as DownloadIconMaterial } from '@mui/icons-material/Download';
 import { default as LeaderboardIconMaterial } from '@mui/icons-material/Leaderboard';
 import { default as AppsIconMaterial } from '@mui/icons-material/Apps';
-
+import { default as ListIconMaterial } from '@mui/icons-material/ViewList';
 type IconProp = { onClick?: () => void; testid?: string };
 export const RemoveIcon = () => (
   <RemoveIconMaterial className={`${style.common} ${style.changeColor}`} />
@@ -46,3 +46,4 @@ export const DownloadIcon = () => <DownloadIconMaterial className={style.common}
 export const StatIcon = () => <LeaderboardIconMaterial className={`${style.common}`} />;
 export const SoftIcon = () => <AppsIconMaterial className={`${style.common}`} />;
 export const ContractIcon = () => <ContentPasteIconMaterial className={`${style.common}`} />;
+export const ListIcon = () => <ListIconMaterial className={`${style.common}`} />;

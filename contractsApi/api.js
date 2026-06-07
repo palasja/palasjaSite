@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const saltRounds = 10;
 
 var {Sequelize, Op, where} = require('sequelize');
-const {sequelize, Organization, Contracts, Personal, Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange} = require('./dbSeqiulize');
+const {sequelize, Organization, Contracts, Personal, Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange, Price} = require('./dbSeqiulize');
 const SECRET = '23sadf6rucvbnvza-sd[pqw,';
 
 var app = express();
@@ -607,6 +607,38 @@ router.patch('/updateArticleLinks',  asyncHandler( async (req, res) => {
     let result = await SoftArticleLinks.bulkCreate(softArticleLinks, { updateOnDuplicate: ["id"] })
     res.status(200).json(result);
 }));
+
+router.get('/getPrice', asyncHandler( async (req, res) => {
+  const result = await Price.findAll();
+  res.status(200).json(result)
+}))
+
+router.patch('/updatePrice', asyncHandler( async (req, res) => {
+    const newPrice = req.body;
+    let result = await Price.update(
+        newPrice,
+        {
+            where: {
+                id: newPrice.id,
+            },
+        },
+    );
+    res.status(200).json(result);
+}))
+router.delete('/removePrice/:id',  asyncHandler( async (req, res) => {
+  let result = await Price.destroy({
+      where: {
+        id:  req.params.id,
+      },
+    });
+    const statusCode = result == true ? 200 : 400;
+    res.status(statusCode).json(result);
+}));
+router.put('/addPrice',  asyncHandler( async (req, res) => {
+  let result = await Price.create(req.body);
+  res.status(200).json(result);
+}));
+
 // path as /api/service
 app.use('/api', router);
 

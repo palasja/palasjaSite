@@ -24,6 +24,7 @@ import Header from './components/header';
 // import Loading from './components/loading';
 import { useAppSelector } from './redux/hooks';
 import { getIsLoading } from './redux/slices/authSlice';
+import Price from './price';
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const showKseniaFace = () => {
@@ -53,24 +54,12 @@ createRoot(document.getElementById('root')!).render(
               <Route path="signin" element={<Auth isSignin={true} />} />
               <Route path="logout" element={<Logout />} />
               <Route path="org">
-                <Route index element={<App /> } />
+                <Route index element={<App />} />
                 <Route element={<App />}>
-                  <Route
-                    path=":orgID/servise"
-                    element={<Services /> }
-                  />
-                  <Route
-                    path=":orgID/contracts"
-                    element={<Contracts /> }
-                  />
-                  <Route
-                    path=":orgID/personals"
-                    element={<Personals /> }
-                  />
-                  <Route
-                    path=":orgID/act"
-                    element={<Act /> }
-                  />
+                  <Route path=":orgID/servise" element={<Services />} />
+                  <Route path=":orgID/contracts" element={<Contracts />} />
+                  <Route path=":orgID/personals" element={<Personals />} />
+                  <Route path=":orgID/act" element={<Act />} />
                 </Route>
               </Route>
               <Route
@@ -94,6 +83,14 @@ createRoot(document.getElementById('root')!).render(
                 element={
                   <ProtectedRoute>
                     <SoftPrompt />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="price"
+                element={
+                  <ProtectedRoute>
+                    <Price />
                   </ProtectedRoute>
                 }
               />
