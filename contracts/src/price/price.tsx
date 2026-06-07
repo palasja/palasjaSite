@@ -34,7 +34,7 @@ const Price = () => {
     <>
       <div className={style.nameContainer}>
         <AddIcon onClick={addHandler} />
-        <p>Price Лист</p>
+        Price Лист
       </div>
 
       {action === 'change' && <PriceForm changingPrice={changingPrice} />}

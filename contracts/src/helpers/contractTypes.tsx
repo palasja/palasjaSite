@@ -112,6 +112,7 @@ export type Price = {
   id: number;
   serviceName: string;
   cost: number;
+  description: string;
 };
 export type OrgInfo = 'org' | 'service' | 'contract' | 'personal' | 'act' | null;
 export type Software = 'info' | 'article' | null;

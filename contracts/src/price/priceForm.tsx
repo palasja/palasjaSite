@@ -41,6 +41,7 @@ const PriceForm = ({ changingPrice }: ChangingPriceFormProps) => {
       setValue('id', changingPrice.id);
       setValue('serviceName', changingPrice.serviceName);
       setValue('cost', changingPrice.cost);
+      setValue('description', changingPrice.description);
     }
   }, []);    
   return <>
@@ -73,6 +74,14 @@ const PriceForm = ({ changingPrice }: ChangingPriceFormProps) => {
                 })}
               />
             </div>
+          </div>
+          <div className={formStyle.comentContainer}>
+            <label htmlFor="description">Описание</label>
+            <textarea
+              placeholder="Позвонили. Пришёл. Почистил."
+              {...register('description')}
+              className={formStyle.comment}
+            />
           </div>
           <div className={formStyle.buttons}>
             <input type="submit" value={btnValue} />

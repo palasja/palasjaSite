@@ -26,6 +26,11 @@ const PriceTable = ({
         header: 'Стоимость',
         size: 50,
       },
+      {
+        accessorKey: 'description',
+        header: 'Детали',
+        size: 150,
+      },
     ],
     []
   );

@@ -77,11 +77,10 @@ let sequelize = new Sequelize(
             freezeTableName: true,
             timestamps: false,
         });
-    Organization.hasMany(Personal, {as: "personal"});
+    Organization.hasMany(Personal, {as: "personal", onDelete: 'CASCADE',});
     Personal.belongsTo(Organization, {
       foreignKey: "orgId",
       as: "personalOrg",
-      onDelete: 'CASCADE',
     });
 
 
@@ -161,15 +160,14 @@ let sequelize = new Sequelize(
                 console.error('Failed to add service detail to ServiceCostChange:', error);
               }
             }
-            
           }, 
         }
         });
-    Organization.hasMany(Service, {as: "service"});
+    Organization.hasMany(Service, {as: "service", onDelete: 'CASCADE',});
     Service.belongsTo(Organization, {
       foreignKey: "orgId",
       as: "serviceOrg",
-      onDelete: 'CASCADE',
+      
     });
 
       const ServiceCostChange = sequelize.define("serviceCostChange", {
@@ -194,10 +192,8 @@ let sequelize = new Sequelize(
             freezeTableName: true,
             timestamps: false,
         });
-    Service.hasMany(ServiceCostChange, {as: "serviceCostChange"});
-    ServiceCostChange.belongsTo(Service, {
-      onDelete: 'CASCADE',
-    });
+    Service.hasMany(ServiceCostChange, {as: "serviceCostChange", onDelete: 'CASCADE'});
+    ServiceCostChange.belongsTo(Service);
     const Contracts = sequelize.define("contracts", {
         id: {
           type: DataTypes.INTEGER,
@@ -230,11 +226,10 @@ let sequelize = new Sequelize(
             freezeTableName: true,
             timestamps: false,
         });
-    Organization.hasMany(Contracts, {as: "contracts"});
+    Organization.hasMany(Contracts, {as: "contracts", onDelete: 'CASCADE',});
     Contracts.belongsTo(Organization, {
       foreignKey: "orgId",
-      as: "contractOrg",
-      onDelete: 'CASCADE',
+      as: "contractOrg"
     });
     const Users = sequelize.define(
       'users', {
@@ -303,7 +298,6 @@ let sequelize = new Sequelize(
     SoftArticleLinks.belongsTo(SoftArticle, {
       foreignKey: "softArticleId",
       as: "softArticleLinks",
-      onDelete: 'CASCADE',
     });
 
     const SoftInfo = sequelize.define(
@@ -323,11 +317,10 @@ let sequelize = new Sequelize(
             freezeTableName: true,
             timestamps: false,
     });
-    SoftInfo.hasMany(SoftArticle, {as: "softArticle"});
+    SoftInfo.hasMany(SoftArticle, {as: "softArticle", onDelete: 'CASCADE',});
     SoftArticle.belongsTo(SoftInfo, {
       foreignKey: "softInfoId",
-      as: "softInfo",
-      onDelete: 'CASCADE',
+      as: "softInfo"
     });
     
     const Price = sequelize.define('price', {
@@ -344,7 +337,11 @@ let sequelize = new Sequelize(
         cost:{
           type: DataTypes.INTEGER,
           allowNull: false
-        }}, 
+        }, 
+        description:{
+          type: DataTypes.STRING,
+          allowNull: true
+        }} ,
       {
             freezeTableName: true,
             timestamps: false,
