@@ -27,6 +27,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: 	./contractsApi/
           server-dir: /apitest.palasja.by/
+          protocol: ftps
+          port: 22
           exclude: |
             **/.git**
             **/.git*/**

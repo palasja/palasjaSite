@@ -29,6 +29,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: 	./palasja/dist/
           server-dir: /palasja.site/
+          protocol: ftps
+          port: 22
           exclude: |
             **/.git**
             **/.git*/**

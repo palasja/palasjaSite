@@ -42,9 +42,9 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
     resetForm();
   };
   const setCostFromPriceList = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const price = priceList?.find(p => p.serviceName === e.target.value);
-    if(price) setValue('cost', price.cost);
-  }
+    const price = priceList?.find((p) => p.serviceName === e.target.value);
+    if (price) setValue('cost', price.cost);
+  };
   const resetForm = () => {
     dispatch(chosenAction('show'));
   };
@@ -103,23 +103,25 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               type="checkbox"
               name="paid"
               defaultChecked={isServiseFromPriceList}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setServiseFromPriceList(e.target.checked)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setServiseFromPriceList(e.target.checked)
+              }
             />
             {isServiseFromPriceList ? (
-              <select {...register('name', {onChange: setCostFromPriceList})}>
+              <select {...register('name', { onChange: setCostFromPriceList })}>
                 {priceList?.map((p) => (
-                  <option key={p.id} value={p.serviceName} >
+                  <option key={p.id} value={p.serviceName}>
                     {p.serviceName}
                   </option>
                 ))}
               </select>
             ) : (
-            <input
-              placeholder="Чистка ПК"
-              {...register('name', {
-                required: { value: true, message: 'Имя услуги должно быть заполнено' },
-              })}
-            />
+              <input
+                placeholder="Чистка ПК"
+                {...register('name', {
+                  required: { value: true, message: 'Имя услуги должно быть заполнено' },
+                })}
+              />
             )}
           </div>
           <div className={formStyle.fieldContainer}>
