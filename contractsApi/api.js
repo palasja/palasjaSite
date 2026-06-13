@@ -31,7 +31,7 @@ const expire = {
 const getToken = (payload, expires) => {
   return jwt.sign(
     payload,
-    `${SECRET}`,
+    process.env.SECRET,
     {
       algorithm: 'HS256',
       allowInsecureKeySizes: true,
@@ -642,7 +642,8 @@ router.put('/addPrice',  asyncHandler( async (req, res) => {
 // path as /api/service
 app.use('/api', router);
 
-app.listen(3000, function(err){
+app.listen(process.env.PORT, function(err){
     if (err) console.log("Error in server setup")
-    console.log("Server listening on Port", 3000);
+    console.log("Server listening on Port", process.env.PORT);
 })
+
