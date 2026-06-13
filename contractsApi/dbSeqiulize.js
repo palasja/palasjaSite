@@ -10,7 +10,7 @@ let sequelize = new Sequelize(
           {
             dialect: "mysql",
             host: process.env.MYSQL_HOST,
-            port: 3306,
+            port: process.env.MYSQL_PORT,
             pool: {
               max: 10,
               min: 0,

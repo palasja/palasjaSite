@@ -642,8 +642,8 @@ router.put('/addPrice',  asyncHandler( async (req, res) => {
 // path as /api/service
 app.use('/api', router);
 
-app.listen(process.env.PORT, function(err){
+app.listen(process.env.API_PORT, function(err){
     if (err) console.log("Error in server setup")
-    console.log("Server listening on Port", process.env.PORT);
+    console.log("Server listening on Port", process.env.API_PORT);
 })
 
