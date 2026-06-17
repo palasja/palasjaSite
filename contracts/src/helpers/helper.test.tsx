@@ -75,9 +75,9 @@ describe('short name', () => {
 
   it('valid name', () => {
     const prson = {
-      firstName: 'Иван',
-      middleName: 'Александрович',
-      lastName: 'Якубенко',
+      firstname: 'Иван',
+      middlename: 'Александрович',
+      lastname: 'Якубенко',
     } as Personal;
     expect(getShortName(prson)).toBe('И. А. Якубенко');
   });

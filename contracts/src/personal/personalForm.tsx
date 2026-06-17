@@ -45,12 +45,12 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
   };
   useEffect(() => {
     if (changingPersonal) {
-      setValue('firstName', changingPersonal.firstName);
-      setValue('middleName', changingPersonal.middleName);
-      setValue('lastName', changingPersonal.lastName);
-      setValue('firstNameR', changingPersonal.firstNameR);
-      setValue('middleNameR', changingPersonal.middleNameR);
-      setValue('lastNameR', changingPersonal.lastNameR);
+      setValue('firstname', changingPersonal.firstname);
+      setValue('middlename', changingPersonal.middlename);
+      setValue('lastname', changingPersonal.lastname);
+      setValue('firstnameR', changingPersonal.firstnameR);
+      setValue('middlenameR', changingPersonal.middlenameR);
+      setValue('lastnameR', changingPersonal.lastnameR);
       setValue('isHead', changingPersonal.isHead);
       setValue('positionName', changingPersonal.positionName);
       setValue('id', changingPersonal.id);
@@ -59,9 +59,9 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
   return (
     <>
       <div className="error">
-        {errors.lastName && <p>{errors.lastName.message}</p>}
-        {errors.firstName && <p>{errors.firstName.message}</p>}
-        {errors.middleName && <p>{errors.middleName.message}</p>}
+        {errors.lastname && <p>{errors.lastname.message}</p>}
+        {errors.firstname && <p>{errors.firstname.message}</p>}
+        {errors.middlename && <p>{errors.middlename.message}</p>}
         {errors.positionName && <p>{errors.positionName.message}</p>}
       </div>
       <form
@@ -73,39 +73,39 @@ const PersonalForm = ({ changingPersonal = undefined }: ChangingPersonalFormProp
           <div className={formStyle.fieldContainer}>
             <label htmlFor="fisrtName">Имя</label>
             <input
-              {...register('firstName', {
+              {...register('firstname', {
                 required: { value: true, message: 'Имя долно быть заполнено' },
               })}
             />
           </div>
           <div className={formStyle.fieldContainer}>
-            <label htmlFor="middleName">Отчество</label>
+            <label htmlFor="middlename">Отчество</label>
             <input
-              {...register('middleName', {
+              {...register('middlename', {
                 required: { value: true, message: 'Отчество долно быть заполнена' },
               })}
             />
           </div>
           <div className={formStyle.fieldContainer}>
-            <label htmlFor="lastName">Фамилия</label>
+            <label htmlFor="lastname">Фамилия</label>
             <input
-              {...register('lastName', {
+              {...register('lastname', {
                 required: { value: true, message: 'Фамилия долно быть заполнена' },
               })}
             />
           </div>
 
           <div className={formStyle.fieldContainer}>
-            <label htmlFor="firstNameR">Имя в Родительном</label>
-            <input {...register('firstNameR')} />
+            <label htmlFor="firstnameR">Имя в Родительном</label>
+            <input {...register('firstnameR')} />
           </div>
           <div className={formStyle.fieldContainer}>
-            <label htmlFor="middleNameR">Отчество в Родительном</label>
-            <input {...register('middleNameR')} />
+            <label htmlFor="middlenameR">Отчество в Родительном</label>
+            <input {...register('middlenameR')} />
           </div>
           <div className={formStyle.fieldContainer}>
-            <label htmlFor="lastNameR">Фамилия в Родительном</label>
-            <input {...register('lastNameR')} />
+            <label htmlFor="lastnameR">Фамилия в Родительном</label>
+            <input {...register('lastnameR')} />
           </div>
 
           <div className={formStyle.fieldContainer}>
