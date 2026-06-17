@@ -11,6 +11,10 @@ export class Price extends Model<InferAttributes<Price>, InferCreationAttributes
   @NotNull
   declare serviceName: string;
 
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare cost: number;
+
   @Attribute(DataTypes.STRING)
   @NotNull
   declare description: string;

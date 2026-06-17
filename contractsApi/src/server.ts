@@ -3,9 +3,8 @@ import dotenv  from "dotenv"
 dotenv.config();
 import asyncHandler  from "express-async-handler"
 import express, { Application, Request, Response } from "express";
-import sequelize from "./sequelize";
+
 import { Organization } from "./models/organization";
-var cors = require('cors');
 import bcrypt from "bcryptjs";
 import Sequelize, { Op } from "@sequelize/core";
 import { Personal } from "./models/personal";
@@ -15,80 +14,30 @@ import { ServiceCostChange } from "./models/serviceCostChange";
 import { SoftArticle } from "./models/softArticle";
 import { SoftInfo } from "./models/softInfo";
 import { User } from "./models/user";
-import { JwtPayload, VerifyErrors } from "jsonwebtoken";
-const cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-const mysql = require('mysql2/promise');
 import jwt from 'jsonwebtoken';
-import { NotNullubleValue } from "./helper";
 import { Contract } from "./models/contracts";
 import { SoftArticleLink } from "./models/softArticleLink";
+import { JwtError, JwtDecoded, UserType } from "./types";
+import { newTokenToRes, getLoginFromToken } from "./helper";
+
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
+
 const saltRounds = 10;
 const app: Application = express();
 
 app.use(cookieParser());
-app.use(bodyParser.json({ limit: "200mb" }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "200mb" }));
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cors({
   origin: true,
   credentials: true
 }));
 
-const expire = {
-  day: 86400, // 24 hours
-  month: 2592000, // 30 days
-  quarter: 7776000, // 90 days
-}
-const getToken = (payload: {expireIn: number, login: string}, expires: number) => {
-  return jwt.sign(
-    payload,
-    NotNullubleValue(process.env.SECRET),
-    {
-      algorithm: 'HS256',
-      allowInsecureKeySizes: true,
-      expiresIn: expires,
-    });
-}
-export interface UserType extends JwtPayload {
-  login: string;
-  password: string;
-}
-type JwtDecoded = string | JwtPayload | undefined;
-type JwtError = VerifyErrors | null;
 
-const getLoginFromToken = (req: Request) => {
-  const accessToken = req.cookies.accessToken;
-  var decoded = jwt.verify(accessToken, `${process.env.SECRET}`) as User;
-  return decoded.login;
-}
-const newTokenToRes = (res: Response, login: string) => {
-    const options = {
-      httpOnly: true,
-    };
-
-    const newAccessToken = getToken({ expireIn: Date.now() / 1000 + expire.day, login: login}, expire.day);
-    const newRefreshToken = getToken({ expireIn:  Date.now() / 1000 + expire.quarter, login: login}, expire.quarter);
-    res.cookie('accessToken', newAccessToken, options);
-    res.cookie('refreshToken', newRefreshToken, options);
-}
 const router = express.Router()
-mysql.createConnection({
-      user : process.env.MYSQL_ADMIN,
-      password : process.env.MYSQL_ADMIN_PASSWORD,
-        // user     : "palasja",
-        // password : "wania-0806"
-    }).then((connection: any) => {
-        connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.MYSQL_DATABASE};`).then(() => {
-
-                sequelize.sync()
-                    .then(() => {
-                        console.log("Connection to DB was successful");
-                        })
-                    .catch(err => {
-                        console.error("Unable to connect to DB", err);
-                    });
-        })
-    })
 // router.get('/test', function  (req, res) {
 //      res.status(200).json({test:'123'});
 // });
@@ -110,15 +59,16 @@ router.post('/signIn', asyncHandler( async (req, res) => {
   } else {
   const userName = req.body.login;
   const userPass = req.body.password;
-  var salt = bcrypt.genSaltSync(saltRounds);
-  var hash = bcrypt.hashSync(`${userPass}`, salt);
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hash = bcrypt.hashSync(`${userPass}`, salt);
 
   await User.create( {
       login: userName,
       password: hash
     } );
+  
   newTokenToRes(res, userName);
-    res.sendStatus(200);
+  res.sendStatus(200);
   }
 
   }));
@@ -209,7 +159,6 @@ router.use((req, res, next) => {
 })
 router.get('/getOrganizations',  asyncHandler( async (req, res) => {
   let result = await Organization.findAll();
-  console.log(result.length)
   res.status(200).json(result);
 }));
 router.put('/addOrganization',  asyncHandler( async (req, res) => {

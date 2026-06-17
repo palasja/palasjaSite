@@ -8,6 +8,7 @@
     "build": "tsc -p .",
     "start:local": "node --env-file=.env src/server.ts",
     "dev": "nodemon src/server.ts",
+    "pretier:fix": "prettier . --write",
     "pretier:check": "prettier . --check"
   },
   "keywords": [],
