@@ -18,7 +18,7 @@ jobs:
  
       - name: Install ContractsApi Dependencies/ Build 📦
         run: |
-          npm --prefix ./contractsApi/ install
+          npm --prefix contractsApi/ install
           npm --prefix ./contractsApi/ run build
 
       - name: Upload to cPanel 📂
@@ -27,7 +27,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: 	./contractsApi/dist/
+          local-dir: 	./contractsApi
           server-dir: /www/apitest.palasja.by/
           exclude: |
             **/.git**
