@@ -18,7 +18,7 @@ jobs:
  
       - name: Install ContractsApi Dependencies/ Build 📦
         run: |
-          npm --prefix ./palasja/ install
+          npm --prefix ./contractsApi/ install
           npm --prefix ./contractsApi/ run build
 
       - name: Upload to cPanel 📂
