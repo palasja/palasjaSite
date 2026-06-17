@@ -12,6 +12,7 @@
 }
 .softName {
   margin: 0;
+  text-align: left;
 }
 .main {
   display: grid;
