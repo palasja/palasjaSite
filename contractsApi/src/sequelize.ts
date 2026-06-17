@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes} from '@sequelize/core';
+import { Sequelize, DataTypes } from '@sequelize/core';
 import { MySqlDialect } from '@sequelize/mysql';
 
 import 'dotenv/config';
@@ -22,14 +22,25 @@ let sequelize = new Sequelize({
   port: Number(process.env.MYSQL_PORT),
   logging: console.log,
   define: {
-      timestamps: false,
-      // freezeTableName: true,
+    timestamps: false,
+    // freezeTableName: true,
   },
   pool: {
     max: 10,
     min: 0,
   },
-  models: [Personal, Organization, Service, ServiceCostChange, Contract, User, SoftInfo, SoftArticleLink, SoftArticle, Price]
+  models: [
+    Personal,
+    Organization,
+    Service,
+    ServiceCostChange,
+    Contract,
+    User,
+    SoftInfo,
+    SoftArticleLink,
+    SoftArticle,
+    Price,
+  ],
 });
 
 // const safeChangeCostInfo = async (service: Service, options: any & {login: string}) => {
@@ -48,4 +59,4 @@ let sequelize = new Sequelize({
 // Service.hooks.addListener('afterCreate',  safeChangeCostInfo)
 // Service.hooks.addListener('afterUpdate',  safeChangeCostInfo)
 
-export default sequelize
+export default sequelize;

@@ -1,4 +1,11 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, NonAttribute, CreationOptional} from '@sequelize/core';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  NonAttribute,
+  CreationOptional,
+} from '@sequelize/core';
 import { Attribute, AutoIncrement, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
 
 export class Price extends Model<InferAttributes<Price>, InferCreationAttributes<Price>> {

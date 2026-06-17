@@ -1,11 +1,25 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, NonAttribute, CreationOptional} from '@sequelize/core';
-import { AfterCreate, Attribute, AutoIncrement, Default, HasMany, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  NonAttribute,
+  CreationOptional,
+} from '@sequelize/core';
+import {
+  AfterCreate,
+  Attribute,
+  AutoIncrement,
+  Default,
+  HasMany,
+  NotNull,
+  PrimaryKey,
+} from '@sequelize/core/decorators-legacy';
 import { Personal } from './personal';
 import { ServiceCostChange } from './serviceCostChange';
 
-
 export class Service extends Model<InferAttributes<Service>, InferCreationAttributes<Service>> {
-@Attribute(DataTypes.INTEGER)
+  @Attribute(DataTypes.INTEGER)
   @AutoIncrement
   @PrimaryKey
   declare id: CreationOptional<number>;
@@ -39,7 +53,7 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
   @Attribute(DataTypes.BOOLEAN)
   @NotNull
   declare ispaid: boolean;
-  
+
   @Attribute(DataTypes.STRING(8196))
   declare description: boolean;
 
@@ -55,8 +69,5 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
       onDelete: 'CASCADE',
     },
   })
-  declare personal?: NonAttribute<Personal[]>
-
-
+  declare personal?: NonAttribute<Personal[]>;
 }
-

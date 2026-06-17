@@ -1,12 +1,28 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, NonAttribute, CreationOptional} from '@sequelize/core';
-import { Attribute, AutoIncrement, HasMany, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  NonAttribute,
+  CreationOptional,
+} from '@sequelize/core';
+import {
+  Attribute,
+  AutoIncrement,
+  HasMany,
+  NotNull,
+  PrimaryKey,
+} from '@sequelize/core/decorators-legacy';
 import { Personal } from './personal';
 import { Service } from './service';
 import { Contract } from './contracts';
 import { User } from './user';
 
-export class Organization extends Model<InferAttributes<Organization>, InferCreationAttributes<Organization>> {
-@Attribute(DataTypes.INTEGER)
+export class Organization extends Model<
+  InferAttributes<Organization>,
+  InferCreationAttributes<Organization>
+> {
+  @Attribute(DataTypes.INTEGER)
   @AutoIncrement
   @PrimaryKey
   declare id: CreationOptional<number>;
@@ -21,7 +37,7 @@ export class Organization extends Model<InferAttributes<Organization>, InferCrea
       onDelete: 'CASCADE',
     },
   })
-  declare personal?: NonAttribute<Personal[]>
+  declare personal?: NonAttribute<Personal[]>;
 
   @HasMany(() => Service, {
     foreignKey: {
@@ -29,7 +45,7 @@ export class Organization extends Model<InferAttributes<Organization>, InferCrea
       onDelete: 'CASCADE',
     },
   })
-  declare service?: NonAttribute<Service[]>
+  declare service?: NonAttribute<Service[]>;
 
   @HasMany(() => Contract, {
     foreignKey: {
@@ -37,6 +53,5 @@ export class Organization extends Model<InferAttributes<Organization>, InferCrea
       onDelete: 'CASCADE',
     },
   })
-  declare contract?: NonAttribute<Contract[]>
-
+  declare contract?: NonAttribute<Contract[]>;
 }

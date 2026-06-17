@@ -1,7 +1,23 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, NonAttribute, CreationOptional} from '@sequelize/core';
-import { Attribute, AutoIncrement, HasMany, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  NonAttribute,
+  CreationOptional,
+} from '@sequelize/core';
+import {
+  Attribute,
+  AutoIncrement,
+  HasMany,
+  NotNull,
+  PrimaryKey,
+} from '@sequelize/core/decorators-legacy';
 
-export class ServiceCostChange extends Model<InferAttributes<ServiceCostChange>, InferCreationAttributes<ServiceCostChange>> {
+export class ServiceCostChange extends Model<
+  InferAttributes<ServiceCostChange>,
+  InferCreationAttributes<ServiceCostChange>
+> {
   @Attribute(DataTypes.INTEGER)
   @AutoIncrement
   @PrimaryKey
@@ -14,11 +30,11 @@ export class ServiceCostChange extends Model<InferAttributes<ServiceCostChange>,
   @Attribute(DataTypes.STRING)
   @NotNull
   declare user: string;
-  
+
   @Attribute(DataTypes.INTEGER)
   @NotNull
   declare newCost: number;
-  
+
   @Attribute(DataTypes.INTEGER)
   @NotNull
   declare serviceId: number;

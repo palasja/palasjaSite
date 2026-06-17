@@ -1,10 +1,26 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, NonAttribute, CreationOptional} from '@sequelize/core';
-import { Attribute, AutoIncrement, HasMany, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  NonAttribute,
+  CreationOptional,
+} from '@sequelize/core';
+import {
+  Attribute,
+  AutoIncrement,
+  HasMany,
+  NotNull,
+  PrimaryKey,
+} from '@sequelize/core/decorators-legacy';
 import { Personal } from './personal';
 import { SoftArticleLink } from './softArticleLink';
 
-export class SoftArticle extends Model<InferAttributes<SoftArticle>, InferCreationAttributes<SoftArticle>> {
-@Attribute(DataTypes.INTEGER)
+export class SoftArticle extends Model<
+  InferAttributes<SoftArticle>,
+  InferCreationAttributes<SoftArticle>
+> {
+  @Attribute(DataTypes.INTEGER)
   @AutoIncrement
   @PrimaryKey
   declare id: CreationOptional<number>;
@@ -26,6 +42,5 @@ export class SoftArticle extends Model<InferAttributes<SoftArticle>, InferCreati
       onDelete: 'CASCADE',
     },
   })
-  declare softArticleLink?: NonAttribute<SoftArticleLink[]>
-
+  declare softArticleLink?: NonAttribute<SoftArticleLink[]>;
 }

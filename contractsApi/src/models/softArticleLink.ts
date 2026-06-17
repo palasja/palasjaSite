@@ -1,8 +1,17 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, NonAttribute, CreationOptional} from '@sequelize/core';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  NonAttribute,
+  CreationOptional,
+} from '@sequelize/core';
 import { Attribute, AutoIncrement, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
 
-
-export class SoftArticleLink extends Model<InferAttributes<SoftArticleLink>, InferCreationAttributes<SoftArticleLink>> {
+export class SoftArticleLink extends Model<
+  InferAttributes<SoftArticleLink>,
+  InferCreationAttributes<SoftArticleLink>
+> {
   @Attribute(DataTypes.INTEGER)
   @AutoIncrement
   @PrimaryKey

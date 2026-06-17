@@ -1,5 +1,18 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, NonAttribute, CreationOptional} from '@sequelize/core';
-import { Attribute, AutoIncrement, HasMany, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  NonAttribute,
+  CreationOptional,
+} from '@sequelize/core';
+import {
+  Attribute,
+  AutoIncrement,
+  HasMany,
+  NotNull,
+  PrimaryKey,
+} from '@sequelize/core/decorators-legacy';
 import { Personal } from './personal';
 import { Service } from './service';
 
@@ -15,15 +28,15 @@ export class Contract extends Model<InferAttributes<Contract>, InferCreationAttr
 
   @Attribute(DataTypes.STRING)
   @NotNull
-  declare signDate: string;  
+  declare signDate: string;
 
   @Attribute(DataTypes.DATEONLY)
   @NotNull
   declare startDate: string;
-  
+
   @Attribute(DataTypes.DATEONLY)
   declare endDate: string;
-  
+
   @Attribute(DataTypes.TEXT('long'))
   declare scan: string;
 

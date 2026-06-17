@@ -1,4 +1,4 @@
-import { JwtPayload, VerifyErrors } from "jsonwebtoken";
+import { JwtPayload, VerifyErrors } from 'jsonwebtoken';
 
 export interface UserType extends JwtPayload {
   login: string;

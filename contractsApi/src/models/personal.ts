@@ -1,4 +1,10 @@
-import { DataTypes, InferCreationAttributes, InferAttributes, Model, CreationOptional} from '@sequelize/core';
+import {
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  CreationOptional,
+} from '@sequelize/core';
 import { Attribute, AutoIncrement, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
 
 export class Personal extends Model<InferAttributes<Personal>, InferCreationAttributes<Personal>> {
