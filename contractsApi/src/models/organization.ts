@@ -16,7 +16,6 @@ import {
 import { Personal } from './personal';
 import { Service } from './service';
 import { Contract } from './contracts';
-import { User } from './user';
 
 export class Organization extends Model<
   InferAttributes<Organization>,

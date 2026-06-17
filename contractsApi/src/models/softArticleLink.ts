@@ -3,10 +3,9 @@ import {
   InferCreationAttributes,
   InferAttributes,
   Model,
-  NonAttribute,
   CreationOptional,
 } from '@sequelize/core';
-import { Attribute, AutoIncrement, NotNull, PrimaryKey } from '@sequelize/core/decorators-legacy';
+import { Attribute, AutoIncrement, NotNull, PrimaryKey, Table } from '@sequelize/core/decorators-legacy';
 
 export class SoftArticleLink extends Model<
   InferAttributes<SoftArticleLink>,

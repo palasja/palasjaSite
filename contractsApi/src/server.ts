@@ -17,7 +17,7 @@ import jwt from 'jsonwebtoken';
 import { Contract } from './models/contracts';
 import { SoftArticleLink } from './models/softArticleLink';
 import { JwtError, JwtDecoded, UserType } from './types';
-import { newTokenToRes, getLoginFromToken } from './helper';
+import { newTokenToRes, getLoginFromToken, creteContractDB } from './helper';
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -36,20 +36,11 @@ app.use(
   })
 );
 
+
 const router = express.Router();
-// router.get('/test', function  (req, res) {
-//      res.status(200).json({test:'123'});
-// });
-// Enable URL-encoded form data parsing
-// app.use(express.urlencoded({ extended: true }));
 
-// Middleware to parse JSON bodies
-// app.use(express.json());
+creteContractDB();
 
-// Basic route
-app.get('/', (req: Request, res: Response) => {
-  res.send(`Hello, ${process.env.SECRET}`);
-});
 router.post(
   '/signIn',
   asyncHandler(async (req, res) => {
@@ -240,7 +231,7 @@ router.get(
         [Op.and]: [
           {
             [Op.or]: [
-              Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('startDate')), month + 1),
+              Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('start_date')), month + 1),
               {
                 startDate: {
                   [Op.lte]: firstWorkDayDate,

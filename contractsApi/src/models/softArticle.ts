@@ -13,7 +13,6 @@ import {
   NotNull,
   PrimaryKey,
 } from '@sequelize/core/decorators-legacy';
-import { Personal } from './personal';
 import { SoftArticleLink } from './softArticleLink';
 
 export class SoftArticle extends Model<

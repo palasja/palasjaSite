@@ -23,7 +23,7 @@ let sequelize = new Sequelize({
   logging: console.log,
   define: {
     timestamps: false,
-    // freezeTableName: true,
+    underscored: true,
   },
   pool: {
     max: 10,

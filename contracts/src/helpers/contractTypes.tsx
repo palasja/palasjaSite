@@ -13,12 +13,12 @@ export type Contract = {
 };
 export type Personal = {
   id: number;
-  lastName: string;
-  middleName: string;
-  firstName: string;
-  lastNameR?: string;
-  middleNameR?: string;
-  firstNameR?: string;
+  lastname: string;
+  middlename: string;
+  firstname: string;
+  lastnameR?: string;
+  middlenameR?: string;
+  firstnameR?: string;
   positionName: string;
   isHead: boolean;
   orgId: string;

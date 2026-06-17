@@ -58,7 +58,7 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
             мелиоративное унитарное предприятие «Наровлянское ПМС», именуемое в дальнейшем
             «Заказчик», в лице директора{' '}
             <span className={style.variable}>
-              {head?.lastNameR} {head?.firstNameR} {head?.middleNameR}
+              {head?.lastnameR} {head?.firstnameR} {head?.middlenameR}
               {', '}
             </span>
             действующего на основании Устава, с одной стороны и гражданин Якубенко Иван
@@ -77,9 +77,9 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
           </p> */}
           <p>
             Работы принял представитель Заказчика –{' '}
-            <span className={style.variable}>{representor?.firstName}</span>{' '}
+            <span className={style.variable}>{representor?.firstname}</span>{' '}
             <span className={style.variable}>
-              {representor?.middleName} {representor?.lastName}, {representor?.positionName}
+              {representor?.middlename} {representor?.lastname}, {representor?.positionName}
             </span>
             .
           </p>

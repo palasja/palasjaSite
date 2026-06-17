@@ -99,7 +99,7 @@ const ActZKHHead = ({ head, sign, signDate }: ActZKHHeadProps) => {
           одной стороны и{' '}
           <span
             className={style.variable}
-          >{`${sign?.lastName} ${sign?.firstName} ${sign?.middleName}`}</span>
+          >{`${sign?.lastname} ${sign?.firstname} ${sign?.middlename}`}</span>
           , с другой стороны, составили настоящий акт в том, что первый выполнил работы в
           расчетно-справочном центре:
         </p>

@@ -7,7 +7,6 @@ import {
   CreationOptional,
 } from '@sequelize/core';
 import {
-  AfterCreate,
   Attribute,
   AutoIncrement,
   Default,

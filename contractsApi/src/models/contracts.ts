@@ -3,18 +3,14 @@ import {
   InferCreationAttributes,
   InferAttributes,
   Model,
-  NonAttribute,
   CreationOptional,
 } from '@sequelize/core';
 import {
   Attribute,
   AutoIncrement,
-  HasMany,
   NotNull,
   PrimaryKey,
 } from '@sequelize/core/decorators-legacy';
-import { Personal } from './personal';
-import { Service } from './service';
 
 export class Contract extends Model<InferAttributes<Contract>, InferCreationAttributes<Contract>> {
   @Attribute(DataTypes.INTEGER)

@@ -43,7 +43,7 @@ export const getURLByBase64File = (scanStr: string, mimeType: string) => {
 export const getShortName = (person: Personal | undefined): string => {
   return person === undefined || person === null
     ? ''
-    : `${person.firstName[0]}. ${person.middleName[0]}. ${person.lastName}`;
+    : `${person.firstname[0]}. ${person.middlename[0]}. ${person.lastname}`;
 };
 
 export const roundedCost = (cost: number) => {

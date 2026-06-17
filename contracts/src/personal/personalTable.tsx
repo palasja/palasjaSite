@@ -21,12 +21,12 @@ const PersonalTable = ({
   const columns = useMemo<MRT_ColumnDef<Personal>[]>(
     () => [
       {
-        accessorFn: (row) => `${row.lastName} ${row.firstName} ${row.middleName}`,
+        accessorFn: (row) => `${row.lastname} ${row.firstname} ${row.middlename}`,
         header: 'Наименование в именительном',
         size: 200,
       },
       {
-        accessorFn: (row) => `${row.lastNameR} ${row.firstNameR} ${row.middleNameR}`,
+        accessorFn: (row) => `${row.lastnameR} ${row.firstnameR} ${row.middlenameR}`,
         header: 'Наименование в родительном',
         size: 200,
       },

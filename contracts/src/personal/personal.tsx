@@ -35,9 +35,8 @@ const Personals = () => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<string>('');
   const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
-
   const changeHandler = (person: Personal) => {
-    console.log(person);
+    
     setChangingPersonal(person);
     dispatch(chosenAction('change'));
   };

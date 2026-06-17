@@ -3,13 +3,11 @@ import {
   InferCreationAttributes,
   InferAttributes,
   Model,
-  NonAttribute,
   CreationOptional,
 } from '@sequelize/core';
 import {
   Attribute,
   AutoIncrement,
-  HasMany,
   NotNull,
   PrimaryKey,
 } from '@sequelize/core/decorators-legacy';
