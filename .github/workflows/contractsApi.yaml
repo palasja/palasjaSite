@@ -16,8 +16,10 @@ jobs:
       - name: Checkout Code 🚚
         uses: actions/checkout@v4
  
-      - name: Install ContractsApi Dependencies 📦
-        run: npm --prefix ./palasja/ install
+      - name: Install ContractsApi Dependencies/ Build 📦
+        run: |
+          npm --prefix ./palasja/ install
+          npm --prefix ./contractsApi/ run build
 
       - name: Upload to cPanel 📂
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -25,7 +27,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: 	./contractsApi/
+          local-dir: 	./contractsApi/dist/
           server-dir: /www/apitest.palasja.by/
           exclude: |
             **/.git**

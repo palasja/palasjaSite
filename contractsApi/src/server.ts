@@ -1,20 +1,31 @@
-require('dotenv').config();
-var express = require('express');
-var path = require('path');
-const mysql = require('mysql2/promise');
+
+import dotenv  from "dotenv"
+dotenv.config();
+import asyncHandler  from "express-async-handler"
+import express, { Application, Request, Response } from "express";
+import sequelize from "./sequelize";
+import { Organization } from "./models/organization";
 var cors = require('cors');
-var bodyParser = require('body-parser');
-var bcrypt = require('bcryptjs');
-var jwt = require("jsonwebtoken");
-const asyncHandler = require('express-async-handler');
+import bcrypt from "bcryptjs";
+import Sequelize, { Op } from "@sequelize/core";
+import { Personal } from "./models/personal";
+import { Price } from "./models/price";
+import { Service } from "./models/service";
+import { ServiceCostChange } from "./models/serviceCostChange";
+import { SoftArticle } from "./models/softArticle";
+import { SoftInfo } from "./models/softInfo";
+import { User } from "./models/user";
+import { JwtPayload, VerifyErrors } from "jsonwebtoken";
 const cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+const mysql = require('mysql2/promise');
+import jwt from 'jsonwebtoken';
+import { NotNullubleValue } from "./helper";
+import { Contract } from "./models/contracts";
+import { SoftArticleLink } from "./models/softArticleLink";
 const saltRounds = 10;
+const app: Application = express();
 
-var {Sequelize, Op, where} = require('sequelize');
-const {sequelize, Organization, Contracts, Personal, Service, Users, SoftInfo, SoftArticle, SoftArticleLinks, ServiceCostChange, Price} = require('./dbSeqiulize');
-const SECRET = '23sadf6rucvbnvza-sd[pqw,';
-
-var app = express();
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "200mb" }));
@@ -28,22 +39,29 @@ const expire = {
   month: 2592000, // 30 days
   quarter: 7776000, // 90 days
 }
-const getToken = (payload, expires) => {
+const getToken = (payload: {expireIn: number, login: string}, expires: number) => {
   return jwt.sign(
     payload,
-    process.env.SECRET,
+    NotNullubleValue(process.env.SECRET),
     {
       algorithm: 'HS256',
       allowInsecureKeySizes: true,
       expiresIn: expires,
     });
 }
-const getLoginFromToken = (req) => {
+export interface UserType extends JwtPayload {
+  login: string;
+  password: string;
+}
+type JwtDecoded = string | JwtPayload | undefined;
+type JwtError = VerifyErrors | null;
+
+const getLoginFromToken = (req: Request) => {
   const accessToken = req.cookies.accessToken;
-  var decoded = jwt.verify(accessToken, `${SECRET}`);
+  var decoded = jwt.verify(accessToken, `${process.env.SECRET}`) as User;
   return decoded.login;
 }
-const newTokenToRes = (res, login) => {
+const newTokenToRes = (res: Response, login: string) => {
     const options = {
       httpOnly: true,
     };
@@ -53,13 +71,15 @@ const newTokenToRes = (res, login) => {
     res.cookie('accessToken', newAccessToken, options);
     res.cookie('refreshToken', newRefreshToken, options);
 }
+const router = express.Router()
 mysql.createConnection({
       user : process.env.MYSQL_ADMIN,
       password : process.env.MYSQL_ADMIN_PASSWORD,
         // user     : "palasja",
         // password : "wania-0806"
-    }).then((connection) => {
+    }).then((connection: any) => {
         connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.MYSQL_DATABASE};`).then(() => {
+
                 sequelize.sync()
                     .then(() => {
                         console.log("Connection to DB was successful");
@@ -69,13 +89,21 @@ mysql.createConnection({
                     });
         })
     })
-const router = express.Router()
-
 // router.get('/test', function  (req, res) {
 //      res.status(200).json({test:'123'});
 // });
+// Enable URL-encoded form data parsing
+// app.use(express.urlencoded({ extended: true }));
+
+// Middleware to parse JSON bodies
+// app.use(express.json());
+
+// Basic route
+app.get('/', (req: Request, res: Response) => {
+  res.send(`Hello, ${process.env.SECRET}`);
+});
 router.post('/signIn', asyncHandler( async (req, res) => {
-  const admin = await Users.findAll();
+  const admin = await User.findAll();
   if(admin.length !== 0) {
     res.sendStatus(403); 
     return;
@@ -85,7 +113,7 @@ router.post('/signIn', asyncHandler( async (req, res) => {
   var salt = bcrypt.genSaltSync(saltRounds);
   var hash = bcrypt.hashSync(`${userPass}`, salt);
 
-  await Users.create( {
+  await User.create( {
       login: userName,
       password: hash
     } );
@@ -95,14 +123,14 @@ router.post('/signIn', asyncHandler( async (req, res) => {
 
   }));
 router.post('/logIn', asyncHandler( async (req, res) => {
-  const admin = await Users.findOne({
+  const admin = await User.findOne({
     where: {
       login: req.body.login,
     },
   });
   const accessToken = req.cookies.accessToken;
 
-  jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+  jwt.verify(accessToken, `${process.env.SECRET}`, (err: JwtError, _: JwtDecoded) => {
     if(err){
       const userName = req.body.login;
       const userPass = req.body.password;
@@ -128,15 +156,16 @@ router.post('/checkAuth', asyncHandler( async (req, res) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
   if(accessToken){
-    jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+    jwt.verify(accessToken, `${process.env.SECRET}`, (err: JwtError, _: JwtDecoded) => {
       if (err && err.name == 'TokenExpiredError') {
-        jwt.verify(refreshToken, SECRET, (err, decoded) => {
+        jwt.verify(refreshToken, `${process.env.SECRET}`, (err: JwtError, decoded: JwtDecoded ) => {
           if (err) {
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");
             res.sendStatus(401);
           } else {
-            newTokenToRes(res, decoded.login);
+
+            newTokenToRes(res, (decoded as UserType).login);
             res.sendStatus(200);
           }
         });
@@ -157,16 +186,16 @@ router.use((req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
   if(accessToken){
-    jwt.verify(accessToken, `${SECRET}`, (err, decoded) => {
+    jwt.verify(accessToken, `${process.env.SECRET}`, (err: JwtError, _: JwtDecoded) => {
       if (err && err.name == 'TokenExpiredError') {
-        jwt.verify(refreshToken, SECRET, (err, decoded) => {
+        jwt.verify(refreshToken, `${process.env.SECRET}`, (err: JwtError, decoded: JwtDecoded) => {
           if (err) {
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");
              res.sendStatus(401);
              return;
           } else{
-            newTokenToRes(res, decoded.login);
+            newTokenToRes(res, (decoded as UserType).login);
             return next();
           }
         });
@@ -180,6 +209,7 @@ router.use((req, res, next) => {
 })
 router.get('/getOrganizations',  asyncHandler( async (req, res) => {
   let result = await Organization.findAll();
+  console.log(result.length)
   res.status(200).json(result);
 }));
 router.put('/addOrganization',  asyncHandler( async (req, res) => {
@@ -194,7 +224,7 @@ router.delete('/removeOrganization/:id',  asyncHandler( async (req, res) => {
         id:  req.params.id,
       },
     });
-    const statusCode = result == true ? 200 : 400;
+    const statusCode = result == 1 ? 200 : 400;
     res.status(statusCode).json(result);
 }));
 router.patch('/updateOrganization',  asyncHandler( async (req, res) => {
@@ -209,8 +239,9 @@ router.patch('/updateOrganization',  asyncHandler( async (req, res) => {
     );
     res.status(200).json(result);
 }));
+
 router.get('/getContractsByOrg/:id',  asyncHandler( async (req, res) => {
-  let result = await Contracts.findAll({
+  let result = await Contract.findAll({
     attributes: {
       exclude: ['scan'] 
     },
@@ -227,7 +258,7 @@ router.get('/getContractByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (
   const firstWorkDayDate  = new Date(year, month);
   const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
-  let result = await Contracts.findOne({
+  let result = await Contract.findOne({
         attributes: {
       exclude: ['scan'] 
     },
@@ -250,21 +281,21 @@ router.get('/getContractByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (
     res.status(200).json(result);
 }));
 router.put('/addContracts',  asyncHandler( async (req, res) => {
-  let result = await Contracts.create(req.body);
+  let result = await Contract.create(req.body);
   res.status(200).json(result);
 }));
 router.delete('/removeContract/:id',  asyncHandler( async (req, res) => {
-  let result = await Contracts.destroy({
+  let result = await Contract.destroy({
       where: {
         id: req.params.id,
       },
     });
-  const statusCode = result == true ? 200 : 400;
+  const statusCode = result == 1 ? 200 : 400;
   res.status(statusCode).json(result);
 }));
 router.patch('/updateContract',  asyncHandler( async (req, res) => {
     const contract = req.body;
-    let result = await Contracts.update(
+    let result = await Contract.update(
         contract,
         {
             where: {
@@ -307,11 +338,9 @@ router.patch('/updatePersonal',  asyncHandler( async (req, res) => {
     res.status(200).json(result);
 }));
 router.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
-  let orgId = req.params.id;
-  if(orgId == '0') orgId = null;
   let result = await Service.findAll({
       where: {
-        orgId: orgId,
+        orgId: req.params.id == '0' ? null : req.params.id
       },
     });
   res.status(200).json(result);
@@ -319,14 +348,12 @@ router.get('/getServicesByOrgId/:id',  asyncHandler( async (req, res) => {
 router.get('/getServicesByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
   const year = Number(req.params.year);
-  let orgId = req.params.orgId;
-  if(orgId == '0') orgId = null;
   const firstWorkDayDate  = new Date(year, month);
   const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
   let result = await Service.findAll({
     where: {
-      orgId: orgId,
+      orgId: req.params.orgId == '0' ? null : req.params.orgId,
       ispaid: true,
         [Op.and]:[
           {date: {
@@ -341,11 +368,9 @@ router.get('/getServicesByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (
   res.status(200).json(result);
 }));
 router.get('/getServicesUnpaidByOrgId/:orgId', asyncHandler( async (req, res) => {
-  let orgId = req.params.orgId;
-  if(orgId == '0') orgId = null;
   let result = await Service.findAll({
   where: {
-    orgId: orgId,
+    orgId: req.params.orgId == '0' ? null : req.params.orgId,
     ispaid: false
     },
   });
@@ -394,9 +419,13 @@ router.patch('/servicesToUnpaid',  asyncHandler( async (req, res) => {
   res.status(200).json(result.length);
 }));
 router.put('/addService',  asyncHandler( async (req, res) => {
-  let result = await Service.create(req.body, {
-    login: getLoginFromToken(req),
-  });
+  let result = await Service.create(req.body);
+  await ServiceCostChange.create({
+      date: Date.now(),
+      user: getLoginFromToken(req),
+      newCost: req.body.cost,
+      serviceId: result.id,
+    });
   res.status(200).json(result);
 })
 );
@@ -417,19 +446,24 @@ router.patch('/updateService',  asyncHandler( async (req, res) => {
             where: {
                 id: service.id,
             },
-            individualHooks: true,
-            login: getLoginFromToken(req),
           },
       );
+      await ServiceCostChange.create({
+        date: Date.now(),
+        user: getLoginFromToken(req),
+        newCost: req.body.cost,
+        serviceId: req.body.id,
+      });
       res.status(200).json(result);
-    } catch (error){
+    } catch (error: any){
         // 1. Log for you to see in the terminal
         console.error("SEQUELIZE ERROR:", error); 
         
         // 2. Return a more descriptive response for development
         res.status(500).json({ 
           message: "Internal Server Error", 
-          details: error.message, // Hide this in production for security!
+          //@ts-check
+          details: error?.message, // Hide this in production for security!
           error: JSON.stringify(error)
         });
     }
@@ -449,8 +483,6 @@ router.get('/serviceCostChangeById/:id',  asyncHandler( async (req, res) => {
 router.get('/getServicesCostChangeByOrgIdMonth/:orgId/:month/:year', asyncHandler( async (req, res) => {
   const month = Number(req.params.month);
   const year = Number(req.params.year);
-  let orgId = req.params.orgId;
-  if(orgId == '0') orgId = null;
   const firstWorkDayDate  = new Date(year, month);
   const lastWorkDayDate = new Date(year, month+1, 0, 23, 59 );
   
@@ -460,7 +492,7 @@ router.get('/getServicesCostChangeByOrgIdMonth/:orgId/:month/:year', asyncHandle
       as: 'service',
       attributes:['id', 'date', 'isPaid', 'orgId'],
       where: {
-        orgId: orgId,
+        orgId: req.params.orgId == '0' ? null : req.params.orgId,
         ispaid: true,
           [Op.and]:[
             {date: {
@@ -477,15 +509,13 @@ router.get('/getServicesCostChangeByOrgIdMonth/:orgId/:month/:year', asyncHandle
     res.status(200).json(result);
 }));
 router.get('/getServicesCostChangeUnpaidByOrgId/:orgId', asyncHandler( async (req, res) => {
-  let orgId = req.params.orgId;
-  if(orgId == '0') orgId = null;
   let result = await ServiceCostChange.findAll({
     include: [{
       model: Service,
       as: 'service',
       attributes:[],
         where: {
-          orgId: orgId,
+          orgId: req.params.orgId == '0' ? null : req.params.orgId,
           ispaid: false
         },
     }],
@@ -495,7 +525,7 @@ router.get('/getServicesCostChangeUnpaidByOrgId/:orgId', asyncHandler( async (re
 }));
 
 router.get('/contractScan/:id',  asyncHandler( async (req, res) => {
-  let result = await Contracts.findOne({
+  let result = await Contract.findOne({
       attributes: ['scan'],
       where: {
         id: req.params.id,
@@ -524,7 +554,7 @@ router.delete('/removeSoftInfo/:id',  asyncHandler( async (req, res) => {
         id:  req.params.id,
       },
     });
-    const statusCode = result == true ? 200 : 400;
+    const statusCode = result == 1 ? 200 : 400;
     res.status(statusCode).json(result);
 }));
 router.patch('/updateSoftInfo',  asyncHandler( async (req, res) => {
@@ -564,7 +594,7 @@ router.delete('/removeSoftArticle/:id',  asyncHandler( async (req, res) => {
         id:  req.params.id,
       },
     });
-    const statusCode = result == true ? 200 : 400;
+    const statusCode = result == 1 ? 200 : 400;
     res.status(statusCode).json(result);
 }));
 router.patch('/updateSoftArticle',  asyncHandler( async (req, res) => {
@@ -582,7 +612,7 @@ router.patch('/updateSoftArticle',  asyncHandler( async (req, res) => {
 
 
 router.get('/getSoftArticleLinksByArticleId/:id',  asyncHandler( async (req, res) => {
-  let result = await SoftArticleLinks.findAll({
+  let result = await SoftArticleLink.findAll({
     where: {
       softArticleId: req.params.id
     },
@@ -590,21 +620,21 @@ router.get('/getSoftArticleLinksByArticleId/:id',  asyncHandler( async (req, res
   res.status(200).json(result);
 }));
 router.put('/addSoftArticleLinks',  asyncHandler( async (req, res) => {
-  let result = await SoftArticleLinks.bulkCreate(req.body)
+  let result = await SoftArticleLink.bulkCreate(req.body)
   res.status(200).json(result);
 }));
 router.delete('/removeSoftArticleLink/:id',  asyncHandler( async (req, res) => {
-  let result = await SoftArticleLinks.destroy({
+  let result = await SoftArticleLink.destroy({
       where: {
         id:  req.params.id,
       },
     });
-    const statusCode = result == true ? 200 : 400;
+    const statusCode = result == 1 ? 200 : 400;
     res.status(statusCode).json(result);
 }));
 router.patch('/updateArticleLinks',  asyncHandler( async (req, res) => {
     const softArticleLinks = req.body;
-    let result = await SoftArticleLinks.bulkCreate(softArticleLinks, { updateOnDuplicate: ["id"] })
+    let result = await SoftArticleLink.bulkCreate(softArticleLinks, { updateOnDuplicate: ["id"] })
     res.status(200).json(result);
 }));
 
@@ -631,7 +661,7 @@ router.delete('/removePrice/:id',  asyncHandler( async (req, res) => {
         id:  req.params.id,
       },
     });
-    const statusCode = result == true ? 200 : 400;
+    const statusCode = result == 1 ? 200 : 400;
     res.status(statusCode).json(result);
 }));
 router.put('/addPrice',  asyncHandler( async (req, res) => {
@@ -639,11 +669,11 @@ router.put('/addPrice',  asyncHandler( async (req, res) => {
   res.status(200).json(result);
 }));
 
-// path as /api/service
 app.use('/api', router);
 
+
+// Start the server
 app.listen(process.env.API_PORT, function(err){
     if (err) console.log("Error in server setup")
     console.log("Server listening on Port", process.env.API_PORT);
 })
-
