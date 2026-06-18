@@ -25,6 +25,7 @@ let sequelize = new Sequelize({
     timestamps: false,
     underscored: true,
   },
+  maxPreparedStatements: 0,
   pool: {
     max: 10,
     min: 0,
