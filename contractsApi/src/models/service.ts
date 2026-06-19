@@ -7,6 +7,7 @@ import {
   CreationOptional,
 } from '@sequelize/core';
 import {
+  AllowNull,
   Attribute,
   AutoIncrement,
   Default,
@@ -53,10 +54,11 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
   @NotNull
   declare ispaid: boolean;
 
-  @Attribute(DataTypes.STRING(8196))
+  @Attribute(DataTypes.STRING(4098))
   declare description: boolean;
 
   @Attribute(DataTypes.INTEGER)
+  @AllowNull
   declare orgId: number | null;
 
   // @Attribute(DataTypes.STRING(8196))
