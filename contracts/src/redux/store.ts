@@ -13,6 +13,7 @@ import { apiSlice } from './slices/apiSlice';
 import authReducer, {
   changeIsAuth,
   changeIsLoading,
+  changeIsServerError,
   changeStatus,
 } from '../redux/slices/authSlice';
 import orgsReducer from '../redux/slices/orgsSlice';
@@ -33,6 +34,10 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
     //@ts-ignore
     if (action.payload?.originalStatus === 401 || action.payload?.originalStatus === 403) {
       api.dispatch(changeIsAuth(false));
+    }
+    //@ts-ignore
+    if (action.payload?.status >= 500 && action.payload?.status < 600) {
+      api.dispatch(changeIsServerError(true));
     }
   } else if (isFulfilled(action)) {
     api.dispatch(changeIsAuth(true));

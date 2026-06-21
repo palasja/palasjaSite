@@ -36,7 +36,6 @@ const Personals = () => {
     useRemoveEntity<string>('');
   const [changingPersonal, setChangingPersonal] = useState<Personal | undefined>();
   const changeHandler = (person: Personal) => {
-    
     setChangingPersonal(person);
     dispatch(chosenAction('change'));
   };

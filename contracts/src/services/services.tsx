@@ -59,21 +59,21 @@ const Services = () => {
   const [yPos, setYPos] = useState<number | undefined>();
 
   useEffect(() => {
-    if(yPos && action == 'show'){
-      window.scrollTo(0, yPos);  
+    if (yPos && action == 'show') {
+      window.scrollTo(0, yPos);
     }
-  }, [action])
+  }, [action]);
 
   const handlerPaidService = (paid: boolean) => {
     setIsPaid(paid);
   };
   const changeHandler = (service: Service) => {
-    setYPos( window.scrollY);
+    setYPos(window.scrollY);
     setChangingService(service);
     dispatch(chosenAction('change'));
   };
   const addHandler = () => {
-    setYPos( window.scrollY);
+    setYPos(window.scrollY);
     dispatch(chosenAction('add'));
   };
   const removeHandler = (id: string) => {

@@ -38,7 +38,7 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
   @Attribute(DataTypes.STRING)
   declare place: string;
 
-  @Attribute(DataTypes.FLOAT)
+  @Attribute(DataTypes.INTEGER)
   @NotNull
   declare cost: number;
 
@@ -58,8 +58,9 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
   declare description: boolean;
 
   @Attribute(DataTypes.INTEGER)
-  @AllowNull
-  declare orgId: number | null;
+  //declare orgId: number | null;
+  declare orgId: number;
+
 
   // @Attribute(DataTypes.STRING(8196))
   // declare login?: string

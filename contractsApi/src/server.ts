@@ -328,7 +328,8 @@ router.get(
   asyncHandler(async (req, res) => {
     let result = await Service.findAll({
       where: {
-        orgId: req.params.id == '0' ? null : req.params.id,
+        orgId: req.params.id,
+        // orgId: req.params.id == '0' ? null : req.params.id,
       },
     });
     res.status(200).json(result);
@@ -344,7 +345,8 @@ router.get(
 
     let result = await Service.findAll({
       where: {
-        orgId: req.params.orgId == '0' ? null : req.params.orgId,
+        // orgId: req.params.orgId == '0' ? null : req.params.orgId,
+        orgId: req.params.orgId,
         ispaid: true,
         [Op.and]: [
           {
@@ -368,7 +370,8 @@ router.get(
   asyncHandler(async (req, res) => {
     let result = await Service.findAll({
       where: {
-        orgId: req.params.orgId == '0' ? null : req.params.orgId,
+        // orgId: req.params.orgId == '0' ? null : req.params.orgId,
+        orgId: req.params.orgId,
         ispaid: false,
       },
     });

@@ -37,6 +37,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Service> = (data) => {
+    console.log(data);
     data = trimObjectProperty(data);
     updateService(data);
     resetForm();
@@ -92,7 +93,10 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
           <input
             value={choosenOrg?.id}
             type="hidden"
-            {...register('orgId', { required: { value: true, message: 'Не выбрана организация' } })}
+            {...register('orgId', {
+              required: { value: true, message: 'Не выбрана организация' },
+              valueAsNumber: true,
+            })}
           />
         )}
         <div className={formStyle.fieldsContainer}>
@@ -171,6 +175,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               placeholder="Стоимость за еденицу"
               {...register('cost', {
                 min: { value: 1, message: 'Стоимость должна быть больше 0' },
+                valueAsNumber: true,
               })}
             />
           </div>
