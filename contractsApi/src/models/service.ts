@@ -55,7 +55,7 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
   declare ispaid: boolean;
 
   @Attribute(DataTypes.STRING(4098))
-  declare description: boolean;
+  declare description: string;
 
   @Attribute(DataTypes.INTEGER)
   //declare orgId: number | null;
@@ -71,5 +71,5 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
       onDelete: 'CASCADE',
     },
   })
-  declare personal?: NonAttribute<Personal[]>;
+  declare serviceCostChange?: NonAttribute<ServiceCostChange[]>;
 }

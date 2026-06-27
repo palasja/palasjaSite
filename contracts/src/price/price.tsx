@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import RemoveAgreePortal from '../components/modal/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import { useDeletePriceMutation, useGetPriceQuery } from '../redux/slices/priceRTKSlice';
 import style from './price.module.css';
@@ -9,6 +8,7 @@ import { getChosenchosenAction, chosenAction } from '../redux/slices/orgsSlice';
 import PriceForm from './priceForm';
 import { Price as PriceType } from '../helpers/contractTypes';
 import { AddIcon } from '../components/icons/icons';
+import RemoveAgreePortal from '../components/modal/remove/removeModal';
 
 const Price = () => {
   const [deletePrice] = useDeletePriceMutation();

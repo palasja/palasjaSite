@@ -13,6 +13,7 @@ const tags = [
   'SoftInfo',
   'SoftInfoArticle',
   'Price',
+  'ServerError',
 ];
 
 export const apiSlice = createApi({

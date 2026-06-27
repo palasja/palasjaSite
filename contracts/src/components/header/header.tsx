@@ -3,21 +3,19 @@ import style from './header.module.css';
 import logo from '../../assets/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
-  changeIsServerError,
-  getAuthSatus,
   getIsAuth,
-  getIsServerError,
 } from '../../redux/slices/authSlice';
 import { ContractIcon, ListIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';
 import DetailPortal from '../modal/details/detailModal';
 import { createPortal } from 'react-dom';
+import { changeIsServerError, getIsServerError } from '../../redux/slices/errorSlice';
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
 
 const Header = () => {
-  const isServerError = useAppSelector(getIsServerError);
+  
   const isAuth = useAppSelector(getIsAuth);
-  const dispatch = useAppDispatch();
+  
   // const [cookies] = useCookies(['expireDate']);
   // console.log(cookies);
   // const [d, setD] = useState(cookies.expireDate);
@@ -56,21 +54,6 @@ const Header = () => {
           </>
         )}
       </div>
-
-      {isServerError &&
-        createPortal(
-          <div
-            className={style.back}
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(changeIsServerError(false));
-            }}
-            data-testid="removeModal"
-          >
-            <h3 className={style.error}> Eturnal server Error</h3>
-          </div>,
-          document.getElementById('root') ?? document.getElementsByTagName('body')[0]
-        )}
     </header>
   );
 };

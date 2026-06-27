@@ -8,7 +8,6 @@ interface AuthState {
   isAuth: boolean | undefined;
   isLoading: boolean;
   isCheked: boolean;
-  isServerError: boolean;
 }
 const initialState: AuthState = {
   authErrorMessage: null,
@@ -16,7 +15,6 @@ const initialState: AuthState = {
   isAuth: undefined,
   isLoading: false,
   isCheked: false,
-  isServerError: false,
 };
 
 const authSlice = createSlice({
@@ -38,19 +36,16 @@ const authSlice = createSlice({
     changeIsCheked(state, action: PayloadAction<boolean>) {
       state.isCheked = action.payload;
     },
-    changeIsServerError(state, action: PayloadAction<boolean>) {
-      state.isServerError = action.payload;
-    },
   },
 });
 
 export default authSlice.reducer;
 
-export const { changeStatus, changeIsAuth, changeIsLoading, changeIsCheked, changeIsServerError } =
+export const { changeStatus, changeIsAuth, changeIsLoading, changeIsCheked } =
   authSlice.actions;
 export const getAuthErrorMessage = (state: RootState) => state.auth.authErrorMessage;
 export const getAuthSatus = (state: RootState) => state.auth.status;
 export const getIsAuth = (state: RootState) => state.auth.isAuth;
 export const getIsLoading = (state: RootState) => state.auth.isLoading;
 export const getIsChecked = (state: RootState) => state.auth.isCheked;
-export const getIsServerError = (state: RootState) => state.auth.isServerError;
+

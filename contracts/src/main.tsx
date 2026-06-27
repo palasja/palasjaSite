@@ -25,6 +25,7 @@ import Header from './components/header';
 import { useAppSelector } from './redux/hooks';
 import { getIsLoading } from './redux/slices/authSlice';
 import Price from './price';
+import ServerErrorPortal from './components/modal/serverError/serverError';
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const showKseniaFace = () => {
@@ -100,6 +101,7 @@ createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </Wrapper>
       <Footer />
+      <ServerErrorPortal />
     </Provider>
   </StrictMode>
 );

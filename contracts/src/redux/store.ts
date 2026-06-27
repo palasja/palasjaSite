@@ -13,18 +13,19 @@ import { apiSlice } from './slices/apiSlice';
 import authReducer, {
   changeIsAuth,
   changeIsLoading,
-  changeIsServerError,
-  changeStatus,
 } from '../redux/slices/authSlice';
 import orgsReducer from '../redux/slices/orgsSlice';
 import servicesSlicer from '../redux/slices/servicesSlice';
 import softSlicer from '../redux/slices/softSlice';
+import errorSlice from '../redux/slices/errorSlice';
+import { changeIsServerError } from './slices/errorSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   orgs: orgsReducer,
   services: servicesSlicer,
   soft: softSlicer,
+  serverError: errorSlice,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
