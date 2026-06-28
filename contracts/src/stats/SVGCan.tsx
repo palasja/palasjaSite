@@ -33,7 +33,7 @@ type ColumnInfo = {
 type LineProp = { linePorp: AxisLine; lineStyle?: string; textStyle?: string };
 
 const Line = ({ linePorp, lineStyle = style.axisLine, textStyle = style.axisText }: LineProp) => {
-  const textMiddleFix = 0;
+  const textMiddleFix = 200;
   const { startPoint, endPoint } = linePorp;
   const getSVGLine: (start: Point, end: Point) => string = (start: Point, end: Point) => {
     return `M ${start.x} ${start.y} L ${end.x} ${end.y} `;
@@ -126,9 +126,10 @@ const getColumnMap = (entity: Entity[]) => {
 };
 const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
   const scale = 2;
-  const width = 1400;
-  const height = 550;
-  const startX = 40;
+  const width = 1000;
+  const height = 400;
+  const legendStartX = 0;
+  const startX = 240;
   const startY = 10;
   const endX = 1000;
   const endY = 300;
@@ -261,7 +262,7 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
     const axisYGap = 50;
     const textGap = 10;
     const fontSize = 14;
-    const startXLegend = endX + axisXGap;
+    const startXLegend = legendStartX + axisXGap;
     const startYLegend = startY + axisYGap;
     const legendOrg: Legend[] = entity.map((o, i) => ({
       textPoint: {
@@ -285,6 +286,11 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
       // viewBox=`0 0 ${width} ${height}`
       xmlns="http://www.w3.org/2000/svg"
     >
+      <g>
+        {legendInfo.map((l, i) => (
+          <LegendInfo legend={l} key={i} />
+        ))}
+      </g>
       {<Axis axis={axis} arrAxisLines={arrAxisLines} />};
       {columnInfo.map((info, i) => {
         const { columnName: columnDate, columnParts, columnSum } = info;
@@ -304,11 +310,7 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
           </g>
         );
       })}
-      <g>
-        {legendInfo.map((l, i) => (
-          <LegendInfo legend={l} key={i} />
-        ))}
-      </g>
+
     </svg>
   );
 };

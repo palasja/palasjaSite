@@ -6,9 +6,9 @@ const Loading = () => {
       <svg viewBox="-20 -20 100 80">
         <path
           d="M 0 0 L 15 40 "
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         >
           <animateTransform

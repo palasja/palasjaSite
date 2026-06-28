@@ -1,28 +1,25 @@
-import { getServicesCost, MONTH_R } from '../helpers/helper';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { chooseMonth, getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
+import { getServicesCost } from '../helpers/helper';
+import { useAppSelector } from '../redux/hooks';
+import { getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import { useGetOrganizationQuery } from '../redux/slices/organizationRTKSlice';
 import {
   useLazyGetServicesCostQuery,
   useLazyGetServicesByMonthQuery,
 } from '../redux/slices/servicesRTKSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { OrganizationCost, ServiceCost } from '../helpers/contractTypes';
 import SVGAxis from './SVGCan';
-
+import style from './stats.module.css';
 const Stats = () => {
-  const dispatch = useAppDispatch();
+  const countMonthOnAxis = 8;
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenYear = useAppSelector(getChoosenYear);
-  const [loadServices, { data: services, isLoading: isGetLoading }] =
+  const [loadServices, { data: services}] =
     useLazyGetServicesByMonthQuery();
   const { data: organizations = [] } = useGetOrganizationQuery();
-  const [loadServicesCost, { data: servicesCost, isLoading: isGetLoadingCost }] =
+  const [loadServicesCost, { data: servicesCost }] =
     useLazyGetServicesCostQuery();
-  const chooseMonthHandler = (month: string) => {
-    dispatch(chooseMonth(month));
-  };
-
+  const [isShowAll, setIsShowAll] = useState(false);
   useEffect(() => {
     if (choosenMonth) {
       loadServices({ month: choosenMonth, year: choosenYear });
@@ -67,36 +64,27 @@ const Stats = () => {
     }));
   };
 
+  const colunns = servicesCost ? getOrganizationCost(servicesCost) : [];
+  const currentColumns = isShowAll ? colunns : colunns.slice(colunns.length - countMonthOnAxis)
   return (
-    <>
+  <>
+    <h2>Статистика</h2>
+    <div className={style.showAllContainer}>
+      <label htmlFor="showAll">За всё время</label>
+      <input
+        type="checkbox"
+        name="showAll"
+        id="showAll"
+        className={style.showAll}
+        defaultChecked={isShowAll}
+        onChange={(e) => setIsShowAll(e.target.checked)} />
+    </div>
+    <div className={style.container}>
       {servicesCost && (
-        <SVGAxis columnInfo={getOrganizationCost(servicesCost)} entity={organizations} />
+        <SVGAxis columnInfo={currentColumns} entity={organizations} />
       )}
-
-      {/* <select onChange={(e) => chooseMonthHandler(e.target.value)} defaultValue={choosenMonth}>
-        {MONTH_R.map((e, i) => {
-          return (
-            <option value={i} key={i}>
-              {e}
-            </option>
-          );
-        })}
-      </select>
-      {services && (
-        <>
-          <h2>За месяц {getServicesCost(services)}</h2>
-          {organizations.map((o, i) => {
-            const arr = services.filter((s) => s.orgId == o.id.toString());
-            return (
-              <p key={i}>
-                {o.name} - {getServicesCost(arr)}
-              </p>
-            );
-          })}
-          <p>Без организаций - {getServicesCost(services.filter((s) => s.orgId === null))}</p>
-        </>
-      )} */}
-    </>
+    </div>
+  </>
   );
 };
 
