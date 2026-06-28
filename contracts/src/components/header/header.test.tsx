@@ -18,7 +18,6 @@ beforeEach(() => {
           isAuth: true,
           isLoading: false,
           isCheked: false,
-          isServerError: false
         },
       },
     }

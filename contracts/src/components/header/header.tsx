@@ -32,16 +32,16 @@ const Header = () => {
           <>
             <nav className={`noprint ${style.nav}`}>
               <NavLink to={'/org'} className={style.link}>
-                <ContractIcon /> Организации
+                <ContractIcon /> <span className={style.linkText}>Организации</span>
               </NavLink>
               <NavLink to={'/stats'} className={style.link}>
-                <StatIcon /> Статистика
+                <StatIcon /> <span className={style.linkText}>Статистика</span>
               </NavLink>
               <NavLink to={'/softinfo'} className={style.link}>
-                <SoftIcon /> ПО
+                <SoftIcon /> <span className={style.linkText}>ПО</span>
               </NavLink>
               <NavLink to={'/price'} className={style.link}>
-                <ListIcon /> Прайс
+                <ListIcon /> <span className={style.linkText}>Прайс</span>
               </NavLink>
             </nav>
             <Link to={'/logout'} className={style.logout}>
