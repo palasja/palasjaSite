@@ -2,9 +2,7 @@ import { Link, NavLink } from 'react-router';
 import style from './header.module.css';
 import logo from '../../assets/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import {
-  getIsAuth,
-} from '../../redux/slices/authSlice';
+import { getIsAuth } from '../../redux/slices/authSlice';
 import { ContractIcon, ListIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';
 import DetailPortal from '../modal/details/detailModal';
 import { createPortal } from 'react-dom';
@@ -13,9 +11,8 @@ import { changeIsServerError, getIsServerError } from '../../redux/slices/errorS
 // <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
 
 const Header = () => {
-  
   const isAuth = useAppSelector(getIsAuth);
-  
+
   // const [cookies] = useCookies(['expireDate']);
   // console.log(cookies);
   // const [d, setD] = useState(cookies.expireDate);

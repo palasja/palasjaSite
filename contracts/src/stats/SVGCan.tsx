@@ -310,7 +310,6 @@ const SVGAxis = ({ columnInfo: serviseCostByMonth, entity }: SVGAxisProps) => {
           </g>
         );
       })}
-
     </svg>
   );
 };

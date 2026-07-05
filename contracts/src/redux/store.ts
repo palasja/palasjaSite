@@ -10,10 +10,7 @@ import {
 } from '@reduxjs/toolkit';
 
 import { apiSlice } from './slices/apiSlice';
-import authReducer, {
-  changeIsAuth,
-  changeIsLoading,
-} from '../redux/slices/authSlice';
+import authReducer, { changeIsAuth, changeIsLoading } from '../redux/slices/authSlice';
 import orgsReducer from '../redux/slices/orgsSlice';
 import servicesSlicer from '../redux/slices/servicesSlice';
 import softSlicer from '../redux/slices/softSlice';

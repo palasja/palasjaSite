@@ -20,6 +20,5 @@ const serverErrorStateSlice = createSlice({
 
 export default serverErrorStateSlice.reducer;
 
-export const {  changeIsServerError } =
-  serverErrorStateSlice.actions;
+export const { changeIsServerError } = serverErrorStateSlice.actions;
 export const getIsServerError = (state: RootState) => state.serverError.isServerError;

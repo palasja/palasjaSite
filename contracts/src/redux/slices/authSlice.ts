@@ -41,11 +41,9 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { changeStatus, changeIsAuth, changeIsLoading, changeIsCheked } =
-  authSlice.actions;
+export const { changeStatus, changeIsAuth, changeIsLoading, changeIsCheked } = authSlice.actions;
 export const getAuthErrorMessage = (state: RootState) => state.auth.authErrorMessage;
 export const getAuthSatus = (state: RootState) => state.auth.status;
 export const getIsAuth = (state: RootState) => state.auth.isAuth;
 export const getIsLoading = (state: RootState) => state.auth.isLoading;
 export const getIsChecked = (state: RootState) => state.auth.isCheked;
-

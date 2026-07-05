@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   MaterialReactTable,
+  MRT_SortingState,
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
@@ -48,6 +49,22 @@ const ServiceTable = ({
     dispatch(serviceCosChange(result));
     showServiceCost();
   };
+  const sortingCoock = sessionStorage.getItem('mrt_sorting_table_1');
+  const [sorting, setSorting] = useState<MRT_SortingState>(
+    sortingCoock
+      ? (JSON.parse(sortingCoock) as MRT_SortingState)
+      : [
+          {
+            id: 'date',
+            desc: true,
+          },
+        ]
+  );
+
+  useEffect(() => {
+    sessionStorage.setItem('mrt_sorting_table_1', JSON.stringify(sorting));
+  }, [sorting]);
+
   const columns = useMemo<MRT_ColumnDef<Service>[]>(
     () => [
       {
@@ -137,7 +154,7 @@ const ServiceTable = ({
         </IconButton>
       </Box>
     ),
-    enableRowSelection: true,
+    
     renderTopToolbarCustomActions: ({ table }) => (
       <div className={style.payBtn}>
         <PayIcon
@@ -160,17 +177,22 @@ const ServiceTable = ({
     ),
     enablePagination: false,
     enableBottomToolbar: false, //hide the bottom toolbar as well if you want
-    initialState: {
-      sorting: [
-        {
-          id: 'date',
-          desc: true,
-        },
-      ],
+    onSortingChange: setSorting,
+    state: {
+      sorting,
     },
+    // initialState: {
+    // sorting: [
+    //   {
+    //     id: 'date',
+    //     desc: true,
+    //   },
+    // ],
+    // },
     enableRowNumbers: true,
     rowNumberDisplayMode: 'original',
-    enableColumnActions: false
+    enableRowSelection: true,
+    enableColumnActions: false,
   });
 
   return <MaterialReactTable table={table} />;

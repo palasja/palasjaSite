@@ -14,11 +14,9 @@ const Stats = () => {
   const countMonthOnAxis = 8;
   const choosenMonth = useAppSelector(getChoosenMonth);
   const choosenYear = useAppSelector(getChoosenYear);
-  const [loadServices, { data: services}] =
-    useLazyGetServicesByMonthQuery();
+  const [loadServices, { data: services }] = useLazyGetServicesByMonthQuery();
   const { data: organizations = [] } = useGetOrganizationQuery();
-  const [loadServicesCost, { data: servicesCost }] =
-    useLazyGetServicesCostQuery();
+  const [loadServicesCost, { data: servicesCost }] = useLazyGetServicesCostQuery();
   const [isShowAll, setIsShowAll] = useState(false);
   useEffect(() => {
     if (choosenMonth) {
@@ -65,26 +63,25 @@ const Stats = () => {
   };
 
   const colunns = servicesCost ? getOrganizationCost(servicesCost) : [];
-  const currentColumns = isShowAll ? colunns : colunns.slice(colunns.length - countMonthOnAxis)
+  const currentColumns = isShowAll ? colunns : colunns.slice(colunns.length - countMonthOnAxis);
   return (
-  <>
-    <h2>Статистика</h2>
-    <div className={style.showAllContainer}>
-      <label htmlFor="showAll">За всё время</label>
-      <input
-        type="checkbox"
-        name="showAll"
-        id="showAll"
-        className={style.showAll}
-        defaultChecked={isShowAll}
-        onChange={(e) => setIsShowAll(e.target.checked)} />
-    </div>
-    <div className={style.container}>
-      {servicesCost && (
-        <SVGAxis columnInfo={currentColumns} entity={organizations} />
-      )}
-    </div>
-  </>
+    <>
+      <h2>Статистика</h2>
+      <div className={style.showAllContainer}>
+        <label htmlFor="showAll">За всё время</label>
+        <input
+          type="checkbox"
+          name="showAll"
+          id="showAll"
+          className={style.showAll}
+          defaultChecked={isShowAll}
+          onChange={(e) => setIsShowAll(e.target.checked)}
+        />
+      </div>
+      <div className={style.container}>
+        {servicesCost && <SVGAxis columnInfo={currentColumns} entity={organizations} />}
+      </div>
+    </>
   );
 };
 

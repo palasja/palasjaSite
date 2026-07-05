@@ -49,7 +49,7 @@
 }
 
 @media screen and (max-width: 1280px) {
-  .linkText{
+  .linkText {
     display: none;
   }
   .nav {

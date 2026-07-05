@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getIsServerError, changeIsServerError } from '../../../redux/slices/errorSlice';
 import { useEffect } from 'react';
 
-
 const ServerErrorPortal = () => {
   const dispatch = useAppDispatch();
   const isServerError = useAppSelector(getIsServerError);
