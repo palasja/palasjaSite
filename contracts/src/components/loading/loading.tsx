@@ -24,9 +24,9 @@ const Loading = () => {
         </path>
         <path
           d="M 15 40 L 30 0"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         >
           <animateTransform
@@ -42,9 +42,9 @@ const Loading = () => {
         </path>
         <path
           d="M 30 0 L 45 40"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         >
           <animateTransform
@@ -60,9 +60,9 @@ const Loading = () => {
         </path>
         <path
           d="M 45 40 L 60 0"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         >
           <animateTransform
@@ -79,31 +79,31 @@ const Loading = () => {
 
         <path
           d="M 15 0 L 22 20"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         ></path>
         <path
           d="M 23 20 L 37 20"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         ></path>
 
         <path
           d="M 26 0 L 34 0"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         ></path>
         <path
           d="M 11 40 L 19 40"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeWidth="3"
           style={{ stroke: '#009eb9ff', fill: 'none' }}
         ></path>
       </svg>

@@ -54,7 +54,6 @@ const Services = () => {
         },
         true
       );
-      console.log(services);
     }
   }, [choosenOrg, choosenMonth, choosenYear, isPaid]);
   const [yPos, setYPos] = useState<number | undefined>();
