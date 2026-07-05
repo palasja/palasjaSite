@@ -170,6 +170,7 @@ const ServiceTable = ({
     },
     enableRowNumbers: true,
     rowNumberDisplayMode: 'original',
+    enableColumnActions: false
   });
 
   return <MaterialReactTable table={table} />;
