@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
 import {
-  createMRTColumnHelper,
   MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
-import { Service, ServiceCostChange } from '../helpers/contractTypes';
+import { Service } from '../helpers/contractTypes';
 import { Box, IconButton } from '@mui/material';
 import {
   useToPaidServiceMutation,
@@ -169,6 +168,8 @@ const ServiceTable = ({
         },
       ],
     },
+    enableRowNumbers: true,
+    rowNumberDisplayMode: 'original',
   });
 
   return <MaterialReactTable table={table} />;

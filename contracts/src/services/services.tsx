@@ -54,6 +54,7 @@ const Services = () => {
         },
         true
       );
+      console.log(services);
     }
   }, [choosenOrg, choosenMonth, choosenYear, isPaid]);
   const [yPos, setYPos] = useState<number | undefined>();
@@ -80,6 +81,7 @@ const Services = () => {
     setRemoveId(parseInt(id, 10));
     setIsShowRemoveModal(true);
   };
+
   const page = (
     <>
       <div className={style.nameContainer}>

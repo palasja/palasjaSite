@@ -21,7 +21,12 @@ const ServiceApi = apiSlice.injectEndpoints({
           ? `getServicesByOrgIdMonth/${orgId}/${month}/${year}`
           : `getServicesUnpaidByOrgId/${orgId}`;
       },
+      
       providesTags: (result) => providesRTKTagList(result, 'Service'),
+      transformResponse: (response: Service[]) => {
+        response.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        return response;
+      },
     }),
     getServicesCost: builder.query<ServiceCost[], void>({
       query: () => `getServicesCost`,
