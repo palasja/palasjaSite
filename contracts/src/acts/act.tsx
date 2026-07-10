@@ -117,6 +117,17 @@ const Act = () => {
   const SignerSelect = ({ count }: { count: number }) => {
     return (
       <div>
+        <div className={style.dataSign}>
+          <label htmlFor="signDate">Дата подписания (Первый рабочий день нового месяца)</label>
+          <input
+            type="date"
+            name="signDate"
+            value={signDate.toLocaleString('sv-SE').slice(0, 10)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              changeSignDateHandler(e.target.value);
+            }}
+          />
+        </div>
         <div className={style.signField}>
           <label htmlFor="firstSignPerson">Руководитель</label>
           <select
@@ -250,7 +261,7 @@ const Act = () => {
 
         <div className={style.page}>
           {choosenContract && (
-            <ActPMS contract={choosenContract} personal={personalByOrder} services={services} />
+            <ActPMS contract={choosenContract} personal={personalByOrder} services={services} signDate={signDate}/>
           )}
         </div>
       </>

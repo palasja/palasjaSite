@@ -14,8 +14,9 @@ type ActPMSProps = {
   contract: Contract;
   personal: Personal[];
   services: Service[];
+  signDate: Date;
 };
-const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
+const ActPMS = ({ contract, personal, services, signDate }: ActPMSProps) => {
   const choosenMonth = useAppSelector(getChoosenMonth);
   const head = personal[0];
   const representor = personal[1];
@@ -35,8 +36,7 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
           <p>
             от{' '}
             <span className={style.variable}>
-              {new Date(contract.signDate).getDate()} {MONTH_R[Number(choosenMonth)]}{' '}
-              {new Date(contract.signDate).getFullYear()}
+              {signDate.getDate()} {MONTH_R[signDate.getMonth()]} {signDate.getFullYear()}
             </span>{' '}
             года
           </p>
@@ -146,7 +146,7 @@ const ActPMS = ({ contract, personal, services }: ActPMSProps) => {
               <p>247802, Гомельская область,</p>
               <p>г. Наровля, ул. Спивака, 1 Б</p>
               <p>р/с BY97AKBB30120332510123300000</p>
-              <p>BIC AKBBBY21317 </p>
+              <p>BIC AKBBBY2X </p>
               <p>г. Минск, проспект Дзержинского, 18</p>
               <p>УНП 400517900 ОКПО 290364733</p>
             </div>
