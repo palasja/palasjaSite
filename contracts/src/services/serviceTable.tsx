@@ -5,7 +5,7 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
-import { Service } from '../helpers/contractTypes';
+import { Service, ServiceForTable } from '../helpers/contractTypes';
 import { Box, IconButton } from '@mui/material';
 import {
   useToPaidServiceMutation,
@@ -26,7 +26,7 @@ const ServiceTable = ({
   showDetail,
   showServiceCost,
 }: {
-  data: Service[];
+  data: ServiceForTable[];
   edit: (service: Service) => void;
   remove: (id: string) => void;
   showDetail: () => void;
@@ -67,6 +67,11 @@ const ServiceTable = ({
 
   const columns = useMemo<MRT_ColumnDef<Service>[]>(
     () => [
+      {
+        accessorKey: 'tableId',
+        header: 'id',
+        size: 100,
+      },
       {
         accessorKey: 'name',
         header: 'Услуга',
@@ -181,18 +186,20 @@ const ServiceTable = ({
     state: {
       sorting,
     },
-    // initialState: {
-    // sorting: [
-    //   {
-    //     id: 'date',
-    //     desc: true,
-    //   },
-    // ],
-    // },
-    enableRowNumbers: true,
-    rowNumberDisplayMode: 'original',
+    initialState: {
+    sorting: [
+      {
+        id: 'tableId',
+        desc: false,
+      },
+    ],
+    },
+    // enableRowNumbers: true,
+    // rowNumberDisplayMode: 'original',
     enableRowSelection: true,
+    getRowId: (row) => ''+row,
     enableColumnActions: false,
+    
   });
 
   return <MaterialReactTable table={table} />;

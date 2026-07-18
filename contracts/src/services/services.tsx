@@ -8,7 +8,7 @@ import {
   getChosenOrganization,
 } from '../redux/slices/orgsSlice';
 import ServiceForm from './serviceForm';
-import { Service } from '../helpers/contractTypes';
+import { Service, ServiceForTable } from '../helpers/contractTypes';
 import {
   useDeleteServiceMutation,
   useLazyGetServicesByOrgIdMonthYearQuery,
@@ -81,6 +81,13 @@ const Services = () => {
     setIsShowRemoveModal(true);
   };
 
+  const serviсeToServiceTable = (service: Service[]) => {
+    const serviceForTable: ServiceForTable[] = service.map((s, i) => {
+      return {...s, tableId: i+1}
+    })
+
+    return serviceForTable;
+  }
   const page = (
     <>
       <div className={style.nameContainer}>
@@ -126,7 +133,7 @@ const Services = () => {
         ) : (
           services && (
             <ServiceTable
-              data={services}
+              data={serviсeToServiceTable(services)}
               edit={changeHandler}
               remove={removeHandler}
               showDetail={() => setIsShowDescriptionModal(true)}
