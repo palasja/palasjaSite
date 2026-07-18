@@ -83,11 +83,11 @@ const Services = () => {
 
   const serviсeToServiceTable = (service: Service[]) => {
     const serviceForTable: ServiceForTable[] = service.map((s, i) => {
-      return {...s, tableId: i+1}
-    })
+      return { ...s, tableId: i + 1 };
+    });
 
     return serviceForTable;
-  }
+  };
   const page = (
     <>
       <div className={style.nameContainer}>

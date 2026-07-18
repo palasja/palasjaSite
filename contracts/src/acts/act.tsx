@@ -261,7 +261,12 @@ const Act = () => {
 
         <div className={style.page}>
           {choosenContract && (
-            <ActPMS contract={choosenContract} personal={personalByOrder} services={services} signDate={signDate}/>
+            <ActPMS
+              contract={choosenContract}
+              personal={personalByOrder}
+              services={services}
+              signDate={signDate}
+            />
           )}
         </div>
       </>

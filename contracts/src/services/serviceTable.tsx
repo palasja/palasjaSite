@@ -159,7 +159,7 @@ const ServiceTable = ({
         </IconButton>
       </Box>
     ),
-    
+
     renderTopToolbarCustomActions: ({ table }) => (
       <div className={style.payBtn}>
         <PayIcon
@@ -187,19 +187,18 @@ const ServiceTable = ({
       sorting,
     },
     initialState: {
-    sorting: [
-      {
-        id: 'tableId',
-        desc: false,
-      },
-    ],
+      sorting: [
+        {
+          id: 'tableId',
+          desc: false,
+        },
+      ],
     },
     // enableRowNumbers: true,
     // rowNumberDisplayMode: 'original',
     enableRowSelection: true,
-    getRowId: (row) => ''+row,
+    getRowId: (row) => '' + row,
     enableColumnActions: false,
-    
   });
 
   return <MaterialReactTable table={table} />;

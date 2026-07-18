@@ -37,7 +37,7 @@ export type Service = {
   description: string;
   ispaid: boolean;
 };
-export type ServiceForTable = Service & {tableId: number}
+export type ServiceForTable = Service & { tableId: number };
 export type ConstCount = Pick<Service, 'cost' | 'count'>;
 
 export type ServiceCostChange = {

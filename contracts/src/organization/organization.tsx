@@ -1,75 +1,44 @@
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   chooseOrg,
-  changingOrg,
   choseInfo,
-  getChangingOrganization,
   getChosenOrganization,
   getChosenInfo,
   getChosenchosenAction,
   chosenAction,
 } from '../redux/slices/orgsSlice';
-import RemoveAgreePortal from '../components/modal/remove/removeModal';
-import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import OrganizationForm from './organizationForm';
 import {
   useGetOrganizationQuery,
-  useDeleteOrganizationMutation,
 } from '../redux/slices/organizationRTKSlice';
 import style from './organization.module.css';
-import { isWithoutOrg } from '../redux/slices/servicesSlice';
 import { Organization as OrgType } from '../helpers/contractTypes';
 import {
-  ActIcon,
   AddOrgIcon,
-  ContractIcon,
-  EditIcon,
-  PersonalIcon,
-  RemoveIcon,
-  ServicesIcon,
 } from '../components/icons/icons';
-import { Link, NavLink, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useEffect } from 'react';
+import OrganizationButton from './organizationButton';
+
+
 
 const Organization = () => {
   let params = useParams();
+  let navigate = useNavigate();
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
-  const changingOrganization = useAppSelector(getChangingOrganization);
+
   const info = useAppSelector(getChosenInfo);
   const action = useAppSelector(getChosenchosenAction);
-  const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
-    useRemoveEntity<number>(-1);
-  const [deleteOrganization] = useDeleteOrganizationMutation();
 
-  const { data: organizations = [], isLoading, isFetching } = useGetOrganizationQuery();
-  const noOrgClickHandler = () => {
-    dispatch(isWithoutOrg(true));
-    dispatch(choseInfo('service'));
-    dispatch(chosenAction('show'));
-    dispatch(chooseOrg(organizations[organizations.length - 1]));
-  };
-  const orgClickHandler = (org: OrgType) => {
-    dispatch(isWithoutOrg(false));
-    dispatch(chooseOrg(org));
-    dispatch(choseInfo('service'));
-    dispatch(chosenAction('show'));
-  };
-  const changeHandler = (e: React.MouseEvent, org: OrgType) => {
-    e.stopPropagation();
-    dispatch(choseInfo('org'));
-    dispatch(chosenAction('change'));
-    dispatch(changingOrg(org));
+  const { data: organizations = [] } = useGetOrganizationQuery();
+
+  const changeSelectHandler = (orgId: string) => {
+    navigate(`${orgId}/servise`);
   };
   const addHandler = () => {
     dispatch(choseInfo('org'));
     dispatch(chosenAction('add'));
-  };
-  const removeHandler = (org: OrgType) => {
-    setRemoveId(org.id);
-    setIsShowRemoveModal(true);
-    dispatch(chooseOrg(null));
-    if (changingOrganization?.name === org.name) dispatch(changingOrg(null));
   };
 
   useEffect(() => {
@@ -85,77 +54,38 @@ const Organization = () => {
           <h2>Список организаций не загружен или пуст</h2>
         </>
       ) : (
-        <div className={`noprint ${style.orgContainer}`}>
-          <p onClick={() => addHandler()}>
-            <AddOrgIcon />
-          </p>
-          {organizations.map((org) => (
-            <div
-              className={style.orgBtn}
-              key={org.id}
-              onClick={() => (org.id !== 0 ? orgClickHandler(org) : noOrgClickHandler())}
-              data-testid="orgBtn"
-            >
-              <div
-                className={`${style.mainBtn} ${org.id === Number.parseInt(params.orgID as string) ? style.orgActive : ''}`}
-              >
-                {org.id !== 0 ? (
-                  <>
-                    <div
-                      className={style.orgActBtn}
-                      onClick={() => removeHandler(org)}
-                      data-testid="delete"
-                    >
-                      <RemoveIcon />
-                    </div>
-                    <Link to={`/org/${org.id}/servise`} className={style.orgName}>
-                      {org.name}
-                    </Link>
-                    {/* <div className={style.orgName}>{org.name}</div> */}
-                    <div
-                      className={style.orgActBtn}
-                      onClick={(e) => changeHandler(e, org)}
-                      data-testid="rename"
-                    >
-                      <EditIcon />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <Link className={style.orgName} to={`/org/${org.id}/servise`}>
-                      {org.name}
-                    </Link>
-                  </>
-                )}
-              </div>
-              {org.id !== 0 && (
-                <div className={style.subButtonContainer}>
-                  <NavLink className={style.subButton} to={`/org/${org.id}/servise`}>
-                    <ServicesIcon />
-                  </NavLink>
-                  <NavLink className={style.subButton} to={`/org/${org.id}/contracts`}>
-                    <ContractIcon />
-                  </NavLink>
-                  <NavLink className={style.subButton} to={`/org/${org.id}/personals`}>
-                    <PersonalIcon />
-                  </NavLink>
-                  <NavLink className={style.subButton} to={`/org/${org.id}/act`}>
-                    <ActIcon />
-                  </NavLink>
-                </div>
-              )}
-            </div>
-          ))}
-          {info === 'org' && (action === 'change' || action === 'add') && <OrganizationForm />}
-        </div>
-      )}
+        <>
+          <div className={`noprint ${style.orgContainer}`}>
+            <p onClick={() => addHandler()}>
+              <AddOrgIcon />
+            </p>
+            {organizations.map((org) => (
+              <OrganizationButton org={org} />
+            ))}
+            {info === 'org' && (action === 'change' || action === 'add') && <OrganizationForm />}
+          </div>
 
-      {isShowRemoveModal && (
+          <div className={`noprint ${style.orgContainerMobile}`}>
+            <select onChange={(e) => changeSelectHandler(e.target.value)} data-testid="monthSelect">
+              {organizations.map((org, i) => {
+                return (
+                  <option value={org.id} key={i}>
+                    {org.name}
+                  </option>
+                );
+              })}
+            </select>
+            {choosenOrg && <OrganizationButton org={choosenOrg} />}
+          </div>
+        </>
+      )}
+      {/* move to redux */}
+      {/* {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteOrganization(removeId)}
           close={() => setIsShowRemoveModal(false)}
         />
-      )}
+      )} */}
     </>
   );
 
