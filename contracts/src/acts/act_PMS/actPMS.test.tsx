@@ -56,11 +56,12 @@ describe('act PMS', () => {
       endDate: new Date(),
       scan: new Blob(),
       orgId: '1',
+
     } as Contract;
 
     const spyNDS47 = vi.spyOn(helper, 'getServicesCostWithNDS_47');
 
-    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} />, {
+    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} signDate={new Date()} />, {
       preloadedState: {
         orgs: {
           chosenOrg: { id: 1, name: 'testOrg' },
@@ -136,7 +137,7 @@ describe('act PMS', () => {
       orgId: '1',
     } as Contract;
 
-    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} />, {
+    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} signDate={new Date()}/>, {
       preloadedState: {
         orgs: {
           chosenOrg: { id: 1, name: 'testOrg' },
