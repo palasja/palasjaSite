@@ -4,16 +4,11 @@ import {
   changingOrg,
   choseInfo,
   getChangingOrganization,
-  getChosenOrganization,
-  getChosenInfo,
-  getChosenchosenAction,
   chosenAction,
 } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
-import OrganizationForm from './organizationForm';
 import {
-  useGetOrganizationQuery,
   useDeleteOrganizationMutation,
 } from '../redux/slices/organizationRTKSlice';
 import style from './organization.module.css';
@@ -21,7 +16,6 @@ import { isWithoutOrg } from '../redux/slices/servicesSlice';
 import { Organization as OrgType } from '../helpers/contractTypes';
 import {
   ActIcon,
-  AddOrgIcon,
   ContractIcon,
   EditIcon,
   PersonalIcon,
@@ -29,7 +23,6 @@ import {
   ServicesIcon,
 } from '../components/icons/icons';
 import { Link, NavLink, useNavigate, useParams } from 'react-router';
-import { useEffect } from 'react';
 
 
 type OrganizationButtonProps = {
@@ -38,6 +31,7 @@ type OrganizationButtonProps = {
 
 const OrganizationButton = ({ org }: OrganizationButtonProps) => {
   const dispatch = useAppDispatch();
+  let navigate = useNavigate();
   let params = useParams();
   const changingOrganization = useAppSelector(getChangingOrganization);
   const [deleteOrganization] = useDeleteOrganizationMutation();
@@ -47,12 +41,9 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
     dispatch(isWithoutOrg(true));
     dispatch(choseInfo('service'));
     dispatch(chosenAction('show'));
-    // dispatch(chooseOrg(organizations[organizations.length - 1]));
   };
   const orgClickHandler = (org: OrgType) => {
-    console.log(org);
     dispatch(isWithoutOrg(false));
-    // dispatch(chooseOrg(org));
     dispatch(choseInfo('service'));
     dispatch(chosenAction('show'));
   };
@@ -61,6 +52,7 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
     dispatch(choseInfo('org'));
     dispatch(chosenAction('change'));
     dispatch(changingOrg(org));
+    navigate(`../org`);
   };
   const removeHandler = (org: OrgType) => {
     setRemoveId(org.id);

@@ -59,8 +59,8 @@ const Organization = () => {
             <p onClick={() => addHandler()}>
               <AddOrgIcon />
             </p>
-            {organizations.map((org) => (
-              <OrganizationButton org={org} />
+            {organizations.map((org, i) => (
+              <OrganizationButton org={org} key={i}/>
             ))}
             {info === 'org' && (action === 'change' || action === 'add') && <OrganizationForm />}
           </div>
@@ -79,13 +79,6 @@ const Organization = () => {
           </div>
         </>
       )}
-      {/* move to redux */}
-      {/* {isShowRemoveModal && (
-        <RemoveAgreePortal
-          remove={() => deleteOrganization(removeId)}
-          close={() => setIsShowRemoveModal(false)}
-        />
-      )} */}
     </>
   );
 
