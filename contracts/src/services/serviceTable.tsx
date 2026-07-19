@@ -55,7 +55,7 @@ const ServiceTable = ({
       ? (JSON.parse(sortingCoock) as MRT_SortingState)
       : [
           {
-            id: 'date',
+            id: 'tableId',
             desc: true,
           },
         ]
