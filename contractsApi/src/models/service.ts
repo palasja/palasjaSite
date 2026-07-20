@@ -7,7 +7,6 @@ import {
   CreationOptional,
 } from '@sequelize/core';
 import {
-  AllowNull,
   Attribute,
   AutoIncrement,
   Default,
@@ -15,7 +14,6 @@ import {
   NotNull,
   PrimaryKey,
 } from '@sequelize/core/decorators-legacy';
-import { Personal } from './personal';
 import { ServiceCostChange } from './serviceCostChange';
 
 export class Service extends Model<InferAttributes<Service>, InferCreationAttributes<Service>> {
@@ -58,7 +56,6 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
   declare description: string;
 
   @Attribute(DataTypes.INTEGER)
-  //declare orgId: number | null;
   declare orgId: number;
 
 

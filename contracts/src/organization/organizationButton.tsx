@@ -99,7 +99,6 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
           </>
         )}
       </div>
-      {org.id !== 0 && (
         <div className={style.subButtonContainer}>
           <NavLink className={style.subButton} to={`/org/${org.id}/servise`}>
             <ServicesIcon />
@@ -114,7 +113,6 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
             <ActIcon />
           </NavLink>
         </div>
-      )}
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteOrganization(removeId)}

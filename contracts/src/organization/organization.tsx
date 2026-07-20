@@ -34,7 +34,7 @@ const Organization = () => {
   const { data: organizations = [] } = useGetOrganizationQuery();
 
   const changeSelectHandler = (orgId: string) => {
-    navigate(`${orgId}/servise`);
+    navigate(`${orgId}/servise/1/servise`);
   };
   const addHandler = () => {
     dispatch(choseInfo('org'));
