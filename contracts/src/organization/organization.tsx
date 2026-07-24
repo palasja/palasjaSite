@@ -28,7 +28,7 @@ const Organization = () => {
   const { data: organizations = [] } = useGetOrganizationQuery();
 
   const changeSelectHandler = (orgId: string) => {
-    navigate(`${orgId}/servise/1/servise`);
+    navigate(`${orgId}/service`);
   };
   const addHandler = () => {
     dispatch(choseInfo('org'));
@@ -61,6 +61,9 @@ const Organization = () => {
 
           <div className={`noprint ${style.orgContainerMobile}`}>
             <select onChange={(e) => changeSelectHandler(e.target.value)} data-testid="monthSelect">
+              <option>
+                 -
+                  </option>
               {organizations.map((org, i) => {
                 return (
                   <option value={org.id} key={i}>
