@@ -54,26 +54,26 @@ const ContractTable = ({
         size: 200,
         Cell: ({ row }) => {
           return (
-            <a
-              href={`${env.PROD ? env.VITE_API_SERVER_URL_PROD : env.VITE_API_SERVER_URL_DEV}\\contractScan\\${row.original.fileName}`}
-              target="_blank"
-            >
-              <DownloadIcon />
-            </a>
-            // <button
-            //   onClick={async () => {
-            //     const result = await getContractScan({ fileName: row.original.fileName }).unwrap();
-            //     const url = getURLByBase64File(result.scan, 'application/pdf');
-            //     const link = document.createElement('a');
-            //     link.href = url;
-            //     link.download = row.original.fileName;
-            //     link.click();
-            //     // Cleanup
-            //     URL.revokeObjectURL(url);
-            //   }}
+            // <a
+            //   href={`${env.PROD ? env.VITE_API_SERVER_URL_PROD : env.VITE_API_SERVER_URL_DEV}\\contractScan\\${row.original.fileName}`}
+            //   target="_blank"
             // >
             //   <DownloadIcon />
-            // </button>
+            // </a>
+            <button
+              onClick={async () => {
+                const result = await getContractScan({ fileName: row.original.fileName }).unwrap();
+                const url = getURLByBase64File(result.scan, 'application/pdf');
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = row.original.fileName;
+                link.click();
+                // Cleanup
+                URL.revokeObjectURL(url);
+              }}
+            >
+              <DownloadIcon />
+            </button>
           );
         },
       },

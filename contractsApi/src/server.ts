@@ -18,7 +18,7 @@ import { Contract } from './models/contracts';
 import { SoftArticleLink } from './models/softArticleLink';
 import { JwtError, JwtDecoded, UserType } from './types';
 import { newTokenToRes, getLoginFromToken, creteContractDB } from './helper';
-import { createFilesFolder, getFullPathByFileName, removeFile, saveFile } from './nodeFunc';
+import { createFilesFolder, getBase64ByFileName, removeFile, saveFile } from './nodeFunc';
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -305,13 +305,8 @@ router.patch(
 router.get(
   '/contractScan/:fileName',
   asyncHandler(async (req, res) => {
-
-  const filePath = getFullPathByFileName(req.params.fileName as string);
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            res.status(500).send('Could not download the file.');
-        }
-    });
+    const fileBase64 = getBase64ByFileName(req.params.fileName as string);
+    res.status(200).json({scan: fileBase64});
   })
 );
 router.get(

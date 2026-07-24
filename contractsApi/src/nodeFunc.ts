@@ -1,9 +1,18 @@
 import fs, {unlink} from "node:fs";
 import path from "node:path";
+import { loadEnvFile } from 'node:process';
+loadEnvFile();
 
-const filesPath = path.join('..', 'contracts', 'uploaded');
+const filesPath = path.join('..', `${process.env.FILES_FOLDER}`, 'uploaded');
 
 export const getFilesFolderPath = () => filesPath;
+
+export const getBase64ByFileName = (fileName: string) => {
+  const filePath = getFullPathByFileName(fileName);
+  const base64String = fs.readFileSync(filePath).toString('base64');
+  return base64String;
+
+}
 export const removeFile = (fileName: string) =>{
   const filePath = path.join(filesPath, fileName);
   if (fs.existsSync(filePath)){
