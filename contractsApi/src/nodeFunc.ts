@@ -1,7 +1,9 @@
 import fs, {unlink} from "node:fs";
 import path from "node:path";
+import { loadEnvFile } from 'node:process';
+loadEnvFile();
 
-const filesPath = path.join('..', 'contracts', 'uploaded');
+const filesPath = path.join('..', `${process.env.FILES_FOLDER}`, 'uploaded');
 
 export const getFilesFolderPath = () => filesPath;
 export const removeFile = (fileName: string) =>{
