@@ -76,7 +76,7 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
             >
               <RemoveIcon />
             </div>
-            <Link to={`/org/${org.id}/servise`} className={style.orgName}>
+            <Link to={`/org/${org.id}/service`} className={style.orgName}>
               {org.name}
             </Link>
             {/* <div className={style.orgName}>{org.name}</div> */}
@@ -90,14 +90,14 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
           </>
         ) : (
           <>
-            <Link className={style.orgName} to={`/org/${org.id}/servise`}>
+            <Link className={style.orgName} to={`/org/${org.id}/service`}>
               {org.name}
             </Link>
           </>
         )}
       </div>
       <div className={style.subButtonContainer}>
-        <NavLink className={style.subButton} to={`/org/${org.id}/servise`}>
+        <NavLink className={style.subButton} to={`/org/${org.id}/service`}>
           <ServicesIcon />
         </NavLink>
         <NavLink className={style.subButton} to={`/org/${org.id}/contracts`}>
