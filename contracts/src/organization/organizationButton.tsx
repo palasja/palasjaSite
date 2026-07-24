@@ -8,9 +8,7 @@ import {
 } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
-import {
-  useDeleteOrganizationMutation,
-} from '../redux/slices/organizationRTKSlice';
+import { useDeleteOrganizationMutation } from '../redux/slices/organizationRTKSlice';
 import style from './organization.module.css';
 import { isWithoutOrg } from '../redux/slices/servicesSlice';
 import { Organization as OrgType } from '../helpers/contractTypes';
@@ -23,7 +21,6 @@ import {
   ServicesIcon,
 } from '../components/icons/icons';
 import { Link, NavLink, useNavigate, useParams } from 'react-router';
-
 
 type OrganizationButtonProps = {
   org: OrgType;
@@ -99,20 +96,20 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
           </>
         )}
       </div>
-        <div className={style.subButtonContainer}>
-          <NavLink className={style.subButton} to={`/org/${org.id}/servise`}>
-            <ServicesIcon />
-          </NavLink>
-          <NavLink className={style.subButton} to={`/org/${org.id}/contracts`}>
-            <ContractIcon />
-          </NavLink>
-          <NavLink className={style.subButton} to={`/org/${org.id}/personals`}>
-            <PersonalIcon />
-          </NavLink>
-          <NavLink className={style.subButton} to={`/org/${org.id}/act`}>
-            <ActIcon />
-          </NavLink>
-        </div>
+      <div className={style.subButtonContainer}>
+        <NavLink className={style.subButton} to={`/org/${org.id}/servise`}>
+          <ServicesIcon />
+        </NavLink>
+        <NavLink className={style.subButton} to={`/org/${org.id}/contracts`}>
+          <ContractIcon />
+        </NavLink>
+        <NavLink className={style.subButton} to={`/org/${org.id}/personals`}>
+          <PersonalIcon />
+        </NavLink>
+        <NavLink className={style.subButton} to={`/org/${org.id}/act`}>
+          <ActIcon />
+        </NavLink>
+      </div>
       {isShowRemoveModal && (
         <RemoveAgreePortal
           remove={() => deleteOrganization(removeId)}

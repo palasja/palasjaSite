@@ -34,7 +34,7 @@ export class Contract extends Model<InferAttributes<Contract>, InferCreationAttr
   declare endDate: string;
 
   @Attribute(DataTypes.TEXT('long'))
-  declare scan: string;
+  declare fileName: string;
 
   @Attribute(DataTypes.INTEGER)
   @NotNull

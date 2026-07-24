@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Contract, OrgInfoAction } from '../helpers/contractTypes';
+import { Contract, ContractWithFile } from '../helpers/contractTypes';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { toBase64, trimObjectProperty } from '../helpers/helper';
 import { useIsUpdate } from '../hooks/useIsUpdate';
@@ -21,7 +21,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
     setValue,
     reset,
     formState: { errors },
-  } = useForm<Contract>();
+  } = useForm<ContractWithFile>();
   const dispatch = useAppDispatch();
   const choosenOrg = useAppSelector(getChosenOrganization);
   const [addContract] = useAddContractMutation();
@@ -33,7 +33,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
       orgId: choosenOrg?.id.toString(),
     });
   };
-  const onSubmitCreate: SubmitHandler<Contract> = async (data) => {
+  const onSubmitCreate: SubmitHandler<ContractWithFile> = async (data) => {
     data = trimObjectProperty(data);
     //@ts-expect-error: Chome has faleArray instead of File
     data.scan = await toBase64(data.scan[0]);
@@ -41,7 +41,7 @@ const ContractForm = ({ changingContract = undefined }: ChangingContractFormProp
     resetForm();
   };
 
-  const onSubmitUpdate: SubmitHandler<Contract> = async (data) => {
+  const onSubmitUpdate: SubmitHandler<ContractWithFile> = async (data) => {
     data = trimObjectProperty(data);
     if (data.scan?.size == 0) {
       //@ts-expect-error: Chome has fileArray instead of File

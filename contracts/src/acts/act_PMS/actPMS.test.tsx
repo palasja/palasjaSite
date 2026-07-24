@@ -2,7 +2,7 @@ import { renderWithProviders } from '../../auth/renderWithProviders';
 import { screen } from '@testing-library/react';
 import ActPMS from './actPMS';
 import { COUNT_FOR_ONE_PAGE } from '../../helpers/constants';
-import { Contract, Personal, Service } from '../../helpers/contractTypes';
+import { Contract, ContractWithFile, Personal, Service } from '../../helpers/contractTypes';
 import * as helper from './../../helpers/helper';
 describe('act PMS', () => {
   it('call NDS 47 law', () => {
@@ -54,32 +54,35 @@ describe('act PMS', () => {
       signDate: new Date(),
       startDate: new Date(),
       endDate: new Date(),
+      fileName: '',
       scan: new Blob(),
       orgId: '1',
-
-    } as Contract;
+    } as ContractWithFile;
 
     const spyNDS47 = vi.spyOn(helper, 'getServicesCostWithNDS_47');
 
-    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} signDate={new Date()} />, {
-      preloadedState: {
-        orgs: {
-          chosenOrg: { id: 1, name: 'testOrg' },
-          changingOrg: null,
-          error: null,
-          status: 'idle',
-          chosenInfo: null,
-          chosenAction: null,
+    renderWithProviders(
+      <ActPMS contract={contract} personal={personals} services={services} signDate={new Date()} />,
+      {
+        preloadedState: {
+          orgs: {
+            chosenOrg: { id: 1, name: 'testOrg' },
+            changingOrg: null,
+            error: null,
+            status: 'idle',
+            chosenInfo: null,
+            chosenAction: null,
+          },
+          services: {
+            choosenMonth: '1',
+            isWithoutOrg: false,
+            choosenYear: '',
+            fullDesc: '',
+            serviceCostChange: [],
+          },
         },
-        services: {
-          choosenMonth: '1',
-          isWithoutOrg: false,
-          choosenYear: '',
-          fullDesc: '',
-          serviceCostChange: [],
-        },
-      },
-    });
+      }
+    );
 
     expect(spyNDS47).toBeCalled();
   });
@@ -133,29 +136,33 @@ describe('act PMS', () => {
       signDate: new Date(),
       startDate: new Date(),
       endDate: new Date(),
+      fileName: '',
       scan: new Blob(),
       orgId: '1',
-    } as Contract;
+    } as ContractWithFile;
 
-    renderWithProviders(<ActPMS contract={contract} personal={personals} services={services} signDate={new Date()}/>, {
-      preloadedState: {
-        orgs: {
-          chosenOrg: { id: 1, name: 'testOrg' },
-          changingOrg: null,
-          error: null,
-          status: 'idle',
-          chosenInfo: null,
-          chosenAction: null,
+    renderWithProviders(
+      <ActPMS contract={contract} personal={personals} services={services} signDate={new Date()} />,
+      {
+        preloadedState: {
+          orgs: {
+            chosenOrg: { id: 1, name: 'testOrg' },
+            changingOrg: null,
+            error: null,
+            status: 'idle',
+            chosenInfo: null,
+            chosenAction: null,
+          },
+          services: {
+            choosenMonth: '1',
+            isWithoutOrg: false,
+            choosenYear: '',
+            fullDesc: '',
+            serviceCostChange: [],
+          },
         },
-        services: {
-          choosenMonth: '1',
-          isWithoutOrg: false,
-          choosenYear: '',
-          fullDesc: '',
-          serviceCostChange: [],
-        },
-      },
-    });
+      }
+    );
 
     expect(screen.getByText(/a. a. a/i)).toBeInTheDocument();
     expect(screen.getByText(/b. b. b/i)).toBeInTheDocument();

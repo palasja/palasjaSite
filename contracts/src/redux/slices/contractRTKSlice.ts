@@ -1,4 +1,9 @@
-import { Contract, ContractScan, OrgMonthPayment } from '../../helpers/contractTypes';
+import {
+  Contract,
+  ContractScan,
+  ContractWithFile,
+  OrgMonthPayment,
+} from '../../helpers/contractTypes';
 import { providesRTKTagList } from '../../helpers/helper';
 import { apiSlice } from './apiSlice';
 
@@ -12,9 +17,9 @@ const contractApi = apiSlice.injectEndpoints({
       query: ({ orgId, month, year }) => `getContractByOrgIdMonth/${orgId}/${month}/${year}`,
     }),
     getContractsScan: builder.query<{ scan: string }, ContractScan>({
-      query: ({ orgId }) => `/contractScan/${orgId}`,
+      query: ({ fileName }) => `/contractScan/${fileName}`,
     }),
-    addContract: builder.mutation<Contract, Contract>({
+    addContract: builder.mutation<Contract, ContractWithFile>({
       query: (newContract) => ({
         url: '/addContracts',
         method: 'PUT',
@@ -22,7 +27,7 @@ const contractApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Contract', id: 'LIST' }],
     }),
-    updateContract: builder.mutation<number, Contract>({
+    updateContract: builder.mutation<number, ContractWithFile>({
       query: (contract) => ({
         url: '/updateContract',
         method: 'PATCH',

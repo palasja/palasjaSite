@@ -46,7 +46,7 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
 
   return next(action);
 };
-
+//REMOVE THIS
 export const test: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
   return next(action);
 };

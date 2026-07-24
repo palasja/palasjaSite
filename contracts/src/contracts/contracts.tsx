@@ -7,17 +7,16 @@ import {
 } from '../redux/slices/orgsSlice';
 import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
-import ContractForm from './contractsForm';
 import {
   useGetContractsByOrgQuery,
   useDeleteContractMutation,
 } from '../redux/slices/contractRTKSlice';
 import { Contract } from '../helpers/contractTypes';
-import Loading from '../components/loading';
 import { skipToken } from '@reduxjs/toolkit/query';
 import ContractTable from './contractTable';
 import { AddIcon } from '../components/icons/icons';
 import { useState } from 'react';
+import ContractForm from './contractsForm';
 
 const Contracts = () => {
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
@@ -26,11 +25,7 @@ const Contracts = () => {
   const action = useAppSelector(getChosenchosenAction);
   const choosenOrg = useAppSelector(getChosenOrganization);
   const [delContract] = useDeleteContractMutation();
-  const {
-    data: contracts = [],
-    isLoading,
-    isFetching,
-  } = useGetContractsByOrgQuery(choosenOrg?.id ?? skipToken);
+  const { data: contracts = [] } = useGetContractsByOrgQuery(choosenOrg?.id ?? skipToken);
 
   const [changingContract, setChangingContract] = useState<Contract | undefined>();
   const changeHandler = (con: Contract) => {
@@ -65,7 +60,7 @@ const Contracts = () => {
       )}
     </>
   );
-  return isLoading ? <Loading /> : page;
+  return page;
 };
 
 export default Contracts;

@@ -12,7 +12,7 @@ import { useAppSelector } from '../redux/hooks';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { getChoosenMonth } from '../redux/slices/servicesSlice';
 import { DownloadIcon, EditIcon, RemoveIcon } from '../components/icons/icons';
-
+const env = import.meta.env;
 const ContractTable = ({
   data,
   edit,
@@ -54,21 +54,26 @@ const ContractTable = ({
         size: 200,
         Cell: ({ row }) => {
           return (
-            <button
-              onClick={async () => {
-                const fileName = `${choosenOrg?.name}_${choosenMonth}`;
-                const result = await getContractScan({ orgId: row.original.id }).unwrap();
-                const url = getURLByBase64File(result.scan, 'application/pdf');
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = fileName;
-                link.click();
-                // Cleanup
-                URL.revokeObjectURL(url);
-              }}
+            <a
+              href={`${env.PROD ? env.VITE_API_SERVER_URL_PROD : env.VITE_API_SERVER_URL_DEV}\\contractScan\\${row.original.fileName}`}
+              target="_blank"
             >
               <DownloadIcon />
-            </button>
+            </a>
+            // <button
+            //   onClick={async () => {
+            //     const result = await getContractScan({ fileName: row.original.fileName }).unwrap();
+            //     const url = getURLByBase64File(result.scan, 'application/pdf');
+            //     const link = document.createElement('a');
+            //     link.href = url;
+            //     link.download = row.original.fileName;
+            //     link.click();
+            //     // Cleanup
+            //     URL.revokeObjectURL(url);
+            //   }}
+            // >
+            //   <DownloadIcon />
+            // </button>
           );
         },
       },

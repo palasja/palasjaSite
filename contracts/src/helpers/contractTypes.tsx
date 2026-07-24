@@ -8,8 +8,11 @@ export type Contract = {
   signDate: Date;
   startDate: Date;
   endDate: Date;
-  scan: Blob;
+  fileName: string;
   orgId: string;
+};
+export type ContractWithFile = Contract & {
+  scan: Blob;
 };
 export type Personal = {
   id: number;
@@ -77,7 +80,7 @@ export type MonthYear = {
 };
 
 export type ContractScan = {
-  orgId: number | null;
+  fileName: string | null;
 };
 
 export type OrganizationCost = { orgId?: string; cost: number };

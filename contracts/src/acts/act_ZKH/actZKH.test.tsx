@@ -2,7 +2,7 @@ import { renderWithProviders } from '../../auth/renderWithProviders';
 import { screen } from '@testing-library/react';
 import ActZKH from './actZKH';
 import { COUNT_FOR_ONE_PAGE } from '../../helpers/constants';
-import { Contract, Personal, Service } from '../../helpers/contractTypes';
+import { Contract, ContractWithFile, Personal, Service } from '../../helpers/contractTypes';
 
 describe('pages count', () => {
   it('one page when less 19 services', () => {
@@ -45,9 +45,10 @@ describe('pages count', () => {
       signDate: new Date(),
       startDate: new Date(),
       endDate: new Date(),
+      fileName: '',
       scan: new Blob(),
       orgId: '',
-    } as Contract;
+    } as ContractWithFile;
     renderWithProviders(
       <ActZKH
         contract={contract}
@@ -113,9 +114,10 @@ describe('pages count', () => {
       signDate: new Date(),
       startDate: new Date(),
       endDate: new Date(),
+      fileName: '',
       scan: new Blob(),
       orgId: '',
-    } as Contract;
+    } as ContractWithFile;
     renderWithProviders(
       <ActZKH
         contract={contract}

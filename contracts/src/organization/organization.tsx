@@ -8,19 +8,13 @@ import {
   chosenAction,
 } from '../redux/slices/orgsSlice';
 import OrganizationForm from './organizationForm';
-import {
-  useGetOrganizationQuery,
-} from '../redux/slices/organizationRTKSlice';
+import { useGetOrganizationQuery } from '../redux/slices/organizationRTKSlice';
 import style from './organization.module.css';
 import { Organization as OrgType } from '../helpers/contractTypes';
-import {
-  AddOrgIcon,
-} from '../components/icons/icons';
+import { AddOrgIcon } from '../components/icons/icons';
 import { useNavigate, useParams } from 'react-router';
 import { useEffect } from 'react';
 import OrganizationButton from './organizationButton';
-
-
 
 const Organization = () => {
   let params = useParams();
@@ -60,7 +54,7 @@ const Organization = () => {
               <AddOrgIcon />
             </p>
             {organizations.map((org, i) => (
-              <OrganizationButton org={org} key={i}/>
+              <OrganizationButton org={org} key={i} />
             ))}
             {info === 'org' && (action === 'change' || action === 'add') && <OrganizationForm />}
           </div>

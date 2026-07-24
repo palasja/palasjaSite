@@ -18,11 +18,11 @@ import { Contract } from './models/contracts';
 import { SoftArticleLink } from './models/softArticleLink';
 import { JwtError, JwtDecoded, UserType } from './types';
 import { newTokenToRes, getLoginFromToken, creteContractDB } from './helper';
+import { createFilesFolder, getFullPathByFileName, removeFile, saveFile } from './nodeFunc';
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
 const saltRounds = 10;
 const app: Application = express();
 
@@ -36,10 +36,12 @@ app.use(
   })
 );
 
-
 const router = express.Router();
 
 creteContractDB();
+
+//Create folder for files
+createFilesFolder();
 
 router.post(
   '/signIn',
@@ -203,9 +205,6 @@ router.get(
   '/getContractsByOrg/:id',
   asyncHandler(async (req, res) => {
     let result = await Contract.findAll({
-      attributes: {
-        exclude: ['scan'],
-      },
       where: {
         orgId: req.params.id,
       },
@@ -223,9 +222,6 @@ router.get(
     const lastWorkDayDate = new Date(year, month + 1, 0, 23, 59);
 
     let result = await Contract.findOne({
-      attributes: {
-        exclude: ['scan'],
-      },
       where: {
         orgId: orgId,
         [Op.and]: [
@@ -251,35 +247,71 @@ router.get(
     res.status(200).json(result);
   })
 );
+
+
+
 router.put(
   '/addContracts',
   asyncHandler(async (req, res) => {
-    let result = await Contract.create(req.body);
-    res.status(200).json(result);
+    try{
+      const contract = saveFile(req.body);
+
+      let result = await Contract.create(contract);
+      res.status(200).json(result);
+    } catch(e){
+      console.log(e);
+    }
+
   })
 );
 router.delete(
   '/removeContract/:id',
   asyncHandler(async (req, res) => {
-    let result = await Contract.destroy({
+    const contract = await Contract.findOne({
       where: {
-        id: req.params.id,
+        id: req.params.id
       },
-    });
-    const statusCode = result == 1 ? 200 : 400;
-    res.status(statusCode).json(result);
+      attributes:['fileName']
+    })
+    try{
+      if(contract) await removeFile(contract.fileName);
+      let result = await Contract.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      if(result == 1){
+        res.status(200).json(result);
+      } else {
+        throw new Error("Error during delete from base")
+      }
+    } catch(err) {
+      res.status(500).json({error: err});
+    }
   })
 );
 router.patch(
   '/updateContract',
   asyncHandler(async (req, res) => {
-    const contract = req.body;
+    const contract = saveFile(req.body);
     let result = await Contract.update(contract, {
       where: {
         id: contract.id,
       },
     });
     res.status(200).json(result);
+  })
+);
+router.get(
+  '/contractScan/:fileName',
+  asyncHandler(async (req, res) => {
+
+  const filePath = getFullPathByFileName(req.params.fileName as string);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            res.status(500).send('Could not download the file.');
+        }
+    });
   })
 );
 router.get(
@@ -329,7 +361,6 @@ router.get(
     let result = await Service.findAll({
       where: {
         orgId: req.params.id,
-        // orgId: req.params.id == '0' ? null : req.params.id,
       },
     });
     res.status(200).json(result);
@@ -345,7 +376,6 @@ router.get(
 
     let result = await Service.findAll({
       where: {
-        // orgId: req.params.orgId == '0' ? null : req.params.orgId,
         orgId: req.params.orgId,
         ispaid: true,
         [Op.and]: [
@@ -370,7 +400,6 @@ router.get(
   asyncHandler(async (req, res) => {
     let result = await Service.findAll({
       where: {
-        // orgId: req.params.orgId == '0' ? null : req.params.orgId,
         orgId: req.params.orgId,
         ispaid: false,
       },
@@ -555,18 +584,7 @@ router.get(
   })
 );
 
-router.get(
-  '/contractScan/:id',
-  asyncHandler(async (req, res) => {
-    let result = await Contract.findOne({
-      attributes: ['scan'],
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.status(200).json(result);
-  })
-);
+
 
 router.get(
   '/getSoftInfo',

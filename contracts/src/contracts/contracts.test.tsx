@@ -5,7 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router';
 import { setupServer } from 'msw/node';
 import Contracts from './contracts';
 import { renderWithProviders } from '../auth/renderWithProviders';
-import { Contract, Organization } from '../helpers/contractTypes';
+import { Contract, ContractWithFile, Organization } from '../helpers/contractTypes';
 import fetchPolyfill, { Request as RequestPolyfill } from 'node-fetch';
 import * as slice from '../redux/slices/orgsSlice';
 
@@ -31,12 +31,13 @@ afterEach(() => server.resetHandlers());
 
 // Disable API mocking after the tests
 const testOrg: Organization = { id: 0, name: 'Test' };
-const testContract: Contract = {
+const testContract: ContractWithFile = {
   id: 0,
   number: '11111',
   signDate: new Date(),
   startDate: new Date(),
   endDate: new Date(),
+  fileName: '',
   scan: new Blob(),
   orgId: '0',
 };
