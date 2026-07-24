@@ -305,8 +305,14 @@ router.patch(
 router.get(
   '/contractScan/:fileName',
   asyncHandler(async (req, res) => {
-    const fileBase64 = getBase64ByFileName(req.params.fileName as string);
-    res.status(200).json({scan: fileBase64});
+    try{
+      const fileBase64 = getBase64ByFileName(req.params.fileName as string);
+      res.status(200).json({scan: fileBase64});
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(404);
+    }
+    
   })
 );
 router.get(

@@ -9,6 +9,12 @@ export const getFilesFolderPath = () => filesPath;
 
 export const getBase64ByFileName = (fileName: string) => {
   const filePath = getFullPathByFileName(fileName);
+    if (fs.existsSync(filePath)){
+    const base64String = fs.readFileSync(filePath).toString('base64');
+  } else {
+    
+    throw new Error(`${filePath} not exist`);
+  }
   const base64String = fs.readFileSync(filePath).toString('base64');
   return base64String;
 
