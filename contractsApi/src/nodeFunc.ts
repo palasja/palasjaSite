@@ -9,15 +9,10 @@ export const getFilesFolderPath = () => filesPath;
 
 export const getBase64ByFileName = (fileName: string) => {
   const filePath = getFullPathByFileName(fileName);
-    if (fs.existsSync(filePath)){
-    const base64String = fs.readFileSync(filePath).toString('base64');
-  } else {
-    
+  if (!fs.existsSync(filePath)){
     throw new Error(`${filePath} not exist`);
   }
-  const base64String = fs.readFileSync(filePath).toString('base64');
-  return base64String;
-
+  return fs.readFileSync(filePath).toString('base64');
 }
 export const removeFile = (fileName: string) =>{
   const filePath = path.join(filesPath, fileName);
