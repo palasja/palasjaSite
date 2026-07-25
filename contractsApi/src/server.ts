@@ -716,7 +716,7 @@ router.patch(
   '/updateArticleLinks',
   asyncHandler(async (req, res) => {
     const softArticleLinks = req.body;
-    let result = await SoftArticleLink.bulkCreate(softArticleLinks, { updateOnDuplicate: ['id'] });
+    let result = await SoftArticleLink.bulkCreate(softArticleLinks, { updateOnDuplicate: ['name', 'url'] });
     res.status(200).json(result);
   })
 );

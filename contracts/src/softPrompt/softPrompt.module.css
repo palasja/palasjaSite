@@ -55,10 +55,14 @@
 .infoHead {
   margin: 20px 0;
 }
+.linkContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
 .link {
   color: var(--color-btn);
   text-align: start;
-  margin: 20px 0;
 }
 .link:hover {
   color: var(--color-btn_hover);

@@ -61,9 +61,7 @@ const Organization = () => {
 
           <div className={`noprint ${style.orgContainerMobile}`}>
             <select onChange={(e) => changeSelectHandler(e.target.value)} data-testid="monthSelect">
-              <option>
-                 -
-                  </option>
+              <option>-</option>
               {organizations.map((org, i) => {
                 return (
                   <option value={org.id} key={i}>
