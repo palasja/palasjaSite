@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  getMRT_RowSelectionHandler,
   MaterialReactTable,
   MRT_SortingState,
   useMaterialReactTable,
@@ -166,16 +167,26 @@ const ServiceTable = ({
           onClick={() => {
             // const rowSelection = table.getState().rowSelection; //read state
             const selectedRows = table.getSelectedRowModel().rows; //or read entire rows
-            const idArr = selectedRows.map((h) => h.original.id);
-            toPaidServices(idArr);
+            if(selectedRows.length == 0){
+              const idArr = data.map((h) => h.id);
+              toPaidServices(idArr);
+            } else {
+              const idArr = selectedRows.map((h) => h.original.id);
+              toPaidServices(idArr);
+            }
           }}
         />
         <UnpayIcon
           onClick={() => {
             // const rowSelection = table.getState().rowSelection; //read state
             const selectedRows = table.getSelectedRowModel().rows; //or read entire rows
-            const idArr = selectedRows.map((h) => h.original.id);
-            toUnpaidServices(idArr);
+            if(selectedRows.length == 0){
+              const idArr = data.map((h) => h.id);
+              toUnpaidServices(idArr);
+            } else {
+              const idArr = selectedRows.map((h) => h.original.id);
+              toUnpaidServices(idArr);
+            }
           }}
         />
       </div>
@@ -197,8 +208,9 @@ const ServiceTable = ({
     // enableRowNumbers: true,
     // rowNumberDisplayMode: 'original',
     enableRowSelection: true,
-    getRowId: (row) => '' + row,
+    getRowId: (row) =>  row.id.toString(),
     enableColumnActions: false,
+    enableMultiRowSelection: false,
   });
 
   return <MaterialReactTable table={table} />;
