@@ -180,13 +180,14 @@ const ServiceTable = ({
           onClick={() => {
             // const rowSelection = table.getState().rowSelection; //read state
             const selectedRows = table.getSelectedRowModel().rows; //or read entire rows
-            if(selectedRows.length == 0){
+                        if(selectedRows.length == 0){
               const idArr = data.map((h) => h.id);
               toUnpaidServices(idArr);
             } else {
               const idArr = selectedRows.map((h) => h.original.id);
               toUnpaidServices(idArr);
             }
+
           }}
         />
       </div>
@@ -210,7 +211,11 @@ const ServiceTable = ({
     enableRowSelection: true,
     getRowId: (row) =>  row.id.toString(),
     enableColumnActions: false,
-    enableMultiRowSelection: false,
+  muiTableBodyRowProps: ({ row }) => ({
+    onClick: row.getToggleSelectedHandler(),
+    sx: { cursor: 'pointer' },
+  }),
+  enableMultiRowSelection: false,
   });
 
   return <MaterialReactTable table={table} />;
