@@ -1,0 +1,62 @@
+.actTtable {
+  text-align: left;
+}
+
+.actTtable th {
+  font-weight: 400;
+  font-size: 20px;
+  vertical-align: top;
+}
+
+.contractUserContainer {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+.tableNumber {
+  text-align: right;
+  padding-right: 30px;
+}
+.itog{
+  margin-top: 20px;
+}
+.headSign {
+  place-self: end;
+}
+
+.act {
+  text-align: center;
+  font-weight: 800;
+  margin: 40px 0 20px 0;
+}
+
+.underAct {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-weight: 800;
+}
+
+.contractText {
+  margin: 50px 0;
+  text-align: justify;
+}
+
+.sign {
+  margin-top: 40px;
+}
+.sign > *{
+margin: 20px 0;
+}
+.variable {
+  color: darkturquoise;
+}
+
+.indent {
+  text-indent: 40px;
+}
+
+.signContainer {
+  display: flex;
+  gap: 70px;
+}

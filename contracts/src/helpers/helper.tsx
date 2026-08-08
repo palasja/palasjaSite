@@ -1,5 +1,5 @@
 import { DOHOD, NDS, NDS_VICHET, NDS_VICHET_LIMIT, PENSIA_NDS } from './constants';
-import { ConstCount, CostByUser, Personal, Service, ServiceCostChange } from './contractTypes';
+import { ConstCount, CostByUser, Personal, Service, ServiceCostChange, ServiceForTableType } from './contractTypes';
 
 export const toBase64 = (file: File | Blob): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -202,4 +202,30 @@ export const providesRTKTagList = <R extends { id: string | number }[], T extend
   return resultsWithIds
     ? [{ type: tagType, id: 'LIST' }, ...resultsWithIds.map(({ id }) => ({ type: tagType, id }))]
     : [{ type: tagType, id: 'LIST' }];
+};
+
+export const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] => {
+  const grouped = Object.groupBy(services, (s) => s.name + s.cost);
+  const groupedArray = Object.values(grouped).map((arr) => {
+    if (arr?.length === 1) {
+      return arr[0];
+    } else {
+      let c = 0;
+      arr?.forEach((a) => (c += a.count));
+      const itog = arr![0];
+      return { name: itog.name, cost: itog.cost, count: c };
+    }
+  });
+  const sortedByNameArray = groupedArray.sort((a, b) => {
+    const nameA = a.name.toUpperCase().trim();
+    const nameB = b.name.toUpperCase().trim();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+  return sortedByNameArray;
 };

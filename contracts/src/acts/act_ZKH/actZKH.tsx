@@ -1,4 +1,4 @@
-import { getShortName, getServicesCostWithNDS, MONTH_R } from '../../helpers/helper';
+import { getShortName, getServicesCostWithNDS, MONTH_R, groupServiseByCostAndName } from '../../helpers/helper';
 import {
   COUNT_FOR_ONE_PAGE,
   FIRST_NAME,
@@ -12,11 +12,10 @@ import style from './act.module.css';
 import { useAppSelector } from '../../redux/hooks';
 import { getChoosenMonth } from '../../redux/slices/servicesSlice';
 
-import { Contract, Personal, Service } from '../../helpers/contractTypes';
+import { Contract, Personal, Service, ServiceForTableType } from '../../helpers/contractTypes';
 import PageWrapper from '../pageWrapper';
 import { useState } from 'react';
 
-type ServiceForTableType = Pick<Service, 'name' | 'cost' | 'count'>;
 type ActZKHProps = {
   contract: Contract;
   personal: Personal[];
@@ -41,31 +40,7 @@ type ActZKTableProps = {
   startDate: Date;
   endDate: Date;
 };
-const groupServiseByCostAndName = (services: Service[]): ServiceForTableType[] => {
-  const grouped = Object.groupBy(services, (s) => s.name + s.cost);
-  const groupedArray = Object.values(grouped).map((arr) => {
-    if (arr?.length === 1) {
-      return arr[0];
-    } else {
-      let c = 0;
-      arr?.forEach((a) => (c += a.count));
-      const itog = arr![0];
-      return { name: itog.name, cost: itog.cost, count: c };
-    }
-  });
-  const sortedByNameArray = groupedArray.sort((a, b) => {
-    const nameA = a.name.toUpperCase().trim();
-    const nameB = b.name.toUpperCase().trim();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
-  return sortedByNameArray;
-};
+
 
 const ActZKHHead = ({ head, sign, signDate }: ActZKHHeadProps) => {
   return (

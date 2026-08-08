@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   roundedCost,
-  getIdNum,
   getServicesCost,
   getServicesCostWithNDS,
   getServicesCostWithNDS_47,
@@ -13,19 +12,20 @@ import ActZKH from './act_ZKH';
 import ActPMS from './act_PMS';
 import { NDS_VICHET, PENSIA_NDS, NDS } from '../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { chooseMonth, getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
+import { getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import { getChosenOrganization } from '../redux/slices/orgsSlice';
 import { useLazyGetContractsByOrgIdMonthYearQuery } from '../redux/slices/contractRTKSlice';
 import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
 import { useLazyGetServicesByOrgIdMonthYearQuery } from '../redux/slices/servicesRTKSlice';
 import { Personal, Service } from '../helpers/contractTypes';
-import Loading from '../components/loading';
 import SelectMonthYear from '../components/selectMonthYear';
+import ActVets from './act_VETS';
 
-type AtcType = 'jkh' | 'pms' | null;
+type AtcType = 'jkh' | 'pms' | 'vets' | null;
 const actNameType: { [key: string]: AtcType } = {
   ЖКХ: 'jkh',
   ПМС: 'pms',
+  Ветс: 'vets',
 };
 const Act = () => {
   const [actType, setActType] = useState<AtcType>(null);
@@ -96,6 +96,7 @@ const Act = () => {
     const person = findPerson(id);
     const a = [...personalByOrder.slice(0, num), person, ...personalByOrder.slice(num + 1)];
     setPersonalByOrder(a);
+    console.log(a);
   };
 
   const PersonOptions = () => {
@@ -273,9 +274,30 @@ const Act = () => {
     );
   };
 
-  return cLoading || pLoading || sLoading ? (
-    <Loading />
-  ) : (
+  type VetsInfoType = { services: Service[] };
+  const VetsInfo = ({ services }: VetsInfoType) => {
+    return (
+      <>
+        <section className={`noprint ${style.infoContainer}`}>
+          <SignerSelect count={1} />
+          <PMSCostInfo services={services} />
+        </section>
+
+        <div className={style.page}>
+          {choosenContract && (
+            <ActVets
+              contract={choosenContract}
+              personal={personalByOrder}
+              services={services}
+              signDate={signDate}
+            />
+          )}
+        </div>
+      </>
+    );
+  };
+
+  return  (
     <>
       <div className="noprint">
         <h1>{choosenOrg?.name}</h1>
@@ -290,6 +312,7 @@ const Act = () => {
             <option key={-1}>-</option>
             <option id={'jkh'}>ЖКХ</option>
             <option id={'pms'}>ПМС</option>
+            <option id={'vets'}>Ветс</option>
           </select>
           <div>
             <label htmlFor="paid"> Оплачено</label>
@@ -307,6 +330,9 @@ const Act = () => {
           <ZKHInfo services={services} />
         )}
         {actType == 'pms' && services && personal && <PMSInfo services={services} />}
+        {actType == 'vets' && services !== undefined && personal !== undefined && (
+          <VetsInfo services={services} />
+        )}
       </>
     </>
   );
