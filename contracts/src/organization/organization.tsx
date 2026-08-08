@@ -33,6 +33,7 @@ const Organization = () => {
   const addHandler = () => {
     dispatch(choseInfo('org'));
     dispatch(chosenAction('add'));
+    navigate('/org');
   };
 
   useEffect(() => {
