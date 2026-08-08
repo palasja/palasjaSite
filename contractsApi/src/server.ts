@@ -19,6 +19,7 @@ import { SoftArticleLink } from './models/softArticleLink';
 import { JwtError, JwtDecoded, UserType } from './types';
 import { newTokenToRes, getLoginFromToken, creteContractDB } from './helper';
 import { createFilesFolder, getBase64ByFileName, removeFile, saveFile } from './nodeFunc';
+import sequelize from './sequelize';
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -253,12 +254,12 @@ router.get(
 router.put(
   '/addContracts',
   asyncHandler(async (req, res) => {
-    try{
+    try {
       const contract = saveFile(req.body);
 
       let result = await Contract.create(contract);
       res.status(200).json(result);
-    } catch(e){
+    } catch (e) {
       console.log(e);
     }
 
@@ -271,22 +272,22 @@ router.delete(
       where: {
         id: req.params.id
       },
-      attributes:['fileName']
+      attributes: ['fileName']
     })
-    try{
-      if(contract) await removeFile(contract.fileName);
+    try {
+      if (contract) await removeFile(contract.fileName);
       let result = await Contract.destroy({
         where: {
           id: req.params.id,
         },
       });
-      if(result == 1){
+      if (result == 1) {
         res.status(200).json(result);
       } else {
         throw new Error("Error during delete from base")
       }
-    } catch(err) {
-      res.status(500).json({error: err});
+    } catch (err) {
+      res.status(500).json({ error: err });
     }
   })
 );
@@ -305,14 +306,14 @@ router.patch(
 router.get(
   '/contractScan/:fileName',
   asyncHandler(async (req, res) => {
-    try{
+    try {
       const fileBase64 = getBase64ByFileName(req.params.fileName as string);
-      res.status(200).json({scan: fileBase64});
+      res.status(200).json({ scan: fileBase64 });
     } catch (e) {
       console.error(e);
       res.sendStatus(404);
     }
-    
+
   })
 );
 router.get(
@@ -488,19 +489,23 @@ router.patch(
   '/updateService',
   asyncHandler(async (req, res) => {
     try {
-      const service = req.body;
-      let result = await Service.update(service, {
-        where: {
-          id: service.id,
-        },
+      const result = await sequelize.transaction(async () => {
+        const service = req.body;
+        let result = await Service.update(service, {
+          where: {
+            id: service.id,
+          },
+        });
+        await ServiceCostChange.create({
+          date: Date.now(),
+          user: getLoginFromToken(req),
+          newCost: req.body.cost,
+          serviceId: req.body.id,
+        });
+        return result
       });
-      await ServiceCostChange.create({
-        date: Date.now(),
-        user: getLoginFromToken(req),
-        newCost: req.body.cost,
-        serviceId: req.body.id,
-      });
-      res.status(200).json(result);
+
+      res.status(200).json(result); 
     } catch (error: any) {
       // 1. Log for you to see in the terminal
       console.error('SEQUELIZE ERROR:', error);
