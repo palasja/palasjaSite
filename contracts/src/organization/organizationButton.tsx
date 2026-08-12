@@ -10,7 +10,7 @@ import RemoveAgreePortal from '../components/modal/remove/removeModal';
 import { useRemoveEntity } from '../hooks/useRemoveEntity';
 import { useDeleteOrganizationMutation } from '../redux/slices/organizationRTKSlice';
 import style from './organization.module.css';
-import { isWithoutOrg } from '../redux/slices/servicesSlice';
+
 import { Organization as OrgType } from '../helpers/contractTypes';
 import {
   ActIcon,
@@ -34,13 +34,7 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
   const [deleteOrganization] = useDeleteOrganizationMutation();
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<number>(-1);
-  const noOrgClickHandler = () => {
-    dispatch(isWithoutOrg(true));
-    dispatch(choseInfo('service'));
-    dispatch(chosenAction('show'));
-  };
   const orgClickHandler = (org: OrgType) => {
-    dispatch(isWithoutOrg(false));
     dispatch(choseInfo('service'));
     dispatch(chosenAction('show'));
   };
@@ -61,7 +55,7 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
     <div
       className={style.orgBtn}
       key={org.id}
-      onClick={() => (org.id !== 0 ? orgClickHandler(org) : noOrgClickHandler())}
+      onClick={() => orgClickHandler(org)}
       data-testid="orgBtn"
     >
       <div
@@ -79,7 +73,6 @@ const OrganizationButton = ({ org }: OrganizationButtonProps) => {
             <Link to={`/org/${org.id}/service`} className={style.orgName}>
               {org.name}
             </Link>
-            {/* <div className={style.orgName}>{org.name}</div> */}
             <div
               className={style.orgActBtn}
               onClick={(e) => changeHandler(org, e)}

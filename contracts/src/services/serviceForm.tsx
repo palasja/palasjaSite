@@ -4,9 +4,8 @@ import { useIsUpdate } from '../hooks/useIsUpdate';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { chosenAction, getChosenOrganization } from '../redux/slices/orgsSlice';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { NotNullubleValue, trimObjectProperty } from '../helpers/helper';
+import { trimObjectProperty } from '../helpers/helper';
 import { useAddServiceMutation, useUpdateServiceMutation } from '../redux/slices/servicesRTKSlice';
-import { getIsWithoutOrg } from '../redux/slices/servicesSlice';
 import formStyle from '../assets/form.module.css';
 import { useLazyGetPersonalsByOrgIdQuery } from '../redux/slices/personalRTKSlice';
 import { useLazyGetPriceQuery } from '../redux/slices/priceRTKSlice';
@@ -24,20 +23,18 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const [addService] = useAddServiceMutation();
   const [updateService] = useUpdateServiceMutation();
   const dispatch = useAppDispatch();
-  const isWithoutOrg = useAppSelector(getIsWithoutOrg);
   const [loadPersonal, { data: personal }] = useLazyGetPersonalsByOrgIdQuery();
   const [loadPriceList, { data: priceList }] = useLazyGetPriceQuery();
   const [isUserFromList, setIsUserFromlist] = useState(false);
   const [isServiseFromPriceList, setServiseFromPriceList] = useState(false);
-  const choosenOrg = isWithoutOrg ? undefined : useAppSelector(getChosenOrganization);
+  const choosenOrg = useAppSelector(getChosenOrganization);
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
-    data.ispaid = isWithoutOrg;
+    data.ispaid = false;
     addService(data);
     resetForm();
   };
   const onSubmitUpdate: SubmitHandler<Service> = (data) => {
-    console.log(data);
     data = trimObjectProperty(data);
     updateService(data);
     resetForm();
@@ -60,6 +57,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
       setValue('count', changingService.count);
       setValue('time', changingService.time);
       setValue('description', changingService.description);
+      setValue('ispaid', changingService.ispaid);
     }
   }, []);
   useEffect(() => {
@@ -87,18 +85,15 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
           <p>{errors.count?.message}</p>
         </div>
         {/* No id field if wishout org */}
-        {isWithoutOrg ? (
-          <></>
-        ) : (
-          <input
-            value={choosenOrg?.id}
-            type="hidden"
-            {...register('orgId', {
-              required: { value: true, message: 'Не выбрана организация' },
-              valueAsNumber: true,
-            })}
-          />
-        )}
+        <input
+          value={choosenOrg?.id}
+          type="hidden"
+          {...register('orgId')}
+        />
+        <input
+          type="hidden"
+          {...register('ispaid')}
+        />
         <div className={formStyle.fieldsContainer}>
           <div className={formStyle.fieldContainer}>
             <label htmlFor="user">Услуга</label>

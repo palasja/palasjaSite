@@ -491,6 +491,7 @@ router.patch(
     try {
       const result = await sequelize.transaction(async () => {
         const service = req.body;
+        console.log(service);
         let result = await Service.update(service, {
           where: {
             id: service.id,
