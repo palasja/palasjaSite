@@ -491,18 +491,19 @@ router.patch(
     try {
       const result = await sequelize.transaction(async () => {
         const service = req.body;
-        console.log(service);
+        const id = service.id;
+        delete service.id;
         let result = await Service.update(service, {
           where: {
-            id: service.id,
+            id: id,
           },
         });
-        await ServiceCostChange.create({
-          date: Date.now(),
-          user: getLoginFromToken(req),
-          newCost: req.body.cost,
-          serviceId: req.body.id,
-        });
+        // await ServiceCostChange.create({
+        //   date: Date.now(),
+        //   user: getLoginFromToken(req),
+        //   newCost: req.body.cost,
+        //   serviceId: req.body.id,
+        // });
         return result
       });
 
