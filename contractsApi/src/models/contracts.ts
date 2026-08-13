@@ -22,16 +22,16 @@ export class Contract extends Model<InferAttributes<Contract>, InferCreationAttr
   @NotNull
   declare number: string;
 
-  @Attribute(DataTypes.STRING)
+  @Attribute(DataTypes.DATEONLY)
   @NotNull
-  declare signDate: string;
+  declare signDate: Date ;
 
   @Attribute(DataTypes.DATEONLY)
   @NotNull
-  declare startDate: string;
+  declare startDate: Date ;
 
   @Attribute(DataTypes.DATEONLY)
-  declare endDate: string;
+  declare endDate: Date ;
 
   @Attribute(DataTypes.TEXT('long'))
   declare fileName: string;

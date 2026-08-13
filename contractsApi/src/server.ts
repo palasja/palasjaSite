@@ -294,11 +294,11 @@ router.delete(
 router.patch(
   '/updateContract',
   asyncHandler(async (req, res) => {
-    const contract = saveFile(req.body);
+    const contract = req.body;
     let result = await Contract.update(contract, {
       where: {
         id: contract.id,
-      },
+      }
     });
     res.status(200).json(result);
   })
@@ -466,7 +466,7 @@ router.put(
   asyncHandler(async (req, res) => {
     let result = await Service.create(req.body);
     await ServiceCostChange.create({
-      date: Date.now(),
+      date: new Date(),
       user: getLoginFromToken(req),
       newCost: req.body.cost,
       serviceId: result.id,

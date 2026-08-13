@@ -28,7 +28,7 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
 
   @Attribute(DataTypes.DATEONLY)
   @NotNull
-  declare date: string;
+  declare date: Date;
 
   @Attribute(DataTypes.STRING)
   declare user: string;

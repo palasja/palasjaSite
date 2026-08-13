@@ -23,7 +23,7 @@ export class ServiceCostChange extends Model<
 
   @Attribute(DataTypes.DATE)
   @NotNull
-  declare date: number;
+  declare date: Date;
 
   @Attribute(DataTypes.STRING)
   @NotNull
