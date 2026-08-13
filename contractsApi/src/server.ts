@@ -493,6 +493,7 @@ router.patch(
         const service = req.body;
         const id = service.id;
         delete service.id;
+        service.date = new Date(service.date);
         let result = await Service.update(service, {
           where: {
             id: id,
