@@ -498,13 +498,14 @@ router.patch(
           where: {
             id: id,
           },
+          // fields:["cost"]
         });
-        // await ServiceCostChange.create({
-        //   date: Date.now(),
-        //   user: getLoginFromToken(req),
-        //   newCost: req.body.cost,
-        //   serviceId: req.body.id,
-        // });
+        await ServiceCostChange.create({
+          date: new Date(),
+          user: getLoginFromToken(req),
+          newCost: req.body.cost,
+          serviceId: req.body.id,
+        });
         return result
       });
 
