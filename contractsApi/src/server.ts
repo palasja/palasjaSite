@@ -489,27 +489,51 @@ router.patch(
   '/updateService',
   asyncHandler(async (req, res) => {
     try {
-      const result = await sequelize.transaction(async () => {
-        const service = req.body;
-        const id = service.id;
-        delete service.id;
-        service.date = new Date(service.date);
-        let result = await Service.update(service, {
-          where: {
-            id: id,
-          },
-          // fields:["cost"]
-        });
+      let result = {};
+      const service = req.body;
+      await sequelize.transaction(async () => {
+        try {
+          throw new Error();
+          result = await Service.update(service, {
+            where: {
+              id: service.id,
+            },
+          });
+        } catch (error: any) {
+          console.log("Fix 500 Error");
+          const tmpService = await Service.create({
+            cost: 1,
+            count: 1,
+            date: new Date(),
+            description: '',
+            ispaid: false,
+            name: 'Fix 500 error',
+            orgId: service.orgId,
+            place: '',
+            time: 0,
+            user: 'Fix 500 error'
+          })
+          await Service.destroy({
+            where: {
+              id: tmpService.id,
+            },
+          });
+          result = await Service.update(service, {
+            where: {
+              id: service.id,
+            },
+          });
+        }
         await ServiceCostChange.create({
           date: new Date(),
           user: getLoginFromToken(req),
-          newCost: req.body.cost,
-          serviceId: req.body.id,
+          newCost: service.cost,
+          serviceId: service.id,
         });
         return result
       });
 
-      res.status(200).json(result); 
+      res.status(200).json(result);
     } catch (error: any) {
       // 1. Log for you to see in the terminal
       console.error('SEQUELIZE ERROR:', error);

@@ -42,7 +42,7 @@ export class Service extends Model<InferAttributes<Service>, InferCreationAttrib
 
   @Attribute(DataTypes.INTEGER)
   @Default(0)
-  declare time: string;
+  declare time: number;
 
   @Attribute(DataTypes.INTEGER)
   @NotNull
