@@ -485,6 +485,7 @@ router.delete(
     res.status(200).json({ isRemove: result });
   })
 );
+//update service throw prepared statment error, after add service update work fine. If error thrown add and remove service and try update again
 router.patch(
   '/updateService',
   asyncHandler(async (req, res) => {
@@ -493,7 +494,6 @@ router.patch(
       const service = req.body;
       await sequelize.transaction(async () => {
         try {
-          throw new Error();
           result = await Service.update(service, {
             where: {
               id: service.id,
