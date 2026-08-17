@@ -28,7 +28,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const [isUserFromList, setIsUserFromlist] = useState(false);
   const [isServiseFromPriceList, setServiseFromPriceList] = useState(false);
   const choosenOrg = useAppSelector(getChosenOrganization);
-  
+
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
     data.ispaid = false;
@@ -186,6 +186,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               placeholder="Количество"
               {...register('count', {
                 min: { value: 1, message: 'Количество должна быть больше 0' },
+                 valueAsNumber: true,
               })}
             />
           </div>
@@ -197,6 +198,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
               placeholder="Время"
               {...register('time', {
                 min: { value: 0, message: 'Время не может быть отрицательным' },
+                 valueAsNumber: true,
               })}
             />
           </div>

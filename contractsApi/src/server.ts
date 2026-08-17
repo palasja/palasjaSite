@@ -502,6 +502,9 @@ router.patch(
         } catch (error: any) {
           console.error("Fix 500 Error");
 
+          console.error("Service original");
+          console.error(service);
+          console.error('----------------------------------');
           const tmpService = {
             cost: 1,
             count: 1,
@@ -524,14 +527,18 @@ router.patch(
               id: tmpServiceResult.id,
             },
           });
+          console.error(removeTmpService ? 'Fix service remove success' : 'Fix service remove failed')
+          
+          service.date = new Date();
+          const id = service.id;
+          delete service.id;
 
           console.error('----------------------------------');
           console.error(Service);
           console.error(service);
-          console.error(removeTmpService ? 'Fix service remove success' : 'Fix service remove failed')
           result = await Service.update(service, {
             where: {
-              id: service.id,
+              id: id,
             },
           });
         }
