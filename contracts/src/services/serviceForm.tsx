@@ -28,6 +28,7 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
   const [isUserFromList, setIsUserFromlist] = useState(false);
   const [isServiseFromPriceList, setServiseFromPriceList] = useState(false);
   const choosenOrg = useAppSelector(getChosenOrganization);
+  
   const onSubmitCreate: SubmitHandler<Service> = (data) => {
     data = trimObjectProperty(data);
     data.ispaid = false;
@@ -88,7 +89,10 @@ const ServiceForm = ({ changingService }: ChangingServiceFormProps) => {
         <input
           value={choosenOrg?.id}
           type="hidden"
-          {...register('orgId')}
+          {...register('orgId', {
+               
+                valueAsNumber: true,
+              })}
         />
         <input
           type="hidden"

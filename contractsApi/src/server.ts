@@ -501,8 +501,8 @@ router.patch(
           });
         } catch (error: any) {
           console.error("Fix 500 Error");
-          
-          const tmpService = await Service.create({
+
+          const tmpService = {
             cost: 1,
             count: 1,
             date: new Date(),
@@ -513,13 +513,21 @@ router.patch(
             place: '',
             time: 0,
             user: 'Fix 500 error'
-          })
-          console.error(tmpService ? 'Fix service create success' : 'Fix service create failed')
+          }
+          console.error('tmpService');
+          console.error(tmpService);
+          const tmpServiceResult = await Service.create(tmpService);
+          console.error(tmpServiceResult ? 'Fix service create success' : 'Fix service create failed');
+
           const removeTmpService = await Service.destroy({
             where: {
-              id: tmpService.id,
+              id: tmpServiceResult.id,
             },
           });
+
+          console.error('----------------------------------');
+          console.error(Service);
+          console.error(service);
           console.error(removeTmpService ? 'Fix service remove success' : 'Fix service remove failed')
           result = await Service.update(service, {
             where: {

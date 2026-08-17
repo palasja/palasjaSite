@@ -40,7 +40,7 @@ const Stats = () => {
       });
 
       const organisationsCost: OrganizationCost[] = organizations.map((o) => {
-        const arr = serviceByMonth.filter((s) => s.orgId == o.id.toString());
+        const arr = serviceByMonth.filter((s) => s.orgId == o.id);
 
         return { orgId: o.id.toString(), cost: getServicesCost(arr) };
       });

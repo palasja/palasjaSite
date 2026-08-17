@@ -36,7 +36,7 @@ export type Service = {
   cost: number;
   time: number;
   count: number;
-  orgId?: string;
+  orgId: number;
   description: string;
   ispaid: boolean;
 };
