@@ -34,8 +34,12 @@ ol[role='list'] {
 
 /* Set core body defaults */
 body {
-  min-height: 100vh;
   line-height: 1.5;
+    margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 /* Set shorter line heights on headings and interactive elements */
@@ -53,6 +57,7 @@ label {
 a {
   text-decoration: none;
 }
+
 /* Balance text wrapping on headings */
 h1,
 h2,
@@ -105,14 +110,7 @@ textarea:not([rows]) {
   --width-content: 1440px;
 
   --margin-content: 0 120px;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  --margin-content-mobile: 0 5%;;
 }
 
 #root {
@@ -146,4 +144,5 @@ body {
   .noprint {
     display: none !important;
   }
+
 }
