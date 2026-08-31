@@ -70,33 +70,28 @@ router.post(
 router.post(
   '/logIn',
   asyncHandler(async (req, res) => {
+    console.log(`--==Authorozation==--`);
+    const userName = req.body.login;
+    const userPass = req.body.password;
     const admin = await User.findOne({
       where: {
-        login: req.body.login,
+        login: userName,
       },
     });
-    const accessToken = req.cookies.accessToken;
-
-    jwt.verify(accessToken, `${process.env.SECRET}`, (err: JwtError, _: JwtDecoded) => {
-      if (err) {
-        const userName = req.body.login;
-        const userPass = req.body.password;
-
-        if (admin == null) {
-          res.sendStatus(403);
-        } else {
-          const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
-          if (isPassCorrect && userName == admin.login) {
-            newTokenToRes(res, userName);
-            res.sendStatus(200);
-          } else {
-            res.sendStatus(403);
-          }
-        }
-      } else {
+    
+    if (admin == null) {
+      res.sendStatus(403);
+    } else {
+      const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
+      if (isPassCorrect && userName == admin.login) {
+        newTokenToRes(res, userName);
+        console.log(`Authorozation: ${req.body.login} - ${req.body.password} SUCCESS`);
         res.sendStatus(200);
+      } else {
+        console.log(`Authorozation: ${req.body.login} - ${req.body.password} FAIL`);
+        res.sendStatus(403);
       }
-    });
+    }
   })
 );
 
@@ -490,16 +485,19 @@ router.patch(
   '/updateService',
   asyncHandler(async (req, res) => {
     try {
+
       let result = {};
       const service = req.body;
+      const id = service.id;
       await sequelize.transaction(async () => {
         try {
+          throw new Error();
           result = await Service.update({
             ...service,
             date: new Date(service.date)
           }, {
             where: {
-              id: service.id,
+              id: id,
             },
           });
         } catch (error: any) {
@@ -531,15 +529,17 @@ router.patch(
             },
           });
           console.error(removeTmpService ? 'Fix service remove success' : 'Fix service remove failed')
-          
-          service.date = new Date();
-          const id = service.id;
-          delete service.id;
+          let test = {
+            ...service,
+            date: new Date(service.date)
+          }
+          delete test.id;
 
           console.error('----------------------------------');
           console.error(Service);
-          console.error(service);
-          result = await Service.update(service, {
+          console.error(test);
+
+          result = await Service.update(test, {
             where: {
               id: id,
             },
@@ -549,7 +549,7 @@ router.patch(
           date: new Date(),
           user: getLoginFromToken(req),
           newCost: service.cost,
-          serviceId: service.id,
+          serviceId: id,
         });
         return result
       });
