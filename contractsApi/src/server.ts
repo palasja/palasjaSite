@@ -67,34 +67,67 @@ router.post(
     }
   })
 );
+//////Clear auth
+// router.post(
+//   '/logIn',
+//   asyncHandler(async (req, res) => {
+//     console.log(`--==Authorozation==--`);
+//     const userName = req.body.login;
+//     const userPass = req.body.password;
+//     const admin = await User.findOne({
+//       where: {
+//         login: userName,
+//       },
+//     });
+    
+//     if (admin == null) {
+//       res.sendStatus(403);
+//     } else {
+//       const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
+//       if (isPassCorrect && userName == admin.login) {
+//         newTokenToRes(res, userName);
+//         console.log(`Authorozation: ${req.body.login} - ${req.body.password} SUCCESS`);
+//         res.sendStatus(200);
+//       } else {
+//         console.log(`Authorozation: ${req.body.login} - ${req.body.password} FAIL`);
+//         res.sendStatus(403);
+//       }
+//     }
+//   })
+// );
+
 router.post(
   '/logIn',
   asyncHandler(async (req, res) => {
-    console.log(`--==Authorozation==--`);
-    const userName = req.body.login;
-    const userPass = req.body.password;
     const admin = await User.findOne({
       where: {
-        login: userName,
+        login: req.body.login,
       },
     });
-    
-    if (admin == null) {
-      res.sendStatus(403);
-    } else {
-      const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
-      if (isPassCorrect && userName == admin.login) {
-        newTokenToRes(res, userName);
-        console.log(`Authorozation: ${req.body.login} - ${req.body.password} SUCCESS`);
-        res.sendStatus(200);
+    const accessToken = req.cookies.accessToken;
+
+    jwt.verify(accessToken, `${process.env.SECRET}`, (err: JwtError, _: JwtDecoded) => {
+      if (err) {
+        const userName = req.body.login;
+        const userPass = req.body.password;
+
+        if (admin == null) {
+          res.sendStatus(403);
+        } else {
+          const isPassCorrect = bcrypt.compareSync(userPass, admin.password);
+          if (isPassCorrect && userName == admin.login) {
+            newTokenToRes(res, userName);
+            res.sendStatus(200);
+          } else {
+            res.sendStatus(403);
+          }
+        }
       } else {
-        console.log(`Authorozation: ${req.body.login} - ${req.body.password} FAIL`);
-        res.sendStatus(403);
+        res.sendStatus(200);
       }
-    }
+    });
   })
 );
-
 router.post(
   '/checkAuth',
   asyncHandler(async (req, res) => {
