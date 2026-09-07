@@ -1,0 +1,8 @@
+.mainImgContaime{
+  display: flex;
+  justify-content: center;
+}
+
+.mainImg{
+  width: 50%;
+}

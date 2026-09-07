@@ -7,6 +7,7 @@ import style from './app.module.css';
 import { useEffect } from 'react';
 import { useGetOrganizationQuery } from '../redux/slices/organizationRTKSlice';
 import { ProtectedRoute } from '../hooks/protectedRoute';
+import authImg from '/loginImg.png';
 
 const App = () => {
   const choosenOrg = useAppSelector(getChosenOrganization);
@@ -25,8 +26,8 @@ const App = () => {
     <>
       <Organization />
       <>
-        {choosenOrg == undefined && action == 'show'? (
-          <h2>Выберите организацию</h2>
+        {choosenOrg == undefined && action == 'show' ? (
+          <div className={style.mainImgContaime}><img className={style.mainImg} src={authImg} /></div>
         ) : (
           <>
             <Outlet />
