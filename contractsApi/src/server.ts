@@ -79,7 +79,7 @@ router.post(
 //         login: userName,
 //       },
 //     });
-    
+
 //     if (admin == null) {
 //       res.sendStatus(403);
 //     } else {
@@ -523,71 +523,22 @@ router.patch(
       const service = req.body;
       const id = service.id;
       await sequelize.transaction(async () => {
-        try {
-          throw new Error();
-          result = await Service.update({
-            ...service,
-            date: new Date(service.date)
-          }, {
-            where: {
-              id: id,
-            },
-          });
-        } catch (error: any) {
-          console.error("Fix 500 Error");
-
-          console.error("Service original");
-          console.error(service);
-          console.error('----------------------------------');
-          const tmpService = {
-            cost: 1,
-            count: 1,
-            date: new Date(),
-            description: '',
-            ispaid: false,
-            name: 'Fix 500 error',
-            orgId: service.orgId,
-            place: '',
-            time: 0,
-            user: 'Fix 500 error'
-          }
-          console.error('tmpService');
-          console.error(tmpService);
-          const tmpServiceResult = await Service.create(tmpService);
-          console.error(tmpServiceResult ? 'Fix service create success' : 'Fix service create failed');
-
-          const removeTmpService = await Service.destroy({
-            where: {
-              id: tmpServiceResult.id,
-            },
-          });
-          console.error(removeTmpService ? 'Fix service remove success' : 'Fix service remove failed')
-          let test = {
-            ...service,
-            date: new Date(service.date)
-          }
-          delete test.id;
-
-          console.error('----------------------------------');
-          console.error(Service);
-          console.error(test);
-
-          result = await Service.update(test, {
-            where: {
-              id: id,
-            },
-          });
-        }
+        result = await Service.update({
+          ...service,
+          date: new Date(service.date)
+        }, {
+          where: {
+            id: id,
+          },
+        });
         await ServiceCostChange.create({
           date: new Date(),
           user: getLoginFromToken(req),
           newCost: service.cost,
           serviceId: id,
         });
-        return result
+        res.status(200).json(result);
       });
-
-      res.status(200).json(result);
     } catch (error: any) {
       // 1. Log for you to see in the terminal
       console.error('SEQUELIZE ERROR:', error);
