@@ -14,6 +14,7 @@ const LogoutAct = () => {
   useEffect(() => {
     const out = async () => {
       const result = await logout().unwrap();
+      sessionStorage.clear();
       dispatch(changeIsAuth(false));
       // cookies.expireDate = '';
       if (result == 'OK') navigate('/');

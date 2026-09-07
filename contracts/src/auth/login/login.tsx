@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import authImg from '/loginImg.png';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { changeIsAuth, changeIsCheked, changeUser, getIsChecked } from '../../redux/slices/authSlice';
+import { changeIsAuth, changeIsCheked, getIsChecked } from '../../redux/slices/authSlice';
 
 type FormValues = {
   login: string;
@@ -34,7 +34,7 @@ const Login = ({ isSignin = false }: { isSignin: boolean }) => {
     try {
       const result = await login(data).unwrap();
       if (result == 'OK') {
-        dispatch(changeUser(data.login));
+        sessionStorage.setItem('user', data.login);
         dispatch(changeIsAuth(true));
         navigate('/org');
       }
