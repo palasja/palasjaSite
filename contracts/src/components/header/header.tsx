@@ -4,7 +4,7 @@ import logo from '../../assets/logo.svg';
 import senyaLoginImg from '../../assets/senya_face_s.png';
 import palasjaLoginImg from '../../assets/palasja_face_s.png';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getIsAuth } from '../../redux/slices/authSlice';
+import { getIsAuth, getUser } from '../../redux/slices/authSlice';
 import { ContractIcon, ListIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';
 import DetailPortal from '../modal/details/detailModal';
 import { createPortal } from 'react-dom';
@@ -15,12 +15,10 @@ import { useEffect, useState } from 'react';
 
 const Header = () => {
   const isAuth = useAppSelector(getIsAuth);
-  const [user, setUser] = useState('');
-  // const user = sessionStorage.getItem('user');
-  useEffect(() => {
-    const user = sessionStorage.getItem('user');
-    setUser(user ? user : '');
-  }, [])
+  const userSession = sessionStorage.getItem('user');
+  const userRedux = useAppSelector(getUser)
+  const user = userRedux ? userRedux : userSession;
+
   // const [cookies] = useCookies(['expireDate']);
   // console.log(cookies);
   // const [d, setD] = useState(cookies.expireDate);
@@ -51,12 +49,12 @@ const Header = () => {
             </nav>
             <div className={style.logoutContainer}>
               <div className={style.logout}>
-                
-                  {/* <LogoutIcon /> */}
-                    <img src={user === 'palasja' ? palasjaLoginImg : senyaLoginImg} />
+
+                {/* <LogoutIcon /> */}
+                <img src={user === 'palasja' ? palasjaLoginImg : senyaLoginImg} />
               </div>
               {/* <div className={style.user}> */}
-                <Link className={style.user} to={'/logout'} >Выход: {user}</Link>
+              <Link className={style.user} to={'/logout'} >Выход: {user}</Link>
               {/* </div> */}
             </div>
 

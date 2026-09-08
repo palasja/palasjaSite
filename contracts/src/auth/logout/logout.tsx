@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useLazyLogoutQuery } from '../../redux/slices/authRTKSlce';
 // import { useCookies } from 'react-cookie';
 import { useAppDispatch } from '../../redux/hooks';
-import { changeIsAuth } from '../../redux/slices/authSlice';
+import { changeIsAuth, changeUser } from '../../redux/slices/authSlice';
 import { CoockieWrapper } from '../../helpers/CoockieWrapper';
 
 const LogoutAct = () => {
@@ -15,6 +15,7 @@ const LogoutAct = () => {
     const out = async () => {
       const result = await logout().unwrap();
       sessionStorage.clear();
+      dispatch(changeUser(undefined));
       dispatch(changeIsAuth(false));
       // cookies.expireDate = '';
       if (result == 'OK') navigate('/');
