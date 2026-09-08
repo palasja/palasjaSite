@@ -9,12 +9,18 @@ import { ContractIcon, ListIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons
 import DetailPortal from '../modal/details/detailModal';
 import { createPortal } from 'react-dom';
 import { changeIsServerError, getIsServerError } from '../../redux/slices/errorSlice';
+import { useEffect, useState } from 'react';
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
 
 const Header = () => {
   const isAuth = useAppSelector(getIsAuth);
-  const user = sessionStorage.getItem('user');
+  const [user, setUser] = useState('');
+  // const user = sessionStorage.getItem('user');
+  useEffect(() => {
+    const user = sessionStorage.getItem('user');
+    setUser(user ? user : '');
+  }, [])
   // const [cookies] = useCookies(['expireDate']);
   // console.log(cookies);
   // const [d, setD] = useState(cookies.expireDate);
@@ -49,9 +55,9 @@ const Header = () => {
                   {/* <LogoutIcon /> */}
                     <img src={user === 'palasja' ? palasjaLoginImg : senyaLoginImg} />
               </div>
-              <div className={style.user}>
-                <Link to={'/logout'} >Выход: {user}</Link>
-              </div>
+              {/* <div className={style.user}> */}
+                <Link className={style.user} to={'/logout'} >Выход: {user}</Link>
+              {/* </div> */}
             </div>
 
           </>
