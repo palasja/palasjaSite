@@ -40,6 +40,7 @@ describe('check logout', () => {
             isAuth: true,
             isLoading: false,
             isCheked: false,
+            user: undefined,
           },
         },
       }

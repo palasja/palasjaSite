@@ -3,21 +3,18 @@ import style from './header.module.css';
 import logo from '../../assets/logo.svg';
 import senyaLoginImg from '../../assets/senya_face_s.png';
 import palasjaLoginImg from '../../assets/palasja_face_s.png';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import { getIsAuth, getUser } from '../../redux/slices/authSlice';
-import { ContractIcon, ListIcon, LogoutIcon, SoftIcon, StatIcon } from '../icons/icons';
-import DetailPortal from '../modal/details/detailModal';
-import { createPortal } from 'react-dom';
-import { changeIsServerError, getIsServerError } from '../../redux/slices/errorSlice';
-import { useEffect, useState } from 'react';
+import { ContractIcon, ListIcon, SoftIcon, StatIcon } from '../icons/icons';
+
+import { getCurentUser } from '../../helpers/helper';
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<< remove react-cookie and react-cookie
 
 const Header = () => {
   const isAuth = useAppSelector(getIsAuth);
-  const userSession = sessionStorage.getItem('user');
   const userRedux = useAppSelector(getUser)
-  const user = userRedux ? userRedux : userSession;
+  const user = getCurentUser(userRedux);
 
   // const [cookies] = useCookies(['expireDate']);
   // console.log(cookies);

@@ -229,3 +229,8 @@ export const groupServiseByCostAndName = (services: Service[]): ServiceForTableT
   });
   return sortedByNameArray;
 };
+export const getCurentUser : (userRedux: string | undefined) => string | null = (userRedux) => {
+    const userSession = sessionStorage.getItem('user');
+    const user = userRedux ? userRedux : userSession;
+    return user;
+}

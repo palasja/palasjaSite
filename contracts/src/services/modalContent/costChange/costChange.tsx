@@ -1,8 +1,9 @@
 import { createPortal } from 'react-dom';
 import { useAppSelector } from '../../../redux/hooks';
-import { getFullDesc, getServiceCostChange } from '../../../redux/slices/servicesSlice';
+import { getServiceCostChange } from '../../../redux/slices/servicesSlice';
 import style from './costChange.module.css';
-import { ServiceCostChange } from '../../../helpers/contractTypes';
+import senyaLoginImg from '../../../assets/senya_face_s.png';
+import palasjaLoginImg from '../../../assets/palasja_face_s.png';
 
 type RemoveModalType = {
   close: (e: React.MouseEvent<HTMLElement>) => void;
@@ -17,10 +18,12 @@ const CostChange = ({ close }: RemoveModalType) => {
             <div className={style.desc}>
               {costChange.map((ch, key) => (
                 <div key={key}>
-                  <p>
-                    {ch.user} - {ch.newCost} -{' '}
+                  <div className={style.costChangeRow}>
+                    <div className={style.userImage}>
+                      <img src={ch.user === 'palasja' ? palasjaLoginImg : senyaLoginImg} />
+                    </div>
                     {new Date(ch.date).toISOString().replace('T', ' ').substring(0, 19)}
-                  </p>
+                  </div>
                   <span>&#8593;</span>
                 </div>
               ))}
