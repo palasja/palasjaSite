@@ -56,13 +56,16 @@ textarea::placeholder {
 .userListCheckbox {
   width: 43px;
 }
-@media screen and (min-width: 1280px) and (max-width: 1440px){
+
+@media screen and (min-width: 1280px) and (max-width: 1440px) {
+
   input,
   select {
     width: 300px;
 
   }
 }
+
 @media screen and (max-width: 1280px) {
   .form {
     padding: 5px;
@@ -85,4 +88,16 @@ textarea::placeholder {
     flex-direction: column;
   }
 
+  .comentContainer {
+    width: 100%;
+  }
+
+  .comment {
+    font-size: 16px;
+  }
+
+  .buttons {
+    margin: auto;
+    width: auto;
+  }
 }
