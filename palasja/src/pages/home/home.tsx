@@ -1,3 +1,4 @@
+
 import Description from './sections/description';
 import Skils from './sections/skils';
 import Education from './sections/education';
@@ -11,8 +12,8 @@ const Home = () => {
       <Description />
       <Skils />
       <Education />
-      <Languages />
-      <Experience />
+      <Languages /> 
+      <Experience />  
       <Certificates />
     </main>
   );

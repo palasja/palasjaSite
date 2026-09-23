@@ -3,12 +3,13 @@ import { splitLineGetParagragh } from '../../../helpers/heper';
 import style from './gusMary.module.css';
 import image1 from 'assets/projects/gusmary/1.png';
 import image2 from 'assets/projects/gusmary/2.png';
+import ProjectName from '../../../components/projectName';
 
 const GusMary = () => {
   const { t } = useTranslation();
   return (
     <>
-      <h3>{t('proj.projectDesc')} GusMaryHair</h3>
+      <ProjectName projName='GusMaryHair' link='http://gusmary.palasja.site/'/>
       {splitLineGetParagragh(t('proj.gusmary.desc'))}
       <ul>
         <li>vite</li>
@@ -19,8 +20,8 @@ const GusMary = () => {
         <li>express </li>
         <li>sequelize </li>
       </ul>
-      <img src={image1}></img>
-      <img src={image2}></img>
+      <img className={style.image} src={image1}></img>
+      <img className={style.image} src={image2}></img>
     </>
   );
 };

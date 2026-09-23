@@ -22,3 +22,8 @@ h6,
 p {
   margin: 0;
 }
+
+.active {
+  color: #1C2E6A;
+}
+

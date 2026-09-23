@@ -3,11 +3,12 @@ import image1 from 'assets/projects/payroll/1.png';
 import image2 from 'assets/projects/payroll/2.png';
 import image3 from 'assets/projects/payroll/3.png';
 import { useTranslation } from 'react-i18next';
+import ProjectName from '../../../components/projectName';
 const Payroll = () => {
   const { t } = useTranslation();
   return (
     <>
-      <h3>{t('proj.projectDesc')} Payroll</h3>
+      <ProjectName projName='Payroll'/>
       Проект написан на С# и состоит из двух частей Payroll и Contract. Оба проекта разделелы на
       логические слои: бизнесс логика, доступ к данным, уровень представления. Данные хранятся на
       MSSQL Server. Для передачи данных между уровнями используется AutoMapper. Уровень
@@ -15,9 +16,9 @@ const Payroll = () => {
       приложения. Он использует ExcelDataReader для чтения xls документа. Документ сохраняестся базу
       данных. Проект Contract на уравне представления написан на Razor. Для авторизации используется
       Scaffold Identity.
-      <img src={image1}></img>
-      <img src={image2}></img>
-      <img src={image3}></img>
+      <img className={style.image}  src={image1}></img>
+      <img className={style.image}  src={image2}></img>
+      <img className={style.image}  src={image3}></img>
     </>
   );
 };

@@ -3,15 +3,15 @@ import style from './langSelect.module.css';
 
 const LangSelect = () => {
   const { t, i18n } = useTranslation();
-  let a: MouseEventInit;
   return (
-    <div className={style.nav}>
+    <div className={style.lang}>
       <span className={style.curLanguage}>{i18n.language}</span>
       <ul
         className={style.language}
         onClick={(e) => {
           if (e.target instanceof HTMLLIElement) {
             i18n.changeLanguage(e.target.innerHTML);
+            document.body.click();
           }
         }}
       >

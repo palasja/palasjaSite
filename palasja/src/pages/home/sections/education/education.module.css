@@ -13,14 +13,19 @@
   text-transform: uppercase;
 }
 
-.inner {
+.innerContainer {
   display: flex;
   margin-right: 45px;
   font-size: 16px;
 }
 
-.inner:last-child {
-  margin-right: 0;
+.inner {
+  display: flex;
+  margin-right: 45px;
+}
+
+.educationDate{
+  white-space: nowrap;
 }
 
 .specialization {
@@ -33,3 +38,35 @@
 .date {
   margin-right: 65px;
 }
+@media (max-width: 635px ) {
+  .innerContainer{
+    flex-direction: column;
+    margin-right: 0;
+    gap: 15px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 880px ) {
+  .education {
+    padding: 0 0;
+
+  }
+  .head_ {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  .innerContainer{
+    flex-direction: column;
+    margin-right: 0;
+    gap: 15px;
+    font-size: 14px;
+  }
+  .inner {
+    margin-right: 0;
+    gap: 50px;
+  }
+  .date {
+    margin-right: 0;
+  }
+}
+

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import style from './code.module.css';
+import ProjectName from '../../../components/projectName';
 type CodeProps = {
   name: string;
   code: string;
@@ -8,9 +9,7 @@ const Code = ({ name, code }: CodeProps) => {
   const { t } = useTranslation();
   return (
     <>
-      <h3>
-        {t('proj.projectDesc')} {name}
-      </h3>
+      <ProjectName projName={name}/>
       <pre className={style.code}>{code}</pre>
     </>
   );

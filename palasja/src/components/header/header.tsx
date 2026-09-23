@@ -1,54 +1,47 @@
-import { Link } from 'react-router';
+import { NavLink } from 'react-router';
 import style from './header.module.css';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { ContentContainer } from '../containers/contentContainer';
 import LangSelect from '../langSelect';
+import { useState, useEffect } from 'react';
+import { MOBILE_WIDTH } from '../../helpers/heper';
 
 const Header = () => {
   const { t, i18n } = useTranslation();
+    const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    setIsMobile(document.body.clientWidth <= MOBILE_WIDTH ? true : false);
+  }, []);
   //changeLanguage
   return (
     <header className={style.header}>
       <ContentContainer>
-        {/* <FontAwesomeIcon icon={faFacebookF} /> */}
-        {/* <FontAwesomeIcon icon="fa-brands fa-twitter" /> */}
-        <div className={style.inner}>
-          <p className={style.logo}>ИВАН ЯКУБЕНКО</p>
+        <div className={style.inner} id='test'>
+          <NavLink className={style.logo} to={'/'}>
+            {t('menu.firstName')} <br/> {t('menu.lastName')}
+          </NavLink>
           <nav className={style.nav}>
-            <Link className={style.link} to={'/'}>
+            <NavLink className={style.link} to={'/'}
+            >
               {t('menu.home')}
-            </Link>
-            <Link className={style.link} to={'projects'}>
+            </NavLink>
+            <NavLink className={style.link} to={'projects'}>
               {t('menu.project')}
-            </Link>
+            </NavLink>
             <div className={style.link}>
               {t('menu.contacts')}
 
               <div className={style.linksBlock}>
-                <ul>
-                  <li>
-                    <a>Email: palasja@gmail.com</a>
-                  </li>
-                  <li>
-                    <a>GitHub: https://github.com/palasja</a>
-                  </li>
-                  <li>
-                    <a>Linked: https://www.linkedin.com/in/palasja</a>
-                  </li>
-                </ul>
+                <div className={style.drop}>
+                  <a className={style.content} href='mailto:palasja@gmail.com'>Email: palasja@gmail.com</a>
+                  <a className={style.content} target="_blank" href='https://github.com/palasja'>GitHub: https://github.com/palasja</a>
+                  <a className={style.content} target="_blank" href='https://www.linkedin.com/in/palasja'>Linked: https://www.linkedin.com/in/palasja</a>
+                  <a className={style.content} target="_blank" href='https://teams.live.com/l/invite/FEAPMIldGUGRHGoagI?v=g1'>Teams: palasja</a>
+                </div>
               </div>
             </div>
           </nav>
-
-          {/* <div className={style.nav}>
-          <select className={style.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-            <option value="ru">ru</option>
-            <option value="en">en</option>
-            <option value="by">by</option>
-          </select>
-        </div> */}
           <LangSelect />
         </div>
       </ContentContainer>

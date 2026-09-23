@@ -12,25 +12,21 @@
   text-transform: uppercase;
 }
 
-.inner {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+.inner{
+   display: grid;
+   grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+   
 }
 
 .figura {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.figura:nth-child(odd) {
-  align-items: flex-start; /* левый столбец */
-}
-
-.figura:nth-child(even) {
-  align-items: flex-end; /* правый столбец */
+    min-width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    margin: 0;
 }
 
 .img {
@@ -38,11 +34,95 @@
   max-width: 620px;
 }
 
-.text {
-  margin-top: 25px;
-  text-transform: uppercase;
-  font-family: 'Manrope', sans-serif;
-  font-size: 16px;
-  margin: 20px 0 20px 0;
-  width: 100%;
+.text{
+  text-align: center;
+    margin-top: 25px;
+    text-transform: uppercase;
+    font-family: "Manrope", sans-serif;
+    font-size: 16px;
+    margin: 20px 0 20px 0;
+    width: 100%;
+}
+.arrowContainer{
+  display: flex;
+    justify-content: space-between;
+    margin: 0 70px;
+}
+.arrowNext, .arrowPrev{
+  position: absolute;
+    top: calc(50% - 2rem);
+    /* display: none; */
+    height: 4rem;
+    width: 4rem;
+    cursor: pointer;
+    background-color: rgba(146, 148, 151, 0.233);
+    border-radius: 9999px;
+    font-size: 1rem;
+    user-select: none;
+    fill: #ffffffb0;
+}
+.arrowNext:hover, .arrowPrev:hover{
+    background-color: rgba(146, 148, 151, 0.5);
+    fill: #ffffff;
+}
+.arrowNext{
+    right: 0;
+    margin-right: 5rem;
+    
+}
+.arrowDisable{
+    cursor: auto !important;
+    background-color: rgba(255, 255, 255, 0.404) !important;
+    fill: #ffffffb0 !important;
+}
+.arrowPrev{
+    left: 0;
+    margin-left: 5rem;
+}
+@media (max-width: 1260px ) {
+.inner{
+        gap: 20px;
+        grid-template-columns: repeat(1, 1fr);
+        width: min-content;
+        justify-self: center;
+}
+.figura {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text{
+  text-align: center;
+}
+}
+@media (max-width: 650px ) {
+  .img {
+    height: 275px;;
+  }
+  .arrowContainer{
+    display: none;
+  }
+}
+@media (max-width: 475px ) {
+.certificates {
+  padding: 0;
+}
+  .head {
+  font-size: 20px;
+}
+  .img {
+  height: 275px;;
+}
+.text{
+  padding: 0 10px;
+  font-size: 14px;
+  margin: 10px 0 0 0;
+}
+.inner{
+  
+  gap: 20px;
+  grid-template-columns: repeat(1, 1fr);
+}
 }

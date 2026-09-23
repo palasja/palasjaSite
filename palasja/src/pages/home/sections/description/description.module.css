@@ -17,5 +17,28 @@
 }
 
 .text {
-  width: 790px;
+  /* width: 790px; */
+}
+
+.detail{
+  display: none;
+}
+@media (max-width: 640px ) {
+  .intro {
+    font-size: 14px;
+    padding: 0 0 25px;  
+  }
+  .img{
+    height: 120px;
+    margin-right: 55px;
+            align-self: start;
+  } 
+  .text{
+    width: auto;
+  }
+
+  .hide{
+    height: 45px;
+    overflow: hidden;
+  }
 }
