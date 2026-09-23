@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 import { useAppSelector } from '../../../redux/hooks';
-import { getFullDesc, getServiceCostChange } from '../../../redux/slices/servicesSlice';
+import { getServiceCostChange } from '../../../redux/slices/servicesSlice';
 import style from './costChange.module.css';
 import { ServiceCostChange } from '../../../helpers/contractTypes';
 

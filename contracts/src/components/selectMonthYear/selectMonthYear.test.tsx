@@ -9,7 +9,7 @@ describe('month value', () => {
         services: {
           choosenMonth: '0',
           choosenYear: '2025',
-          fullDesc: '',
+          chosenService: 0,
           serviceCostChange: [],
         },
       },

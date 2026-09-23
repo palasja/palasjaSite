@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 
 import style from './userCost.module.css';
-import { getChoosenMonth, getChoosenYear, getFullDesc } from '../../../redux/slices/servicesSlice';
+import { getChoosenMonth, getChoosenYear} from '../../../redux/slices/servicesSlice';
 import { useAppSelector } from '../../../redux/hooks';
 import { getCostByUser } from '../../../helpers/helper';
 import { getChosenOrganization } from '../../../redux/slices/orgsSlice';

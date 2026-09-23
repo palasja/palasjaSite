@@ -1,9 +1,7 @@
 import { createPortal } from 'react-dom';
 import style from './detailModal.module.css';
 import { ReactNode, useEffect } from 'react';
-import formStyle from 'assets/form.module.css';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { getFullDesc } from '../../../redux/slices/servicesSlice';
+
 type RemoveModalType = {
   children: ReactNode;
 };

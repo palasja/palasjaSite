@@ -17,7 +17,7 @@ import style from './services.module.css';
 import { default as CreditScoreIconMaterial } from '@mui/icons-material/CreditScore';
 import { default as CreditCardOffIconMaterial } from '@mui/icons-material/CreditCardOff';
 import { useAppDispatch } from '../redux/hooks';
-import { fullDesc, serviceCosChange } from '../redux/slices/servicesSlice';
+import { chooseServiceId, serviceCosChange } from '../redux/slices/servicesSlice';
 import { useLazyGetServiceCostChangeByIdQuery } from '../redux/slices/servicesRTKSlice';
 
 const ServiceTable = ({
@@ -41,8 +41,8 @@ const ServiceTable = ({
     return desc.length < 75 ? desc : `${desc.substring(0, 90)} ...`;
   };
   const [getServiceChangeCost] = useLazyGetServiceCostChangeByIdQuery();
-  const showFullDetails = (desc: string) => {
-    dispatch(fullDesc(desc));
+  const showFullDetails = (tableId: number) => {
+    dispatch(chooseServiceId(tableId));
     showDetail();
   };
   const showCostChange = async (srviceId: number) => {
@@ -118,11 +118,11 @@ const ServiceTable = ({
         accessorKey: 'description',
         header: 'Детали',
         size: 250,
-        Cell: ({ cell }) => {
+        Cell: ({ cell, row }) => {
           return (
             <div
               className={style.description}
-              onClick={() => showFullDetails(cell.getValue<string>())}
+              onClick={() => showFullDetails(row.original.id)}
             >
               {getShortDescription(cell.getValue<string>().toString())}{' '}
             </div>

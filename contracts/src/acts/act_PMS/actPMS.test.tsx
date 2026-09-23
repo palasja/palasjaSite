@@ -76,8 +76,8 @@ describe('act PMS', () => {
           services: {
             choosenMonth: '1',
             choosenYear: '',
-            fullDesc: '',
             serviceCostChange: [],
+            chosenService: 0
           },
         },
       }
@@ -155,7 +155,7 @@ describe('act PMS', () => {
           services: {
             choosenMonth: '1',
             choosenYear: '',
-            fullDesc: '',
+            chosenService: 0,
             serviceCostChange: [],
           },
         },

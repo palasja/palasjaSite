@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-// import style from './services.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getChoosenMonth, getChoosenYear } from '../redux/slices/servicesSlice';
 import {
@@ -35,7 +34,7 @@ const Services = () => {
   const action = useAppSelector(getChosenchosenAction);
   const { isShowRemoveModal, setIsShowRemoveModal, removeId, setRemoveId } =
     useRemoveEntity<number>(-1);
-  const [loadServices, { data: services, isLoading, isFetching }] =
+  const [loadServices, { data: services}] =
     useLazyGetServicesByOrgIdMonthYearQuery();
 
   const [deleteService] = useDeleteServiceMutation();
@@ -157,6 +156,7 @@ const Services = () => {
                 e.stopPropagation();
                 setIsShowDescriptionModal(false);
               }}
+              services={services as Service[]}
             />
           }
         />
